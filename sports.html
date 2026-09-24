@@ -1,0 +1,1525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Sports | SportX</title>
+
+<style>
+:root{
+    --bg:#07100e;
+    --panel:#0d1815;
+    --panel-2:#111f1b;
+    --green:#16d98b;
+    --green-dark:#0e9d65;
+    --text:#f3f7f5;
+    --muted:#8d9d97;
+    --border:rgba(255,255,255,.07);
+    --danger:#ff5f6d;
+    --gold:#f4c95d;
+}
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    font-family:Inter,Arial,sans-serif;
+    background:
+        radial-gradient(circle at 20% 0%,rgba(22,217,139,.09),transparent 30%),
+        radial-gradient(circle at 90% 20%,rgba(22,217,139,.05),transparent 25%),
+        var(--bg);
+    color:var(--text);
+    min-height:100vh;
+}
+
+button,
+input{
+    font:inherit;
+}
+
+button{
+    cursor:pointer;
+}
+
+a{
+    color:inherit;
+    text-decoration:none;
+}
+
+/* ================= HEADER ================= */
+
+.header{
+    position:sticky;
+    top:0;
+    z-index:100;
+    height:72px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 5%;
+    background:rgba(7,16,14,.86);
+    backdrop-filter:blur(18px);
+    border-bottom:1px solid var(--border);
+}
+
+.logo{
+    font-size:25px;
+    font-weight:900;
+    letter-spacing:-1px;
+}
+
+.logo span{
+    color:var(--green);
+}
+
+.nav{
+    display:flex;
+    align-items:center;
+    gap:8px;
+}
+
+.nav a{
+    padding:10px 14px;
+    color:var(--muted);
+    border-radius:10px;
+    transition:.25s ease;
+}
+
+.nav a:hover,
+.nav a.active{
+    color:var(--text);
+    background:rgba(22,217,139,.09);
+}
+
+.header-right{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.balance{
+    padding:10px 14px;
+    border:1px solid rgba(22,217,139,.2);
+    background:rgba(22,217,139,.07);
+    color:var(--green);
+    border-radius:12px;
+    font-weight:800;
+}
+
+.login-btn{
+    padding:10px 17px;
+    border-radius:11px;
+    background:var(--green);
+    color:#04120c;
+    font-weight:900;
+    transition:.25s ease;
+}
+
+.login-btn:hover{
+    transform:translateY(-2px);
+    box-shadow:0 10px 25px rgba(22,217,139,.18);
+}
+
+/* ================= PAGE ================= */
+
+.container{
+    width:min(1180px,90%);
+    margin:auto;
+}
+
+.page-head{
+    padding:58px 0 28px;
+    animation:rise .6s ease both;
+}
+
+.page-head .badge{
+    display:inline-flex;
+    padding:7px 12px;
+    border-radius:30px;
+    background:rgba(22,217,139,.09);
+    color:var(--green);
+    border:1px solid rgba(22,217,139,.16);
+    font-size:12px;
+    font-weight:800;
+    letter-spacing:.8px;
+}
+
+.page-head h1{
+    font-size:clamp(34px,5vw,54px);
+    margin-top:15px;
+    letter-spacing:-2px;
+}
+
+.page-head p{
+    color:var(--muted);
+    margin-top:10px;
+    max-width:650px;
+    line-height:1.7;
+}
+
+/* ================= SEARCH ================= */
+
+.search-box{
+    margin-bottom:25px;
+    position:relative;
+}
+
+.search-box input{
+    width:100%;
+    height:54px;
+    padding:0 48px 0 18px;
+    border-radius:15px;
+    border:1px solid var(--border);
+    background:var(--panel);
+    color:var(--text);
+    outline:none;
+    transition:.25s ease;
+}
+
+.search-box input:focus{
+    border-color:rgba(22,217,139,.45);
+    box-shadow:0 0 0 4px rgba(22,217,139,.06);
+}
+
+.search-icon{
+    position:absolute;
+    right:17px;
+    top:16px;
+    color:var(--muted);
+}
+
+/* ================= SPORTS FILTER ================= */
+
+.sports-filter{
+    display:flex;
+    gap:10px;
+    overflow-x:auto;
+    padding:3px 2px 18px;
+    scrollbar-width:none;
+}
+
+.sports-filter::-webkit-scrollbar{
+    display:none;
+}
+
+.sport-filter{
+    flex:0 0 auto;
+    border:1px solid var(--border);
+    background:var(--panel);
+    color:var(--muted);
+    padding:11px 17px;
+    border-radius:12px;
+    transition:.25s ease;
+}
+
+.sport-filter:hover{
+    transform:translateY(-2px);
+    color:var(--text);
+    border-color:rgba(22,217,139,.25);
+}
+
+.sport-filter.active{
+    color:#04120c;
+    background:var(--green);
+    border-color:var(--green);
+    font-weight:900;
+}
+
+/* ================= SECTION ================= */
+
+.section-title{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin:20px 0 15px;
+}
+
+.section-title h2{
+    font-size:22px;
+}
+
+.section-title span{
+    color:var(--muted);
+    font-size:13px;
+}
+
+/* ================= MATCH CARD ================= */
+
+.matches{
+    display:grid;
+    gap:14px;
+}
+
+.match-card{
+    background:
+        linear-gradient(145deg,rgba(255,255,255,.025),transparent),
+        var(--panel);
+    border:1px solid var(--border);
+    border-radius:18px;
+    padding:19px;
+    transition:.3s ease;
+    animation:rise .55s ease both;
+}
+
+.match-card:hover{
+    transform:translateY(-3px);
+    border-color:rgba(22,217,139,.22);
+    box-shadow:0 18px 40px rgba(0,0,0,.18);
+}
+
+.match-top{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:18px;
+}
+
+.league{
+    color:var(--muted);
+    font-size:13px;
+}
+
+.status{
+    font-size:11px;
+    padding:6px 9px;
+    border-radius:20px;
+    background:rgba(244,201,93,.08);
+    color:var(--gold);
+    font-weight:800;
+}
+
+.match-main{
+    display:grid;
+    grid-template-columns:1fr auto 1fr;
+    align-items:center;
+    gap:20px;
+}
+
+.team{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    font-weight:800;
+}
+
+.team:last-child{
+    justify-content:flex-end;
+    text-align:right;
+}
+
+.team-logo{
+    width:43px;
+    height:43px;
+    border-radius:13px;
+    display:grid;
+    place-items:center;
+    background:var(--panel-2);
+    border:1px solid var(--border);
+    font-size:18px;
+}
+
+.match-time{
+    text-align:center;
+}
+
+.match-time strong{
+    display:block;
+    font-size:18px;
+}
+
+.match-time span{
+    color:var(--muted);
+    font-size:11px;
+}
+
+.odds{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:8px;
+    margin-top:18px;
+}
+
+.odd-btn{
+    border:1px solid var(--border);
+    background:var(--panel-2);
+    color:var(--text);
+    border-radius:11px;
+    padding:10px 8px;
+    transition:.25s ease;
+}
+
+.odd-btn:hover{
+    background:rgba(22,217,139,.1);
+    border-color:rgba(22,217,139,.3);
+    transform:translateY(-2px);
+}
+
+.odd-btn span{
+    display:block;
+    color:var(--muted);
+    font-size:10px;
+    margin-bottom:4px;
+}
+
+.odd-btn strong{
+    color:var(--green);
+}
+
+.match-bottom{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-top:15px;
+    padding-top:14px;
+    border-top:1px solid var(--border);
+}
+
+.details-btn{
+    color:var(--green);
+    font-size:13px;
+    font-weight:800;
+    background:none;
+    border:0;
+}
+
+.market-count{
+    color:var(--muted);
+    font-size:12px;
+}
+
+/* ================= EMPTY ================= */
+
+.empty{
+    display:none;
+    text-align:center;
+    padding:60px 20px;
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:18px;
+    color:var(--muted);
+}
+
+.empty-icon{
+    font-size:38px;
+    margin-bottom:12px;
+}
+
+/* ================= MODAL ================= */
+
+.modal{
+    position:fixed;
+    inset:0;
+    z-index:500;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+    background:rgba(0,0,0,.72);
+    backdrop-filter:blur(10px);
+}
+
+.modal.show{
+    display:flex;
+    animation:fadeIn .2s ease;
+}
+
+.modal-box{
+    width:min(520px,100%);
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:22px;
+    padding:25px;
+    box-shadow:0 30px 90px rgba(0,0,0,.45);
+    animation:modalIn .3s ease;
+}
+
+.modal-head{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:22px;
+}
+
+.modal-head h3{
+    font-size:21px;
+}
+
+.close{
+    width:38px;
+    height:38px;
+    border:1px solid var(--border);
+    background:var(--panel-2);
+    color:var(--text);
+    border-radius:11px;
+    font-size:20px;
+    transition:.2s ease;
+}
+
+.close:hover{
+    background:rgba(255,95,109,.1);
+    color:var(--danger);
+}
+
+.modal-match{
+    text-align:center;
+    padding:20px 0;
+}
+
+.modal-teams{
+    font-size:21px;
+    font-weight:900;
+}
+
+.modal-vs{
+    color:var(--muted);
+    margin:9px 0;
+}
+
+.modal-info{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+    margin-top:20px;
+}
+
+.info-box{
+    background:var(--panel-2);
+    border:1px solid var(--border);
+    border-radius:13px;
+    padding:13px;
+}
+
+.info-box span{
+    display:block;
+    color:var(--muted);
+    font-size:11px;
+    margin-bottom:5px;
+}
+
+.info-box strong{
+    font-size:14px;
+}
+
+/* ================= TOAST ================= */
+
+.toast{
+    position:fixed;
+    left:50%;
+    bottom:25px;
+    transform:translate(-50%,30px);
+    background:#13231e;
+    border:1px solid rgba(22,217,139,.2);
+    color:var(--text);
+    padding:13px 18px;
+    border-radius:13px;
+    opacity:0;
+    pointer-events:none;
+    transition:.3s ease;
+    z-index:900;
+}
+
+.toast.show{
+    opacity:1;
+    transform:translate(-50%,0);
+}
+
+/* ================= FOOTER ================= */
+
+.footer{
+    margin-top:70px;
+    padding:30px 5%;
+    border-top:1px solid var(--border);
+    color:var(--muted);
+    text-align:center;
+    font-size:13px;
+}
+
+/* ================= ANIMATIONS ================= */
+
+@keyframes rise{
+    from{
+        opacity:0;
+        transform:translateY(18px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+@keyframes fadeIn{
+    from{opacity:0}
+    to{opacity:1}
+}
+
+@keyframes modalIn{
+    from{
+        opacity:0;
+        transform:translateY(20px) scale(.97);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0) scale(1);
+    }
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media(max-width:900px){
+
+    .nav{
+        display:none;
+    }
+
+    .header{
+        padding:0 4%;
+    }
+
+    .balance{
+        display:none;
+    }
+}
+
+@media(max-width:600px){
+
+    .container{
+        width:92%;
+    }
+
+    .page-head{
+        padding-top:40px;
+    }
+
+    .page-head h1{
+        font-size:38px;
+    }
+
+    .match-card{
+        padding:15px;
+    }
+
+    .match-main{
+        gap:8px;
+    }
+
+    .team{
+        flex-direction:column;
+        text-align:center;
+        font-size:12px;
+    }
+
+    .team:last-child{
+        text-align:center;
+    }
+
+    .team-logo{
+        width:38px;
+        height:38px;
+    }
+
+    .match-time strong{
+        font-size:15px;
+    }
+
+    .odd-btn{
+        padding:9px 4px;
+    }
+
+    .login-btn{
+        padding:9px 12px;
+        font-size:12px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- ================= HEADER ================= -->
+
+<header class="header">
+
+    <a href="index.html" class="logo">
+        Sport<span>X</span>
+    </a>
+
+    <nav class="nav">
+        <a href="index.html">Home</a>
+        <a href="sports.html" class="active">Sports</a>
+        <a href="live.html">Live</a>
+        <a href="bets.html">My Bets</a>
+    </nav>
+
+    <div class="header-right">
+        <div class="balance">AFN 1,000</div>
+        <a href="login.html" class="login-btn">Login</a>
+    </div>
+
+</header>
+
+
+<main class="container">
+
+    <!-- PAGE INTRO -->
+
+    <section class="page-head">
+
+        <span class="badge">SPORTS CENTER</span>
+
+        <h1>Sports</h1>
+
+        <p>
+            Explore upcoming matches, leagues and prediction markets
+            across your favorite sports.
+        </p>
+
+    </section>
+
+
+    <!-- SEARCH -->
+
+    <div class="search-box">
+
+        <input
+            type="search"
+            id="searchInput"
+            placeholder="Search teams, leagues or matches..."
+            autocomplete="off"
+        >
+
+        <span class="search-icon">⌕</span>
+
+    </div>
+
+
+    <!-- SPORTS FILTER -->
+
+    <div class="sports-filter">
+
+        <button class="sport-filter active" data-sport="all">
+            All Sports
+        </button>
+
+        <button class="sport-filter" data-sport="football">
+            ⚽ Football
+        </button>
+
+        <button class="sport-filter" data-sport="basketball">
+            🏀 Basketball
+        </button>
+
+        <button class="sport-filter" data-sport="tennis">
+            🎾 Tennis
+        </button>
+
+        <button class="sport-filter" data-sport="cricket">
+            🏏 Cricket
+        </button>
+
+        <button class="sport-filter" data-sport="esports">
+            🎮 Esports
+        </button>
+
+        <button class="sport-filter" data-sport="boxing">
+            🥊 Boxing
+        </button>
+
+    </div>
+
+
+    <!-- MATCHES -->
+
+    <div class="section-title">
+        <h2>Upcoming Matches</h2>
+        <span id="matchCount">6 matches</span>
+    </div>
+
+
+    <section class="matches" id="matches">
+
+
+        <!-- FOOTBALL -->
+
+        <article
+            class="match-card"
+            data-sport="football"
+            data-search="barcelona arsenal champions league football"
+        >
+
+            <div class="match-top">
+                <span class="league">UEFA Champions League</span>
+                <span class="status">UPCOMING</span>
+            </div>
+
+            <div class="match-main">
+
+                <div class="team">
+                    <div class="team-logo">🔵🔴</div>
+                    Barcelona
+                </div>
+
+                <div class="match-time">
+                    <strong>20:00</strong>
+                    <span>Today</span>
+                </div>
+
+                <div class="team">
+                    Arsenal
+                    <div class="team-logo">🔴</div>
+                </div>
+
+            </div>
+
+            <div class="odds">
+
+                <button class="odd-btn" onclick="selectOdd('Barcelona', '1.85')">
+                    <span>Barcelona</span>
+                    <strong>1.85</strong>
+                </button>
+
+                <button class="odd-btn" onclick="selectOdd('Draw', '3.40')">
+                    <span>Draw</span>
+                    <strong>3.40</strong>
+                </button>
+
+                <button class="odd-btn" onclick="selectOdd('Arsenal', '4.10')">
+                    <span>Arsenal</span>
+                    <strong>4.10</strong>
+                </button>
+
+            </div>
+
+            <div class="match-bottom">
+                <button
+                    class="details-btn"
+                    onclick="openMatch(
+                        'Barcelona vs Arsenal',
+                        'UEFA Champions League',
+                        '20:00',
+                        'Football'
+                    )"
+                >
+                    Match Details →
+                </button>
+
+                <span class="market-count">+18 markets</span>
+            </div>
+
+        </article>
+
+
+        <!-- FOOTBALL -->
+
+        <article
+            class="match-card"
+            data-sport="football"
+            data-search="liverpool chelsea premier league football"
+        >
+
+            <div class="match-top">
+                <span class="league">Premier League</span>
+                <span class="status">UPCOMING</span>
+            </div>
+
+            <div class="match-main">
+
+                <div class="team">
+                    <div class="team-logo">🔴</div>
+                    Liverpool
+                </div>
+
+                <div class="match-time">
+                    <strong>21:30</strong>
+                    <span>Today</span>
+                </div>
+
+                <div class="team">
+                    Chelsea
+                    <div class="team-logo">🔵</div>
+                </div>
+
+            </div>
+
+            <div class="odds">
+
+                <button class="odd-btn" onclick="selectOdd('Liverpool', '1.72')">
+                    <span>Liverpool</span>
+                    <strong>1.72</strong>
+                </button>
+
+                <button class="odd-btn" onclick="selectOdd('Draw', '3.70')">
+                    <span>Draw</span>
+                    <strong>3.70</strong>
+                </button>
+
+                <button class="odd-btn" onclick="selectOdd('Chelsea', '4.35')">
+                    <span>Chelsea</span>
+                    <strong>4.35</strong>
+                </button>
+
+            </div>
+
+            <div class="match-bottom">
+
+                <button
+                    class="details-btn"
+                    onclick="openMatch(
+                        'Liverpool vs Chelsea',
+                        'Premier League',
+                        '21:30',
+                        'Football'
+                    )"
+                >
+                    Match Details →
+                </button>
+
+                <span class="market-count">+21 markets</span>
+
+            </div>
+
+        </article>
+
+
+        <!-- BASKETBALL -->
+
+        <article
+            class="match-card"
+            data-sport="basketball"
+            data-search="lakers celtics nba basketball"
+        >
+
+            <div class="match-top">
+                <span class="league">NBA</span>
+                <span class="status">UPCOMING</span>
+            </div>
+
+            <div class="match-main">
+
+                <div class="team">
+                    <div class="team-logo">🟣</div>
+                    Lakers
+                </div>
+
+                <div class="match-time">
+                    <strong>22:00</strong>
+                    <span>Today</span>
+                </div>
+
+                <div class="team">
+                    Celtics
+                    <div class="team-logo">☘️</div>
+                </div>
+
+            </div>
+
+            <div class="odds">
+
+                <button class="odd-btn" onclick="selectOdd('Lakers', '1.90')">
+                    <span>Lakers</span>
+                    <strong>1.90</strong>
+                </button>
+
+                <button class="odd-btn" onclick="selectOdd('Celtics', '1.95')">
+                    <span>Celtics</span>
+                    <strong>1.95</strong>
+                </button>
+
+                <button class="odd-btn" onclick="selectOdd('Total Over', '1.88')">
+                    <span>Over 210.5</span>
+                    <strong>1.88</strong>
+                </button>
+
+            </div>
+
+            <div class="match-bottom">
+
+                <button
+                    class="details-btn"
+                    onclick="openMatch(
+                        'Lakers vs Celtics',
+                        'NBA',
+                        '22:00',
+                        'Basketball'
+                    )"
+                >
+                    Match Details →
+                </button>
+
+                <span class="market-count">+14 markets</span>
+
+            </div>
+
+        </article>
+
+
+        <!-- TENNIS -->
+
+        <article
+            class="match-card"
+            data-sport="tennis"
+            data-search="alcaraz sinner tennis"
+        >
+
+            <div class="match-top">
+                <span class="league">ATP Masters</span>
+                <span class="status">UPCOMING</span>
+            </div>
+
+            <div class="match-main">
+
+                <div class="team">
+                    <div class="team-logo">🎾</div>
+                    Alcaraz
+                </div>
+
+                <div class="match-time">
+                    <strong>18:30</strong>
+                    <span>Tomorrow</span>
+                </div>
+
+                <div class="team">
+                    Sinner
+                    <div class="team-logo">🎾</div>
+                </div>
+
+            </div>
+
+            <div class="odds">
+
+                <button class="odd-btn" onclick="selectOdd('Alcaraz', '1.75')">
+                    <span>Alcaraz</span>
+                    <strong>1.75</strong>
+                </button>
+
+                <button class="odd-btn" onclick="selectOdd('Sinner', '2.05')">
+                    <span>Sinner</span>
+                    <strong>2.05</strong>
+                </button>
+
+                <button class="odd-btn" onclick="selectOdd('Over 2.5', '1.80')">
+                    <span>Sets Over</span>
+                    <strong>1.80</strong>
+                </button>
+
+            </div>
+
+            <div class="match-bottom">
+
+                <button
+                    class="details-btn"
+                    onclick="openMatch(
+                        'Alcaraz vs Sinner',
+                        'ATP Masters',
+                        '18:30',
+                        'Tennis'
+                    )"
+                >
+                    Match Details →
+                </button>
+
+                <span class="market-count">+12 markets</span>
+
+            </div>
+
+        </article>
+
+
+        <!-- CRICKET -->
+
+        <article
+            class="match-card"
+            data-sport="cricket"
+            data-search="india australia cricket t20"
+        >
+
+            <div class="match-top">
+                <span class="league">T20 International</span>
+                <span class="status">UPCOMING</span>
+            </div>
+
+            <div class="match-main">
+
+                <div class="team">
+                    <div class="team-logo">🇮🇳</div>
+                    India
+                </div>
+
+                <div class="match-time">
+                    <strong>16:00</strong>
+                    <span>Tomorrow</span>
+                </div>
+
+                <div class="team">
+                    Australia
+                    <div class="team-logo">🇦🇺</div>
+                </div>
+
+            </div>
+
+            <div class="odds">
+
+                <button class="odd-btn" onclick="selectOdd('India', '1.68')">
+                    <span>India</span>
+                    <strong>1.68</strong>
+                </button>
+
+                <button class="odd-btn" onclick="selectOdd('Australia', '2.20')">
+                    <span>Australia</span>
+                    <strong>2.20</strong>
+                </button>
+
+                <button class="odd-btn" onclick="selectOdd('Total Runs', '1.90')">
+                    <span>Over 165.5</span>
+                    <strong>1.90</strong>
+                </button>
+
+            </div>
+
+            <div class="match-bottom">
+
+                <button
+                    class="details-btn"
+                    onclick="openMatch(
+                        'India vs Australia',
+                        'T20 International',
+                        '16:00',
+                        'Cricket'
+                    )"
+                >
+                    Match Details →
+                </button>
+
+                <span class="market-count">+16 markets</span>
+
+            </div>
+
+        </article>
+
+
+        <!-- ESPORTS -->
+
+        <article
+            class="match-card"
+            data-sport="esports"
+            data-search="valorant sentinels fnatic esports"
+        >
+
+            <div class="match-top">
+                <span class="league">Valorant Champions</span>
+                <span class="status">UPCOMING</span>
+            </div>
+
+            <div class="match-main">
+
+                <div class="team">
+                    <div class="team-logo">🎮</div>
+                    Sentinels
+                </div>
+
+                <div class="match-time">
+                    <strong>19:00</strong>
+                    <span>Tomorrow</span>
+                </div>
+
+                <div class="team">
+                    Fnatic
+                    <div class="team-logo">🟠</div>
+                </div>
+
+            </div>
+
+            <div class="odds">
+
+                <button class="odd-btn" onclick="selectOdd('Sentinels', '2.10')">
+                    <span>Sentinels</span>
+                    <strong>2.10</strong>
+                </button>
+
+                <button class="odd-btn" onclick="selectOdd('Fnatic', '1.70')">
+                    <span>Fnatic</span>
+                    <strong>1.70</strong>
+                </button>
+
+                <button class="odd-btn" onclick="selectOdd('Over Maps', '1.85')">
+                    <span>Over 2.5 Maps</span>
+                    <strong>1.85</strong>
+                </button>
+
+            </div>
+
+            <div class="match-bottom">
+
+                <button
+                    class="details-btn"
+                    onclick="openMatch(
+                        'Sentinels vs Fnatic',
+                        'Valorant Champions',
+                        '19:00',
+                        'Esports'
+                    )"
+                >
+                    Match Details →
+                </button>
+
+                <span class="market-count">+10 markets</span>
+
+            </div>
+
+        </article>
+
+    </section>
+
+
+    <!-- EMPTY -->
+
+    <div class="empty" id="emptyState">
+
+        <div class="empty-icon">🔎</div>
+
+        <strong>No matches found</strong>
+
+        <p style="margin-top:8px">
+            Try another sport or search term.
+        </p>
+
+    </div>
+
+</main>
+
+
+<!-- ================= MODAL ================= -->
+
+<div class="modal" id="matchModal">
+
+    <div class="modal-box">
+
+        <div class="modal-head">
+
+            <h3>Match Details</h3>
+
+            <button class="close" onclick="closeModal()">×</button>
+
+        </div>
+
+        <div class="modal-match">
+
+            <div class="modal-teams" id="modalTeams">
+                Barcelona vs Arsenal
+            </div>
+
+            <div class="modal-vs">
+                Match information
+            </div>
+
+        </div>
+
+        <div class="modal-info">
+
+            <div class="info-box">
+                <span>League</span>
+                <strong id="modalLeague">Champions League</strong>
+            </div>
+
+            <div class="info-box">
+                <span>Sport</span>
+                <strong id="modalSport">Football</strong>
+            </div>
+
+            <div class="info-box">
+                <span>Start Time</span>
+                <strong id="modalTime">20:00</strong>
+            </div>
+
+            <div class="info-box">
+                <span>Markets</span>
+                <strong>18+ Available</strong>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ================= TOAST ================= -->
+
+<div class="toast" id="toast"></div>
+
+
+<footer class="footer">
+    © 2026 SportX. Virtual sports prediction simulator.
+</footer>
+
+
+<script>
+
+/* ==========================================
+   READ SPORT FROM URL
+========================================== */
+
+const params = new URLSearchParams(window.location.search);
+const urlSport = params.get("type");
+
+
+/* ==========================================
+   ELEMENTS
+========================================== */
+
+const filterButtons =
+    document.querySelectorAll(".sport-filter");
+
+const matchCards =
+    document.querySelectorAll(".match-card");
+
+const searchInput =
+    document.getElementById("searchInput");
+
+const emptyState =
+    document.getElementById("emptyState");
+
+const matchCount =
+    document.getElementById("matchCount");
+
+
+/* ==========================================
+   FILTER
+========================================== */
+
+function filterMatches(sport){
+
+    const search =
+        searchInput.value.toLowerCase().trim();
+
+    let visible = 0;
+
+    matchCards.forEach(card => {
+
+        const cardSport =
+            card.dataset.sport;
+
+        const cardSearch =
+            card.dataset.search;
+
+        const sportMatch =
+            sport === "all" ||
+            cardSport === sport;
+
+        const searchMatch =
+            cardSearch.includes(search);
+
+        if(sportMatch && searchMatch){
+
+            card.style.display = "block";
+
+            visible++;
+
+        }else{
+
+            card.style.display = "none";
+
+        }
+
+    });
+
+    emptyState.style.display =
+        visible === 0 ? "block" : "none";
+
+    matchCount.textContent =
+        visible + (visible === 1 ? " match" : " matches");
+}
+
+
+/* ==========================================
+   FILTER BUTTON EVENTS
+========================================== */
+
+filterButtons.forEach(button => {
+
+    button.addEventListener("click", () => {
+
+        filterButtons.forEach(btn =>
+            btn.classList.remove("active")
+        );
+
+        button.classList.add("active");
+
+        filterMatches(
+            button.dataset.sport
+        );
+
+    });
+
+});
+
+
+/* ==========================================
+   SEARCH
+========================================== */
+
+searchInput.addEventListener("input", () => {
+
+    const active =
+        document.querySelector(".sport-filter.active");
+
+    filterMatches(
+        active.dataset.sport
+    );
+
+});
+
+
+/* ==========================================
+   URL SPORT AUTO SELECT
+========================================== */
+
+if(urlSport){
+
+    const target =
+        document.querySelector(
+            `.sport-filter[data-sport="${urlSport}"]`
+        );
+
+    if(target){
+
+        filterButtons.forEach(btn =>
+            btn.classList.remove("active")
+        );
+
+        target.classList.add("active");
+
+        filterMatches(urlSport);
+
+    }
+
+}
+
+
+/* ==========================================
+   ODD SELECT
+========================================== */
+
+function selectOdd(selection, odd){
+
+    showToast(
+        `${selection} selected • Odds ${odd}`
+    );
+
+}
+
+
+/* ==========================================
+   MATCH MODAL
+========================================== */
+
+function openMatch(
+    teams,
+    league,
+    time,
+    sport
+){
+
+    document.getElementById("modalTeams")
+        .textContent = teams;
+
+    document.getElementById("modalLeague")
+        .textContent = league;
+
+    document.getElementById("modalTime")
+        .textContent = time;
+
+    document.getElementById("modalSport")
+        .textContent = sport;
+
+    document
+        .getElementById("matchModal")
+        .classList.add("show");
+
+}
+
+
+function closeModal(){
+
+    document
+        .getElementById("matchModal")
+        .classList.remove("show");
+
+}
+
+
+/* ==========================================
+   CLOSE MODAL OUTSIDE
+========================================== */
+
+document
+    .getElementById("matchModal")
+    .addEventListener("click", event => {
+
+        if(event.target.id === "matchModal"){
+            closeModal();
+        }
+
+    });
+
+
+/* ==========================================
+   ESC CLOSE
+========================================== */
+
+document.addEventListener("keydown", event => {
+
+    if(event.key === "Escape"){
+        closeModal();
+    }
+
+});
+
+
+/* ==========================================
+   TOAST
+========================================== */
+
+let toastTimer;
+
+function showToast(message){
+
+    const toast =
+        document.getElementById("toast");
+
+    toast.textContent = message;
+
+    toast.classList.add("show");
+
+    clearTimeout(toastTimer);
+
+    toastTimer = setTimeout(() => {
+
+        toast.classList.remove("show");
+
+    }, 2200);
+
+}
+
+
+/* ==========================================
+   INITIAL
+========================================== */
+
+if(!urlSport){
+
+    filterMatches("all");
+
+}
+
+</script>
+
+</body>
+</html>
