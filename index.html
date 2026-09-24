@@ -717,6 +717,14 @@ a{
   );
 }
 
+.future-match::before{
+  background:linear-gradient(
+    90deg,
+    var(--gold),
+    #e2bd52
+  );
+}
+
 .match-top{
   display:flex;
   justify-content:space-between;
@@ -801,7 +809,7 @@ a{
   font-weight:800;
 }
 
-/* ================= NORMAL MATCH BADGE ================= */
+/* ================= MATCH BADGES ================= */
 
 .match-category{
   display:inline-flex;
@@ -820,6 +828,12 @@ a{
   color:var(--green-dark);
   background:rgba(22,217,139,.08);
   border-color:rgba(22,217,139,.2);
+}
+
+.future-category{
+  color:#8b6500;
+  background:rgba(185,133,0,.08);
+  border-color:rgba(185,133,0,.2);
 }
 
 /* ================= ODDS ================= */
@@ -890,6 +904,10 @@ a{
 
 .status-live{
   color:var(--danger);
+}
+
+.status-future{
+  color:#8b6500;
 }
 
 .details-btn{
@@ -1245,25 +1263,11 @@ footer a:hover{
 
   <nav class="desktop-nav">
 
-    <a href="index.html" class="active">
-      Home
-    </a>
-
-    <a href="sports.html">
-      Sports
-    </a>
-
-    <a href="live.html">
-      Live
-    </a>
-
-    <a href="bets.html">
-      My Bets
-    </a>
-
-    <a href="wallet.html">
-      Wallet
-    </a>
+    <a href="index.html" class="active">Home</a>
+    <a href="sports.html">Sports</a>
+    <a href="live.html">Live</a>
+    <a href="bets.html">My Bets</a>
+    <a href="wallet.html">Wallet</a>
 
   </nav>
 
@@ -1271,10 +1275,7 @@ footer a:hover{
 
     <div data-auth-guest>
 
-      <a
-        href="login.html"
-        class="login-btn"
-      >
+      <a href="login.html" class="login-btn">
         Login
       </a>
 
@@ -1286,10 +1287,7 @@ footer a:hover{
       style="display:none;"
     >
 
-      <a
-        href="profile.html"
-        class="profile-btn"
-      >
+      <a href="profile.html" class="profile-btn">
         Profile
       </a>
 
@@ -1361,17 +1359,11 @@ footer a:hover{
 
       <div class="hero-buttons">
 
-        <a
-          href="sports.html"
-          class="primary-btn"
-        >
+        <a href="sports.html" class="primary-btn">
           Explore Sports
         </a>
 
-        <a
-          href="live.html"
-          class="secondary-btn"
-        >
+        <a href="live.html" class="secondary-btn">
           Watch Live Matches
         </a>
 
@@ -1435,10 +1427,7 @@ footer a:hover{
       style="display:none;"
     >
 
-      <a
-        href="profile.html"
-        class="account-profile"
-      >
+      <a href="profile.html" class="account-profile">
 
         <div class="home-profile-avatar">
 
@@ -1474,10 +1463,7 @@ footer a:hover{
 
       <div class="account-actions">
 
-        <a
-          href="bets.html"
-          class="account-action"
-        >
+        <a href="bets.html" class="account-action">
 
           <div class="account-action-icon">
             🎯
@@ -1485,9 +1471,7 @@ footer a:hover{
 
           <div class="account-action-text">
 
-            <strong>
-              My Bets
-            </strong>
+            <strong>My Bets</strong>
 
             <span>
               View predictions
@@ -1498,10 +1482,7 @@ footer a:hover{
         </a>
 
 
-        <a
-          href="wallet.html"
-          class="account-action"
-        >
+        <a href="wallet.html" class="account-action">
 
           <div class="account-action-icon">
             💰
@@ -1509,9 +1490,7 @@ footer a:hover{
 
           <div class="account-action-text">
 
-            <strong>
-              Wallet
-            </strong>
+            <strong>Wallet</strong>
 
             <span>
               Balance & transactions
@@ -1522,10 +1501,7 @@ footer a:hover{
         </a>
 
 
-        <a
-          href="profile.html"
-          class="account-action"
-        >
+        <a href="profile.html" class="account-action">
 
           <div class="account-action-icon">
             👤
@@ -1533,9 +1509,7 @@ footer a:hover{
 
           <div class="account-action-text">
 
-            <strong>
-              Profile
-            </strong>
+            <strong>Profile</strong>
 
             <span>
               Account settings
@@ -1567,10 +1541,7 @@ footer a:hover{
 
       </div>
 
-      <a
-        href="login.html"
-        class="guest-login"
-      >
+      <a href="login.html" class="guest-login">
         Login / Register
       </a>
 
@@ -1597,10 +1568,7 @@ footer a:hover{
 
       </div>
 
-      <a
-        href="sports.html"
-        class="view-all"
-      >
+      <a href="sports.html" class="view-all">
         View All →
       </a>
 
@@ -1609,50 +1577,32 @@ footer a:hover{
 
     <div class="sports">
 
-      <a
-        href="sports.html?type=football"
-        class="sport"
-      >
+      <a href="sports.html?type=football" class="sport">
         <div class="sport-icon">⚽</div>
         <div class="sport-name">Football</div>
       </a>
 
-      <a
-        href="sports.html?type=basketball"
-        class="sport"
-      >
+      <a href="sports.html?type=basketball" class="sport">
         <div class="sport-icon">🏀</div>
         <div class="sport-name">Basketball</div>
       </a>
 
-      <a
-        href="sports.html?type=tennis"
-        class="sport"
-      >
+      <a href="sports.html?type=tennis" class="sport">
         <div class="sport-icon">🎾</div>
         <div class="sport-name">Tennis</div>
       </a>
 
-      <a
-        href="sports.html?type=cricket"
-        class="sport"
-      >
+      <a href="sports.html?type=cricket" class="sport">
         <div class="sport-icon">🏏</div>
         <div class="sport-name">Cricket</div>
       </a>
 
-      <a
-        href="sports.html?type=esports"
-        class="sport"
-      >
+      <a href="sports.html?type=esports" class="sport">
         <div class="sport-icon">🎮</div>
         <div class="sport-name">Esports</div>
       </a>
 
-      <a
-        href="sports.html?type=boxing"
-        class="sport"
-      >
+      <a href="sports.html?type=boxing" class="sport">
         <div class="sport-icon">🥊</div>
         <div class="sport-name">Boxing</div>
       </a>
@@ -1682,10 +1632,7 @@ footer a:hover{
 
       </div>
 
-      <a
-        href="sports.html"
-        class="view-all"
-      >
+      <a href="sports.html" class="view-all">
         See All →
       </a>
 
@@ -1704,7 +1651,7 @@ footer a:hover{
           <div class="spinner"></div>
 
           <p>
-            Loading normal matches...
+            Loading real normal matches...
           </p>
 
         </div>
@@ -1736,10 +1683,7 @@ footer a:hover{
 
       </div>
 
-      <a
-        href="sports.html"
-        class="view-all"
-      >
+      <a href="sports.html" class="view-all">
         See All →
       </a>
 
@@ -1758,7 +1702,58 @@ footer a:hover{
           <div class="spinner"></div>
 
           <p>
-            Loading featured matches...
+            Loading real featured matches...
+          </p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- =====================================================
+       FUTURE MATCHES
+  ====================================================== -->
+
+  <section class="section">
+
+    <div class="section-heading">
+
+      <div>
+
+        <h2>
+          Future Matches
+        </h2>
+
+        <p>
+          Real upcoming fixtures from SportScore
+        </p>
+
+      </div>
+
+      <a href="sports.html" class="view-all">
+        Explore →
+      </a>
+
+    </div>
+
+
+    <div
+      id="futureMatches"
+      class="matches"
+    >
+
+      <div class="loading-card">
+
+        <div>
+
+          <div class="spinner"></div>
+
+          <p>
+            Loading future fixtures...
           </p>
 
         </div>
@@ -1851,6 +1846,11 @@ const SPORT_SCORE =
   "https://sportscore.com/api/widget";
 
 
+/*
+  Famous teams used only for classification.
+  No fake matches are created from this list.
+*/
+
 const FEATURED_TEAMS = [
   "Real Madrid",
   "Barcelona",
@@ -1861,21 +1861,48 @@ const FEATURED_TEAMS = [
   "Chelsea",
   "Bayern Munich",
   "Paris Saint-Germain",
+  "PSG",
   "Juventus",
   "Inter Milan",
+  "Inter",
   "AC Milan",
   "Atletico Madrid",
+  "Atletico",
   "Borussia Dortmund",
   "Tottenham Hotspur"
 ];
 
+
+const FEATURED_SLUGS = [
+  "real-madrid",
+  "barcelona",
+  "manchester-united",
+  "manchester-city",
+  "liverpool",
+  "arsenal",
+  "chelsea",
+  "bayern-munich",
+  "psg",
+  "juventus",
+  "inter-milan",
+  "ac-milan",
+  "atletico-madrid",
+  "borussia-dortmund",
+  "tottenham-hotspur"
+];
+
+
 const MAX_FEATURED = 3;
 const MAX_NORMAL = 2;
+const MAX_FUTURE = 3;
+
+const REFRESH_MS = 60000;
 
 let supabaseClient = null;
 
 let allFeaturedMatches = [];
 let allNormalMatches = [];
+let allFutureMatches = [];
 
 
 /* =========================================================
@@ -1886,44 +1913,97 @@ async function loadSupabase(){
 
   if(window.supabase){
 
+    if(!supabaseClient){
+
+      supabaseClient =
+        window.supabase.createClient(
+          SUPABASE_URL,
+          SUPABASE_KEY
+        );
+
+    }
+
+    return supabaseClient;
+  }
+
+  const existing =
+    document.querySelector(
+      'script[src*="supabase-js"]'
+    );
+
+  if(existing){
+
+    await new Promise(resolve => {
+
+      const timer =
+        setInterval(() => {
+
+          if(window.supabase){
+
+            clearInterval(timer);
+            resolve();
+
+          }
+
+        },50);
+
+      setTimeout(() => {
+
+        clearInterval(timer);
+        resolve();
+
+      },10000);
+
+    });
+
+  }
+  else{
+
+    const script =
+      document.createElement("script");
+
+    script.src =
+      "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2";
+
+    script.async = true;
+
+    document.head.appendChild(script);
+
+    await new Promise(resolve => {
+
+      const timer =
+        setInterval(() => {
+
+          if(window.supabase){
+
+            clearInterval(timer);
+            resolve();
+
+          }
+
+        },50);
+
+      setTimeout(() => {
+
+        clearInterval(timer);
+        resolve();
+
+      },10000);
+
+    });
+
+  }
+
+
+  if(window.supabase && !supabaseClient){
+
     supabaseClient =
       window.supabase.createClient(
         SUPABASE_URL,
         SUPABASE_KEY
       );
 
-    return supabaseClient;
   }
-
-  const script =
-    document.createElement("script");
-
-  script.src =
-    "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2";
-
-  document.head.appendChild(script);
-
-  await new Promise(resolve => {
-
-    const timer =
-      setInterval(() => {
-
-        if(window.supabase){
-
-          clearInterval(timer);
-
-          supabaseClient =
-            window.supabase.createClient(
-              SUPABASE_URL,
-              SUPABASE_KEY
-            );
-
-          resolve();
-        }
-
-      },50);
-
-  });
 
   return supabaseClient;
 }
@@ -1967,6 +2047,8 @@ function isFeaturedTeam(home,away){
       normalize(team);
 
     return (
+      h === t ||
+      a === t ||
       h.includes(t) ||
       a.includes(t)
     );
@@ -1977,6 +2059,10 @@ function isFeaturedTeam(home,away){
 
 
 function parseDate(match){
+
+  if(!match){
+    return null;
+  }
 
   const value =
     match.start_time ||
@@ -1996,6 +2082,61 @@ function parseDate(match){
   )
     ? null
     : date;
+}
+
+
+function isUpcoming(match){
+
+  const date =
+    parseDate(match);
+
+  if(!date){
+    return false;
+  }
+
+  return date.getTime() > Date.now();
+
+}
+
+
+function isLiveMatch(match){
+
+  const status =
+    String(
+      match?.status || ""
+    ).toLowerCase();
+
+  return (
+    status === "live" ||
+    status === "inplay" ||
+    status === "in-play" ||
+    status === "playing" ||
+    match?.is_live === true
+  );
+
+}
+
+
+function matchKey(match){
+
+  if(match?.external_id){
+    return String(
+      match.external_id
+    );
+  }
+
+  if(match?.id){
+    return String(
+      match.id
+    );
+  }
+
+  return [
+    normalize(match?.home),
+    normalize(match?.away),
+    parseDate(match)?.toISOString() || ""
+  ].join("|");
+
 }
 
 
@@ -2065,10 +2206,8 @@ function formatDateUTC(iso){
   else if(days === 7){
     dayText = "In 7 days";
   }
-  else if(days === -1){
-    dayText = "Yesterday";
-  }
-  else{
+  else if(days > 7){
+
     dayText =
       date.toLocaleDateString(
         "en-US",
@@ -2076,9 +2215,32 @@ function formatDateUTC(iso){
           weekday:"short",
           month:"short",
           day:"numeric",
+          year:"numeric",
           timeZone:"UTC"
         }
       );
+
+  }
+  else if(days === -1){
+
+    dayText =
+      "Yesterday";
+
+  }
+  else{
+
+    dayText =
+      date.toLocaleDateString(
+        "en-US",
+        {
+          weekday:"short",
+          month:"short",
+          day:"numeric",
+          year:"numeric",
+          timeZone:"UTC"
+        }
+      );
+
   }
 
   const time =
@@ -2391,6 +2553,8 @@ async function loadDatabaseMatches(){
         home_score,
         away_score,
         is_live,
+        external_id,
+        source,
         created_at,
         updated_at
       `)
@@ -2399,7 +2563,7 @@ async function loadDatabaseMatches(){
         "start_time",
         {ascending:true}
       )
-      .limit(200);
+      .limit(500);
 
   if(result.error){
 
@@ -2513,7 +2677,16 @@ async function loadDatabaseMatches(){
 
     return {
 
-      id:row.id,
+      id:
+        row.id,
+
+      external_id:
+        row.external_id ||
+        "",
+
+      source:
+        row.source ||
+        "",
 
       home:
         home.name ||
@@ -2568,10 +2741,419 @@ async function loadDatabaseMatches(){
 
 
 /* =========================================================
+   SPORT SCORE DIRECT
+========================================================= */
+
+async function fetchSportScoreMatches(){
+
+  try{
+
+    const response =
+      await fetch(
+        `${SPORT_SCORE}/matches/?sport=football&limit=50`,
+        {
+          cache:"no-store"
+        }
+      );
+
+    if(!response.ok){
+
+      throw new Error(
+        `SportScore HTTP ${response.status}`
+      );
+
+    }
+
+    const data =
+      await response.json();
+
+    return Array.isArray(data.matches)
+      ? data.matches.map(normalizeSportScoreMatch)
+      : [];
+
+  }catch(error){
+
+    console.warn(
+      "SportScore matches unavailable:",
+      error
+    );
+
+    return [];
+
+  }
+
+}
+
+
+function normalizeSportScoreMatch(match){
+
+  return {
+
+    id:
+      match.url ||
+      [
+        normalize(match.home),
+        normalize(match.away),
+        match.time || ""
+      ].join("-"),
+
+    external_id:
+      match.url
+        ? `sportscore:${match.url}`
+        : "",
+
+    source:
+      "sportscore",
+
+    home:
+      match.home ||
+      "Unknown",
+
+    away:
+      match.away ||
+      "Unknown",
+
+    home_logo:
+      match.home_logo ||
+      "",
+
+    away_logo:
+      match.away_logo ||
+      "",
+
+    competition:
+      match.competition ||
+      "Football",
+
+    competition_logo:
+      match.competition_logo ||
+      "",
+
+    time:
+      match.time ||
+      null,
+
+    start_time:
+      match.time ||
+      null,
+
+    status:
+      String(
+        match.status ||
+        "scheduled"
+      ).toLowerCase(),
+
+    status_text:
+      match.status_text ||
+      "",
+
+    home_score:
+      match.home_score ?? 0,
+
+    away_score:
+      match.away_score ?? 0,
+
+    is_live:
+      (
+        String(
+          match.status || ""
+        ).toLowerCase() === "live"
+      ),
+
+    url:
+      match.url ||
+      "",
+
+    realOdds:
+      null
+
+  };
+
+}
+
+
+/* =========================================================
+   SPORT SCORE TEAM FUTURE
+========================================================= */
+
+async function fetchTeamFixtures(slug){
+
+  try{
+
+    const url =
+      `${SPORT_SCORE}/team/?sport=football&slug=${encodeURIComponent(slug)}&limit=30`;
+
+    const response =
+      await fetch(
+        url,
+        {
+          cache:"no-store"
+        }
+      );
+
+    if(!response.ok){
+      return [];
+    }
+
+    const data =
+      await response.json();
+
+    if(!Array.isArray(data.matches)){
+      return [];
+    }
+
+    return data.matches.map(
+      normalizeSportScoreMatch
+    );
+
+  }catch(error){
+
+    console.warn(
+      `Team fixture error for ${slug}:`,
+      error
+    );
+
+    return [];
+
+  }
+
+}
+
+
+/* =========================================================
+   MERGE REAL MATCHES
+========================================================= */
+
+function mergeMatches(...groups){
+
+  const map =
+    new Map();
+
+  for(const group of groups){
+
+    for(const match of group || []){
+
+      const date =
+        parseDate(match);
+
+      if(!date){
+        continue;
+      }
+
+      const key =
+        matchKey(match);
+
+      const existing =
+        map.get(key);
+
+      if(!existing){
+
+        map.set(
+          key,
+          {...match}
+        );
+
+        continue;
+
+      }
+
+      map.set(
+        key,
+        {
+          ...existing,
+          ...match,
+
+          home:
+            match.home ||
+            existing.home,
+
+          away:
+            match.away ||
+            existing.away,
+
+          home_logo:
+            match.home_logo ||
+            existing.home_logo,
+
+          away_logo:
+            match.away_logo ||
+            existing.away_logo,
+
+          competition:
+            match.competition ||
+            existing.competition,
+
+          competition_logo:
+            match.competition_logo ||
+            existing.competition_logo,
+
+          status:
+            match.status ||
+            existing.status,
+
+          start_time:
+            match.start_time ||
+            existing.start_time,
+
+          time:
+            match.time ||
+            existing.time
+        }
+      );
+
+    }
+
+  }
+
+  return [
+    ...map.values()
+  ];
+
+}
+
+
+/* =========================================================
+   NORMAL MATCHES
+========================================================= */
+
+function getNormalMatches(databaseMatches,sportScoreMatches){
+
+  const now =
+    Date.now();
+
+  const twoDays =
+    now +
+    2 * 86400000;
+
+
+  /*
+    First priority:
+    real matches already stored in SportX.
+  */
+
+  const databaseNormal =
+    databaseMatches
+      .filter(match => {
+
+        const date =
+          parseDate(match);
+
+        if(!date){
+          return false;
+        }
+
+        const timestamp =
+          date.getTime();
+
+        if(
+          timestamp < now ||
+          timestamp > twoDays
+        ){
+          return false;
+        }
+
+        if(isLiveMatch(match)){
+          return false;
+        }
+
+        if(isFeaturedTeam(
+          match.home,
+          match.away
+        )){
+          return false;
+        }
+
+        const status =
+          String(
+            match.status || ""
+          ).toLowerCase();
+
+        return (
+          status === "scheduled" ||
+          status === "upcoming" ||
+          status === ""
+        );
+
+      });
+
+
+  /*
+    If the database has fewer than two,
+    use real SportScore upcoming data
+    as fallback.
+
+    Nothing is invented.
+  */
+
+  const directNormal =
+    sportScoreMatches
+      .filter(match => {
+
+        const date =
+          parseDate(match);
+
+        if(!date){
+          return false;
+        }
+
+        const timestamp =
+          date.getTime();
+
+        if(
+          timestamp < now ||
+          timestamp > twoDays
+        ){
+          return false;
+        }
+
+        if(isLiveMatch(match)){
+          return false;
+        }
+
+        if(isFeaturedTeam(
+          match.home,
+          match.away
+        )){
+          return false;
+        }
+
+        return true;
+
+      });
+
+
+  return mergeMatches(
+    databaseNormal,
+    directNormal
+  )
+    .filter(match =>
+      isUpcoming(match)
+    )
+    .sort(
+      (a,b) =>
+        parseDate(a).getTime() -
+        parseDate(b).getTime()
+    )
+    .slice(
+      0,
+      MAX_NORMAL
+    )
+    .map(match => ({
+      ...match,
+      category:"normal"
+    }));
+
+}
+
+
+/* =========================================================
    FEATURED MATCHES
 ========================================================= */
 
-async function getFeaturedMatches(databaseMatches){
+function getFeaturedMatches(
+  databaseMatches,
+  sportScoreMatches
+){
 
   const now =
     Date.now();
@@ -2580,7 +3162,15 @@ async function getFeaturedMatches(databaseMatches){
     now +
     7 * 86400000;
 
-  return databaseMatches
+
+  const all =
+    mergeMatches(
+      databaseMatches,
+      sportScoreMatches
+    );
+
+
+  return all
     .filter(match => {
 
       const date =
@@ -2590,13 +3180,17 @@ async function getFeaturedMatches(databaseMatches){
         return false;
       }
 
-      const time =
+      const timestamp =
         date.getTime();
 
       if(
-        time < now ||
-        time > sevenDays
+        timestamp < now ||
+        timestamp > sevenDays
       ){
+        return false;
+      }
+
+      if(isLiveMatch(match)){
         return false;
       }
 
@@ -2624,72 +3218,99 @@ async function getFeaturedMatches(databaseMatches){
 
 
 /* =========================================================
-   NORMAL MATCHES
+   FUTURE MATCHES
 ========================================================= */
 
-async function getNormalMatches(databaseMatches){
+async function getFutureMatches(
+  databaseMatches,
+  sportScoreMatches
+){
 
   const now =
     Date.now();
 
-  const twoDays =
-    now +
-    2 * 86400000;
+  /*
+    Start with every real future match
+    already stored in Supabase.
+  */
 
-  return databaseMatches
-    .filter(match => {
+  let candidates =
+    mergeMatches(
+      databaseMatches,
+      sportScoreMatches
+    )
+      .filter(match => {
 
-      const date =
-        parseDate(match);
+        const date =
+          parseDate(match);
 
-      if(!date){
-        return false;
-      }
+        if(!date){
+          return false;
+        }
 
-      const timestamp =
-        date.getTime();
+        if(
+          date.getTime() <= now
+        ){
+          return false;
+        }
 
-      if(
-        timestamp < now ||
-        timestamp > twoDays
-      ){
-        return false;
-      }
+        if(isLiveMatch(match)){
+          return false;
+        }
 
-      const status =
-        String(
-          match.status || ""
-        ).toLowerCase();
+        return true;
 
-      const isLive =
-        status === "live" ||
-        match.is_live === true;
+      });
 
-      if(isLive){
-        return false;
-      }
 
-      /*
-        Normal means it is not one
-        of the Featured teams.
-      */
+  /*
+    The /matches endpoint is primarily
+    live + recent data. To guarantee that
+    Future can show genuine distant fixtures,
+    query the official SportScore team
+    endpoint for famous teams.
+  */
 
-      if(
-        isFeaturedTeam(
-          match.home,
-          match.away
-        )
-      ){
-        return false;
-      }
+  const teamResults =
+    await Promise.all(
+      FEATURED_SLUGS.map(
+        fetchTeamFixtures
+      )
+    );
 
-      return (
-        status === "scheduled" ||
-        status === "upcoming" ||
-        status === ""
-      );
 
-    })
+  const futureFromTeams =
+    teamResults
+      .flat()
+      .filter(match => {
+
+        const date =
+          parseDate(match);
+
+        if(!date){
+          return false;
+        }
+
+        return (
+          date.getTime() > now &&
+          !isLiveMatch(match)
+        );
+
+      });
+
+
+  candidates =
+    mergeMatches(
+      candidates,
+      futureFromTeams
+    );
+
+
+  /*
+    Sort by the actual kickoff timestamp.
+  */
+
+  return candidates
     .sort(
       (a,b) =>
         parseDate(a).getTime() -
@@ -2697,11 +3318,11 @@ async function getNormalMatches(databaseMatches){
     )
     .slice(
       0,
-      MAX_NORMAL
+      MAX_FUTURE
     )
     .map(match => ({
       ...match,
-      category:"normal"
+      category:"future"
     }));
 
 }
@@ -2729,8 +3350,17 @@ function safeImage(url){
       src="${escapeHTML(url)}"
       alt=""
       loading="lazy"
-      onerror="this.style.display='none'"
+      onerror="
+        this.style.display='none';
+        this.nextElementSibling.style.display='grid';
+      "
     >
+    <div
+      class="team-placeholder"
+      style="display:none;"
+    >
+      ⚽
+    </div>
   `;
 
 }
@@ -2763,28 +3393,69 @@ function renderMatch(match){
     ).toLowerCase();
 
   const isLive =
-    status === "live" ||
-    match.is_live === true;
-
-  const scoreText =
-    isLive
-      ? `${Number(match.home_score ?? 0)} : ${Number(match.away_score ?? 0)}`
-      : "VS";
+    isLiveMatch(match);
 
   const isFeatured =
     match.category === "featured";
 
+  const isFuture =
+    match.category === "future";
+
   const odds =
-    match.realOdds || null;
+    match.realOdds ||
+    null;
+
+
+  let categoryText =
+    "Normal";
+
+  let categoryClass =
+    "";
+
+  if(isFeatured){
+
+    categoryText =
+      "★ Featured";
+
+    categoryClass =
+      "featured-category";
+
+  }
+  else if(isFuture){
+
+    categoryText =
+      "Future";
+
+    categoryClass =
+      "future-category";
+
+  }
+
 
   return `
 
     <article
       class="
         match
-        ${isFeatured ? "featured-match" : "normal-match"}
+        ${
+          isFeatured
+            ? "featured-match"
+            : ""
+        }
+        ${
+          isFuture
+            ? "future-match"
+            : ""
+        }
+        ${
+          !isFeatured && !isFuture
+            ? "normal-match"
+            : ""
+        }
       "
-      data-match-id="${escapeHTML(match.id || "")}"
+      data-match-id="${escapeHTML(
+        match.id || ""
+      )}"
     >
 
       <div class="match-top">
@@ -2796,7 +3467,9 @@ function renderMatch(match){
               ? `
                 <img
                   class="competition-logo"
-                  src="${escapeHTML(match.competition_logo)}"
+                  src="${escapeHTML(
+                    match.competition_logo
+                  )}"
                   alt=""
                 >
               `
@@ -2812,18 +3485,13 @@ function renderMatch(match){
 
         </div>
 
-        <span class="match-category ${
-          isFeatured
-            ? "featured-category"
-            : ""
-        }">
-
-          ${
-            isFeatured
-              ? "★ Featured"
-              : "Normal"
-          }
-
+        <span
+          class="
+            match-category
+            ${categoryClass}
+          "
+        >
+          ${categoryText}
         </span>
 
       </div>
@@ -2834,7 +3502,12 @@ function renderMatch(match){
         style="
           text-align:center;
           margin-bottom:15px;
-          color:var(--green-dark);
+          color:
+            ${
+              isFuture
+                ? "#8b6500"
+                : "var(--green-dark)"
+            };
         "
       >
 
@@ -2853,7 +3526,9 @@ function renderMatch(match){
 
         <div class="team">
 
-          ${safeImage(match.home_logo)}
+          ${safeImage(
+            match.home_logo
+          )}
 
           <div class="team-name">
             ${escapeHTML(home)}
@@ -2866,7 +3541,17 @@ function renderMatch(match){
 
           ${
             isLive
-              ? `<strong>${escapeHTML(scoreText)}</strong>`
+              ? `
+                <strong>
+                  ${Number(
+                    match.home_score ?? 0
+                  )}
+                  :
+                  ${Number(
+                    match.away_score ?? 0
+                  )}
+                </strong>
+              `
               : "VS"
           }
 
@@ -2875,7 +3560,9 @@ function renderMatch(match){
 
         <div class="team">
 
-          ${safeImage(match.away_logo)}
+          ${safeImage(
+            match.away_logo
+          )}
 
           <div class="team-name">
             ${escapeHTML(away)}
@@ -2896,7 +3583,9 @@ function renderMatch(match){
                 class="odd"
                 type="button"
                 data-selection="home"
-                data-match-id="${escapeHTML(match.id || "")}"
+                data-match-id="${escapeHTML(
+                  match.id || ""
+                )}"
               >
 
                 <small>
@@ -2904,7 +3593,9 @@ function renderMatch(match){
                 </small>
 
                 <strong>
-                  ${Number(odds.home).toFixed(2)}
+                  ${Number(
+                    odds.home
+                  ).toFixed(2)}
                 </strong>
 
               </button>
@@ -2914,7 +3605,9 @@ function renderMatch(match){
                 class="odd"
                 type="button"
                 data-selection="draw"
-                data-match-id="${escapeHTML(match.id || "")}"
+                data-match-id="${escapeHTML(
+                  match.id || ""
+                )}"
               >
 
                 <small>
@@ -2922,7 +3615,9 @@ function renderMatch(match){
                 </small>
 
                 <strong>
-                  ${Number(odds.draw).toFixed(2)}
+                  ${Number(
+                    odds.draw
+                  ).toFixed(2)}
                 </strong>
 
               </button>
@@ -2932,7 +3627,9 @@ function renderMatch(match){
                 class="odd"
                 type="button"
                 data-selection="away"
-                data-match-id="${escapeHTML(match.id || "")}"
+                data-match-id="${escapeHTML(
+                  match.id || ""
+                )}"
               >
 
                 <small>
@@ -2940,7 +3637,9 @@ function renderMatch(match){
                 </small>
 
                 <strong>
-                  ${Number(odds.away).toFixed(2)}
+                  ${Number(
+                    odds.away
+                  ).toFixed(2)}
                 </strong>
 
               </button>
@@ -2950,7 +3649,13 @@ function renderMatch(match){
           `
           : `
             <div class="no-odds">
-              Prediction markets will appear when available.
+
+              ${
+                isFuture
+                  ? "Prediction markets are not available for this fixture yet."
+                  : "Prediction markets will appear when available."
+              }
+
             </div>
           `
       }
@@ -2964,7 +3669,9 @@ function renderMatch(match){
             ${
               isLive
                 ? "status-live"
-                : "status-upcoming"
+                : isFuture
+                  ? "status-future"
+                  : "status-upcoming"
             }
           "
         >
@@ -2972,7 +3679,9 @@ function renderMatch(match){
           ${
             isLive
               ? "● LIVE"
-              : "● UPCOMING"
+              : isFuture
+                ? "● FUTURE"
+                : "● UPCOMING"
           }
 
         </span>
@@ -2981,7 +3690,9 @@ function renderMatch(match){
         <button
           type="button"
           class="details-btn"
-          data-details-match="${escapeHTML(match.id || "")}"
+          data-details-match="${escapeHTML(
+            match.id || ""
+          )}"
         >
           Match Details →
         </button>
@@ -3027,8 +3738,8 @@ function renderNormalMatches(matches){
           </h3>
 
           <p>
-            There are currently no upcoming normal matches
-            in the connected data window.
+            SportScore currently has no real upcoming
+            non-featured fixture in the available feed.
           </p>
 
           <button
@@ -3099,8 +3810,8 @@ function renderFeaturedMatches(matches){
           </h3>
 
           <p>
-            No major upcoming matches are currently
-            available in the 7-day data window.
+            No real featured fixture is currently
+            available in the selected window.
           </p>
 
           <button
@@ -3120,6 +3831,78 @@ function renderFeaturedMatches(matches){
     document
       .getElementById(
         "retryFeaturedMatches"
+      )
+      ?.addEventListener(
+        "click",
+        loadHomeMatches
+      );
+
+    return;
+  }
+
+  container.innerHTML =
+    matches
+      .map(renderMatch)
+      .join("");
+
+  attachMatchEvents();
+
+}
+
+
+/* =========================================================
+   FUTURE RENDER
+========================================================= */
+
+function renderFutureMatches(matches){
+
+  const container =
+    document.getElementById(
+      "futureMatches"
+    );
+
+  if(!container){
+    return;
+  }
+
+  if(!matches.length){
+
+    container.innerHTML = `
+
+      <div class="empty-card">
+
+        <div>
+
+          <div class="empty-icon">
+            📅
+          </div>
+
+          <h3>
+            No future fixtures available
+          </h3>
+
+          <p>
+            No genuine future fixture is currently
+            available from the connected SportScore feed.
+          </p>
+
+          <button
+            type="button"
+            class="retry-btn"
+            id="retryFutureMatches"
+          >
+            Refresh Fixtures
+          </button>
+
+        </div>
+
+      </div>
+
+    `;
+
+    document
+      .getElementById(
+        "retryFutureMatches"
       )
       ?.addEventListener(
         "click",
@@ -3161,43 +3944,13 @@ async function loadLiveHero(){
 
   try{
 
-    const response =
-      await fetch(
-        `${SPORT_SCORE}/matches/?sport=football&limit=50`,
-        {
-          cache:"no-store"
-        }
-      );
-
-    if(!response.ok){
-      throw new Error(
-        "Live API request failed"
-      );
-    }
-
-    const data =
-      await response.json();
-
     const matches =
-      Array.isArray(data.matches)
-        ? data.matches
-        : [];
+      await fetchSportScoreMatches();
 
     const live =
-      matches.filter(match => {
-
-        const status =
-          String(
-            match.status || ""
-          ).toLowerCase();
-
-        return (
-          status === "live" ||
-          status === "inplay" ||
-          match.is_live === true
-        );
-
-      });
+      matches.filter(
+        isLiveMatch
+      );
 
 
     if(!live.length){
@@ -3247,6 +4000,7 @@ async function loadLiveHero(){
       "not-live"
     );
 
+
     container.innerHTML = `
 
       <div class="live-preview">
@@ -3270,7 +4024,9 @@ async function loadLiveHero(){
                 ? `
                   <img
                     class="hero-team-logo"
-                    src="${escapeHTML(match.home_logo)}"
+                    src="${escapeHTML(
+                      match.home_logo
+                    )}"
                     alt=""
                   >
                 `
@@ -3326,7 +4082,9 @@ async function loadLiveHero(){
                 ? `
                   <img
                     class="hero-team-logo"
-                    src="${escapeHTML(match.away_logo)}"
+                    src="${escapeHTML(
+                      match.away_logo
+                    )}"
                     alt=""
                   >
                 `
@@ -3367,7 +4125,7 @@ async function loadLiveHero(){
     );
 
     label.textContent =
-      "LIVE";
+      "LIVE DATA";
 
     label.classList.add(
       "not-live"
@@ -3405,6 +4163,34 @@ async function loadLiveHero(){
 /* =========================================================
    EVENTS
 ========================================================= */
+
+function findMatchById(id){
+
+  const idString =
+    String(id);
+
+  return (
+    allFeaturedMatches.find(
+      item =>
+        String(item.id) ===
+        idString
+    ) ||
+
+    allNormalMatches.find(
+      item =>
+        String(item.id) ===
+        idString
+    ) ||
+
+    allFutureMatches.find(
+      item =>
+        String(item.id) ===
+        idString
+    )
+  );
+
+}
+
 
 function attachMatchEvents(){
 
@@ -3465,7 +4251,9 @@ function attachMatchEvents(){
           }
 
           window.location.href =
-            `bets.html?match=${encodeURIComponent(matchId || "")}`;
+            `bets.html?match=${encodeURIComponent(
+              matchId || ""
+            )}`;
 
         }
       );
@@ -3494,16 +4282,7 @@ function attachMatchEvents(){
             button.dataset.detailsMatch;
 
           const match =
-            allFeaturedMatches.find(
-              item =>
-                String(item.id) ===
-                String(id)
-            ) ||
-            allNormalMatches.find(
-              item =>
-                String(item.id) ===
-                String(id)
-            );
+            findMatchById(id);
 
           if(match){
             openMatchModal(match);
@@ -3543,6 +4322,7 @@ function openMatchModal(match){
   const odds =
     match.realOdds;
 
+
   content.innerHTML = `
 
     <div class="modal-competition">
@@ -3563,7 +4343,9 @@ function openMatchModal(match){
           match.home_logo
             ? `
               <img
-                src="${escapeHTML(match.home_logo)}"
+                src="${escapeHTML(
+                  match.home_logo
+                )}"
                 alt=""
               >
             `
@@ -3582,14 +4364,24 @@ function openMatchModal(match){
         }
 
         <strong>
-          ${escapeHTML(match.home)}
+          ${escapeHTML(
+            match.home
+          )}
         </strong>
 
       </div>
 
 
       <div class="modal-vs">
-        VS
+        ${
+          isLiveMatch(match)
+            ? `${Number(
+                match.home_score ?? 0
+              )}:${Number(
+                match.away_score ?? 0
+              )}`
+            : "VS"
+        }
       </div>
 
 
@@ -3599,7 +4391,9 @@ function openMatchModal(match){
           match.away_logo
             ? `
               <img
-                src="${escapeHTML(match.away_logo)}"
+                src="${escapeHTML(
+                  match.away_logo
+                )}"
                 alt=""
               >
             `
@@ -3618,7 +4412,9 @@ function openMatchModal(match){
         }
 
         <strong>
-          ${escapeHTML(match.away)}
+          ${escapeHTML(
+            match.away
+          )}
         </strong>
 
       </div>
@@ -3640,67 +4436,82 @@ function openMatchModal(match){
 
 
     ${
-      odds
+      isLiveMatch(match)
         ? `
           <div
-            class="odds"
-            style="margin-top:20px;"
+            class="no-odds"
+            style="
+              color:var(--danger);
+              font-weight:900;
+            "
           >
-
-            <div class="odd">
-
-              <small>
-                Home Win
-              </small>
-
-              <strong>
-                ${Number(
-                  odds.home
-                ).toFixed(2)}
-              </strong>
-
-            </div>
-
-            <div class="odd">
-
-              <small>
-                Draw
-              </small>
-
-              <strong>
-                ${Number(
-                  odds.draw
-                ).toFixed(2)}
-              </strong>
-
-            </div>
-
-            <div class="odd">
-
-              <small>
-                Away Win
-              </small>
-
-              <strong>
-                ${Number(
-                  odds.away
-                ).toFixed(2)}
-              </strong>
-
-            </div>
-
+            ● LIVE MATCH
           </div>
         `
-        : `
-          <div class="no-odds">
-            Prediction markets will appear when available.
-          </div>
-        `
+        : odds
+          ? `
+            <div
+              class="odds"
+              style="margin-top:20px;"
+            >
+
+              <div class="odd">
+
+                <small>
+                  Home Win
+                </small>
+
+                <strong>
+                  ${Number(
+                    odds.home
+                  ).toFixed(2)}
+                </strong>
+
+              </div>
+
+              <div class="odd">
+
+                <small>
+                  Draw
+                </small>
+
+                <strong>
+                  ${Number(
+                    odds.draw
+                  ).toFixed(2)}
+                </strong>
+
+              </div>
+
+              <div class="odd">
+
+                <small>
+                  Away Win
+                </small>
+
+                <strong>
+                  ${Number(
+                    odds.away
+                  ).toFixed(2)}
+                </strong>
+
+              </div>
+
+            </div>
+          `
+          : `
+            <div class="no-odds">
+              Prediction markets will appear when available.
+            </div>
+          `
     }
 
   `;
 
-  modal.classList.add("show");
+
+  modal.classList.add(
+    "show"
+  );
 
   modal.setAttribute(
     "aria-hidden",
@@ -3758,6 +4569,20 @@ document
 
     }
   );
+
+
+document.addEventListener(
+  "keydown",
+  event => {
+
+    if(event.key === "Escape"){
+
+      closeMatchModal();
+
+    }
+
+  }
+);
 
 
 /* =========================================================
@@ -3819,6 +4644,11 @@ async function loadHomeMatches(){
       "featuredMatches"
     );
 
+  const futureContainer =
+    document.getElementById(
+      "futureMatches"
+    );
+
 
   if(normalContainer){
 
@@ -3831,7 +4661,7 @@ async function loadHomeMatches(){
           <div class="spinner"></div>
 
           <p>
-            Loading normal matches...
+            Loading real normal matches...
           </p>
 
         </div>
@@ -3854,7 +4684,30 @@ async function loadHomeMatches(){
           <div class="spinner"></div>
 
           <p>
-            Loading featured matches...
+            Loading real featured matches...
+          </p>
+
+        </div>
+
+      </div>
+
+    `;
+
+  }
+
+
+  if(futureContainer){
+
+    futureContainer.innerHTML = `
+
+      <div class="loading-card">
+
+        <div>
+
+          <div class="spinner"></div>
+
+          <p>
+            Loading real future fixtures...
           </p>
 
         </div>
@@ -3869,22 +4722,30 @@ async function loadHomeMatches(){
   try{
 
     /*
-      IMPORTANT:
-
-      One Supabase read gets the real matches.
-      No OpenFoot request is made here.
-      This keeps the API quota safe.
+      1. Load the real SportX database.
     */
 
     const databaseMatches =
       await loadDatabaseMatches();
 
 
-    /* ================= NORMAL ================= */
+    /*
+      2. Load the official SportScore feed.
+      This is only a real-data fallback/supplement.
+    */
+
+    const sportScoreMatches =
+      await fetchSportScoreMatches();
+
+
+    /*
+      3. NORMAL
+    */
 
     const normalMatches =
-      await getNormalMatches(
-        databaseMatches
+      getNormalMatches(
+        databaseMatches,
+        sportScoreMatches
       );
 
     allNormalMatches =
@@ -3895,11 +4756,14 @@ async function loadHomeMatches(){
     );
 
 
-    /* ================= FEATURED ================= */
+    /*
+      4. FEATURED
+    */
 
     const featuredMatches =
-      await getFeaturedMatches(
-        databaseMatches
+      getFeaturedMatches(
+        databaseMatches,
+        sportScoreMatches
       );
 
     allFeaturedMatches =
@@ -3907,6 +4771,26 @@ async function loadHomeMatches(){
 
     renderFeaturedMatches(
       featuredMatches
+    );
+
+
+    /*
+      5. FUTURE
+      Uses real team fixture endpoints
+      when necessary.
+    */
+
+    const futureMatches =
+      await getFutureMatches(
+        databaseMatches,
+        sportScoreMatches
+      );
+
+    allFutureMatches =
+      futureMatches;
+
+    renderFutureMatches(
+      futureMatches
     );
 
 
@@ -3918,77 +4802,51 @@ async function loadHomeMatches(){
     );
 
 
-    if(normalContainer){
+    const errorHTML = `
+      <div class="empty-card">
 
-      normalContainer.innerHTML = `
+        <div>
 
-        <div class="empty-card">
-
-          <div>
-
-            <div class="empty-icon">
-              ⚠️
-            </div>
-
-            <h3>
-              Unable to load normal matches
-            </h3>
-
-            <p>
-              Sports data is temporarily unavailable.
-            </p>
-
-            <button
-              type="button"
-              class="retry-btn"
-              onclick="loadHomeMatches()"
-            >
-              Try Again
-            </button>
-
+          <div class="empty-icon">
+            ⚠️
           </div>
+
+          <h3>
+            Sports data temporarily unavailable
+          </h3>
+
+          <p>
+            No fake matches were generated.
+            The page will retry using the real data feed.
+          </p>
+
+          <button
+            type="button"
+            class="retry-btn"
+            onclick="loadHomeMatches()"
+          >
+            Try Again
+          </button>
 
         </div>
 
-      `;
+      </div>
+    `;
 
+
+    if(normalContainer){
+      normalContainer.innerHTML =
+        errorHTML;
     }
 
-
     if(featuredContainer){
+      featuredContainer.innerHTML =
+        errorHTML;
+    }
 
-      featuredContainer.innerHTML = `
-
-        <div class="empty-card">
-
-          <div>
-
-            <div class="empty-icon">
-              ⚠️
-            </div>
-
-            <h3>
-              Unable to load featured matches
-            </h3>
-
-            <p>
-              Sports data is temporarily unavailable.
-            </p>
-
-            <button
-              type="button"
-              class="retry-btn"
-              onclick="loadHomeMatches()"
-            >
-              Try Again
-            </button>
-
-          </div>
-
-        </div>
-
-      `;
-
+    if(futureContainer){
+      futureContainer.innerHTML =
+        errorHTML;
     }
 
   }
@@ -4003,24 +4861,25 @@ async function loadHomeMatches(){
 async function startSportXHome(){
 
   /*
-    Authentication remains handled by auth.js.
+    Authentication remains handled
+    by the shared auth.js file.
   */
 
   await loadSupabase();
 
 
   /*
-    Main match system.
+    Main real match system.
   */
 
-  loadHomeMatches();
+  await loadHomeMatches();
 
 
   /*
     Live hero.
   */
 
-  loadLiveHero();
+  await loadLiveHero();
 
 
   /*
@@ -4039,26 +4898,27 @@ async function startSportXHome(){
 
   setInterval(
     loadProfileData,
-    60000
+    REFRESH_MS
   );
 
 
   /*
-    Refresh sports/matches every minute.
+    Refresh all sports data every minute.
   */
 
   setInterval(
-    () => {
+    async () => {
 
-      loadHomeMatches();
+      await loadHomeMatches();
 
-      loadLiveHero();
+      await loadLiveHero();
 
     },
-    60000
+    REFRESH_MS
   );
 
 }
+
 
 startSportXHome();
 
