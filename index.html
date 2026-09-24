@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#08110f" />
+
+  <title>SportX — Sports Prediction</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg: #07100e;
+      --panel: #0d1815;
+      --panel-2: #111f1b;
+      --green: #16d98b;
+      --green-dark: #0e9d65;
+      --text: #f3f7f5;
+      --muted: #8d9d97;
+      --border: rgba(255,255,255,.07);
+      --danger: #ff5f6d;
+      --gold: #f4c95d;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: Inter, Arial, sans-serif;
+      background:
+        radial-gradient(circle at 80% 0%, rgba(22,217,139,.12), transparent 30%),
+        radial-gradient(circle at 10% 30%, rgba(22,217,139,.06), transparent 25%),
+        var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    button,
+    a {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    button {
+      font: inherit;
+      border: 0;
+      cursor: pointer;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    /* ================= HEADER ================= */
+
+    .header {
+      height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 5%;
+      border-bottom: 1px solid var(--border);
+      background: rgba(7,16,14,.82);
+      backdrop-filter: blur(18px);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 23px;
+      font-weight: 900;
+      letter-spacing: -.7px;
+    }
+
+    .logo-mark {
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, var(--green), var(--green-dark));
+      color: #03120c;
+      box-shadow: 0 8px 30px rgba(22,217,139,.22);
+    }
+
+    .desktop-nav {
+      display: flex;
+      gap: 28px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .desktop-nav a {
+      transition: .25s ease;
+    }
+
+    .desktop-nav a:hover {
+      color: var(--green);
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .balance {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      padding: 10px 15px;
+      border-radius: 12px;
+      font-size: 13px;
+    }
+
+    .balance span {
+      color: var(--green);
+      font-weight: 800;
+    }
+
+    .login-btn {
+      background: var(--green);
+      color: #03120c;
+      padding: 11px 17px;
+      border-radius: 11px;
+      font-weight: 800;
+      transition: transform .2s ease, box-shadow .2s ease;
+    }
+
+    .login-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(22,217,139,.2);
+    }
+
+    /* ================= HERO ================= */
+
+    .hero {
+      max-width: 1250px;
+      margin: auto;
+      padding: 72px 5% 45px;
+      display: grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 35px;
+      align-items: center;
+    }
+
+    .hero-content {
+      animation: rise .7s ease both;
+    }
+
+    .badge {
+      display: inline-flex;
+      padding: 8px 13px;
+      border-radius: 999px;
+      background: rgba(22,217,139,.09);
+      border: 1px solid rgba(22,217,139,.18);
+      color: var(--green);
+      font-size: 12px;
+      font-weight: 800;
+      margin-bottom: 20px;
+    }
+
+    .hero h1 {
+      font-size: clamp(42px, 6vw, 76px);
+      line-height: .98;
+      letter-spacing: -3px;
+      max-width: 720px;
+    }
+
+    .hero h1 strong {
+      color: var(--green);
+    }
+
+    .hero p {
+      color: var(--muted);
+      max-width: 600px;
+      line-height: 1.7;
+      margin: 24px 0;
+      font-size: 16px;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .primary-btn,
+    .secondary-btn {
+      padding: 14px 20px;
+      border-radius: 12px;
+      transition: .25s ease;
+    }
+
+    .primary-btn {
+      background: var(--green);
+      color: #03120c;
+      font-weight: 900;
+    }
+
+    .secondary-btn {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      color: var(--text);
+    }
+
+    .primary-btn:hover,
+    .secondary-btn:hover {
+      transform: translateY(-3px);
+    }
+
+    .hero-card {
+      min-height: 350px;
+      border: 1px solid var(--border);
+      border-radius: 26px;
+      background:
+        linear-gradient(145deg, rgba(22,217,139,.12), transparent 55%),
+        var(--panel);
+      padding: 24px;
+      box-shadow: 0 30px 80px rgba(0,0,0,.25);
+      animation: floatIn .8s ease both;
+    }
+
+    .live-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .live-title span {
+      color: var(--green);
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .match-preview {
+      padding: 20px;
+      border-radius: 18px;
+      background: rgba(255,255,255,.035);
+      border: 1px solid var(--border);
+    }
+
+    .match-meta {
+      color: var(--muted);
+      font-size: 12px;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .teams {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      gap: 10px;
+      text-align: center;
+    }
+
+    .team-icon {
+      width: 52px;
+      height: 52px;
+      margin: auto auto 9px;
+      display: grid;
+      place-items: center;
+      border-radius: 15px;
+      background: var(--panel-2);
+      font-size: 24px;
+    }
+
+    .score {
+      font-size: 25px;
+      font-weight: 900;
+    }
+
+    .live-dot {
+      color: var(--danger);
+      font-size: 11px;
+      margin-top: 20px;
+    }
+
+    /* ================= SECTION ================= */
+
+    .section {
+      max-width: 1250px;
+      margin: auto;
+      padding: 25px 5% 55px;
+    }
+
+    .section-heading {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .section-heading h2 {
+      font-size: 25px;
+    }
+
+    .section-heading p {
+      color: var(--muted);
+      font-size: 13px;
+      margin-top: 5px;
+    }
+
+    .view-all {
+      color: var(--green);
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    /* ================= SPORTS ================= */
+
+    .sports {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 12px;
+    }
+
+    .sport {
+      padding: 20px 10px;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      text-align: center;
+      transition: .25s ease;
+    }
+
+    .sport:hover {
+      transform: translateY(-5px);
+      border-color: rgba(22,217,139,.35);
+      background: var(--panel-2);
+    }
+
+    .sport-icon {
+      font-size: 27px;
+      margin-bottom: 10px;
+    }
+
+    .sport-name {
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    /* ================= MATCHES ================= */
+
+    .matches {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+    }
+
+    .match {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 20px;
+      transition: .25s ease;
+    }
+
+    .match:hover {
+      transform: translateY(-4px);
+      border-color: rgba(22,217,139,.25);
+    }
+
+    .match-top {
+      display: flex;
+      justify-content: space-between;
+      color: var(--muted);
+      font-size: 11px;
+      margin-bottom: 18px;
+    }
+
+    .match-teams {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      text-align: center;
+      gap: 15px;
+    }
+
+    .team-name {
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .vs {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .odds {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 7px;
+      margin-top: 20px;
+    }
+
+    .odd {
+      background: var(--panel-2);
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      padding: 10px 5px;
+      text-align: center;
+      transition: .2s ease;
+    }
+
+    .odd:hover {
+      border-color: var(--green);
+      color: var(--green);
+    }
+
+    .odd small {
+      display: block;
+      color: var(--muted);
+      font-size: 10px;
+      margin-bottom: 3px;
+    }
+
+    .odd strong {
+      font-size: 13px;
+    }
+
+    /* ================= FOOTER ================= */
+
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 30px 5%;
+      color: var(--muted);
+      text-align: center;
+      font-size: 12px;
+    }
+
+    /* ================= ANIMATION ================= */
+
+    @keyframes rise {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes floatIn {
+      from {
+        opacity: 0;
+        transform: translateY(25px) scale(.97);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    /* ================= MOBILE ================= */
+
+    @media (max-width: 850px) {
+      .desktop-nav {
+        display: none;
+      }
+
+      .hero {
+        grid-template-columns: 1fr;
+        padding-top: 45px;
+      }
+
+      .hero-card {
+        min-height: auto;
+      }
+
+      .sports {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .matches {
+        grid-template-columns: 1fr;
+      }
+
+      .balance {
+        display: none;
+      }
+    }
+
+    @media (max-width: 500px) {
+      .header {
+        padding: 0 16px;
+      }
+
+      .hero,
+      .section {
+        padding-left: 16px;
+        padding-right: 16px;
+      }
+
+      .hero h1 {
+        font-size: 45px;
+      }
+
+      .sports {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .logo {
+        font-size: 19px;
+      }
+
+      .login-btn {
+        padding: 9px 12px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- HEADER -->
+  <header class="header">
+
+    <a href="index.html" class="logo">
+      <div class="logo-mark">S</div>
+      SportX
+    </a>
+
+    <nav class="desktop-nav">
+      <a href="index.html">Home</a>
+      <a href="sports.html">Sports</a>
+      <a href="live.html">Live</a>
+      <a href="bets.html">My Bets</a>
+    </nav>
+
+    <div class="header-actions">
+      <div class="balance">
+        Balance: <span>AFN 1,000</span>
+      </div>
+
+      <a href="login.html" class="login-btn">
+        Login
+      </a>
+    </div>
+
+  </header>
+
+
+  <!-- HERO -->
+  <main>
+
+    <section class="hero">
+
+      <div class="hero-content">
+
+        <div class="badge">
+          ● SPORT PREDICTION SIMULATOR
+        </div>
+
+        <h1>
+          Predict the game.<br>
+          <strong>Feel the action.</strong>
+        </h1>
+
+        <p>
+          Explore upcoming matches, follow live events,
+          create virtual predictions and track your results
+          in one modern sports platform.
+        </p>
+
+        <div class="hero-buttons">
+          <a href="sports.html" class="primary-btn">
+            Explore Sports
+          </a>
+
+          <a href="live.html" class="secondary-btn">
+            Watch Live Matches
+          </a>
+        </div>
+
+      </div>
+
+
+      <div class="hero-card">
+
+        <div class="live-title">
+          <h3>Live Match</h3>
+          <span>● LIVE NOW</span>
+        </div>
+
+        <div class="match-preview">
+
+          <div class="match-meta">
+            International Football • 2nd Half
+          </div>
+
+          <div class="teams">
+
+            <div>
+              <div class="team-icon">🔵</div>
+              <strong>Manchester</strong>
+            </div>
+
+            <div>
+              <div class="score">2 : 1</div>
+              <div class="live-dot">● 67'</div>
+            </div>
+
+            <div>
+              <div class="team-icon">🔴</div>
+              <strong>Madrid</strong>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- SPORTS -->
+    <section class="section">
+
+      <div class="section-heading">
+        <div>
+          <h2>Sports</h2>
+          <p>Choose your favorite sport</p>
+        </div>
+
+        <a href="sports.html" class="view-all">
+          View All →
+        </a>
+      </div>
+
+
+      <div class="sports">
+
+        <a href="sports.html?type=football" class="sport">
+          <div class="sport-icon">⚽</div>
+          <div class="sport-name">Football</div>
+        </a>
+
+        <a href="sports.html?type=basketball" class="sport">
+          <div class="sport-icon">🏀</div>
+          <div class="sport-name">Basketball</div>
+        </a>
+
+        <a href="sports.html?type=tennis" class="sport">
+          <div class="sport-icon">🎾</div>
+          <div class="sport-name">Tennis</div>
+        </a>
+
+        <a href="sports.html?type=cricket" class="sport">
+          <div class="sport-icon">🏏</div>
+          <div class="sport-name">Cricket</div>
+        </a>
+
+        <a href="sports.html?type=esports" class="sport">
+          <div class="sport-icon">🎮</div>
+          <div class="sport-name">Esports</div>
+        </a>
+
+        <a href="sports.html?type=boxing" class="sport">
+          <div class="sport-icon">🥊</div>
+          <div class="sport-name">Boxing</div>
+        </a>
+
+      </div>
+
+    </section>
+
+
+    <!-- UPCOMING -->
+    <section class="section">
+
+      <div class="section-heading">
+
+        <div>
+          <h2>Upcoming Matches</h2>
+          <p>Today's featured events</p>
+        </div>
+
+        <a href="sports.html" class="view-all">
+          See All →
+        </a>
+
+      </div>
+
+
+      <div class="matches">
+
+        <article class="match">
+
+          <div class="match-top">
+            <span>Football • Champions League</span>
+            <span>20:00</span>
+          </div>
+
+          <div class="match-teams">
+
+            <div class="team-name">
+              Barcelona
+            </div>
+
+            <div class="vs">
+              VS
+            </div>
+
+            <div class="team-name">
+              Arsenal
+            </div>
+
+          </div>
+
+          <div class="odds">
+
+            <button class="odd">
+              <small>Barcelona</small>
+              <strong>1.85</strong>
+            </button>
+
+            <button class="odd">
+              <small>Draw</small>
+              <strong>3.40</strong>
+            </button>
+
+            <button class="odd">
+              <small>Arsenal</small>
+              <strong>4.10</strong>
+            </button>
+
+          </div>
+
+        </article>
+
+
+        <article class="match">
+
+          <div class="match-top">
+            <span>Football • Premier League</span>
+            <span>21:30</span>
+          </div>
+
+          <div class="match-teams">
+
+            <div class="team-name">
+              Liverpool
+            </div>
+
+            <div class="vs">
+              VS
+            </div>
+
+            <div class="team-name">
+              Chelsea
+            </div>
+
+          </div>
+
+          <div class="odds">
+
+            <button class="odd">
+              <small>Liverpool</small>
+              <strong>1.72</strong>
+            </button>
+
+            <button class="odd">
+              <small>Draw</small>
+              <strong>3.70</strong>
+            </button>
+
+            <button class="odd">
+              <small>Chelsea</small>
+              <strong>4.35</strong>
+            </button>
+
+          </div>
+
+        </article>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <footer>
+    © 2026 SportX. Virtual sports prediction simulator.
+  </footer>
+
+</body>
+</html>
