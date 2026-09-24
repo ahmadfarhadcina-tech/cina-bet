@@ -10,16 +10,16 @@
 
 <style>
 :root{
-    --bg:#07100e;
-    --panel:#0d1815;
-    --panel-2:#111f1b;
+    --bg:#ffffff;
+    --panel:#ffffff;
+    --panel-2:#f6f8f7;
     --green:#16d98b;
     --green-dark:#0e9d65;
-    --text:#f3f7f5;
-    --muted:#8d9d97;
-    --border:rgba(255,255,255,.08);
-    --danger:#ff5f6d;
-    --shadow:0 30px 90px rgba(0,0,0,.38);
+    --text:#12201b;
+    --muted:#66736e;
+    --border:rgba(15,23,42,.13);
+    --danger:#e54855;
+    --shadow:0 25px 70px rgba(15,23,42,.10);
 }
 
 *{
@@ -32,10 +32,20 @@ body{
     min-height:100vh;
     font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
     color:var(--text);
+
     background:
-        radial-gradient(circle at 15% 10%,rgba(22,217,139,.12),transparent 30%),
-        radial-gradient(circle at 85% 90%,rgba(22,217,139,.07),transparent 30%),
+        radial-gradient(
+            circle at 15% 10%,
+            rgba(22,217,139,.08),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 85% 90%,
+            rgba(22,217,139,.05),
+            transparent 30%
+        ),
         var(--bg);
+
     display:flex;
     flex-direction:column;
 }
@@ -51,15 +61,22 @@ button{
 
 .header{
     height:72px;
+
     border-bottom:1px solid var(--border);
-    background:rgba(7,16,14,.82);
+
+    background:rgba(255,255,255,.92);
+
     backdrop-filter:blur(18px);
+
+    box-shadow:
+        0 4px 18px rgba(15,23,42,.05);
 }
 
 .header-inner{
     width:min(1180px,calc(100% - 32px));
     height:100%;
     margin:auto;
+
     display:flex;
     align-items:center;
     justify-content:space-between;
@@ -69,8 +86,10 @@ button{
     display:flex;
     align-items:center;
     gap:10px;
+
     color:var(--text);
     text-decoration:none;
+
     font-size:22px;
     font-weight:900;
 }
@@ -78,35 +97,52 @@ button{
 .logo-mark{
     width:36px;
     height:36px;
+
     display:grid;
     place-items:center;
+
     border-radius:11px;
+
     color:#06100d;
-    background:linear-gradient(135deg,var(--green),#76ffc0);
-    box-shadow:0 8px 25px rgba(22,217,139,.2);
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--green),
+            #76ffc0
+        );
+
+    box-shadow:
+        0 8px 25px rgba(22,217,139,.20);
 }
 
 .back{
     color:var(--muted);
+
     text-decoration:none;
+
     font-size:13px;
     font-weight:700;
+
     transition:.25s;
 }
 
 .back:hover{
-    color:var(--green);
+    color:var(--green-dark);
 }
 
 .main{
     flex:1;
+
     display:grid;
     place-items:center;
+
     padding:45px 18px 60px;
 }
 
 .auth-wrapper{
     width:min(440px,100%);
+
     animation:rise .55s ease both;
 }
 
@@ -119,11 +155,17 @@ button{
     display:inline-flex;
     align-items:center;
     gap:7px;
+
     padding:7px 11px;
+
     border-radius:999px;
-    color:var(--green);
+
+    color:var(--green-dark);
+
     background:rgba(22,217,139,.08);
-    border:1px solid rgba(22,217,139,.14);
+
+    border:1px solid rgba(22,217,139,.25);
+
     font-size:10px;
     font-weight:900;
     letter-spacing:.8px;
@@ -132,39 +174,63 @@ button{
 .badge-dot{
     width:6px;
     height:6px;
+
     border-radius:50%;
+
     background:var(--green);
-    box-shadow:0 0 10px var(--green);
+
+    box-shadow:
+        0 0 10px rgba(22,217,139,.55);
 }
 
 .brand h1{
     margin-top:15px;
+
+    color:var(--text);
+
     font-size:34px;
+
     letter-spacing:-1.2px;
 }
 
 .brand p{
     margin-top:8px;
+
     color:var(--muted);
+
     font-size:13px;
 }
 
 .auth-card{
     padding:28px;
+
     border:1px solid var(--border);
+
     border-radius:22px;
-    background:linear-gradient(145deg,rgba(13,24,21,.96),rgba(10,20,17,.94));
+
+    background:
+        linear-gradient(
+            145deg,
+            #ffffff,
+            #fbfdfc
+        );
+
     box-shadow:var(--shadow);
 }
 
 .auth-card h2{
+    color:var(--text);
+
     font-size:21px;
+
     letter-spacing:-.5px;
 }
 
 .subtitle{
     margin-top:7px;
+
     color:var(--muted);
+
     font-size:12px;
     line-height:1.6;
 }
@@ -172,48 +238,69 @@ button{
 .social-buttons{
     display:grid;
     gap:10px;
+
     margin-top:22px;
 }
 
 .social-btn{
     width:100%;
     height:46px;
+
     display:flex;
     align-items:center;
     justify-content:center;
     gap:11px;
+
     border:1px solid var(--border);
+
     border-radius:11px;
+
     background:var(--panel-2);
+
     color:var(--text);
+
     font-size:12px;
     font-weight:800;
+
     transition:.25s ease;
 }
 
 .social-btn:hover{
     transform:translateY(-2px);
-    border-color:rgba(255,255,255,.15);
-    background:#16251f;
+
+    border-color:
+        rgba(22,217,139,.35);
+
+    background:#ffffff;
+
+    box-shadow:
+        0 8px 22px rgba(15,23,42,.07);
 }
 
 .social-icon{
     width:21px;
     height:21px;
+
     display:grid;
     place-items:center;
+
     border-radius:6px;
+
     font-size:13px;
     font-weight:900;
 }
 
 .google .social-icon{
     background:#fff;
+
     color:#4285f4;
+
+    border:1px solid rgba(15,23,42,.10);
 }
 
 .facebook .social-icon{
     background:#1877f2;
+
     color:#fff;
 }
 
@@ -221,8 +308,11 @@ button{
     display:flex;
     align-items:center;
     gap:12px;
+
     margin:23px 0;
-    color:#60706a;
+
+    color:#73807b;
+
     font-size:10px;
     font-weight:800;
 }
@@ -230,8 +320,11 @@ button{
 .divider::before,
 .divider::after{
     content:"";
+
     height:1px;
+
     flex:1;
+
     background:var(--border);
 }
 
@@ -241,8 +334,11 @@ button{
 
 label{
     display:block;
+
     margin-bottom:7px;
-    color:#cbd5d1;
+
+    color:#34423d;
+
     font-size:11px;
     font-weight:800;
 }
@@ -254,86 +350,142 @@ label{
 .input-wrap input{
     width:100%;
     height:46px;
+
     padding:0 13px;
+
     border:1px solid var(--border);
+
     border-radius:11px;
+
     outline:none;
-    background:#091511;
+
+    background:#ffffff;
+
     color:var(--text);
+
     font-size:13px;
+
     transition:.25s ease;
 }
 
 .input-wrap input::placeholder{
-    color:#56655f;
+    color:#9aa5a1;
+}
+
+.input-wrap input:hover{
+    border-color:
+        rgba(15,23,42,.20);
 }
 
 .input-wrap input:focus{
-    border-color:rgba(22,217,139,.45);
-    box-shadow:0 0 0 3px rgba(22,217,139,.06);
+    border-color:
+        rgba(22,217,139,.65);
+
+    box-shadow:
+        0 0 0 3px
+        rgba(22,217,139,.09);
 }
 
 .password-toggle{
     position:absolute;
+
     right:8px;
     top:50%;
+
     transform:translateY(-50%);
+
     height:32px;
+
     padding:0 9px;
+
     border:0;
+
     border-radius:8px;
+
     background:transparent;
+
     color:var(--muted);
+
     font-size:10px;
     font-weight:800;
 }
 
 .password-toggle:hover{
-    color:var(--green);
+    color:var(--green-dark);
+
+    background:
+        rgba(22,217,139,.06);
 }
 
 .form-options{
     display:flex;
+
     justify-content:space-between;
+
     align-items:center;
+
     margin:3px 0 18px;
 }
 
 .remember{
     display:flex;
     align-items:center;
+
     gap:7px;
+
     color:var(--muted);
+
     font-size:11px;
 }
 
 .remember input{
-    accent-color:var(--green);
+    accent-color:var(--green-dark);
 }
 
 .forgot{
     border:0;
+
     background:none;
-    color:var(--green);
+
+    color:var(--green-dark);
+
     font-size:11px;
     font-weight:800;
+}
+
+.forgot:hover{
+    text-decoration:underline;
 }
 
 .login-btn{
     width:100%;
     height:47px;
+
     border:0;
+
     border-radius:11px;
-    background:linear-gradient(135deg,var(--green),#12bd77);
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--green),
+            #12bd77
+        );
+
     color:#06100d;
+
     font-size:12px;
     font-weight:950;
+
     transition:.25s ease;
 }
 
 .login-btn:hover{
     transform:translateY(-2px);
-    box-shadow:0 12px 30px rgba(22,217,139,.2);
+
+    box-shadow:
+        0 12px 30px
+        rgba(22,217,139,.20);
 }
 
 .login-btn:active,
@@ -343,104 +495,191 @@ label{
 
 .login-btn.loading{
     pointer-events:none;
+
     opacity:.75;
 }
 
 .register{
     margin-top:20px;
+
     text-align:center;
+
     color:var(--muted);
+
     font-size:12px;
 }
 
 .register a{
-    color:var(--green);
+    color:var(--green-dark);
+
     font-weight:900;
+
     text-decoration:none;
+}
+
+.register a:hover{
+    text-decoration:underline;
 }
 
 .security-note{
     display:flex;
+
     gap:9px;
+
     margin-top:17px;
+
     padding:12px;
-    border:1px solid rgba(22,217,139,.09);
+
+    border:1px solid
+        rgba(22,217,139,.20);
+
     border-radius:11px;
-    background:rgba(22,217,139,.035);
+
+    background:
+        rgba(22,217,139,.045);
+
     color:var(--muted);
+
     font-size:10px;
+
     line-height:1.6;
 }
 
 .security-icon{
-    color:var(--green);
+    color:var(--green-dark);
+
     font-size:15px;
 }
 
 .error{
     display:none;
+
     margin-bottom:15px;
+
     padding:11px 12px;
-    border:1px solid rgba(255,95,109,.2);
+
+    border:1px solid
+        rgba(229,72,85,.22);
+
     border-radius:10px;
-    background:rgba(255,95,109,.06);
-    color:#ff8992;
+
+    background:
+        rgba(229,72,85,.055);
+
+    color:#c93442;
+
     font-size:11px;
+
     line-height:1.5;
 }
 
 .error.show{
     display:block;
+
     animation:shake .3s ease;
 }
 
 .toast{
     position:fixed;
+
     left:50%;
     bottom:25px;
+
     z-index:100;
-    transform:translate(-50%,20px);
+
+    transform:
+        translate(-50%,20px);
+
     opacity:0;
+
     pointer-events:none;
+
     padding:12px 17px;
-    border:1px solid rgba(22,217,139,.18);
+
+    border:1px solid
+        rgba(22,217,139,.30);
+
     border-radius:11px;
-    background:#10221c;
+
+    background:#ffffff;
+
     color:var(--text);
-    box-shadow:0 15px 40px rgba(0,0,0,.35);
+
+    box-shadow:
+        0 15px 40px
+        rgba(15,23,42,.14);
+
     font-size:12px;
     font-weight:700;
+
     transition:.3s ease;
 }
 
 .toast.show{
     opacity:1;
-    transform:translate(-50%,0);
+
+    transform:
+        translate(-50%,0);
 }
 
 footer{
     padding:22px;
+
     border-top:1px solid var(--border);
+
     color:var(--muted);
+
     text-align:center;
+
     font-size:10px;
+
+    background:#ffffff;
+}
+
+footer a{
+    color:var(--green-dark);
+
+    font-weight:800;
+
+    text-decoration:none;
+}
+
+footer a:hover{
+    text-decoration:underline;
 }
 
 @keyframes rise{
+
     from{
         opacity:0;
-        transform:translateY(22px);
+
+        transform:
+            translateY(22px);
     }
+
     to{
         opacity:1;
-        transform:translateY(0);
+
+        transform:
+            translateY(0);
     }
+
 }
 
 @keyframes shake{
-    0%,100%{transform:translateX(0)}
-    25%{transform:translateX(-5px)}
-    75%{transform:translateX(5px)}
+
+    0%,100%{
+        transform:translateX(0);
+    }
+
+    25%{
+        transform:translateX(-5px);
+    }
+
+    75%{
+        transform:translateX(5px);
+    }
+
 }
 
 @media(max-width:500px){
@@ -455,6 +694,7 @@ footer{
 
     .auth-card{
         padding:22px 17px;
+
         border-radius:18px;
     }
 
@@ -465,6 +705,7 @@ footer{
     .back{
         font-size:11px;
     }
+
 }
 </style>
 </head>
@@ -472,11 +713,19 @@ footer{
 <body>
 
 <header class="header">
+
     <div class="header-inner">
 
         <a href="index.html" class="logo">
-            <span class="logo-mark">S</span>
-            <span>SportX</span>
+
+            <span class="logo-mark">
+                S
+            </span>
+
+            <span>
+                SportX
+            </span>
+
         </a>
 
         <a href="index.html" class="back">
@@ -484,7 +733,9 @@ footer{
         </a>
 
     </div>
+
 </header>
+
 
 <main class="main">
 
@@ -493,11 +744,16 @@ footer{
         <div class="brand">
 
             <div class="badge">
+
                 <span class="badge-dot"></span>
+
                 SPORTX ACCOUNT
+
             </div>
 
-            <h1>Welcome Back</h1>
+            <h1>
+                Welcome Back
+            </h1>
 
             <p>
                 Sign in to continue your SportX experience.
@@ -505,15 +761,23 @@ footer{
 
         </div>
 
+
         <section class="auth-card">
 
-            <h2>Sign in</h2>
+            <h2>
+                Sign in
+            </h2>
 
             <p class="subtitle">
                 Use your email or continue with a connected account.
             </p>
 
-            <div class="error" id="errorBox"></div>
+
+            <div
+                class="error"
+                id="errorBox"
+            ></div>
+
 
             <div class="social-buttons">
 
@@ -522,24 +786,37 @@ footer{
                     class="social-btn google"
                     id="googleBtn"
                 >
-                    <span class="social-icon">G</span>
+
+                    <span class="social-icon">
+                        G
+                    </span>
+
                     Continue with Google
+
                 </button>
+
 
                 <button
                     type="button"
                     class="social-btn facebook"
                     id="facebookBtn"
                 >
-                    <span class="social-icon">f</span>
+
+                    <span class="social-icon">
+                        f
+                    </span>
+
                     Continue with Facebook
+
                 </button>
 
             </div>
 
+
             <div class="divider">
                 OR CONTINUE WITH EMAIL
             </div>
+
 
             <form id="loginForm">
 
@@ -564,6 +841,7 @@ footer{
 
                 </div>
 
+
                 <div class="form-group">
 
                     <label for="password">
@@ -582,6 +860,7 @@ footer{
                             required
                         >
 
+
                         <button
                             type="button"
                             class="password-toggle"
@@ -594,15 +873,20 @@ footer{
 
                 </div>
 
+
                 <div class="form-options">
 
                     <label class="remember">
+
                         <input
                             type="checkbox"
                             id="remember"
                         >
+
                         Remember me
+
                     </label>
+
 
                     <button
                         type="button"
@@ -614,6 +898,7 @@ footer{
 
                 </div>
 
+
                 <button
                     type="submit"
                     class="login-btn"
@@ -624,14 +909,23 @@ footer{
 
             </form>
 
+
             <div class="register">
+
                 Don't have an account?
-                <a href="register.html">Create Account</a>
+
+                <a href="register.html">
+                    Create Account
+                </a>
+
             </div>
+
 
             <div class="security-note">
 
-                <span class="security-icon">◆</span>
+                <span class="security-icon">
+                    ◆
+                </span>
 
                 <span>
                     Your account will be protected by secure
@@ -647,11 +941,19 @@ footer{
 
 </main>
 
+
 <footer>
-    © 2026 SportX. Virtual sports prediction simulator.
+
+    © 2026 SportX.
+    Virtual sports prediction simulator.
+
 </footer>
 
-<div class="toast" id="toast"></div>
+
+<div
+    class="toast"
+    id="toast"
+></div>
 
 
 <script>
@@ -694,46 +996,72 @@ const toast =
 
 /* Remove ONLY the old fake demo session */
 
-localStorage.removeItem("sportx_demo_user");
+localStorage.removeItem(
+    "sportx_demo_user"
+);
 
 
 /* PASSWORD VISIBILITY */
 
 document
 .getElementById("passwordToggle")
-.addEventListener("click", () => {
+.addEventListener(
+    "click",
+    () => {
 
-    const button =
-        document.getElementById("passwordToggle");
+        const button =
+            document.getElementById(
+                "passwordToggle"
+            );
 
-    if(passwordInput.type === "password"){
 
-        passwordInput.type = "text";
-        button.textContent = "Hide";
+        if(
+            passwordInput.type ===
+            "password"
+        ){
 
-    }else{
+            passwordInput.type =
+                "text";
 
-        passwordInput.type = "password";
-        button.textContent = "Show";
+            button.textContent =
+                "Hide";
+
+        }
+        else{
+
+            passwordInput.type =
+                "password";
+
+            button.textContent =
+                "Show";
+
+        }
 
     }
-
-});
+);
 
 
 /* ERROR */
 
 function showError(message){
 
-    errorBox.textContent = message;
-    errorBox.classList.add("show");
+    errorBox.textContent =
+        message;
+
+    errorBox.classList.add(
+        "show"
+    );
 
 }
 
 function hideError(){
 
-    errorBox.textContent = "";
-    errorBox.classList.remove("show");
+    errorBox.textContent =
+        "";
+
+    errorBox.classList.remove(
+        "show"
+    );
 
 }
 
@@ -742,358 +1070,437 @@ function hideError(){
 
 function showToast(message){
 
-    toast.textContent = message;
-    toast.classList.add("show");
+    toast.textContent =
+        message;
 
-    clearTimeout(window.toastTimer);
+    toast.classList.add(
+        "show"
+    );
+
+
+    clearTimeout(
+        window.toastTimer
+    );
+
 
     window.toastTimer =
-        setTimeout(() => {
+        setTimeout(
+            () => {
 
-            toast.classList.remove("show");
+                toast.classList.remove(
+                    "show"
+                );
 
-        },3000);
+            },
+            3000
+        );
 
 }
 
 
 /* EMAIL LOGIN */
 
-loginForm.addEventListener("submit", async event => {
+loginForm.addEventListener(
+    "submit",
+    async event => {
 
-    event.preventDefault();
+        event.preventDefault();
 
-    hideError();
-
-    const email =
-        emailInput.value.trim().toLowerCase();
-
-    const password =
-        passwordInput.value;
+        hideError();
 
 
-    if(!email){
+        const email =
+            emailInput.value
+                .trim()
+                .toLowerCase();
 
-        showError(
-            "Please enter your email address."
+
+        const password =
+            passwordInput.value;
+
+
+        if(!email){
+
+            showError(
+                "Please enter your email address."
+            );
+
+            emailInput.focus();
+
+            return;
+
+        }
+
+
+        if(!password){
+
+            showError(
+                "Please enter your password."
+            );
+
+            passwordInput.focus();
+
+            return;
+
+        }
+
+
+        if(password.length < 8){
+
+            showError(
+                "Your password must contain at least 8 characters."
+            );
+
+            passwordInput.focus();
+
+            return;
+
+        }
+
+
+        loginBtn.classList.add(
+            "loading"
         );
 
-        emailInput.focus();
-        return;
-
-    }
+        loginBtn.textContent =
+            "Signing In...";
 
 
-    if(!password){
+        try{
 
-        showError(
-            "Please enter your password."
-        );
+            /*
+                REAL SUPABASE LOGIN
 
-        passwordInput.focus();
-        return;
+                No localStorage fake account.
+                Supabase verifies the email/password.
+            */
 
-    }
+            const {
+                data,
+                error
+            } =
+                await supabaseClient.auth
+                .signInWithPassword({
 
+                    email:email,
 
-    if(password.length < 8){
+                    password:password
 
-        showError(
-            "Your password must contain at least 8 characters."
-        );
-
-        passwordInput.focus();
-        return;
-
-    }
-
-
-    loginBtn.classList.add("loading");
-    loginBtn.textContent = "Signing In...";
+                });
 
 
-    try{
+            if(error){
 
-        /*
-            REAL SUPABASE LOGIN
-
-            No localStorage fake account.
-            Supabase verifies the email/password.
-        */
-
-        const {
-            data,
-            error
-        } =
-            await supabaseClient.auth.signInWithPassword({
-                email:email,
-                password:password
-            });
+                const message =
+                    String(
+                        error.message || ""
+                    ).toLowerCase();
 
 
-        if(error){
+                if(
+                    message.includes(
+                        "invalid login credentials"
+                    ) ||
+                    message.includes(
+                        "invalid credentials"
+                    )
+                ){
 
-            const message =
-                String(error.message || "").toLowerCase();
+                    showError(
+                        "Account does not exist, or the email/password is incorrect."
+                    );
+
+                }
+                else if(
+                    message.includes(
+                        "email not confirmed"
+                    )
+                ){
+
+                    showError(
+                        "Please verify your email address before signing in."
+                    );
+
+                }
+                else{
+
+                    showError(
+                        error.message ||
+                        "Unable to sign in. Please try again."
+                    );
+
+                }
+
+                return;
+
+            }
 
 
             /*
-                Supabase intentionally does not expose
-                whether an email exists in order to reduce
-                account enumeration.
-
-                Therefore we show a clear but safe message.
+                A successful password login
+                must return a real Supabase session.
             */
 
             if(
-                message.includes("invalid login credentials") ||
-                message.includes("invalid credentials")
+                !data ||
+                !data.session ||
+                !data.user
             ){
 
                 showError(
-                    "Account does not exist, or the email/password is incorrect."
+                    "Login could not be completed. Please try again."
                 );
 
-            }
-            else if(
-                message.includes("email not confirmed")
-            ){
-
-                showError(
-                    "Please verify your email address before signing in."
-                );
-
-            }
-            else{
-
-                showError(
-                    error.message ||
-                    "Unable to sign in. Please try again."
-                );
+                return;
 
             }
 
-            return;
+
+            showToast(
+                "Login successful. Welcome to SportX!"
+            );
+
+
+            setTimeout(
+                () => {
+
+                    window.location.replace(
+                        "index.html"
+                    );
+
+                },
+                700
+            );
+
+
         }
+        catch(error){
 
+            console.error(
+                "SportX login error:",
+                error
+            );
 
-        /*
-            A successful password login must return
-            a real Supabase session.
-        */
-
-        if(
-            !data ||
-            !data.session ||
-            !data.user
-        ){
 
             showError(
-                "Login could not be completed. Please try again."
+                "A connection error occurred. Please try again."
             );
 
-            return;
+        }
+        finally{
+
+            loginBtn.classList.remove(
+                "loading"
+            );
+
+            loginBtn.textContent =
+                "Sign In";
+
         }
 
-
-        showToast(
-            "Login successful. Welcome to SportX!"
-        );
-
-
-        setTimeout(() => {
-
-            window.location.replace(
-                "index.html"
-            );
-
-        },700);
-
-
-    }catch(error){
-
-        console.error(
-            "SportX login error:",
-            error
-        );
-
-        showError(
-            "A connection error occurred. Please try again."
-        );
-
-    }finally{
-
-        loginBtn.classList.remove("loading");
-
-        loginBtn.textContent = "Sign In";
-
     }
-
-});
+);
 
 
 /* GOOGLE */
 
 document
 .getElementById("googleBtn")
-.addEventListener("click", async () => {
+.addEventListener(
+    "click",
+    async () => {
 
-    hideError();
-
-    try{
-
-        const {
-            error
-        } =
-            await supabaseClient.auth.signInWithOAuth({
-
-                provider:"google",
-
-                options:{
-                    redirectTo:
-                        window.location.origin +
-                        window.location.pathname
-                            .replace("login.html","") +
-                        "index.html"
-                }
-
-            });
+        hideError();
 
 
-        if(error){
+        try{
+
+            const {
+                error
+            } =
+                await supabaseClient.auth
+                .signInWithOAuth({
+
+                    provider:"google",
+
+                    options:{
+
+                        redirectTo:
+                            window.location.origin +
+                            window.location.pathname
+                                .replace(
+                                    "login.html",
+                                    ""
+                                ) +
+                            "index.html"
+
+                    }
+
+                });
+
+
+            if(error){
+
+                showError(
+                    error.message ||
+                    "Google sign-in is currently unavailable."
+                );
+
+            }
+
+        }
+        catch(error){
 
             showError(
-                error.message ||
                 "Google sign-in is currently unavailable."
             );
 
         }
 
-    }catch(error){
-
-        showError(
-            "Google sign-in is currently unavailable."
-        );
-
     }
-
-});
+);
 
 
 /* FACEBOOK */
 
 document
 .getElementById("facebookBtn")
-.addEventListener("click", async () => {
+.addEventListener(
+    "click",
+    async () => {
 
-    hideError();
-
-    try{
-
-        const {
-            error
-        } =
-            await supabaseClient.auth.signInWithOAuth({
-
-                provider:"facebook",
-
-                options:{
-                    redirectTo:
-                        window.location.origin +
-                        window.location.pathname
-                            .replace("login.html","") +
-                        "index.html"
-                }
-
-            });
+        hideError();
 
 
-        if(error){
+        try{
+
+            const {
+                error
+            } =
+                await supabaseClient.auth
+                .signInWithOAuth({
+
+                    provider:"facebook",
+
+                    options:{
+
+                        redirectTo:
+                            window.location.origin +
+                            window.location.pathname
+                                .replace(
+                                    "login.html",
+                                    ""
+                                ) +
+                            "index.html"
+
+                    }
+
+                });
+
+
+            if(error){
+
+                showError(
+                    error.message ||
+                    "Facebook sign-in is currently unavailable."
+                );
+
+            }
+
+        }
+        catch(error){
 
             showError(
-                error.message ||
                 "Facebook sign-in is currently unavailable."
             );
 
         }
 
-    }catch(error){
-
-        showError(
-            "Facebook sign-in is currently unavailable."
-        );
-
     }
-
-});
+);
 
 
 /* FORGOT PASSWORD */
 
 document
 .getElementById("forgotBtn")
-.addEventListener("click", async () => {
+.addEventListener(
+    "click",
+    async () => {
 
-    hideError();
-
-    const email =
-        emailInput.value.trim().toLowerCase();
-
-
-    if(!email){
-
-        showError(
-            "Enter your email address first."
-        );
-
-        emailInput.focus();
-
-        return;
-    }
+        hideError();
 
 
-    try{
-
-        const {
-            error
-        } =
-            await supabaseClient.auth.resetPasswordForEmail(
-                email,
-                {
-                    redirectTo:
-                        window.location.origin +
-                        window.location.pathname
-                            .replace("login.html","") +
-                        "reset-password.html"
-                }
-            );
+        const email =
+            emailInput.value
+                .trim()
+                .toLowerCase();
 
 
-        if(error){
+        if(!email){
 
             showError(
-                error.message ||
-                "Unable to send the password reset email."
+                "Enter your email address first."
             );
 
+            emailInput.focus();
+
             return;
+
         }
 
 
-        showToast(
-            "Password reset instructions have been sent to your email."
-        );
+        try{
+
+            const {
+                error
+            } =
+                await supabaseClient.auth
+                .resetPasswordForEmail(
+                    email,
+                    {
+
+                        redirectTo:
+                            window.location.origin +
+                            window.location.pathname
+                                .replace(
+                                    "login.html",
+                                    ""
+                                ) +
+                            "reset-password.html"
+
+                    }
+                );
 
 
-    }catch(error){
+            if(error){
 
-        showError(
-            "Unable to send the password reset email."
-        );
+                showError(
+                    error.message ||
+                    "Unable to send the password reset email."
+                );
+
+                return;
+
+            }
+
+
+            showToast(
+                "Password reset instructions have been sent to your email."
+            );
+
+
+        }
+        catch(error){
+
+            showError(
+                "Unable to send the password reset email."
+            );
+
+        }
 
     }
-
-});
+);
 
 
 /* ALREADY AUTHENTICATED */
@@ -1105,7 +1512,8 @@ document
         const {
             data
         } =
-            await supabaseClient.auth.getSession();
+            await supabaseClient.auth
+            .getSession();
 
 
         if(
@@ -1120,7 +1528,8 @@ document
 
         }
 
-    }catch(error){
+    }
+    catch(error){
 
         console.error(
             "Session check error:",
