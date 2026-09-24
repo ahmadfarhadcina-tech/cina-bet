@@ -43,14 +43,23 @@ html{
 body{
     font-family:Inter,Arial,sans-serif;
     background:
-        radial-gradient(circle at 15% 0%,rgba(22,185,120,.055),transparent 28%),
-        radial-gradient(circle at 90% 15%,rgba(22,185,120,.035),transparent 25%),
+        radial-gradient(
+            circle at 15% 0%,
+            rgba(22,185,120,.055),
+            transparent 28%
+        ),
+        radial-gradient(
+            circle at 90% 15%,
+            rgba(22,185,120,.035),
+            transparent 25%
+        ),
         var(--bg);
     color:var(--text);
     min-height:100vh;
 }
 
-button,input{
+button,
+input{
     font:inherit;
 }
 
@@ -63,21 +72,29 @@ a{
     text-decoration:none;
 }
 
-/* HEADER */
+/* =========================
+   HEADER
+========================= */
 
 .header{
     position:sticky;
     top:0;
     z-index:100;
     height:72px;
+
     display:flex;
     align-items:center;
     justify-content:space-between;
+
     padding:0 5%;
+
     background:rgba(255,255,255,.94);
     backdrop-filter:blur(18px);
+
     border-bottom:1px solid var(--border);
-    box-shadow:0 4px 18px rgba(20,32,28,.035);
+
+    box-shadow:
+        0 4px 18px rgba(20,32,28,.035);
 }
 
 .logo{
@@ -119,17 +136,23 @@ a{
     display:inline-flex;
     align-items:center;
     justify-content:center;
+
     padding:10px 17px;
+
     border-radius:11px;
+
     background:var(--green);
     color:#fff;
+
     font-weight:900;
+
     transition:.25s ease;
 }
 
 .login-btn:hover{
     transform:translateY(-2px);
-    box-shadow:0 10px 25px rgba(22,185,120,.18);
+    box-shadow:
+        0 10px 25px rgba(22,185,120,.18);
 }
 
 .user-account{
@@ -141,11 +164,21 @@ a{
 .user-avatar{
     width:38px;
     height:38px;
+
     display:grid;
     place-items:center;
+
     border-radius:11px;
-    background:linear-gradient(135deg,var(--green),#65e8b0);
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--green),
+            #65e8b0
+        );
+
     color:#063322;
+
     font-size:12px;
     font-weight:950;
 }
@@ -173,10 +206,14 @@ a{
     border:1px solid var(--border);
     background:var(--panel-2);
     color:var(--muted);
+
     padding:9px 12px;
+
     border-radius:10px;
+
     font-size:10px;
     font-weight:800;
+
     transition:.25s ease;
 }
 
@@ -186,7 +223,9 @@ a{
     background:rgba(229,72,85,.05);
 }
 
-/* PAGE */
+/* =========================
+   PAGE
+========================= */
 
 .container{
     width:min(1180px,90%);
@@ -200,11 +239,16 @@ a{
 
 .page-head .badge{
     display:inline-flex;
+
     padding:7px 12px;
+
     border-radius:30px;
+
     background:rgba(22,185,120,.08);
     color:var(--green-dark);
+
     border:1px solid rgba(22,185,120,.18);
+
     font-size:12px;
     font-weight:800;
     letter-spacing:.8px;
@@ -223,7 +267,9 @@ a{
     line-height:1.7;
 }
 
-/* SEARCH */
+/* =========================
+   SEARCH
+========================= */
 
 .search-box{
     margin-bottom:25px;
@@ -233,14 +279,23 @@ a{
 .search-box input{
     width:100%;
     height:54px;
-    padding:0 48px 0 18px;
+
+    padding:
+        0 48px 0 18px;
+
     border-radius:15px;
+
     border:1px solid var(--border-strong);
+
     background:#fff;
     color:var(--text);
+
     outline:none;
+
     transition:.25s ease;
-    box-shadow:0 3px 12px rgba(20,32,28,.025);
+
+    box-shadow:
+        0 3px 12px rgba(20,32,28,.025);
 }
 
 .search-box input::placeholder{
@@ -249,24 +304,34 @@ a{
 
 .search-box input:focus{
     border-color:rgba(22,185,120,.55);
-    box-shadow:0 0 0 4px rgba(22,185,120,.07);
+
+    box-shadow:
+        0 0 0 4px rgba(22,185,120,.07);
 }
 
 .search-icon{
     position:absolute;
     right:17px;
     top:16px;
+
     color:var(--muted);
+
     pointer-events:none;
 }
 
-/* FILTER */
+/* =========================
+   FILTER
+========================= */
 
 .sports-filter{
     display:flex;
     gap:10px;
+
     overflow-x:auto;
-    padding:3px 2px 18px;
+
+    padding:
+        3px 2px 18px;
+
     scrollbar-width:none;
 }
 
@@ -276,35 +341,52 @@ a{
 
 .sport-filter{
     flex:0 0 auto;
+
     border:1px solid var(--border-strong);
+
     background:#fff;
     color:var(--muted);
+
     padding:11px 17px;
+
     border-radius:12px;
+
     transition:.25s ease;
 }
 
 .sport-filter:hover{
     transform:translateY(-2px);
+
     color:var(--text);
-    border-color:rgba(22,185,120,.4);
+
+    border-color:
+        rgba(22,185,120,.4);
+
     background:#fbfefd;
 }
 
 .sport-filter.active{
     color:#fff;
+
     background:var(--green);
+
     border-color:var(--green);
+
     font-weight:900;
-    box-shadow:0 6px 18px rgba(22,185,120,.16);
+
+    box-shadow:
+        0 6px 18px rgba(22,185,120,.16);
 }
 
-/* SECTION */
+/* =========================
+   SECTION
+========================= */
 
 .section-title{
     display:flex;
     justify-content:space-between;
     align-items:center;
+
     margin:20px 0 15px;
 }
 
@@ -317,31 +399,46 @@ a{
     font-size:13px;
 }
 
-/* LOADING */
+/* =========================
+   LOADING
+========================= */
 
 .loading{
     display:flex;
     justify-content:center;
     align-items:center;
+
     gap:12px;
+
     padding:55px 20px;
+
     color:var(--muted);
+
     background:#fff;
+
     border:1px solid var(--border-strong);
+
     border-radius:18px;
+
     box-shadow:var(--shadow);
 }
 
 .spinner{
     width:22px;
     height:22px;
+
     border:3px solid #e7ecea;
+
     border-top-color:var(--green);
+
     border-radius:50%;
+
     animation:spin .8s linear infinite;
 }
 
-/* MATCHES */
+/* =========================
+   MATCHES
+========================= */
 
 .matches{
     display:grid;
@@ -350,17 +447,27 @@ a{
 
 .match-card{
     background:#fff;
+
     border:1px solid var(--border-strong);
+
     border-radius:18px;
+
     padding:19px;
+
     transition:.3s ease;
+
     animation:rise .4s ease both;
-    box-shadow:0 5px 18px rgba(20,32,28,.045);
+
+    box-shadow:
+        0 5px 18px rgba(20,32,28,.045);
 }
 
 .match-card:hover{
     transform:translateY(-3px);
-    border-color:rgba(22,185,120,.38);
+
+    border-color:
+        rgba(22,185,120,.38);
+
     box-shadow:var(--shadow-hover);
 }
 
@@ -368,27 +475,35 @@ a{
     display:flex;
     align-items:center;
     justify-content:space-between;
+
     margin-bottom:18px;
 }
 
 .league-wrap{
     display:flex;
     align-items:center;
+
     gap:8px;
+
     min-width:0;
 }
 
 .league-logo{
     width:24px;
     height:24px;
+
     flex:0 0 24px;
+
     object-fit:contain;
+
     border-radius:6px;
 }
 
 .league{
     color:var(--muted);
+
     font-size:13px;
+
     overflow:hidden;
     text-overflow:ellipsis;
     white-space:nowrap;
@@ -396,17 +511,24 @@ a{
 
 .status{
     flex:0 0 auto;
+
     font-size:11px;
+
     padding:6px 9px;
+
     border-radius:20px;
+
     background:rgba(200,148,24,.09);
+
     color:var(--gold);
+
     font-weight:800;
 }
 
 .status.live{
     background:rgba(229,72,85,.09);
     color:#d93645;
+
     animation:pulse 1.5s infinite;
 }
 
@@ -427,16 +549,23 @@ a{
 
 .match-main{
     display:grid;
-    grid-template-columns:1fr auto 1fr;
+
+    grid-template-columns:
+        1fr auto 1fr;
+
     align-items:center;
+
     gap:20px;
 }
 
 .team{
     display:flex;
     align-items:center;
+
     gap:12px;
+
     font-weight:800;
+
     min-width:0;
 }
 
@@ -447,25 +576,34 @@ a{
 
 .team-name{
     overflow:hidden;
+
     text-overflow:ellipsis;
 }
 
 .team-logo{
     width:48px;
     height:48px;
+
     flex:0 0 48px;
+
     display:grid;
     place-items:center;
+
     background:#f5f8f7;
+
     border:1px solid var(--border-strong);
+
     border-radius:13px;
+
     overflow:hidden;
 }
 
 .team-logo img{
     width:100%;
     height:100%;
+
     object-fit:contain;
+
     padding:5px;
 }
 
@@ -475,11 +613,13 @@ a{
 
 .match-time{
     text-align:center;
+
     min-width:80px;
 }
 
 .match-time strong{
     display:block;
+
     font-size:18px;
 }
 
@@ -498,15 +638,19 @@ a{
     display:flex;
     justify-content:space-between;
     align-items:center;
+
     margin-top:18px;
     padding-top:14px;
+
     border-top:1px solid var(--border);
 }
 
 .details-btn{
     color:var(--green-dark);
+
     font-size:13px;
     font-weight:800;
+
     background:none;
     border:0;
 }
@@ -520,16 +664,25 @@ a{
     font-size:12px;
 }
 
-/* EMPTY */
+/* =========================
+   EMPTY
+========================= */
 
 .empty{
     display:none;
+
     text-align:center;
+
     padding:60px 20px;
+
     background:#fff;
+
     border:1px solid var(--border-strong);
+
     border-radius:18px;
+
     color:var(--muted);
+
     box-shadow:var(--shadow);
 }
 
@@ -538,39 +691,57 @@ a{
     margin-bottom:12px;
 }
 
-/* MODAL */
+/* =========================
+   MODAL
+========================= */
 
 .modal{
     position:fixed;
     inset:0;
+
     z-index:500;
+
     display:none;
+
     align-items:center;
     justify-content:center;
+
     padding:20px;
+
     background:rgba(15,25,21,.45);
+
     backdrop-filter:blur(10px);
 }
 
 .modal.show{
     display:flex;
+
     animation:fadeIn .2s ease;
 }
 
 .modal-box{
     width:min(520px,100%);
+
     background:#fff;
+
     border:1px solid var(--border-strong);
+
     border-radius:22px;
+
     padding:25px;
-    box-shadow:0 30px 90px rgba(20,32,28,.20);
+
+    box-shadow:
+        0 30px 90px rgba(20,32,28,.20);
+
     animation:modalIn .3s ease;
 }
 
 .modal-head{
     display:flex;
+
     align-items:center;
     justify-content:space-between;
+
     margin-bottom:22px;
 }
 
@@ -581,15 +752,21 @@ a{
 .close{
     width:38px;
     height:38px;
+
     border:1px solid var(--border);
+
     background:var(--panel-2);
+
     color:var(--text);
+
     border-radius:11px;
+
     font-size:20px;
 }
 
 .modal-match{
     text-align:center;
+
     padding:20px 0;
 }
 
@@ -600,27 +777,38 @@ a{
 
 .modal-vs{
     color:var(--muted);
+
     margin:9px 0;
 }
 
 .modal-info{
     display:grid;
-    grid-template-columns:1fr 1fr;
+
+    grid-template-columns:
+        1fr 1fr;
+
     gap:10px;
+
     margin-top:20px;
 }
 
 .info-box{
     background:#f7f9f8;
+
     border:1px solid var(--border);
+
     border-radius:13px;
+
     padding:13px;
 }
 
 .info-box span{
     display:block;
+
     color:var(--muted);
+
     font-size:11px;
+
     margin-bottom:5px;
 }
 
@@ -628,39 +816,67 @@ a{
     font-size:14px;
 }
 
-/* TOAST */
+/* =========================
+   TOAST
+========================= */
 
 .toast{
     position:fixed;
+
     left:50%;
     bottom:25px;
-    transform:translate(-50%,30px);
+
+    transform:
+        translate(-50%,30px);
+
     background:#fff;
-    border:1px solid rgba(22,185,120,.28);
+
+    border:1px solid
+        rgba(22,185,120,.28);
+
     color:var(--text);
+
     padding:13px 18px;
+
     border-radius:13px;
+
     opacity:0;
+
     pointer-events:none;
+
     transition:.3s ease;
+
     z-index:900;
-    box-shadow:0 12px 35px rgba(20,32,28,.14);
+
+    box-shadow:
+        0 12px 35px rgba(20,32,28,.14);
 }
 
 .toast.show{
     opacity:1;
-    transform:translate(-50%,0);
+
+    transform:
+        translate(-50%,0);
 }
 
-/* FOOTER */
+/* =========================
+   FOOTER
+========================= */
 
 .footer{
     margin-top:70px;
+
     padding:30px 5%;
-    border-top:1px solid var(--border-strong);
+
+    border-top:
+        1px solid var(--border-strong);
+
     color:var(--muted);
+
     text-align:center;
+
     font-size:13px;
+
     background:#fff;
 }
 
@@ -669,45 +885,77 @@ a{
     font-weight:800;
 }
 
-/* ANIMATIONS */
+/* =========================
+   ANIMATIONS
+========================= */
 
 @keyframes rise{
+
     from{
         opacity:0;
         transform:translateY(15px);
     }
+
     to{
         opacity:1;
         transform:translateY(0);
     }
+
 }
 
 @keyframes fadeIn{
-    from{opacity:0}
-    to{opacity:1}
+
+    from{
+        opacity:0;
+    }
+
+    to{
+        opacity:1;
+    }
+
 }
 
 @keyframes modalIn{
+
     from{
         opacity:0;
-        transform:translateY(20px) scale(.97);
+        transform:
+            translateY(20px)
+            scale(.97);
     }
+
     to{
         opacity:1;
-        transform:translateY(0) scale(1);
+        transform:
+            translateY(0)
+            scale(1);
     }
+
 }
 
 @keyframes spin{
-    to{transform:rotate(360deg)}
+
+    to{
+        transform:rotate(360deg);
+    }
+
 }
 
 @keyframes pulse{
-    0%,100%{opacity:1}
-    50%{opacity:.55}
+
+    0%,100%{
+        opacity:1;
+    }
+
+    50%{
+        opacity:.55;
+    }
+
 }
 
-/* RESPONSIVE */
+/* =========================
+   RESPONSIVE
+========================= */
 
 @media(max-width:900px){
 
@@ -718,6 +966,7 @@ a{
     .header{
         padding:0 4%;
     }
+
 }
 
 @media(max-width:600px){
@@ -744,7 +993,9 @@ a{
 
     .team{
         flex-direction:column;
+
         text-align:center;
+
         font-size:12px;
     }
 
@@ -755,6 +1006,7 @@ a{
     .team-logo{
         width:40px;
         height:40px;
+
         flex-basis:40px;
     }
 
@@ -769,8 +1021,10 @@ a{
     .league-logo{
         width:21px;
         height:21px;
+
         flex-basis:21px;
     }
+
 }
 
 @media(max-width:380px){
@@ -800,6 +1054,7 @@ a{
     .modal-box{
         padding:20px;
     }
+
 }
 </style>
 </head>
@@ -813,30 +1068,66 @@ a{
     </a>
 
     <nav class="nav">
-        <a href="index.html">Home</a>
-        <a href="sports.html" class="active">Sports</a>
-        <a href="live.html">Live</a>
-        <a href="bets.html">My Bets</a>
+
+        <a href="index.html">
+            Home
+        </a>
+
+        <a href="sports.html" class="active">
+            Sports
+        </a>
+
+        <a href="live.html">
+            Live
+        </a>
+
+        <a href="bets.html">
+            My Bets
+        </a>
+
     </nav>
 
     <div class="header-right">
 
         <div data-auth-guest>
-            <a href="login.html" class="login-btn">
+
+            <a
+                href="login.html"
+                class="login-btn"
+            >
                 Login
             </a>
+
         </div>
 
-        <div data-auth-user class="user-account" style="display:none;">
+
+        <div
+            data-auth-user
+            class="user-account"
+            style="display:none;"
+        >
 
             <div class="user-avatar">
-                <span data-user-initials>US</span>
+
+                <span data-user-initials>
+                    US
+                </span>
+
             </div>
 
+
             <div class="user-info">
-                <strong data-user-name>User</strong>
-                <span data-user-balance>AFN 1,000</span>
+
+                <strong data-user-name>
+                    User
+                </strong>
+
+                <span data-user-balance>
+                    AFN 1,000
+                </span>
+
             </div>
+
 
             <button
                 type="button"
@@ -861,7 +1152,9 @@ a{
             LIVE SPORTS DATA
         </span>
 
-        <h1>Sports</h1>
+        <h1>
+            Sports
+        </h1>
 
         <p>
             Explore real football matches, live scores, leagues and upcoming fixtures.
@@ -880,38 +1173,61 @@ a{
             spellcheck="false"
         >
 
-        <span class="search-icon">⌕</span>
+        <span class="search-icon">
+            ⌕
+        </span>
 
     </div>
 
 
     <div class="sports-filter">
 
-        <button class="sport-filter active" data-sport="all">
+        <button
+            class="sport-filter active"
+            data-sport="all"
+        >
             All Sports
         </button>
 
-        <button class="sport-filter" data-sport="football">
+        <button
+            class="sport-filter"
+            data-sport="football"
+        >
             ⚽ Football
         </button>
 
-        <button class="sport-filter" data-sport="basketball">
+        <button
+            class="sport-filter"
+            data-sport="basketball"
+        >
             🏀 Basketball
         </button>
 
-        <button class="sport-filter" data-sport="tennis">
+        <button
+            class="sport-filter"
+            data-sport="tennis"
+        >
             🎾 Tennis
         </button>
 
-        <button class="sport-filter" data-sport="cricket">
+        <button
+            class="sport-filter"
+            data-sport="cricket"
+        >
             🏏 Cricket
         </button>
 
-        <button class="sport-filter" data-sport="esports">
+        <button
+            class="sport-filter"
+            data-sport="esports"
+        >
             🎮 Esports
         </button>
 
-        <button class="sport-filter" data-sport="boxing">
+        <button
+            class="sport-filter"
+            data-sport="boxing"
+        >
             🥊 Boxing
         </button>
 
@@ -920,7 +1236,9 @@ a{
 
     <div class="section-title">
 
-        <h2>Matches</h2>
+        <h2>
+            Matches
+        </h2>
 
         <span id="matchCount">
             Loading...
@@ -929,25 +1247,38 @@ a{
     </div>
 
 
-    <div class="loading" id="loadingState">
+    <div
+        class="loading"
+        id="loadingState"
+    >
 
         <div class="spinner"></div>
 
-        <span>
+        <span id="loadingText">
             Loading live sports data...
         </span>
 
     </div>
 
 
-    <section class="matches" id="matches"></section>
+    <section
+        class="matches"
+        id="matches"
+    ></section>
 
 
-    <div class="empty" id="emptyState">
+    <div
+        class="empty"
+        id="emptyState"
+    >
 
-        <div class="empty-icon">🔎</div>
+        <div class="empty-icon">
+            🔎
+        </div>
 
-        <strong>No matches found</strong>
+        <strong>
+            No matches found
+        </strong>
 
         <p style="margin-top:8px">
             Try another sport or search term.
@@ -958,13 +1289,18 @@ a{
 </main>
 
 
-<div class="modal" id="matchModal">
+<div
+    class="modal"
+    id="matchModal"
+>
 
     <div class="modal-box">
 
         <div class="modal-head">
 
-            <h3>Match Details</h3>
+            <h3>
+                Match Details
+            </h3>
 
             <button
                 class="close"
@@ -976,9 +1312,13 @@ a{
 
         </div>
 
+
         <div class="modal-match">
 
-            <div class="modal-teams" id="modalTeams">
+            <div
+                class="modal-teams"
+                id="modalTeams"
+            >
                 -
             </div>
 
@@ -988,26 +1328,58 @@ a{
 
         </div>
 
+
         <div class="modal-info">
 
             <div class="info-box">
-                <span>League</span>
-                <strong id="modalLeague">-</strong>
+
+                <span>
+                    League
+                </span>
+
+                <strong id="modalLeague">
+                    -
+                </strong>
+
             </div>
 
-            <div class="info-box">
-                <span>Status</span>
-                <strong id="modalStatus">-</strong>
-            </div>
 
             <div class="info-box">
-                <span>Start Time</span>
-                <strong id="modalTime">-</strong>
+
+                <span>
+                    Status
+                </span>
+
+                <strong id="modalStatus">
+                    -
+                </strong>
+
             </div>
 
+
             <div class="info-box">
-                <span>Score</span>
-                <strong id="modalScore">-</strong>
+
+                <span>
+                    Start Time
+                </span>
+
+                <strong id="modalTime">
+                    -
+                </strong>
+
+            </div>
+
+
+            <div class="info-box">
+
+                <span>
+                    Score
+                </span>
+
+                <strong id="modalScore">
+                    -
+                </strong>
+
             </div>
 
         </div>
@@ -1017,7 +1389,10 @@ a{
 </div>
 
 
-<div class="toast" id="toast"></div>
+<div
+    class="toast"
+    id="toast"
+></div>
 
 
 <footer class="footer">
@@ -1069,6 +1444,9 @@ const matchesContainer =
 const loadingState =
     document.getElementById("loadingState");
 
+const loadingText =
+    document.getElementById("loadingText");
+
 const emptyState =
     document.getElementById("emptyState");
 
@@ -1079,7 +1457,9 @@ const matchCount =
     document.getElementById("matchCount");
 
 const filterButtons =
-    document.querySelectorAll(".sport-filter");
+    document.querySelectorAll(
+        ".sport-filter"
+    );
 
 
 let allMatches = [];
@@ -1108,326 +1488,862 @@ if(urlSport){
 
     if(target){
 
-        activeSport = urlSport;
+        activeSport =
+            urlSport;
 
         filterButtons.forEach(
-            btn => btn.classList.remove("active")
+            btn => {
+
+                btn.classList.remove(
+                    "active"
+                );
+
+            }
         );
 
-        target.classList.add("active");
+        target.classList.add(
+            "active"
+        );
+
     }
+
 }
 
 
 /* =========================================================
-   NORMALIZE SEARCH TEXT
-   Makes search fast + flexible.
+   NORMALIZE SEARCH
 ========================================================= */
 
-function normalizeSearchText(value){
+function normalizeSearchText(
+    value
+){
 
-    return String(value ?? "")
+    return String(
+        value ?? ""
+    )
         .toLowerCase()
         .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g,"")
-        .replace(/[’'`]/g,"")
-        .replace(/[-_/.,:;!?()[\]{}]+/g," ")
-        .replace(/\s+/g," ")
+        .replace(
+            /[\u0300-\u036f]/g,
+            ""
+        )
+        .replace(
+            /[’'`]/g,
+            ""
+        )
+        .replace(
+            /[-_/.,:;!?()[\]{}]+/g,
+            " "
+        )
+        .replace(
+            /\s+/g,
+            " "
+        )
         .trim();
 
 }
 
 
 /* =========================================================
-   BUILD SEARCH INDEX
+   PREPARE MATCH
 ========================================================= */
 
-function prepareMatch(match){
+function prepareMatch(
+    match
+){
 
     const home =
-        match.home_team?.name || "";
+        match.home_team?.name ||
+        "";
 
     const away =
-        match.away_team?.name || "";
+        match.away_team?.name ||
+        "";
 
     const league =
-        match.league?.name || "";
-
-    const combined =
-        normalizeSearchText(
-            `${home} ${away} ${league}`
-        );
+        match.league?.name ||
+        "";
 
     return {
+
         ...match,
+
         _search:{
-            home:normalizeSearchText(home),
-            away:normalizeSearchText(away),
-            league:normalizeSearchText(league),
-            combined
+
+            home:
+                normalizeSearchText(
+                    home
+                ),
+
+            away:
+                normalizeSearchText(
+                    away
+                ),
+
+            league:
+                normalizeSearchText(
+                    league
+                ),
+
+            combined:
+                normalizeSearchText(
+                    `${home} ${away} ${league}`
+                )
+
         }
+
     };
 
 }
 
 
 /* =========================================================
-   LOAD MATCHES
+   WORKER TIMEOUT
+========================================================= */
+
+async function invokeWorkerWithTimeout(
+    timeoutMs = 9000
+){
+
+    const workerPromise =
+        supabaseClient.functions.invoke(
+            "smooth-worker",
+            {
+                method:"GET"
+            }
+        );
+
+
+    const timeoutPromise =
+        new Promise(
+            (_,reject) => {
+
+                setTimeout(
+                    () => {
+
+                        reject(
+                            new Error(
+                                "Sports data service timed out."
+                            )
+                        );
+
+                    },
+                    timeoutMs
+                );
+
+            }
+        );
+
+
+    return Promise.race([
+        workerPromise,
+        timeoutPromise
+    ]);
+
+}
+
+
+/* =========================================================
+   CONVERT WORKER DATA
+========================================================= */
+
+function convertWorkerMatches(
+    sourceMatches
+){
+
+    if(
+        !Array.isArray(
+            sourceMatches
+        )
+    ){
+
+        return [];
+
+    }
+
+
+    return sourceMatches.map(
+        (item,index) => {
+
+            const homeName =
+                item.home ||
+                "Home Team";
+
+            const awayName =
+                item.away ||
+                "Away Team";
+
+            const competition =
+                item.competition ||
+                "Football";
+
+
+            return prepareMatch({
+
+                id:
+                    item.id ||
+                    item.match_id ||
+                    `sportscore-${index}-${Date.now()}`,
+
+                sport_id:
+                    null,
+
+                home_team:{
+
+                    id:
+                        item.home_team_id ||
+                        null,
+
+                    name:
+                        homeName,
+
+                    logo_url:
+                        item.home_logo ||
+                        null
+
+                },
+
+                away_team:{
+
+                    id:
+                        item.away_team_id ||
+                        null,
+
+                    name:
+                        awayName,
+
+                    logo_url:
+                        item.away_logo ||
+                        null
+
+                },
+
+                league:{
+
+                    id:
+                        item.league_id ||
+                        null,
+
+                    name:
+                        competition,
+
+                    logo_url:
+                        item.competition_logo ||
+                        null,
+
+                    sport_id:
+                        null
+
+                },
+
+                start_time:
+                    item.start_time ||
+                    item.time ||
+                    null,
+
+                status:
+                    item.status ||
+                    "scheduled",
+
+                home_score:
+                    Number(
+                        item.home_score ?? 0
+                    ),
+
+                away_score:
+                    Number(
+                        item.away_score ?? 0
+                    ),
+
+                is_live:
+                    item.status === "live"
+
+            });
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   LOAD DATABASE MATCHES
+========================================================= */
+
+async function loadDatabaseMatches(){
+
+    const {
+        data,
+        error
+    } =
+        await supabaseClient
+            .from("matches")
+            .select(`
+                id,
+                sport_id,
+                start_time,
+                status,
+                home_score,
+                away_score,
+                is_live,
+                league_id,
+
+                home_team:teams!matches_home_team_id_fkey(
+                    id,
+                    name,
+                    logo_url,
+                    league_id
+                ),
+
+                away_team:teams!matches_away_team_id_fkey(
+                    id,
+                    name,
+                    logo_url,
+                    league_id
+                )
+            `)
+            .order(
+                "start_time",
+                {
+                    ascending:true
+                }
+            )
+            .limit(500);
+
+
+    if(error){
+
+        throw error;
+
+    }
+
+
+    return Array.isArray(data)
+        ? data
+        : [];
+
+}
+
+
+/* =========================================================
+   CONVERT DATABASE MATCHES
+========================================================= */
+
+async function convertDatabaseMatches(
+    rows
+){
+
+    if(!rows.length){
+
+        return [];
+
+    }
+
+
+    const leagueIds =
+        [
+            ...new Set(
+                rows
+                    .map(
+                        match =>
+                            match.league_id
+                    )
+                    .filter(Boolean)
+            )
+        ];
+
+
+    let leagues = [];
+
+
+    if(leagueIds.length){
+
+        const {
+            data,
+            error
+        } =
+            await supabaseClient
+                .from("leagues")
+                .select(`
+                    id,
+                    name,
+                    logo_url,
+                    sport_id
+                `)
+                .in(
+                    "id",
+                    leagueIds
+                );
+
+
+        if(error){
+
+            console.warn(
+                "League loading warning:",
+                error
+            );
+
+        }else{
+
+            leagues =
+                Array.isArray(data)
+                    ? data
+                    : [];
+
+        }
+
+    }
+
+
+    const leagueMap =
+        new Map(
+            leagues.map(
+                league => [
+                    league.id,
+                    league
+                ]
+            )
+        );
+
+
+    return rows.map(
+        match => {
+
+            const league =
+                leagueMap.get(
+                    match.league_id
+                );
+
+
+            return prepareMatch({
+
+                id:
+                    match.id,
+
+                sport_id:
+                    match.sport_id,
+
+                home_team:{
+
+                    id:
+                        match.home_team?.id,
+
+                    name:
+                        match.home_team?.name ||
+                        "Home Team",
+
+                    logo_url:
+                        match.home_team?.logo_url ||
+                        null
+
+                },
+
+                away_team:{
+
+                    id:
+                        match.away_team?.id,
+
+                    name:
+                        match.away_team?.name ||
+                        "Away Team",
+
+                    logo_url:
+                        match.away_team?.logo_url ||
+                        null
+
+                },
+
+                league:{
+
+                    id:
+                        league?.id ||
+                        match.league_id,
+
+                    name:
+                        league?.name ||
+                        "Football",
+
+                    logo_url:
+                        league?.logo_url ||
+                        null,
+
+                    sport_id:
+                        league?.sport_id ||
+                        match.sport_id
+
+                },
+
+                start_time:
+                    match.start_time,
+
+                status:
+                    match.status ||
+                    "scheduled",
+
+                home_score:
+                    Number(
+                        match.home_score ?? 0
+                    ),
+
+                away_score:
+                    Number(
+                        match.away_score ?? 0
+                    ),
+
+                is_live:
+                    Boolean(
+                        match.is_live
+                    )
+
+            });
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   REMOVE DUPLICATES
+========================================================= */
+
+function removeDuplicateMatches(
+    matches
+){
+
+    const unique =
+        new Map();
+
+
+    const priority = {
+
+        scheduled:1,
+
+        postponed:2,
+
+        cancelled:0,
+
+        live:4,
+
+        finished:5
+
+    };
+
+
+    for(
+        const match of matches
+    ){
+
+        const home =
+            normalizeSearchText(
+                match.home_team?.name
+            );
+
+        const away =
+            normalizeSearchText(
+                match.away_team?.name
+            );
+
+        const start =
+            match.start_time ||
+            "";
+
+
+        const key =
+            [
+                home,
+                away,
+                start
+            ].join("|");
+
+
+        const old =
+            unique.get(
+                key
+            );
+
+
+        if(!old){
+
+            unique.set(
+                key,
+                match
+            );
+
+            continue;
+
+        }
+
+
+        const oldPriority =
+            priority[
+                old.status
+            ] || 0;
+
+
+        const newPriority =
+            priority[
+                match.status
+            ] || 0;
+
+
+        if(
+            newPriority >=
+            oldPriority
+        ){
+
+            unique.set(
+                key,
+                match
+            );
+
+        }
+
+    }
+
+
+    return Array.from(
+        unique.values()
+    );
+
+}
+
+
+/* =========================================================
+   LOAD REAL MATCHES
 ========================================================= */
 
 async function loadMatches(){
 
-    loadingState.style.display = "flex";
+    loadingState.style.display =
+        "flex";
 
-    matchesContainer.innerHTML = "";
+    loadingText.textContent =
+        "Loading live sports data...";
 
-    emptyState.style.display = "none";
+    matchesContainer.innerHTML =
+        "";
 
-    matchCount.textContent = "Loading...";
+    emptyState.style.display =
+        "none";
+
+    matchCount.textContent =
+        "Loading...";
+
+
+    allMatches = [];
 
 
     try{
 
         /*
-         * IMPORTANT:
-         *
-         * We DO NOT call smooth-worker here.
-         *
-         * smooth-worker synchronizes:
-         *
-         * SportScore → Supabase
-         *
-         * This page only reads Supabase.
-         *
-         * Therefore the UI does not get stuck
-         * waiting for the Edge Function.
+         * -----------------------------------------------------
+         * STEP 1
+         * Try Supabase database first.
+         * -----------------------------------------------------
          */
 
-
-        const {
-            data:dbMatches,
-            error:dbError
-        } =
-            await supabaseClient
-                .from("matches")
-                .select(`
-                    id,
-                    sport_id,
-                    start_time,
-                    status,
-                    home_score,
-                    away_score,
-                    is_live,
-                    league_id,
-
-                    home_team:teams!matches_home_team_id_fkey(
-                        id,
-                        name,
-                        logo_url,
-                        league_id
-                    ),
-
-                    away_team:teams!matches_away_team_id_fkey(
-                        id,
-                        name,
-                        logo_url,
-                        league_id
-                    )
-                `)
-                .order(
-                    "start_time",
-                    {
-                        ascending:true
-                    }
-                )
-                .limit(500);
+        let databaseMatches = [];
 
 
-        if(dbError){
+        try{
 
-            throw dbError;
+            const rows =
+                await loadDatabaseMatches();
+
+
+            databaseMatches =
+                await convertDatabaseMatches(
+                    rows
+                );
+
+
+            console.log(
+                "SportX database matches:",
+                databaseMatches.length
+            );
+
+        }catch(
+            databaseError
+        ){
+
+            console.warn(
+                "SportX database read failed:",
+                databaseError
+            );
 
         }
 
 
-        const rows =
-            Array.isArray(dbMatches)
-                ? dbMatches
+        /*
+         * -----------------------------------------------------
+         * STEP 2
+         *
+         * If database has matches,
+         * use them immediately.
+         * -----------------------------------------------------
+         */
+
+        if(
+            databaseMatches.length > 0
+        ){
+
+            allMatches =
+                removeDuplicateMatches(
+                    databaseMatches
+                );
+
+
+            loadingState.style.display =
+                "none";
+
+
+            console.log(
+                "SportX using database:",
+                allMatches.length
+            );
+
+
+            renderMatches();
+
+            return;
+
+        }
+
+
+        /*
+         * -----------------------------------------------------
+         * STEP 3
+         *
+         * Database is empty.
+         *
+         * Ask smooth-worker for fresh
+         * SportScore data.
+         * -----------------------------------------------------
+         */
+
+        loadingText.textContent =
+            "Syncing live sports data...";
+
+
+        console.log(
+            "SportX database empty. Calling smooth-worker..."
+        );
+
+
+        let workerResult;
+
+
+        try{
+
+            workerResult =
+                await invokeWorkerWithTimeout(
+                    9000
+                );
+
+        }catch(
+            workerError
+        ){
+
+            console.error(
+                "SportX worker failed:",
+                workerError
+            );
+
+            workerResult = {
+                data:null,
+                error:workerError
+            };
+
+        }
+
+
+        const workerData =
+            workerResult?.data;
+
+
+        const workerError =
+            workerResult?.error;
+
+
+        if(workerError){
+
+            console.warn(
+                "SportX worker warning:",
+                workerError
+            );
+
+        }
+
+
+        const sourceMatches =
+            Array.isArray(
+                workerData?.matches
+            )
+                ? workerData.matches
                 : [];
 
 
-        /* -------------------------------------------------
-           LOAD LEAGUES
-        ------------------------------------------------- */
-
-        const leagueIds =
-            [
-                ...new Set(
-                    rows
-                        .map(
-                            match =>
-                                match.league_id
-                        )
-                        .filter(Boolean)
-                )
-            ];
+        console.log(
+            "SportX worker matches:",
+            sourceMatches.length
+        );
 
 
-        let leagues = [];
+        /*
+         * -----------------------------------------------------
+         * STEP 4
+         *
+         * Convert worker response directly
+         * into cards.
+         * -----------------------------------------------------
+         */
 
+        if(
+            sourceMatches.length > 0
+        ){
 
-        if(leagueIds.length){
-
-            const {
-                data:leagueData,
-                error:leagueError
-            } =
-                await supabaseClient
-                    .from("leagues")
-                    .select(`
-                        id,
-                        name,
-                        logo_url,
-                        sport_id
-                    `)
-                    .in(
-                        "id",
-                        leagueIds
-                    );
-
-
-            if(leagueError){
-
-                console.warn(
-                    "League loading warning:",
-                    leagueError
+            allMatches =
+                convertWorkerMatches(
+                    sourceMatches
                 );
 
-            }else{
 
-                leagues =
-                    leagueData || [];
+            allMatches =
+                removeDuplicateMatches(
+                    allMatches
+                );
 
-            }
+
+            loadingState.style.display =
+                "none";
+
+
+            console.log(
+                "SportX using SportScore worker:",
+                allMatches.length
+            );
+
+
+            renderMatches();
+
+            return;
 
         }
 
 
-        const leagueMap =
-            new Map(
-                leagues.map(
-                    league => [
-                        league.id,
-                        league
-                    ]
-                )
-            );
+        /*
+         * -----------------------------------------------------
+         * STEP 5
+         *
+         * Nothing was returned.
+         * Show a real error instead of infinite loading.
+         * -----------------------------------------------------
+         */
 
-
-        /* -------------------------------------------------
-           CONVERT DATABASE DATA
-        ------------------------------------------------- */
-
-        allMatches =
-            rows.map(
-                match => {
-
-                    const league =
-                        leagueMap.get(
-                            match.league_id
-                        );
-
-
-                    return prepareMatch({
-
-                        id:match.id,
-
-                        sport_id:
-                            match.sport_id,
-
-                        home_team:{
-
-                            id:
-                                match.home_team?.id,
-
-                            name:
-                                match.home_team?.name ||
-                                "Home Team",
-
-                            logo_url:
-                                match.home_team?.logo_url ||
-                                null
-
-                        },
-
-                        away_team:{
-
-                            id:
-                                match.away_team?.id,
-
-                            name:
-                                match.away_team?.name ||
-                                "Away Team",
-
-                            logo_url:
-                                match.away_team?.logo_url ||
-                                null
-
-                        },
-
-                        league:{
-
-                            id:
-                                league?.id ||
-                                match.league_id,
-
-                            name:
-                                league?.name ||
-                                "Football",
-
-                            logo_url:
-                                league?.logo_url ||
-                                null,
-
-                            sport_id:
-                                league?.sport_id ||
-                                match.sport_id
-
-                        },
-
-                        start_time:
-                            match.start_time,
-
-                        status:
-                            match.status ||
-                            "scheduled",
-
-                        home_score:
-                            Number(
-                                match.home_score ?? 0
-                            ),
-
-                        away_score:
-                            Number(
-                                match.away_score ?? 0
-                            ),
-
-                        is_live:
-                            Boolean(
-                                match.is_live
-                            )
-
-                    });
-
-                }
-            );
-
-
-        loadingState.style.display = "none";
-
-
-        renderMatches();
-
+        throw new Error(
+            "No sports matches are available right now."
+        );
 
     }catch(error){
 
@@ -1437,15 +2353,24 @@ async function loadMatches(){
         );
 
 
-        loadingState.style.display = "none";
+        loadingState.style.display =
+            "none";
 
-        matchesContainer.innerHTML = "";
+
+        matchesContainer.innerHTML =
+            "";
+
 
         allMatches = [];
 
-        matchCount.textContent = "Error";
 
-        emptyState.style.display = "block";
+        matchCount.textContent =
+            "Error";
+
+
+        emptyState.style.display =
+            "block";
+
 
         emptyState.innerHTML = `
 
@@ -1460,7 +2385,7 @@ async function loadMatches(){
             <p style="margin-top:8px">
                 ${escapeHtml(
                     error?.message ||
-                    "Please try again."
+                    "Sports data is temporarily unavailable."
                 )}
             </p>
 
@@ -1490,39 +2415,52 @@ async function loadMatches(){
 
 /* =========================================================
    SEARCH SCORE
-   Higher score = better result.
 ========================================================= */
 
-function getSearchScore(match, query){
+function getSearchScore(
+    match,
+    query
+){
 
     if(!query){
+
         return 1;
+
     }
 
 
     const index =
         match._search || {
 
-            home:normalizeSearchText(
-                match.home_team?.name
-            ),
+            home:
+                normalizeSearchText(
+                    match.home_team?.name
+                ),
 
-            away:normalizeSearchText(
-                match.away_team?.name
-            ),
+            away:
+                normalizeSearchText(
+                    match.away_team?.name
+                ),
 
-            league:normalizeSearchText(
-                match.league?.name
-            ),
+            league:
+                normalizeSearchText(
+                    match.league?.name
+                ),
 
             combined:""
 
         };
 
 
-    const home = index.home;
-    const away = index.away;
-    const league = index.league;
+    const home =
+        index.home;
+
+    const away =
+        index.away;
+
+    const league =
+        index.league;
+
 
     const combined =
         index.combined ||
@@ -1531,8 +2469,6 @@ function getSearchScore(match, query){
 
     let score = 0;
 
-
-    /* Exact full match */
 
     if(home === query){
         score += 1000;
@@ -1547,8 +2483,6 @@ function getSearchScore(match, query){
     }
 
 
-    /* Starts with */
-
     if(home.startsWith(query)){
         score += 700;
     }
@@ -1561,8 +2495,6 @@ function getSearchScore(match, query){
         score += 650;
     }
 
-
-    /* Contains */
 
     if(home.includes(query)){
         score += 500;
@@ -1577,14 +2509,10 @@ function getSearchScore(match, query){
     }
 
 
-    /* Full combined text */
-
     if(combined.includes(query)){
         score += 200;
     }
 
-
-    /* Multi-word search */
 
     const tokens =
         query
@@ -1597,9 +2525,15 @@ function getSearchScore(match, query){
         let matchedTokens = 0;
 
 
-        for(const token of tokens){
+        for(
+            const token of tokens
+        ){
 
-            if(combined.includes(token)){
+            if(
+                combined.includes(
+                    token
+                )
+            ){
 
                 matchedTokens++;
 
@@ -1646,10 +2580,7 @@ function renderMatches(){
             match => {
 
                 /*
-                 * Current synchronized feed is
-                 * football.
-                 *
-                 * "All" and "Football" show it.
+                 * Current live source is football.
                  */
 
                 const sportMatch =
@@ -1658,12 +2589,16 @@ function renderMatches(){
 
 
                 if(!sportMatch){
+
                     return false;
+
                 }
 
 
                 if(!query){
+
                     return true;
+
                 }
 
 
@@ -1678,23 +2613,29 @@ function renderMatches(){
         );
 
 
-    /* -----------------------------------------------------
-       SORT SEARCH RESULTS BY RELEVANCE
-    ----------------------------------------------------- */
+    /*
+     * SEARCH SORT
+     */
 
     if(query){
 
         filtered.sort(
             (a,b) =>
-                getSearchScore(b,query) -
-                getSearchScore(a,query)
+                getSearchScore(
+                    b,
+                    query
+                )
+                -
+                getSearchScore(
+                    a,
+                    query
+                )
         );
 
     }else{
 
         /*
-         * No search:
-         * keep chronological order.
+         * Chronological order
          */
 
         filtered.sort(
@@ -1710,7 +2651,10 @@ function renderMatches(){
                         b.start_time || 0
                     ).getTime();
 
-                return aTime - bTime;
+                return (
+                    aTime -
+                    bTime
+                );
 
             }
         );
@@ -1718,13 +2662,23 @@ function renderMatches(){
     }
 
 
-    matchesContainer.innerHTML = "";
+    matchesContainer.innerHTML =
+        "";
 
 
-    emptyState.style.display =
-        filtered.length
-            ? "none"
-            : "block";
+    if(
+        filtered.length === 0
+    ){
+
+        emptyState.style.display =
+            "block";
+
+    }else{
+
+        emptyState.style.display =
+            "none";
+
+    }
 
 
     if(query){
@@ -1793,10 +2747,12 @@ function createMatchCard(
         match.status ||
         "scheduled";
 
+
     const homeScore =
         Number(
             match.home_score ?? 0
         );
+
 
     const awayScore =
         Number(
@@ -1833,12 +2789,16 @@ function createMatchCard(
 
     const dateText =
         validDate
-            ? formatMatchDate(date)
+            ? formatMatchDate(
+                date
+            )
             : "Unknown date";
 
 
     const card =
-        document.createElement("article");
+        document.createElement(
+            "article"
+        );
 
 
     card.className =
@@ -1855,24 +2815,32 @@ function createMatchCard(
     const statusLabel =
         status === "live"
             ? "LIVE"
+
             : status === "finished"
                 ? "FINISHED"
+
                 : status === "cancelled"
                     ? "CANCELLED"
+
                     : status === "postponed"
                         ? "POSTPONED"
+
                         : "UPCOMING";
 
 
     const statusClass =
         status === "live"
             ? "live"
+
             : status === "finished"
                 ? "finished"
+
                 : status === "cancelled"
                     ? "cancelled"
+
                     : status === "postponed"
                         ? "postponed"
+
                         : "";
 
 
@@ -1884,32 +2852,36 @@ function createMatchCard(
 
                 ${
                     leagueLogo
-                    ? `
-                        <img
-                            class="league-logo"
-                            src="${escapeAttribute(
-                                leagueLogo
-                            )}"
-                            alt="${escapeAttribute(
-                                league
-                            )} logo"
-                            loading="lazy"
-                            onerror="
-                                this.style.display='none';
-                            "
-                        >
-                    `
-                    : ""
+                        ? `
+                            <img
+                                class="league-logo"
+                                src="${escapeAttribute(
+                                    leagueLogo
+                                )}"
+                                alt="${escapeAttribute(
+                                    league
+                                )} logo"
+                                loading="lazy"
+                                onerror="
+                                    this.style.display='none';
+                                "
+                            >
+                        `
+                        : ""
                 }
 
                 <span class="league">
-                    ${escapeHtml(league)}
+                    ${escapeHtml(
+                        league
+                    )}
                 </span>
 
             </div>
 
 
-            <span class="status ${statusClass}">
+            <span
+                class="status ${statusClass}"
+            >
                 ${statusLabel}
             </span>
 
@@ -1917,7 +2889,6 @@ function createMatchCard(
 
 
         <div class="match-main">
-
 
             <div class="team">
 
@@ -1945,9 +2916,11 @@ function createMatchCard(
                     ? `
 
                         <strong class="score">
+
                             ${homeScore}
                             -
                             ${awayScore}
+
                         </strong>
 
                     `
@@ -1962,7 +2935,9 @@ function createMatchCard(
                 }
 
                 <span>
-                    ${escapeHtml(dateText)}
+                    ${escapeHtml(
+                        dateText
+                    )}
                 </span>
 
             </div>
@@ -1971,10 +2946,12 @@ function createMatchCard(
             <div class="team">
 
                 <span class="team-name">
+
                     ${escapeHtml(
                         away.name ||
                         "Away Team"
                     )}
+
                 </span>
 
                 ${teamLogo(
@@ -2061,9 +3038,12 @@ function teamLogo(
             <div class="team-logo">
 
                 <img
-                    src="${escapeAttribute(url)}"
+                    src="${escapeAttribute(
+                        url
+                    )}"
                     alt="${escapeAttribute(
-                        name || "Team"
+                        name ||
+                        "Team"
                     )} logo"
                     loading="lazy"
                     onerror="
@@ -2098,7 +3078,9 @@ function teamLogo(
    DATE
 ========================================================= */
 
-function formatMatchDate(date){
+function formatMatchDate(
+    date
+){
 
     const now =
         new Date();
@@ -2160,10 +3142,13 @@ filterButtons.forEach(
             () => {
 
                 filterButtons.forEach(
-                    btn =>
+                    btn => {
+
                         btn.classList.remove(
                             "active"
-                        )
+                        );
+
+                    }
                 );
 
 
@@ -2189,7 +3174,8 @@ filterButtons.forEach(
    FAST SEARCH
 ========================================================= */
 
-let searchFrame = null;
+let searchFrame =
+    null;
 
 
 searchInput.addEventListener(
@@ -2197,9 +3183,11 @@ searchInput.addEventListener(
     () => {
 
         if(searchFrame){
+
             cancelAnimationFrame(
                 searchFrame
             );
+
         }
 
 
@@ -2209,7 +3197,8 @@ searchInput.addEventListener(
 
                     renderMatches();
 
-                    searchFrame = null;
+                    searchFrame =
+                        null;
 
                 }
             );
@@ -2264,7 +3253,9 @@ function openMatch(
 
     document.getElementById(
         "matchModal"
-    ).classList.add("show");
+    ).classList.add(
+        "show"
+    );
 
 
     document.body.style.overflow =
@@ -2277,7 +3268,9 @@ function closeModal(){
 
     document.getElementById(
         "matchModal"
-    ).classList.remove("show");
+    ).classList.remove(
+        "show"
+    );
 
 
     document.body.style.overflow =
@@ -2329,7 +3322,9 @@ document.addEventListener(
 let toastTimer;
 
 
-function showToast(message){
+function showToast(
+    message
+){
 
     const toast =
         document.getElementById(
@@ -2341,7 +3336,9 @@ function showToast(message){
         message;
 
 
-    toast.classList.add("show");
+    toast.classList.add(
+        "show"
+    );
 
 
     clearTimeout(
@@ -2365,10 +3362,12 @@ function showToast(message){
 
 
 /* =========================================================
-   SECURITY HELPERS
+   SECURITY
 ========================================================= */
 
-function escapeHtml(value){
+function escapeHtml(
+    value
+){
 
     return String(
         value ?? ""
@@ -2397,9 +3396,13 @@ function escapeHtml(value){
 }
 
 
-function escapeAttribute(value){
+function escapeAttribute(
+    value
+){
 
-    return escapeHtml(value);
+    return escapeHtml(
+        value
+    );
 
 }
 
