@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Login | SportX</title>
+
+<style>
+:root{
+    --bg:#07100e;
+    --panel:#0d1815;
+    --panel-2:#111f1b;
+    --green:#16d98b;
+    --green-dark:#0e9d65;
+    --text:#f3f7f5;
+    --muted:#8d9d97;
+    --border:rgba(255,255,255,.08);
+    --danger:#ff5f6d;
+    --shadow:0 30px 90px rgba(0,0,0,.38);
+}
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+body{
+    min-height:100vh;
+    font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    color:var(--text);
+    background:
+        radial-gradient(circle at 15% 10%,rgba(22,217,139,.12),transparent 30%),
+        radial-gradient(circle at 85% 90%,rgba(22,217,139,.07),transparent 30%),
+        var(--bg);
+    display:flex;
+    flex-direction:column;
+}
+
+button,
+input{
+    font:inherit;
+}
+
+button{
+    cursor:pointer;
+}
+
+/* HEADER */
+
+.header{
+    height:72px;
+    border-bottom:1px solid var(--border);
+    background:rgba(7,16,14,.82);
+    backdrop-filter:blur(18px);
+}
+
+.header-inner{
+    width:min(1180px,calc(100% - 32px));
+    height:100%;
+    margin:auto;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    color:var(--text);
+    text-decoration:none;
+    font-size:22px;
+    font-weight:900;
+}
+
+.logo-mark{
+    width:36px;
+    height:36px;
+    display:grid;
+    place-items:center;
+    border-radius:11px;
+    color:#06100d;
+    background:linear-gradient(135deg,var(--green),#76ffc0);
+    box-shadow:0 8px 25px rgba(22,217,139,.2);
+}
+
+.back{
+    color:var(--muted);
+    text-decoration:none;
+    font-size:13px;
+    font-weight:700;
+    transition:.25s;
+}
+
+.back:hover{
+    color:var(--green);
+}
+
+/* MAIN */
+
+.main{
+    flex:1;
+    display:grid;
+    place-items:center;
+    padding:45px 18px 60px;
+}
+
+.auth-wrapper{
+    width:min(440px,100%);
+    animation:rise .55s ease both;
+}
+
+.brand{
+    text-align:center;
+    margin-bottom:25px;
+}
+
+.badge{
+    display:inline-flex;
+    align-items:center;
+    gap:7px;
+    padding:7px 11px;
+    border-radius:999px;
+    color:var(--green);
+    background:rgba(22,217,139,.08);
+    border:1px solid rgba(22,217,139,.14);
+    font-size:10px;
+    font-weight:900;
+    letter-spacing:.8px;
+}
+
+.badge-dot{
+    width:6px;
+    height:6px;
+    border-radius:50%;
+    background:var(--green);
+    box-shadow:0 0 10px var(--green);
+}
+
+.brand h1{
+    margin-top:15px;
+    font-size:34px;
+    letter-spacing:-1.2px;
+}
+
+.brand p{
+    margin-top:8px;
+    color:var(--muted);
+    font-size:13px;
+}
+
+/* CARD */
+
+.auth-card{
+    padding:28px;
+    border:1px solid var(--border);
+    border-radius:22px;
+    background:linear-gradient(145deg,rgba(13,24,21,.96),rgba(10,20,17,.94));
+    box-shadow:var(--shadow);
+}
+
+.auth-card h2{
+    font-size:21px;
+    letter-spacing:-.5px;
+}
+
+.subtitle{
+    margin-top:7px;
+    color:var(--muted);
+    font-size:12px;
+    line-height:1.6;
+}
+
+/* SOCIAL */
+
+.social-buttons{
+    display:grid;
+    gap:10px;
+    margin-top:22px;
+}
+
+.social-btn{
+    width:100%;
+    height:46px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:11px;
+    border:1px solid var(--border);
+    border-radius:11px;
+    background:var(--panel-2);
+    color:var(--text);
+    font-size:12px;
+    font-weight:800;
+    transition:.25s ease;
+}
+
+.social-btn:hover{
+    transform:translateY(-2px);
+    border-color:rgba(255,255,255,.15);
+    background:#16251f;
+}
+
+.social-icon{
+    width:21px;
+    height:21px;
+    display:grid;
+    place-items:center;
+    border-radius:6px;
+    font-size:13px;
+    font-weight:900;
+}
+
+.google .social-icon{
+    background:#fff;
+    color:#4285f4;
+}
+
+.facebook .social-icon{
+    background:#1877f2;
+    color:#fff;
+}
+
+/* DIVIDER */
+
+.divider{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    margin:23px 0;
+    color:#60706a;
+    font-size:10px;
+    font-weight:800;
+}
+
+.divider::before,
+.divider::after{
+    content:"";
+    height:1px;
+    flex:1;
+    background:var(--border);
+}
+
+/* FORM */
+
+.form-group{
+    margin-bottom:16px;
+}
+
+label{
+    display:block;
+    margin-bottom:7px;
+    color:#cbd5d1;
+    font-size:11px;
+    font-weight:800;
+}
+
+.input-wrap{
+    position:relative;
+}
+
+.input-wrap input{
+    width:100%;
+    height:46px;
+    padding:0 13px;
+    border:1px solid var(--border);
+    border-radius:11px;
+    outline:none;
+    background:#091511;
+    color:var(--text);
+    font-size:13px;
+    transition:.25s ease;
+}
+
+.input-wrap input::placeholder{
+    color:#56655f;
+}
+
+.input-wrap input:focus{
+    border-color:rgba(22,217,139,.45);
+    box-shadow:0 0 0 3px rgba(22,217,139,.06);
+}
+
+.password-toggle{
+    position:absolute;
+    right:8px;
+    top:50%;
+    transform:translateY(-50%);
+    height:32px;
+    padding:0 9px;
+    border:0;
+    border-radius:8px;
+    background:transparent;
+    color:var(--muted);
+    font-size:10px;
+    font-weight:800;
+}
+
+.password-toggle:hover{
+    color:var(--green);
+}
+
+.form-options{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin:3px 0 18px;
+}
+
+.remember{
+    display:flex;
+    align-items:center;
+    gap:7px;
+    color:var(--muted);
+    font-size:11px;
+}
+
+.remember input{
+    accent-color:var(--green);
+}
+
+.forgot{
+    border:0;
+    background:none;
+    color:var(--green);
+    font-size:11px;
+    font-weight:800;
+}
+
+.login-btn{
+    width:100%;
+    height:47px;
+    border:0;
+    border-radius:11px;
+    background:linear-gradient(135deg,var(--green),#12bd77);
+    color:#06100d;
+    font-size:12px;
+    font-weight:950;
+    transition:.25s ease;
+}
+
+.login-btn:hover{
+    transform:translateY(-2px);
+    box-shadow:0 12px 30px rgba(22,217,139,.2);
+}
+
+.login-btn:active,
+.social-btn:active{
+    transform:scale(.98);
+}
+
+.login-btn.loading{
+    pointer-events:none;
+    opacity:.75;
+}
+
+/* REGISTER */
+
+.register{
+    margin-top:20px;
+    text-align:center;
+    color:var(--muted);
+    font-size:12px;
+}
+
+.register a{
+    color:var(--green);
+    font-weight:900;
+    text-decoration:none;
+}
+
+/* SECURITY */
+
+.security-note{
+    display:flex;
+    gap:9px;
+    margin-top:17px;
+    padding:12px;
+    border:1px solid rgba(22,217,139,.09);
+    border-radius:11px;
+    background:rgba(22,217,139,.035);
+    color:var(--muted);
+    font-size:10px;
+    line-height:1.6;
+}
+
+.security-icon{
+    color:var(--green);
+    font-size:15px;
+}
+
+/* ERROR */
+
+.error{
+    display:none;
+    margin-bottom:15px;
+    padding:11px 12px;
+    border:1px solid rgba(255,95,109,.2);
+    border-radius:10px;
+    background:rgba(255,95,109,.06);
+    color:#ff8992;
+    font-size:11px;
+    line-height:1.5;
+}
+
+.error.show{
+    display:block;
+    animation:shake .3s ease;
+}
+
+/* TOAST */
+
+.toast{
+    position:fixed;
+    left:50%;
+    bottom:25px;
+    z-index:100;
+    transform:translate(-50%,20px);
+    opacity:0;
+    pointer-events:none;
+    padding:12px 17px;
+    border:1px solid rgba(22,217,139,.18);
+    border-radius:11px;
+    background:#10221c;
+    color:var(--text);
+    box-shadow:0 15px 40px rgba(0,0,0,.35);
+    font-size:12px;
+    font-weight:700;
+    transition:.3s ease;
+}
+
+.toast.show{
+    opacity:1;
+    transform:translate(-50%,0);
+}
+
+/* FOOTER */
+
+footer{
+    padding:22px;
+    border-top:1px solid var(--border);
+    color:var(--muted);
+    text-align:center;
+    font-size:10px;
+}
+
+/* ANIMATION */
+
+@keyframes rise{
+    from{
+        opacity:0;
+        transform:translateY(22px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+@keyframes shake{
+    0%,100%{transform:translateX(0)}
+    25%{transform:translateX(-5px)}
+    75%{transform:translateX(5px)}
+}
+
+/* MOBILE */
+
+@media(max-width:500px){
+
+    .header-inner{
+        width:calc(100% - 22px);
+    }
+
+    .main{
+        padding:30px 12px 45px;
+    }
+
+    .auth-card{
+        padding:22px 17px;
+        border-radius:18px;
+    }
+
+    .brand h1{
+        font-size:30px;
+    }
+
+    .back{
+        font-size:11px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header class="header">
+    <div class="header-inner">
+
+        <a href="index.html" class="logo">
+            <span class="logo-mark">S</span>
+            <span>SportX</span>
+        </a>
+
+        <a href="index.html" class="back">
+            ← Back to SportX
+        </a>
+
+    </div>
+</header>
+
+
+<main class="main">
+
+    <div class="auth-wrapper">
+
+        <div class="brand">
+
+            <div class="badge">
+                <span class="badge-dot"></span>
+                SPORTX ACCOUNT
+            </div>
+
+            <h1>Welcome Back</h1>
+
+            <p>
+                Sign in to continue your SportX experience.
+            </p>
+
+        </div>
+
+
+        <section class="auth-card">
+
+            <h2>Sign in</h2>
+
+            <p class="subtitle">
+                Use your email or continue with a connected account.
+            </p>
+
+
+            <!-- ERROR -->
+
+            <div class="error" id="errorBox"></div>
+
+
+            <!-- SOCIAL LOGIN -->
+
+            <div class="social-buttons">
+
+                <button
+                    type="button"
+                    class="social-btn google"
+                    id="googleBtn"
+                >
+                    <span class="social-icon">G</span>
+                    Continue with Google
+                </button>
+
+                <button
+                    type="button"
+                    class="social-btn facebook"
+                    id="facebookBtn"
+                >
+                    <span class="social-icon">f</span>
+                    Continue with Facebook
+                </button>
+
+            </div>
+
+
+            <div class="divider">
+                OR CONTINUE WITH EMAIL
+            </div>
+
+
+            <!-- EMAIL LOGIN -->
+
+            <form id="loginForm">
+
+                <div class="form-group">
+
+                    <label for="email">
+                        Email Address
+                    </label>
+
+                    <div class="input-wrap">
+
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            placeholder="you@example.com"
+                            autocomplete="email"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="password">
+                        Password
+                    </label>
+
+                    <div class="input-wrap">
+
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            placeholder="Enter your password"
+                            autocomplete="current-password"
+                            minlength="8"
+                            required
+                        >
+
+                        <button
+                            type="button"
+                            class="password-toggle"
+                            id="passwordToggle"
+                        >
+                            Show
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-options">
+
+                    <label class="remember">
+                        <input
+                            type="checkbox"
+                            id="remember"
+                        >
+                        Remember me
+                    </label>
+
+                    <button
+                        type="button"
+                        class="forgot"
+                        id="forgotBtn"
+                    >
+                        Forgot password?
+                    </button>
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="login-btn"
+                    id="loginBtn"
+                >
+                    Sign In
+                </button>
+
+            </form>
+
+
+            <div class="register">
+                Don't have an account?
+                <a href="register.html">Create Account</a>
+            </div>
+
+
+            <div class="security-note">
+
+                <span class="security-icon">◆</span>
+
+                <span>
+                    Your account will be protected by secure
+                    authentication. Passwords will never be stored
+                    directly in the SportX database.
+                </span>
+
+            </div>
+
+        </section>
+
+    </div>
+
+</main>
+
+
+<footer>
+    © 2026 SportX. Virtual sports prediction simulator.
+</footer>
+
+
+<div class="toast" id="toast"></div>
+
+
+<script>
+
+/*
+    SPORTX AUTH FOUNDATION
+
+    Current stage:
+    - Professional login UI
+    - Form validation
+    - Demo authentication flow
+    - Google/Facebook OAuth placeholders
+
+    Production stage:
+    Frontend
+        ↓
+    Backend Auth API
+        ↓
+    PostgreSQL
+        ↓
+    Secure Session / Token
+*/
+
+
+const loginForm =
+    document.getElementById("loginForm");
+
+const emailInput =
+    document.getElementById("email");
+
+const passwordInput =
+    document.getElementById("password");
+
+const loginBtn =
+    document.getElementById("loginBtn");
+
+const errorBox =
+    document.getElementById("errorBox");
+
+const toast =
+    document.getElementById("toast");
+
+
+/* PASSWORD VISIBILITY */
+
+document
+.getElementById("passwordToggle")
+.addEventListener("click", () => {
+
+    const button =
+        document.getElementById("passwordToggle");
+
+    if(passwordInput.type === "password"){
+
+        passwordInput.type = "text";
+        button.textContent = "Hide";
+
+    }else{
+
+        passwordInput.type = "password";
+        button.textContent = "Show";
+
+    }
+
+});
+
+
+/* ERROR */
+
+function showError(message){
+
+    errorBox.textContent = message;
+    errorBox.classList.add("show");
+
+}
+
+function hideError(){
+
+    errorBox.textContent = "";
+    errorBox.classList.remove("show");
+
+}
+
+
+/* TOAST */
+
+function showToast(message){
+
+    toast.textContent = message;
+    toast.classList.add("show");
+
+    clearTimeout(window.toastTimer);
+
+    window.toastTimer =
+        setTimeout(() => {
+
+            toast.classList.remove("show");
+
+        },3000);
+
+}
+
+
+/* EMAIL LOGIN */
+
+loginForm.addEventListener("submit", async event => {
+
+    event.preventDefault();
+
+    hideError();
+
+    const email =
+        emailInput.value.trim();
+
+    const password =
+        passwordInput.value;
+
+
+    if(!email){
+
+        showError("Please enter your email address.");
+        emailInput.focus();
+        return;
+
+    }
+
+
+    if(!password){
+
+        showError("Please enter your password.");
+        passwordInput.focus();
+        return;
+
+    }
+
+
+    if(password.length < 8){
+
+        showError(
+            "Your password must contain at least 8 characters."
+        );
+
+        passwordInput.focus();
+        return;
+
+    }
+
+
+    loginBtn.classList.add("loading");
+    loginBtn.textContent = "Signing In...";
+
+
+    /*
+        DEMO ONLY
+
+        This will later become:
+
+        fetch("/api/auth/login", {
+            method: "POST",
+            headers: {
+                "Content-Type":"application/json"
+            },
+            body: JSON.stringify({
+                email,
+                password
+            })
+        })
+    */
+
+
+    await new Promise(resolve =>
+        setTimeout(resolve,900)
+    );
+
+
+    /*
+        Temporary demo session.
+
+        IMPORTANT:
+        This is NOT the final security system.
+        Production authentication will be handled
+        by the backend.
+    */
+
+    const demoUser = {
+
+        id:"demo-user-001",
+
+        email:email,
+
+        name:
+            email
+                .split("@")[0]
+                .replace(/[._-]/g," "),
+
+        provider:"email",
+
+        loggedIn:true
+
+    };
+
+
+    localStorage.setItem(
+        "sportx_demo_user",
+        JSON.stringify(demoUser)
+    );
+
+
+    showToast("Login successful. Welcome to SportX!");
+
+    setTimeout(() => {
+
+        window.location.href =
+            "index.html";
+
+    },700);
+
+});
+
+
+/* GOOGLE */
+
+document
+.getElementById("googleBtn")
+.addEventListener("click", () => {
+
+    /*
+        Production:
+
+        window.location.href =
+            "/api/auth/google";
+    */
+
+    showToast(
+        "Google authentication will be connected to the SportX backend."
+    );
+
+});
+
+
+/* FACEBOOK */
+
+document
+.getElementById("facebookBtn")
+.addEventListener("click", () => {
+
+    /*
+        Production:
+
+        window.location.href =
+            "/api/auth/facebook";
+    */
+
+    showToast(
+        "Facebook authentication will be connected to the SportX backend."
+    );
+
+});
+
+
+/* FORGOT PASSWORD */
+
+document
+.getElementById("forgotBtn")
+.addEventListener("click", () => {
+
+    showToast(
+        "Password recovery will be available after the authentication backend is connected."
+    );
+
+});
+
+
+/* ALREADY LOGGED IN */
+
+const existingUser =
+    localStorage.getItem("sportx_demo_user");
+
+if(existingUser){
+
+    try{
+
+        const user =
+            JSON.parse(existingUser);
+
+        if(user.loggedIn){
+
+            // Login page can later redirect
+            // authenticated users automatically.
+
+        }
+
+    }catch(error){
+
+        localStorage.removeItem(
+            "sportx_demo_user"
+        );
+
+    }
+
+}
+
+</script>
+
+</body>
+</html>
