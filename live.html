@@ -1,0 +1,1978 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Live Matches | SportX</title>
+
+<style>
+:root{
+    --bg:#07100e;
+    --panel:#0d1815;
+    --panel-2:#111f1b;
+    --green:#16d98b;
+    --green-dark:#0e9d65;
+    --text:#f3f7f5;
+    --muted:#8d9d97;
+    --border:rgba(255,255,255,.07);
+    --danger:#ff5f6d;
+    --gold:#f4c95d;
+}
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    font-family:Inter,Arial,sans-serif;
+    color:var(--text);
+    background:
+        radial-gradient(circle at 15% 0%,rgba(22,217,139,.09),transparent 30%),
+        radial-gradient(circle at 90% 25%,rgba(22,217,139,.05),transparent 25%),
+        var(--bg);
+    min-height:100vh;
+}
+
+button,
+input{
+    font:inherit;
+}
+
+button{
+    cursor:pointer;
+}
+
+a{
+    color:inherit;
+    text-decoration:none;
+}
+
+/* ================= HEADER ================= */
+
+.header{
+    height:72px;
+    position:sticky;
+    top:0;
+    z-index:100;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 5%;
+    background:rgba(7,16,14,.86);
+    backdrop-filter:blur(18px);
+    border-bottom:1px solid var(--border);
+}
+
+.logo{
+    font-size:25px;
+    font-weight:900;
+    letter-spacing:-1px;
+}
+
+.logo span{
+    color:var(--green);
+}
+
+.nav{
+    display:flex;
+    align-items:center;
+    gap:7px;
+}
+
+.nav a{
+    color:var(--muted);
+    padding:10px 14px;
+    border-radius:10px;
+    transition:.25s ease;
+}
+
+.nav a:hover,
+.nav a.active{
+    color:var(--text);
+    background:rgba(22,217,139,.09);
+}
+
+.header-right{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.balance{
+    padding:10px 14px;
+    border-radius:12px;
+    color:var(--green);
+    background:rgba(22,217,139,.07);
+    border:1px solid rgba(22,217,139,.2);
+    font-weight:800;
+}
+
+.login-btn{
+    padding:10px 17px;
+    border-radius:11px;
+    background:var(--green);
+    color:#04120c;
+    font-weight:900;
+    transition:.25s ease;
+}
+
+.login-btn:hover{
+    transform:translateY(-2px);
+    box-shadow:0 10px 25px rgba(22,217,139,.18);
+}
+
+/* ================= MAIN ================= */
+
+.container{
+    width:min(1180px,90%);
+    margin:auto;
+}
+
+.page-head{
+    padding:55px 0 28px;
+    animation:rise .6s ease both;
+}
+
+.badge{
+    display:inline-flex;
+    align-items:center;
+    gap:7px;
+    padding:7px 12px;
+    border-radius:30px;
+    background:rgba(255,95,109,.08);
+    color:#ff7781;
+    border:1px solid rgba(255,95,109,.16);
+    font-size:12px;
+    font-weight:900;
+    letter-spacing:.8px;
+}
+
+.live-dot{
+    width:7px;
+    height:7px;
+    border-radius:50%;
+    background:#ff5f6d;
+    box-shadow:0 0 0 5px rgba(255,95,109,.08);
+    animation:pulse 1.3s infinite;
+}
+
+.page-head h1{
+    margin-top:15px;
+    font-size:clamp(35px,5vw,54px);
+    letter-spacing:-2px;
+}
+
+.page-head p{
+    max-width:650px;
+    margin-top:10px;
+    color:var(--muted);
+    line-height:1.7;
+}
+
+/* ================= SEARCH ================= */
+
+.search-box{
+    position:relative;
+    margin-bottom:20px;
+}
+
+.search-box input{
+    width:100%;
+    height:54px;
+    padding:0 48px 0 18px;
+    border-radius:15px;
+    outline:none;
+    color:var(--text);
+    background:var(--panel);
+    border:1px solid var(--border);
+    transition:.25s ease;
+}
+
+.search-box input:focus{
+    border-color:rgba(22,217,139,.45);
+    box-shadow:0 0 0 4px rgba(22,217,139,.06);
+}
+
+.search-icon{
+    position:absolute;
+    right:17px;
+    top:16px;
+    color:var(--muted);
+}
+
+/* ================= FILTER ================= */
+
+.filters{
+    display:flex;
+    gap:10px;
+    overflow-x:auto;
+    padding:2px 2px 18px;
+    scrollbar-width:none;
+}
+
+.filters::-webkit-scrollbar{
+    display:none;
+}
+
+.filter{
+    flex:0 0 auto;
+    padding:11px 17px;
+    border-radius:12px;
+    background:var(--panel);
+    color:var(--muted);
+    border:1px solid var(--border);
+    transition:.25s ease;
+}
+
+.filter:hover{
+    transform:translateY(-2px);
+    color:var(--text);
+}
+
+.filter.active{
+    color:#04120c;
+    background:var(--green);
+    border-color:var(--green);
+    font-weight:900;
+}
+
+/* ================= LIVE SUMMARY ================= */
+
+.live-summary{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:12px;
+    margin:10px 0 28px;
+}
+
+.summary-card{
+    padding:17px;
+    border-radius:16px;
+    background:var(--panel);
+    border:1px solid var(--border);
+}
+
+.summary-card span{
+    display:block;
+    color:var(--muted);
+    font-size:12px;
+    margin-bottom:7px;
+}
+
+.summary-card strong{
+    font-size:22px;
+}
+
+.summary-card strong.live-number{
+    color:var(--green);
+}
+
+/* ================= SECTION ================= */
+
+.section-title{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:15px;
+}
+
+.section-title h2{
+    font-size:22px;
+}
+
+.section-title span{
+    color:var(--muted);
+    font-size:13px;
+}
+
+/* ================= LIVE MATCH CARD ================= */
+
+.matches{
+    display:grid;
+    gap:15px;
+}
+
+.live-card{
+    background:
+        linear-gradient(145deg,rgba(255,255,255,.025),transparent),
+        var(--panel);
+    border:1px solid var(--border);
+    border-radius:19px;
+    overflow:hidden;
+    transition:.3s ease;
+    animation:rise .55s ease both;
+}
+
+.live-card:hover{
+    transform:translateY(-3px);
+    border-color:rgba(22,217,139,.22);
+    box-shadow:0 18px 45px rgba(0,0,0,.2);
+}
+
+.live-top{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:15px 18px;
+    border-bottom:1px solid var(--border);
+}
+
+.league{
+    color:var(--muted);
+    font-size:12px;
+}
+
+.live-status{
+    display:flex;
+    align-items:center;
+    gap:7px;
+    color:#ff6b75;
+    font-size:11px;
+    font-weight:900;
+}
+
+.live-status .dot{
+    width:7px;
+    height:7px;
+    border-radius:50%;
+    background:#ff5f6d;
+    animation:pulse 1s infinite;
+}
+
+.match-content{
+    padding:20px;
+}
+
+.teams{
+    display:grid;
+    grid-template-columns:1fr auto 1fr;
+    align-items:center;
+    gap:18px;
+}
+
+.team{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    font-weight:900;
+}
+
+.team.right{
+    justify-content:flex-end;
+    text-align:right;
+}
+
+.team-logo{
+    width:45px;
+    height:45px;
+    display:grid;
+    place-items:center;
+    border-radius:13px;
+    background:var(--panel-2);
+    border:1px solid var(--border);
+    font-size:19px;
+}
+
+.score{
+    text-align:center;
+}
+
+.score strong{
+    font-size:27px;
+    letter-spacing:2px;
+}
+
+.score span{
+    display:block;
+    margin-top:4px;
+    color:#ff6872;
+    font-size:11px;
+    font-weight:900;
+}
+
+.match-stats{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:8px;
+    margin-top:19px;
+}
+
+.stat{
+    padding:10px;
+    text-align:center;
+    background:var(--panel-2);
+    border:1px solid var(--border);
+    border-radius:11px;
+}
+
+.stat span{
+    display:block;
+    color:var(--muted);
+    font-size:10px;
+    margin-bottom:4px;
+}
+
+.stat strong{
+    font-size:12px;
+}
+
+.live-odds{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:8px;
+    margin-top:14px;
+}
+
+.odd{
+    border:1px solid var(--border);
+    background:var(--panel-2);
+    color:var(--text);
+    border-radius:11px;
+    padding:10px 7px;
+    transition:.25s ease;
+}
+
+.odd:hover{
+    transform:translateY(-2px);
+    border-color:rgba(22,217,139,.3);
+    background:rgba(22,217,139,.08);
+}
+
+.odd span{
+    display:block;
+    color:var(--muted);
+    font-size:10px;
+    margin-bottom:4px;
+}
+
+.odd strong{
+    color:var(--green);
+}
+
+.card-bottom{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-top:15px;
+    padding-top:14px;
+    border-top:1px solid var(--border);
+}
+
+.details-btn{
+    border:0;
+    background:none;
+    color:var(--green);
+    font-size:13px;
+    font-weight:900;
+}
+
+.markets{
+    color:var(--muted);
+    font-size:11px;
+}
+
+/* ================= EMPTY ================= */
+
+.empty{
+    display:none;
+    text-align:center;
+    padding:60px 20px;
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:18px;
+    color:var(--muted);
+}
+
+.empty-icon{
+    font-size:40px;
+    margin-bottom:12px;
+}
+
+/* ================= MODAL ================= */
+
+.modal{
+    position:fixed;
+    inset:0;
+    z-index:500;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+    background:rgba(0,0,0,.74);
+    backdrop-filter:blur(10px);
+}
+
+.modal.show{
+    display:flex;
+    animation:fadeIn .2s ease;
+}
+
+.modal-box{
+    width:min(560px,100%);
+    padding:25px;
+    border-radius:23px;
+    background:var(--panel);
+    border:1px solid var(--border);
+    box-shadow:0 30px 90px rgba(0,0,0,.5);
+    animation:modalIn .3s ease;
+}
+
+.modal-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:20px;
+}
+
+.modal-head h3{
+    font-size:21px;
+}
+
+.close{
+    width:38px;
+    height:38px;
+    border-radius:11px;
+    border:1px solid var(--border);
+    background:var(--panel-2);
+    color:var(--text);
+    font-size:20px;
+    transition:.2s ease;
+}
+
+.close:hover{
+    color:var(--danger);
+    background:rgba(255,95,109,.1);
+}
+
+.modal-score{
+    text-align:center;
+    padding:18px 0;
+}
+
+.modal-teams{
+    font-size:20px;
+    font-weight:900;
+}
+
+.modal-score-value{
+    margin-top:10px;
+    font-size:32px;
+    font-weight:900;
+}
+
+.modal-minute{
+    color:#ff6872;
+    font-size:12px;
+    font-weight:900;
+    margin-top:5px;
+}
+
+.modal-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:10px;
+    margin-top:20px;
+}
+
+.info-box{
+    padding:13px;
+    border-radius:13px;
+    background:var(--panel-2);
+    border:1px solid var(--border);
+}
+
+.info-box span{
+    display:block;
+    color:var(--muted);
+    font-size:10px;
+    margin-bottom:5px;
+}
+
+.info-box strong{
+    font-size:13px;
+}
+
+/* ================= TOAST ================= */
+
+.toast{
+    position:fixed;
+    left:50%;
+    bottom:25px;
+    z-index:900;
+    padding:13px 18px;
+    border-radius:13px;
+    color:var(--text);
+    background:#13231e;
+    border:1px solid rgba(22,217,139,.2);
+    transform:translate(-50%,30px);
+    opacity:0;
+    pointer-events:none;
+    transition:.3s ease;
+}
+
+.toast.show{
+    opacity:1;
+    transform:translate(-50%,0);
+}
+
+/* ================= FOOTER ================= */
+
+.footer{
+    margin-top:70px;
+    padding:30px 5%;
+    text-align:center;
+    color:var(--muted);
+    font-size:13px;
+    border-top:1px solid var(--border);
+}
+
+/* ================= ANIMATIONS ================= */
+
+@keyframes rise{
+    from{
+        opacity:0;
+        transform:translateY(18px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+@keyframes fadeIn{
+    from{opacity:0}
+    to{opacity:1}
+}
+
+@keyframes modalIn{
+    from{
+        opacity:0;
+        transform:translateY(20px) scale(.97);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0) scale(1);
+    }
+}
+
+@keyframes pulse{
+    0%,100%{
+        opacity:1;
+        transform:scale(1);
+    }
+
+    50%{
+        opacity:.45;
+        transform:scale(.7);
+    }
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media(max-width:900px){
+
+    .nav{
+        display:none;
+    }
+
+    .balance{
+        display:none;
+    }
+
+    .header{
+        padding:0 4%;
+    }
+}
+
+@media(max-width:650px){
+
+    .container{
+        width:92%;
+    }
+
+    .page-head{
+        padding-top:40px;
+    }
+
+    .page-head h1{
+        font-size:38px;
+    }
+
+    .live-summary{
+        grid-template-columns:1fr;
+    }
+
+    .teams{
+        gap:8px;
+    }
+
+    .team{
+        flex-direction:column;
+        text-align:center;
+        font-size:12px;
+    }
+
+    .team.right{
+        text-align:center;
+    }
+
+    .team-logo{
+        width:39px;
+        height:39px;
+    }
+
+    .score strong{
+        font-size:23px;
+    }
+
+    .match-content{
+        padding:15px;
+    }
+
+    .login-btn{
+        padding:9px 12px;
+        font-size:12px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- ================= HEADER ================= -->
+
+<header class="header">
+
+    <a href="index.html" class="logo">
+        Sport<span>X</span>
+    </a>
+
+    <nav class="nav">
+        <a href="index.html">Home</a>
+        <a href="sports.html">Sports</a>
+        <a href="live.html" class="active">Live</a>
+        <a href="bets.html">My Bets</a>
+    </nav>
+
+    <div class="header-right">
+
+        <div class="balance">
+            AFN 1,000
+        </div>
+
+        <a href="login.html" class="login-btn">
+            Login
+        </a>
+
+    </div>
+
+</header>
+
+
+<!-- ================= MAIN ================= -->
+
+<main class="container">
+
+    <section class="page-head">
+
+        <span class="badge">
+            <span class="live-dot"></span>
+            LIVE CENTER
+        </span>
+
+        <h1>Live Matches</h1>
+
+        <p>
+            Follow live matches, scores, statistics and
+            real-time prediction markets.
+        </p>
+
+    </section>
+
+
+    <!-- SEARCH -->
+
+    <div class="search-box">
+
+        <input
+            type="search"
+            id="searchInput"
+            placeholder="Search live teams or leagues..."
+            autocomplete="off"
+        >
+
+        <span class="search-icon">⌕</span>
+
+    </div>
+
+
+    <!-- FILTER -->
+
+    <div class="filters">
+
+        <button class="filter active" data-sport="all">
+            All Live
+        </button>
+
+        <button class="filter" data-sport="football">
+            ⚽ Football
+        </button>
+
+        <button class="filter" data-sport="basketball">
+            🏀 Basketball
+        </button>
+
+        <button class="filter" data-sport="tennis">
+            🎾 Tennis
+        </button>
+
+        <button class="filter" data-sport="cricket">
+            🏏 Cricket
+        </button>
+
+        <button class="filter" data-sport="esports">
+            🎮 Esports
+        </button>
+
+    </div>
+
+
+    <!-- SUMMARY -->
+
+    <section class="live-summary">
+
+        <div class="summary-card">
+            <span>Live Matches</span>
+            <strong class="live-number" id="liveCount">
+                5
+            </strong>
+        </div>
+
+        <div class="summary-card">
+            <span>Live Markets</span>
+            <strong>
+                87
+            </strong>
+        </div>
+
+        <div class="summary-card">
+            <span>Last Update</span>
+            <strong id="lastUpdate">
+                Just now
+            </strong>
+        </div>
+
+    </section>
+
+
+    <!-- MATCHES -->
+
+    <div class="section-title">
+
+        <h2>Live Now</h2>
+
+        <span id="resultCount">
+            5 matches
+        </span>
+
+    </div>
+
+
+    <section class="matches" id="matches">
+
+
+        <!-- MATCH 1 -->
+
+        <article
+            class="live-card"
+            data-sport="football"
+            data-search="manchester madrid champions league football"
+        >
+
+            <div class="live-top">
+
+                <span class="league">
+                    UEFA Champions League
+                </span>
+
+                <span class="live-status">
+                    <span class="dot"></span>
+                    LIVE
+                </span>
+
+            </div>
+
+            <div class="match-content">
+
+                <div class="teams">
+
+                    <div class="team">
+
+                        <div class="team-logo">
+                            🔴
+                        </div>
+
+                        Manchester
+
+                    </div>
+
+                    <div class="score">
+
+                        <strong>
+                            2 - 1
+                        </strong>
+
+                        <span id="minute1">
+                            67'
+                        </span>
+
+                    </div>
+
+                    <div class="team right">
+
+                        Madrid
+
+                        <div class="team-logo">
+                            ⚪
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="match-stats">
+
+                    <div class="stat">
+                        <span>Possession</span>
+                        <strong>54% — 46%</strong>
+                    </div>
+
+                    <div class="stat">
+                        <span>Shots</span>
+                        <strong>8 — 6</strong>
+                    </div>
+
+                    <div class="stat">
+                        <span>Corners</span>
+                        <strong>5 — 3</strong>
+                    </div>
+
+                </div>
+
+
+                <div class="live-odds">
+
+                    <button
+                        class="odd"
+                        onclick="selectLive('Manchester', '1.42')"
+                    >
+                        <span>Manchester</span>
+                        <strong>1.42</strong>
+                    </button>
+
+                    <button
+                        class="odd"
+                        onclick="selectLive('Draw', '4.80')"
+                    >
+                        <span>Draw</span>
+                        <strong>4.80</strong>
+                    </button>
+
+                    <button
+                        class="odd"
+                        onclick="selectLive('Madrid', '6.20')"
+                    >
+                        <span>Madrid</span>
+                        <strong>6.20</strong>
+                    </button>
+
+                </div>
+
+
+                <div class="card-bottom">
+
+                    <button
+                        class="details-btn"
+                        onclick="openLive(
+                            'Manchester vs Madrid',
+                            '2 - 1',
+                            '67\\''
+                        )"
+                    >
+                        Live Details →
+                    </button>
+
+                    <span class="markets">
+                        +24 markets
+                    </span>
+
+                </div>
+
+            </div>
+
+        </article>
+
+
+        <!-- MATCH 2 -->
+
+        <article
+            class="live-card"
+            data-sport="football"
+            data-search="liverpool arsenal premier league football"
+        >
+
+            <div class="live-top">
+
+                <span class="league">
+                    Premier League
+                </span>
+
+                <span class="live-status">
+                    <span class="dot"></span>
+                    LIVE
+                </span>
+
+            </div>
+
+            <div class="match-content">
+
+                <div class="teams">
+
+                    <div class="team">
+
+                        <div class="team-logo">
+                            🔴
+                        </div>
+
+                        Liverpool
+
+                    </div>
+
+                    <div class="score">
+
+                        <strong>
+                            1 - 0
+                        </strong>
+
+                        <span>
+                            38'
+                        </span>
+
+                    </div>
+
+                    <div class="team right">
+
+                        Arsenal
+
+                        <div class="team-logo">
+                            🔴
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="match-stats">
+
+                    <div class="stat">
+                        <span>Possession</span>
+                        <strong>48% — 52%</strong>
+                    </div>
+
+                    <div class="stat">
+                        <span>Shots</span>
+                        <strong>5 — 7</strong>
+                    </div>
+
+                    <div class="stat">
+                        <span>Corners</span>
+                        <strong>2 — 4</strong>
+                    </div>
+
+                </div>
+
+
+                <div class="live-odds">
+
+                    <button
+                        class="odd"
+                        onclick="selectLive('Liverpool', '1.65')"
+                    >
+                        <span>Liverpool</span>
+                        <strong>1.65</strong>
+                    </button>
+
+                    <button
+                        class="odd"
+                        onclick="selectLive('Draw', '3.90')"
+                    >
+                        <span>Draw</span>
+                        <strong>3.90</strong>
+                    </button>
+
+                    <button
+                        class="odd"
+                        onclick="selectLive('Arsenal', '4.90')"
+                    >
+                        <span>Arsenal</span>
+                        <strong>4.90</strong>
+                    </button>
+
+                </div>
+
+
+                <div class="card-bottom">
+
+                    <button
+                        class="details-btn"
+                        onclick="openLive(
+                            'Liverpool vs Arsenal',
+                            '1 - 0',
+                            '38\\''
+                        )"
+                    >
+                        Live Details →
+                    </button>
+
+                    <span class="markets">
+                        +19 markets
+                    </span>
+
+                </div>
+
+            </div>
+
+        </article>
+
+
+        <!-- MATCH 3 -->
+
+        <article
+            class="live-card"
+            data-sport="basketball"
+            data-search="lakers warriors nba basketball"
+        >
+
+            <div class="live-top">
+
+                <span class="league">
+                    NBA
+                </span>
+
+                <span class="live-status">
+                    <span class="dot"></span>
+                    LIVE
+                </span>
+
+            </div>
+
+            <div class="match-content">
+
+                <div class="teams">
+
+                    <div class="team">
+
+                        <div class="team-logo">
+                            🟣
+                        </div>
+
+                        Lakers
+
+                    </div>
+
+                    <div class="score">
+
+                        <strong>
+                            78 - 74
+                        </strong>
+
+                        <span>
+                            Q3 • 04:32
+                        </span>
+
+                    </div>
+
+                    <div class="team right">
+
+                        Warriors
+
+                        <div class="team-logo">
+                            🟡
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="match-stats">
+
+                    <div class="stat">
+                        <span>Rebounds</span>
+                        <strong>31 — 28</strong>
+                    </div>
+
+                    <div class="stat">
+                        <span>3PT</span>
+                        <strong>8 — 7</strong>
+                    </div>
+
+                    <div class="stat">
+                        <span>Fouls</span>
+                        <strong>12 — 14</strong>
+                    </div>
+
+                </div>
+
+
+                <div class="live-odds">
+
+                    <button
+                        class="odd"
+                        onclick="selectLive('Lakers', '1.55')"
+                    >
+                        <span>Lakers</span>
+                        <strong>1.55</strong>
+                    </button>
+
+                    <button
+                        class="odd"
+                        onclick="selectLive('Warriors', '2.40')"
+                    >
+                        <span>Warriors</span>
+                        <strong>2.40</strong>
+                    </button>
+
+                    <button
+                        class="odd"
+                        onclick="selectLive('Over 165.5', '1.85')"
+                    >
+                        <span>Total</span>
+                        <strong>1.85</strong>
+                    </button>
+
+                </div>
+
+
+                <div class="card-bottom">
+
+                    <button
+                        class="details-btn"
+                        onclick="openLive(
+                            'Lakers vs Warriors',
+                            '78 - 74',
+                            'Q3 • 04:32'
+                        )"
+                    >
+                        Live Details →
+                    </button>
+
+                    <span class="markets">
+                        +16 markets
+                    </span>
+
+                </div>
+
+            </div>
+
+        </article>
+
+
+        <!-- MATCH 4 -->
+
+        <article
+            class="live-card"
+            data-sport="tennis"
+            data-search="alcaraz sinner tennis masters"
+        >
+
+            <div class="live-top">
+
+                <span class="league">
+                    ATP Masters
+                </span>
+
+                <span class="live-status">
+                    <span class="dot"></span>
+                    LIVE
+                </span>
+
+            </div>
+
+            <div class="match-content">
+
+                <div class="teams">
+
+                    <div class="team">
+
+                        <div class="team-logo">
+                            🎾
+                        </div>
+
+                        Alcaraz
+
+                    </div>
+
+                    <div class="score">
+
+                        <strong>
+                            1 - 1
+                        </strong>
+
+                        <span>
+                            Set 3
+                        </span>
+
+                    </div>
+
+                    <div class="team right">
+
+                        Sinner
+
+                        <div class="team-logo">
+                            🎾
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="match-stats">
+
+                    <div class="stat">
+                        <span>Games</span>
+                        <strong>3 — 4</strong>
+                    </div>
+
+                    <div class="stat">
+                        <span>Aces</span>
+                        <strong>7 — 5</strong>
+                    </div>
+
+                    <div class="stat">
+                        <span>Breaks</span>
+                        <strong>2 — 2</strong>
+                    </div>
+
+                </div>
+
+
+                <div class="live-odds">
+
+                    <button
+                        class="odd"
+                        onclick="selectLive('Alcaraz', '1.82')"
+                    >
+                        <span>Alcaraz</span>
+                        <strong>1.82</strong>
+                    </button>
+
+                    <button
+                        class="odd"
+                        onclick="selectLive('Sinner', '2.00')"
+                    >
+                        <span>Sinner</span>
+                        <strong>2.00</strong>
+                    </button>
+
+                    <button
+                        class="odd"
+                        onclick="selectLive('Over 2.5', '1.70')"
+                    >
+                        <span>Sets</span>
+                        <strong>1.70</strong>
+                    </button>
+
+                </div>
+
+
+                <div class="card-bottom">
+
+                    <button
+                        class="details-btn"
+                        onclick="openLive(
+                            'Alcaraz vs Sinner',
+                            '1 - 1',
+                            'Set 3'
+                        )"
+                    >
+                        Live Details →
+                    </button>
+
+                    <span class="markets">
+                        +13 markets
+                    </span>
+
+                </div>
+
+            </div>
+
+        </article>
+
+
+        <!-- MATCH 5 -->
+
+        <article
+            class="live-card"
+            data-sport="esports"
+            data-search="valorant fnatic sentinels esports"
+        >
+
+            <div class="live-top">
+
+                <span class="league">
+                    Valorant Champions
+                </span>
+
+                <span class="live-status">
+                    <span class="dot"></span>
+                    LIVE
+                </span>
+
+            </div>
+
+            <div class="match-content">
+
+                <div class="teams">
+
+                    <div class="team">
+
+                        <div class="team-logo">
+                            🎮
+                        </div>
+
+                        Fnatic
+
+                    </div>
+
+                    <div class="score">
+
+                        <strong>
+                            1 - 0
+                        </strong>
+
+                        <span>
+                            Map 2
+                        </span>
+
+                    </div>
+
+                    <div class="team right">
+
+                        Sentinels
+
+                        <div class="team-logo">
+                            🎮
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="match-stats">
+
+                    <div class="stat">
+                        <span>Kills</span>
+                        <strong>43 — 38</strong>
+                    </div>
+
+                    <div class="stat">
+                        <span>Maps</span>
+                        <strong>1 — 0</strong>
+                    </div>
+
+                    <div class="stat">
+                        <span>Rounds</span>
+                        <strong>8 — 6</strong>
+                    </div>
+
+                </div>
+
+
+                <div class="live-odds">
+
+                    <button
+                        class="odd"
+                        onclick="selectLive('Fnatic', '1.45')"
+                    >
+                        <span>Fnatic</span>
+                        <strong>1.45</strong>
+                    </button>
+
+                    <button
+                        class="odd"
+                        onclick="selectLive('Sentinels', '2.70')"
+                    >
+                        <span>Sentinels</span>
+                        <strong>2.70</strong>
+                    </button>
+
+                    <button
+                        class="odd"
+                        onclick="selectLive('Over 2.5 Maps', '1.92')"
+                    >
+                        <span>Maps</span>
+                        <strong>1.92</strong>
+                    </button>
+
+                </div>
+
+
+                <div class="card-bottom">
+
+                    <button
+                        class="details-btn"
+                        onclick="openLive(
+                            'Fnatic vs Sentinels',
+                            '1 - 0',
+                            'Map 2'
+                        )"
+                    >
+                        Live Details →
+                    </button>
+
+                    <span class="markets">
+                        +11 markets
+                    </span>
+
+                </div>
+
+            </div>
+
+        </article>
+
+    </section>
+
+
+    <!-- EMPTY -->
+
+    <div class="empty" id="emptyState">
+
+        <div class="empty-icon">
+            🔎
+        </div>
+
+        <strong>
+            No live matches found
+        </strong>
+
+        <p style="margin-top:8px">
+            Try another sport or search term.
+        </p>
+
+    </div>
+
+</main>
+
+
+<!-- ================= MODAL ================= -->
+
+<div class="modal" id="liveModal">
+
+    <div class="modal-box">
+
+        <div class="modal-head">
+
+            <h3>
+                Live Match
+            </h3>
+
+            <button
+                class="close"
+                onclick="closeModal()"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <div class="modal-score">
+
+            <div
+                class="modal-teams"
+                id="modalTeams"
+            >
+                Manchester vs Madrid
+            </div>
+
+            <div
+                class="modal-score-value"
+                id="modalScore"
+            >
+                2 - 1
+            </div>
+
+            <div
+                class="modal-minute"
+                id="modalMinute"
+            >
+                67'
+            </div>
+
+        </div>
+
+
+        <div class="modal-grid">
+
+            <div class="info-box">
+
+                <span>
+                    Status
+                </span>
+
+                <strong>
+                    LIVE
+                </strong>
+
+            </div>
+
+            <div class="info-box">
+
+                <span>
+                    Markets
+                </span>
+
+                <strong>
+                    Available
+                </strong>
+
+            </div>
+
+            <div class="info-box">
+
+                <span>
+                    Predictions
+                </span>
+
+                <strong>
+                    Live
+                </strong>
+
+            </div>
+
+            <div class="info-box">
+
+                <span>
+                    Data
+                </span>
+
+                <strong>
+                    Updating
+                </strong>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ================= TOAST ================= -->
+
+<div
+    class="toast"
+    id="toast"
+></div>
+
+
+<footer class="footer">
+
+    © 2026 SportX.
+    Virtual sports prediction simulator.
+
+</footer>
+
+
+<script>
+
+/* ==========================================
+   ELEMENTS
+========================================== */
+
+const cards =
+    document.querySelectorAll(".live-card");
+
+const filters =
+    document.querySelectorAll(".filter");
+
+const searchInput =
+    document.getElementById("searchInput");
+
+const emptyState =
+    document.getElementById("emptyState");
+
+const resultCount =
+    document.getElementById("resultCount");
+
+const liveCount =
+    document.getElementById("liveCount");
+
+const lastUpdate =
+    document.getElementById("lastUpdate");
+
+
+/* ==========================================
+   FILTER + SEARCH
+========================================== */
+
+function filterMatches(sport){
+
+    const search =
+        searchInput.value
+        .toLowerCase()
+        .trim();
+
+    let visible = 0;
+
+    cards.forEach(card => {
+
+        const cardSport =
+            card.dataset.sport;
+
+        const cardSearch =
+            card.dataset.search;
+
+        const sportMatch =
+            sport === "all" ||
+            cardSport === sport;
+
+        const searchMatch =
+            cardSearch.includes(search);
+
+        if(sportMatch && searchMatch){
+
+            card.style.display = "block";
+
+            visible++;
+
+        }else{
+
+            card.style.display = "none";
+
+        }
+
+    });
+
+    emptyState.style.display =
+        visible === 0
+        ? "block"
+        : "none";
+
+    resultCount.textContent =
+        visible +
+        (visible === 1
+        ? " match"
+        : " matches");
+
+}
+
+
+/* ==========================================
+   FILTER EVENTS
+========================================== */
+
+filters.forEach(button => {
+
+    button.addEventListener("click", () => {
+
+        filters.forEach(btn =>
+            btn.classList.remove("active")
+        );
+
+        button.classList.add("active");
+
+        filterMatches(
+            button.dataset.sport
+        );
+
+    });
+
+});
+
+
+/* ==========================================
+   SEARCH EVENT
+========================================== */
+
+searchInput.addEventListener("input", () => {
+
+    const active =
+        document.querySelector(
+            ".filter.active"
+        );
+
+    filterMatches(
+        active.dataset.sport
+    );
+
+});
+
+
+/* ==========================================
+   LIVE PREDICTION
+========================================== */
+
+function selectLive(selection, odd){
+
+    showToast(
+        `${selection} selected • Live odds ${odd}`
+    );
+
+}
+
+
+/* ==========================================
+   LIVE MODAL
+========================================== */
+
+function openLive(
+    teams,
+    score,
+    minute
+){
+
+    document.getElementById(
+        "modalTeams"
+    ).textContent = teams;
+
+    document.getElementById(
+        "modalScore"
+    ).textContent = score;
+
+    document.getElementById(
+        "modalMinute"
+    ).textContent = minute;
+
+    document.getElementById(
+        "liveModal"
+    ).classList.add("show");
+
+}
+
+
+function closeModal(){
+
+    document.getElementById(
+        "liveModal"
+    ).classList.remove("show");
+
+}
+
+
+/* ==========================================
+   CLOSE OUTSIDE MODAL
+========================================== */
+
+document
+    .getElementById("liveModal")
+    .addEventListener(
+        "click",
+        event => {
+
+            if(
+                event.target.id ===
+                "liveModal"
+            ){
+                closeModal();
+            }
+
+        }
+    );
+
+
+/* ==========================================
+   ESCAPE
+========================================== */
+
+document.addEventListener(
+    "keydown",
+    event => {
+
+        if(event.key === "Escape"){
+            closeModal();
+        }
+
+    }
+);
+
+
+/* ==========================================
+   TOAST
+========================================== */
+
+let toastTimer;
+
+function showToast(message){
+
+    const toast =
+        document.getElementById(
+            "toast"
+        );
+
+    toast.textContent =
+        message;
+
+    toast.classList.add("show");
+
+    clearTimeout(toastTimer);
+
+    toastTimer =
+        setTimeout(() => {
+
+            toast.classList.remove(
+                "show"
+            );
+
+        },2200);
+
+}
+
+
+/* ==========================================
+   SIMULATED LIVE UPDATE
+========================================== */
+
+let seconds = 0;
+
+setInterval(() => {
+
+    seconds++;
+
+    lastUpdate.textContent =
+        seconds <= 1
+        ? "Just now"
+        : `${seconds}s ago`;
+
+    if(seconds >= 10){
+
+        seconds = 0;
+
+    }
+
+},1000);
+
+
+/* ==========================================
+   INITIAL
+========================================== */
+
+filterMatches("all");
+
+</script>
+
+</body>
+</html>
