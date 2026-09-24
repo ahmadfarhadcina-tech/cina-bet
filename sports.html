@@ -7,6 +7,7 @@
 <title>Sports | SportX</title>
 
 <style>
+
 :root{
     --bg:#07100e;
     --panel:#0d1815;
@@ -33,8 +34,16 @@ html{
 body{
     font-family:Inter,Arial,sans-serif;
     background:
-        radial-gradient(circle at 20% 0%,rgba(22,217,139,.09),transparent 30%),
-        radial-gradient(circle at 90% 20%,rgba(22,217,139,.05),transparent 25%),
+        radial-gradient(
+            circle at 20% 0%,
+            rgba(22,217,139,.09),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 90% 20%,
+            rgba(22,217,139,.05),
+            transparent 25%
+        ),
         var(--bg);
     color:var(--text);
     min-height:100vh;
@@ -54,7 +63,10 @@ a{
     text-decoration:none;
 }
 
-/* ================= HEADER ================= */
+
+/* =========================================================
+   HEADER
+========================================================= */
 
 .header{
     position:sticky;
@@ -105,16 +117,15 @@ a{
     gap:12px;
 }
 
-.balance{
-    padding:10px 14px;
-    border:1px solid rgba(22,217,139,.2);
-    background:rgba(22,217,139,.07);
-    color:var(--green);
-    border-radius:12px;
-    font-weight:800;
-}
+
+/* =========================================================
+   LOGIN
+========================================================= */
 
 .login-btn{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
     padding:10px 17px;
     border-radius:11px;
     background:var(--green);
@@ -128,7 +139,75 @@ a{
     box-shadow:0 10px 25px rgba(22,217,139,.18);
 }
 
-/* ================= PAGE ================= */
+
+/* =========================================================
+   AUTH USER
+========================================================= */
+
+.user-account{
+    display:flex;
+    align-items:center;
+    gap:9px;
+}
+
+.user-avatar{
+    width:38px;
+    height:38px;
+    display:grid;
+    place-items:center;
+    border-radius:11px;
+    background:linear-gradient(
+        135deg,
+        var(--green),
+        #76ffc0
+    );
+    color:#06100d;
+    font-size:12px;
+    font-weight:950;
+    box-shadow:0 8px 22px rgba(22,217,139,.16);
+}
+
+.user-info{
+    display:flex;
+    flex-direction:column;
+    gap:2px;
+    min-width:75px;
+}
+
+.user-info strong{
+    color:var(--text);
+    font-size:11px;
+    font-weight:900;
+}
+
+.user-info span{
+    color:var(--green);
+    font-size:10px;
+    font-weight:800;
+}
+
+.logout-btn{
+    border:1px solid rgba(255,255,255,.08);
+    background:var(--panel-2);
+    color:var(--muted);
+    padding:9px 12px;
+    border-radius:10px;
+    font-size:10px;
+    font-weight:800;
+    transition:.25s ease;
+}
+
+.logout-btn:hover{
+    color:var(--danger);
+    border-color:rgba(255,95,109,.25);
+    background:rgba(255,95,109,.06);
+    transform:translateY(-2px);
+}
+
+
+/* =========================================================
+   PAGE
+========================================================= */
 
 .container{
     width:min(1180px,90%);
@@ -165,7 +244,10 @@ a{
     line-height:1.7;
 }
 
-/* ================= SEARCH ================= */
+
+/* =========================================================
+   SEARCH
+========================================================= */
 
 .search-box{
     margin-bottom:25px;
@@ -184,6 +266,10 @@ a{
     transition:.25s ease;
 }
 
+.search-box input::placeholder{
+    color:var(--muted);
+}
+
 .search-box input:focus{
     border-color:rgba(22,217,139,.45);
     box-shadow:0 0 0 4px rgba(22,217,139,.06);
@@ -196,7 +282,10 @@ a{
     color:var(--muted);
 }
 
-/* ================= SPORTS FILTER ================= */
+
+/* =========================================================
+   SPORTS FILTER
+========================================================= */
 
 .sports-filter{
     display:flex;
@@ -233,7 +322,10 @@ a{
     font-weight:900;
 }
 
-/* ================= SECTION ================= */
+
+/* =========================================================
+   SECTION
+========================================================= */
 
 .section-title{
     display:flex;
@@ -251,7 +343,10 @@ a{
     font-size:13px;
 }
 
-/* ================= MATCH CARD ================= */
+
+/* =========================================================
+   MATCH CARDS
+========================================================= */
 
 .matches{
     display:grid;
@@ -260,7 +355,11 @@ a{
 
 .match-card{
     background:
-        linear-gradient(145deg,rgba(255,255,255,.025),transparent),
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,.025),
+            transparent
+        ),
         var(--panel);
     border:1px solid var(--border);
     border-radius:18px;
@@ -362,6 +461,10 @@ a{
     transform:translateY(-2px);
 }
 
+.odd-btn:active{
+    transform:translateY(0) scale(.98);
+}
+
 .odd-btn span{
     display:block;
     color:var(--muted);
@@ -388,6 +491,12 @@ a{
     font-weight:800;
     background:none;
     border:0;
+    transition:.2s ease;
+}
+
+.details-btn:hover{
+    transform:translateX(-3px);
+    color:#72ffc0;
 }
 
 .market-count{
@@ -395,7 +504,10 @@ a{
     font-size:12px;
 }
 
-/* ================= EMPTY ================= */
+
+/* =========================================================
+   EMPTY
+========================================================= */
 
 .empty{
     display:none;
@@ -412,7 +524,10 @@ a{
     margin-bottom:12px;
 }
 
-/* ================= MODAL ================= */
+
+/* =========================================================
+   MODAL
+========================================================= */
 
 .modal{
     position:fixed;
@@ -508,7 +623,10 @@ a{
     font-size:14px;
 }
 
-/* ================= TOAST ================= */
+
+/* =========================================================
+   TOAST
+========================================================= */
 
 .toast{
     position:fixed;
@@ -531,7 +649,10 @@ a{
     transform:translate(-50%,0);
 }
 
-/* ================= FOOTER ================= */
+
+/* =========================================================
+   FOOTER
+========================================================= */
 
 .footer{
     margin-top:70px;
@@ -542,36 +663,55 @@ a{
     font-size:13px;
 }
 
-/* ================= ANIMATIONS ================= */
+
+/* =========================================================
+   ANIMATIONS
+========================================================= */
 
 @keyframes rise{
+
     from{
         opacity:0;
         transform:translateY(18px);
     }
+
     to{
         opacity:1;
         transform:translateY(0);
     }
+
 }
 
 @keyframes fadeIn{
-    from{opacity:0}
-    to{opacity:1}
+
+    from{
+        opacity:0;
+    }
+
+    to{
+        opacity:1;
+    }
+
 }
 
 @keyframes modalIn{
+
     from{
         opacity:0;
         transform:translateY(20px) scale(.97);
     }
+
     to{
         opacity:1;
         transform:translateY(0) scale(1);
     }
+
 }
 
-/* ================= RESPONSIVE ================= */
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
 
 @media(max-width:900px){
 
@@ -583,9 +723,6 @@ a{
         padding:0 4%;
     }
 
-    .balance{
-        display:none;
-    }
 }
 
 @media(max-width:600px){
@@ -637,13 +774,63 @@ a{
         padding:9px 12px;
         font-size:12px;
     }
+
+    .user-info{
+        display:none;
+    }
+
+    .logout-btn{
+        padding:9px 10px;
+    }
+
 }
+
+
+/* =========================================================
+   VERY SMALL SCREENS
+========================================================= */
+
+@media(max-width:380px){
+
+    .logo{
+        font-size:22px;
+    }
+
+    .header{
+        height:66px;
+    }
+
+    .header-right{
+        gap:6px;
+    }
+
+    .user-avatar{
+        width:34px;
+        height:34px;
+        border-radius:10px;
+    }
+
+    .logout-btn{
+        font-size:9px;
+        padding:8px 9px;
+    }
+
+    .modal-box{
+        padding:20px;
+    }
+
+}
+
 </style>
 </head>
 
+
 <body>
 
-<!-- ================= HEADER ================= -->
+
+<!-- =========================================================
+     HEADER
+========================================================= -->
 
 <header class="header">
 
@@ -651,30 +838,109 @@ a{
         Sport<span>X</span>
     </a>
 
+
     <nav class="nav">
-        <a href="index.html">Home</a>
-        <a href="sports.html" class="active">Sports</a>
-        <a href="live.html">Live</a>
-        <a href="bets.html">My Bets</a>
+
+        <a href="index.html">
+            Home
+        </a>
+
+        <a href="sports.html" class="active">
+            Sports
+        </a>
+
+        <a href="live.html">
+            Live
+        </a>
+
+        <a href="bets.html">
+            My Bets
+        </a>
+
     </nav>
 
+
     <div class="header-right">
-        <div class="balance">AFN 1,000</div>
-        <a href="login.html" class="login-btn">Login</a>
+
+
+        <!-- GUEST -->
+
+        <div data-auth-guest>
+
+            <a
+                href="login.html"
+                class="login-btn"
+            >
+                Login
+            </a>
+
+        </div>
+
+
+        <!-- LOGGED IN USER -->
+
+        <div
+            data-auth-user
+            class="user-account"
+            style="display:none;"
+        >
+
+            <div class="user-avatar">
+
+                <span data-user-initials>
+                    US
+                </span>
+
+            </div>
+
+
+            <div class="user-info">
+
+                <strong data-user-name>
+                    User
+                </strong>
+
+                <span data-user-balance>
+                    AFN 1,000
+                </span>
+
+            </div>
+
+
+            <button
+                type="button"
+                class="logout-btn"
+                data-auth-logout
+            >
+                Logout
+            </button>
+
+        </div>
+
     </div>
 
 </header>
 
 
+
+<!-- =========================================================
+     MAIN
+========================================================= -->
+
 <main class="container">
+
 
     <!-- PAGE INTRO -->
 
     <section class="page-head">
 
-        <span class="badge">SPORTS CENTER</span>
+        <span class="badge">
+            SPORTS CENTER
+        </span>
 
-        <h1>Sports</h1>
+        <h1>
+            Sports
+        </h1>
 
         <p>
             Explore upcoming matches, leagues and prediction markets
@@ -682,6 +948,7 @@ a{
         </p>
 
     </section>
+
 
 
     <!-- SEARCH -->
@@ -695,58 +962,106 @@ a{
             autocomplete="off"
         >
 
-        <span class="search-icon">⌕</span>
+        <span class="search-icon">
+            ⌕
+        </span>
 
     </div>
+
 
 
     <!-- SPORTS FILTER -->
 
     <div class="sports-filter">
 
-        <button class="sport-filter active" data-sport="all">
+
+        <button
+            class="sport-filter active"
+            data-sport="all"
+        >
             All Sports
         </button>
 
-        <button class="sport-filter" data-sport="football">
+
+        <button
+            class="sport-filter"
+            data-sport="football"
+        >
             ⚽ Football
         </button>
 
-        <button class="sport-filter" data-sport="basketball">
+
+        <button
+            class="sport-filter"
+            data-sport="basketball"
+        >
             🏀 Basketball
         </button>
 
-        <button class="sport-filter" data-sport="tennis">
+
+        <button
+            class="sport-filter"
+            data-sport="tennis"
+        >
             🎾 Tennis
         </button>
 
-        <button class="sport-filter" data-sport="cricket">
+
+        <button
+            class="sport-filter"
+            data-sport="cricket"
+        >
             🏏 Cricket
         </button>
 
-        <button class="sport-filter" data-sport="esports">
+
+        <button
+            class="sport-filter"
+            data-sport="esports"
+        >
             🎮 Esports
         </button>
 
-        <button class="sport-filter" data-sport="boxing">
+
+        <button
+            class="sport-filter"
+            data-sport="boxing"
+        >
             🥊 Boxing
         </button>
 
+
     </div>
 
 
-    <!-- MATCHES -->
+
+    <!-- SECTION TITLE -->
 
     <div class="section-title">
-        <h2>Upcoming Matches</h2>
-        <span id="matchCount">6 matches</span>
+
+        <h2>
+            Upcoming Matches
+        </h2>
+
+        <span id="matchCount">
+            6 matches
+        </span>
+
     </div>
 
 
-    <section class="matches" id="matches">
+
+    <!-- =====================================================
+         MATCHES
+    ====================================================== -->
+
+    <section
+        class="matches"
+        id="matches"
+    >
 
 
-        <!-- FOOTBALL -->
+        <!-- ================= FOOTBALL ================= -->
 
         <article
             class="match-card"
@@ -755,49 +1070,111 @@ a{
         >
 
             <div class="match-top">
-                <span class="league">UEFA Champions League</span>
-                <span class="status">UPCOMING</span>
+
+                <span class="league">
+                    UEFA Champions League
+                </span>
+
+                <span class="status">
+                    UPCOMING
+                </span>
+
             </div>
+
 
             <div class="match-main">
 
                 <div class="team">
-                    <div class="team-logo">🔵🔴</div>
+
+                    <div class="team-logo">
+                        🔵🔴
+                    </div>
+
                     Barcelona
+
                 </div>
+
 
                 <div class="match-time">
-                    <strong>20:00</strong>
-                    <span>Today</span>
+
+                    <strong>
+                        20:00
+                    </strong>
+
+                    <span>
+                        Today
+                    </span>
+
                 </div>
 
+
                 <div class="team">
+
                     Arsenal
-                    <div class="team-logo">🔴</div>
+
+                    <div class="team-logo">
+                        🔴
+                    </div>
+
                 </div>
 
             </div>
+
 
             <div class="odds">
 
-                <button class="odd-btn" onclick="selectOdd('Barcelona', '1.85')">
-                    <span>Barcelona</span>
-                    <strong>1.85</strong>
+                <button
+                    class="odd-btn"
+                    onclick="selectOdd('Barcelona','1.85')"
+                >
+
+                    <span>
+                        Barcelona
+                    </span>
+
+                    <strong>
+                        1.85
+                    </strong>
+
                 </button>
 
-                <button class="odd-btn" onclick="selectOdd('Draw', '3.40')">
-                    <span>Draw</span>
-                    <strong>3.40</strong>
+
+                <button
+                    class="odd-btn"
+                    onclick="selectOdd('Draw','3.40')"
+                >
+
+                    <span>
+                        Draw
+                    </span>
+
+                    <strong>
+                        3.40
+                    </strong>
+
                 </button>
 
-                <button class="odd-btn" onclick="selectOdd('Arsenal', '4.10')">
-                    <span>Arsenal</span>
-                    <strong>4.10</strong>
+
+                <button
+                    class="odd-btn"
+                    onclick="selectOdd('Arsenal','4.10')"
+                >
+
+                    <span>
+                        Arsenal
+                    </span>
+
+                    <strong>
+                        4.10
+                    </strong>
+
                 </button>
 
             </div>
 
+
             <div class="match-bottom">
+
                 <button
                     class="details-btn"
                     onclick="openMatch(
@@ -810,13 +1187,17 @@ a{
                     Match Details →
                 </button>
 
-                <span class="market-count">+18 markets</span>
+                <span class="market-count">
+                    +18 markets
+                </span>
+
             </div>
 
         </article>
 
 
-        <!-- FOOTBALL -->
+
+        <!-- ================= FOOTBALL ================= -->
 
         <article
             class="match-card"
@@ -825,47 +1206,108 @@ a{
         >
 
             <div class="match-top">
-                <span class="league">Premier League</span>
-                <span class="status">UPCOMING</span>
+
+                <span class="league">
+                    Premier League
+                </span>
+
+                <span class="status">
+                    UPCOMING
+                </span>
+
             </div>
+
 
             <div class="match-main">
 
                 <div class="team">
-                    <div class="team-logo">🔴</div>
+
+                    <div class="team-logo">
+                        🔴
+                    </div>
+
                     Liverpool
+
                 </div>
+
 
                 <div class="match-time">
-                    <strong>21:30</strong>
-                    <span>Today</span>
+
+                    <strong>
+                        21:30
+                    </strong>
+
+                    <span>
+                        Today
+                    </span>
+
                 </div>
 
+
                 <div class="team">
+
                     Chelsea
-                    <div class="team-logo">🔵</div>
+
+                    <div class="team-logo">
+                        🔵
+                    </div>
+
                 </div>
 
             </div>
+
 
             <div class="odds">
 
-                <button class="odd-btn" onclick="selectOdd('Liverpool', '1.72')">
-                    <span>Liverpool</span>
-                    <strong>1.72</strong>
+                <button
+                    class="odd-btn"
+                    onclick="selectOdd('Liverpool','1.72')"
+                >
+
+                    <span>
+                        Liverpool
+                    </span>
+
+                    <strong>
+                        1.72
+                    </strong>
+
                 </button>
 
-                <button class="odd-btn" onclick="selectOdd('Draw', '3.70')">
-                    <span>Draw</span>
-                    <strong>3.70</strong>
+
+                <button
+                    class="odd-btn"
+                    onclick="selectOdd('Draw','3.70')"
+                >
+
+                    <span>
+                        Draw
+                    </span>
+
+                    <strong>
+                        3.70
+                    </strong>
+
                 </button>
 
-                <button class="odd-btn" onclick="selectOdd('Chelsea', '4.35')">
-                    <span>Chelsea</span>
-                    <strong>4.35</strong>
+
+                <button
+                    class="odd-btn"
+                    onclick="selectOdd('Chelsea','4.35')"
+                >
+
+                    <span>
+                        Chelsea
+                    </span>
+
+                    <strong>
+                        4.35
+                    </strong>
+
                 </button>
 
             </div>
+
 
             <div class="match-bottom">
 
@@ -881,14 +1323,17 @@ a{
                     Match Details →
                 </button>
 
-                <span class="market-count">+21 markets</span>
+                <span class="market-count">
+                    +21 markets
+                </span>
 
             </div>
 
         </article>
 
 
-        <!-- BASKETBALL -->
+
+        <!-- ================= BASKETBALL ================= -->
 
         <article
             class="match-card"
@@ -897,47 +1342,108 @@ a{
         >
 
             <div class="match-top">
-                <span class="league">NBA</span>
-                <span class="status">UPCOMING</span>
+
+                <span class="league">
+                    NBA
+                </span>
+
+                <span class="status">
+                    UPCOMING
+                </span>
+
             </div>
+
 
             <div class="match-main">
 
                 <div class="team">
-                    <div class="team-logo">🟣</div>
+
+                    <div class="team-logo">
+                        🟣
+                    </div>
+
                     Lakers
+
                 </div>
+
 
                 <div class="match-time">
-                    <strong>22:00</strong>
-                    <span>Today</span>
+
+                    <strong>
+                        22:00
+                    </strong>
+
+                    <span>
+                        Today
+                    </span>
+
                 </div>
 
+
                 <div class="team">
+
                     Celtics
-                    <div class="team-logo">☘️</div>
+
+                    <div class="team-logo">
+                        ☘️
+                    </div>
+
                 </div>
 
             </div>
+
 
             <div class="odds">
 
-                <button class="odd-btn" onclick="selectOdd('Lakers', '1.90')">
-                    <span>Lakers</span>
-                    <strong>1.90</strong>
+                <button
+                    class="odd-btn"
+                    onclick="selectOdd('Lakers','1.90')"
+                >
+
+                    <span>
+                        Lakers
+                    </span>
+
+                    <strong>
+                        1.90
+                    </strong>
+
                 </button>
 
-                <button class="odd-btn" onclick="selectOdd('Celtics', '1.95')">
-                    <span>Celtics</span>
-                    <strong>1.95</strong>
+
+                <button
+                    class="odd-btn"
+                    onclick="selectOdd('Celtics','1.95')"
+                >
+
+                    <span>
+                        Celtics
+                    </span>
+
+                    <strong>
+                        1.95
+                    </strong>
+
                 </button>
 
-                <button class="odd-btn" onclick="selectOdd('Total Over', '1.88')">
-                    <span>Over 210.5</span>
-                    <strong>1.88</strong>
+
+                <button
+                    class="odd-btn"
+                    onclick="selectOdd('Total Over','1.88')"
+                >
+
+                    <span>
+                        Over 210.5
+                    </span>
+
+                    <strong>
+                        1.88
+                    </strong>
+
                 </button>
 
             </div>
+
 
             <div class="match-bottom">
 
@@ -953,14 +1459,17 @@ a{
                     Match Details →
                 </button>
 
-                <span class="market-count">+14 markets</span>
+                <span class="market-count">
+                    +14 markets
+                </span>
 
             </div>
 
         </article>
 
 
-        <!-- TENNIS -->
+
+        <!-- ================= TENNIS ================= -->
 
         <article
             class="match-card"
@@ -969,47 +1478,108 @@ a{
         >
 
             <div class="match-top">
-                <span class="league">ATP Masters</span>
-                <span class="status">UPCOMING</span>
+
+                <span class="league">
+                    ATP Masters
+                </span>
+
+                <span class="status">
+                    UPCOMING
+                </span>
+
             </div>
+
 
             <div class="match-main">
 
                 <div class="team">
-                    <div class="team-logo">🎾</div>
+
+                    <div class="team-logo">
+                        🎾
+                    </div>
+
                     Alcaraz
+
                 </div>
+
 
                 <div class="match-time">
-                    <strong>18:30</strong>
-                    <span>Tomorrow</span>
+
+                    <strong>
+                        18:30
+                    </strong>
+
+                    <span>
+                        Tomorrow
+                    </span>
+
                 </div>
 
+
                 <div class="team">
+
                     Sinner
-                    <div class="team-logo">🎾</div>
+
+                    <div class="team-logo">
+                        🎾
+                    </div>
+
                 </div>
 
             </div>
+
 
             <div class="odds">
 
-                <button class="odd-btn" onclick="selectOdd('Alcaraz', '1.75')">
-                    <span>Alcaraz</span>
-                    <strong>1.75</strong>
+                <button
+                    class="odd-btn"
+                    onclick="selectOdd('Alcaraz','1.75')"
+                >
+
+                    <span>
+                        Alcaraz
+                    </span>
+
+                    <strong>
+                        1.75
+                    </strong>
+
                 </button>
 
-                <button class="odd-btn" onclick="selectOdd('Sinner', '2.05')">
-                    <span>Sinner</span>
-                    <strong>2.05</strong>
+
+                <button
+                    class="odd-btn"
+                    onclick="selectOdd('Sinner','2.05')"
+                >
+
+                    <span>
+                        Sinner
+                    </span>
+
+                    <strong>
+                        2.05
+                    </strong>
+
                 </button>
 
-                <button class="odd-btn" onclick="selectOdd('Over 2.5', '1.80')">
-                    <span>Sets Over</span>
-                    <strong>1.80</strong>
+
+                <button
+                    class="odd-btn"
+                    onclick="selectOdd('Over 2.5','1.80')"
+                >
+
+                    <span>
+                        Sets Over
+                    </span>
+
+                    <strong>
+                        1.80
+                    </strong>
+
                 </button>
 
             </div>
+
 
             <div class="match-bottom">
 
@@ -1025,14 +1595,17 @@ a{
                     Match Details →
                 </button>
 
-                <span class="market-count">+12 markets</span>
+                <span class="market-count">
+                    +12 markets
+                </span>
 
             </div>
 
         </article>
 
 
-        <!-- CRICKET -->
+
+        <!-- ================= CRICKET ================= -->
 
         <article
             class="match-card"
@@ -1041,47 +1614,108 @@ a{
         >
 
             <div class="match-top">
-                <span class="league">T20 International</span>
-                <span class="status">UPCOMING</span>
+
+                <span class="league">
+                    T20 International
+                </span>
+
+                <span class="status">
+                    UPCOMING
+                </span>
+
             </div>
+
 
             <div class="match-main">
 
                 <div class="team">
-                    <div class="team-logo">🇮🇳</div>
+
+                    <div class="team-logo">
+                        🇮🇳
+                    </div>
+
                     India
+
                 </div>
+
 
                 <div class="match-time">
-                    <strong>16:00</strong>
-                    <span>Tomorrow</span>
+
+                    <strong>
+                        16:00
+                    </strong>
+
+                    <span>
+                        Tomorrow
+                    </span>
+
                 </div>
 
+
                 <div class="team">
+
                     Australia
-                    <div class="team-logo">🇦🇺</div>
+
+                    <div class="team-logo">
+                        🇦🇺
+                    </div>
+
                 </div>
 
             </div>
+
 
             <div class="odds">
 
-                <button class="odd-btn" onclick="selectOdd('India', '1.68')">
-                    <span>India</span>
-                    <strong>1.68</strong>
+                <button
+                    class="odd-btn"
+                    onclick="selectOdd('India','1.68')"
+                >
+
+                    <span>
+                        India
+                    </span>
+
+                    <strong>
+                        1.68
+                    </strong>
+
                 </button>
 
-                <button class="odd-btn" onclick="selectOdd('Australia', '2.20')">
-                    <span>Australia</span>
-                    <strong>2.20</strong>
+
+                <button
+                    class="odd-btn"
+                    onclick="selectOdd('Australia','2.20')"
+                >
+
+                    <span>
+                        Australia
+                    </span>
+
+                    <strong>
+                        2.20
+                    </strong>
+
                 </button>
 
-                <button class="odd-btn" onclick="selectOdd('Total Runs', '1.90')">
-                    <span>Over 165.5</span>
-                    <strong>1.90</strong>
+
+                <button
+                    class="odd-btn"
+                    onclick="selectOdd('Total Runs','1.90')"
+                >
+
+                    <span>
+                        Over 165.5
+                    </span>
+
+                    <strong>
+                        1.90
+                    </strong>
+
                 </button>
 
             </div>
+
 
             <div class="match-bottom">
 
@@ -1097,14 +1731,17 @@ a{
                     Match Details →
                 </button>
 
-                <span class="market-count">+16 markets</span>
+                <span class="market-count">
+                    +16 markets
+                </span>
 
             </div>
 
         </article>
 
 
-        <!-- ESPORTS -->
+
+        <!-- ================= ESPORTS ================= -->
 
         <article
             class="match-card"
@@ -1113,47 +1750,108 @@ a{
         >
 
             <div class="match-top">
-                <span class="league">Valorant Champions</span>
-                <span class="status">UPCOMING</span>
+
+                <span class="league">
+                    Valorant Champions
+                </span>
+
+                <span class="status">
+                    UPCOMING
+                </span>
+
             </div>
+
 
             <div class="match-main">
 
                 <div class="team">
-                    <div class="team-logo">🎮</div>
+
+                    <div class="team-logo">
+                        🎮
+                    </div>
+
                     Sentinels
+
                 </div>
+
 
                 <div class="match-time">
-                    <strong>19:00</strong>
-                    <span>Tomorrow</span>
+
+                    <strong>
+                        19:00
+                    </strong>
+
+                    <span>
+                        Tomorrow
+                    </span>
+
                 </div>
 
+
                 <div class="team">
+
                     Fnatic
-                    <div class="team-logo">🟠</div>
+
+                    <div class="team-logo">
+                        🟠
+                    </div>
+
                 </div>
 
             </div>
+
 
             <div class="odds">
 
-                <button class="odd-btn" onclick="selectOdd('Sentinels', '2.10')">
-                    <span>Sentinels</span>
-                    <strong>2.10</strong>
+                <button
+                    class="odd-btn"
+                    onclick="selectOdd('Sentinels','2.10')"
+                >
+
+                    <span>
+                        Sentinels
+                    </span>
+
+                    <strong>
+                        2.10
+                    </strong>
+
                 </button>
 
-                <button class="odd-btn" onclick="selectOdd('Fnatic', '1.70')">
-                    <span>Fnatic</span>
-                    <strong>1.70</strong>
+
+                <button
+                    class="odd-btn"
+                    onclick="selectOdd('Fnatic','1.70')"
+                >
+
+                    <span>
+                        Fnatic
+                    </span>
+
+                    <strong>
+                        1.70
+                    </strong>
+
                 </button>
 
-                <button class="odd-btn" onclick="selectOdd('Over Maps', '1.85')">
-                    <span>Over 2.5 Maps</span>
-                    <strong>1.85</strong>
+
+                <button
+                    class="odd-btn"
+                    onclick="selectOdd('Over Maps','1.85')"
+                >
+
+                    <span>
+                        Over 2.5 Maps
+                    </span>
+
+                    <strong>
+                        1.85
+                    </strong>
+
                 </button>
 
             </div>
+
 
             <div class="match-bottom">
 
@@ -1169,22 +1867,35 @@ a{
                     Match Details →
                 </button>
 
-                <span class="market-count">+10 markets</span>
+                <span class="market-count">
+                    +10 markets
+                </span>
 
             </div>
 
         </article>
 
+
     </section>
 
 
-    <!-- EMPTY -->
 
-    <div class="empty" id="emptyState">
+    <!-- =====================================================
+         EMPTY STATE
+    ====================================================== -->
 
-        <div class="empty-icon">🔎</div>
+    <div
+        class="empty"
+        id="emptyState"
+    >
 
-        <strong>No matches found</strong>
+        <div class="empty-icon">
+            🔎
+        </div>
+
+        <strong>
+            No matches found
+        </strong>
 
         <p style="margin-top:8px">
             Try another sport or search term.
@@ -1195,23 +1906,42 @@ a{
 </main>
 
 
-<!-- ================= MODAL ================= -->
 
-<div class="modal" id="matchModal">
+<!-- =========================================================
+     MATCH MODAL
+========================================================= -->
+
+<div
+    class="modal"
+    id="matchModal"
+>
 
     <div class="modal-box">
 
+
         <div class="modal-head">
 
-            <h3>Match Details</h3>
+            <h3>
+                Match Details
+            </h3>
 
-            <button class="close" onclick="closeModal()">×</button>
+            <button
+                class="close"
+                onclick="closeModal()"
+                aria-label="Close"
+            >
+                ×
+            </button>
 
         </div>
 
+
         <div class="modal-match">
 
-            <div class="modal-teams" id="modalTeams">
+            <div
+                class="modal-teams"
+                id="modalTeams"
+            >
                 Barcelona vs Arsenal
             </div>
 
@@ -1221,26 +1951,58 @@ a{
 
         </div>
 
+
         <div class="modal-info">
 
             <div class="info-box">
-                <span>League</span>
-                <strong id="modalLeague">Champions League</strong>
+
+                <span>
+                    League
+                </span>
+
+                <strong id="modalLeague">
+                    Champions League
+                </strong>
+
             </div>
 
-            <div class="info-box">
-                <span>Sport</span>
-                <strong id="modalSport">Football</strong>
-            </div>
 
             <div class="info-box">
-                <span>Start Time</span>
-                <strong id="modalTime">20:00</strong>
+
+                <span>
+                    Sport
+                </span>
+
+                <strong id="modalSport">
+                    Football
+                </strong>
+
             </div>
 
+
             <div class="info-box">
-                <span>Markets</span>
-                <strong>18+ Available</strong>
+
+                <span>
+                    Start Time
+                </span>
+
+                <strong id="modalTime">
+                    20:00
+                </strong>
+
+            </div>
+
+
+            <div class="info-box">
+
+                <span>
+                    Markets
+                </span>
+
+                <strong>
+                    18+ Available
+                </strong>
+
             </div>
 
         </div>
@@ -1250,29 +2012,51 @@ a{
 </div>
 
 
-<!-- ================= TOAST ================= -->
 
-<div class="toast" id="toast"></div>
+<!-- =========================================================
+     TOAST
+========================================================= -->
 
+<div
+    class="toast"
+    id="toast"
+></div>
+
+
+
+<!-- =========================================================
+     FOOTER
+========================================================= -->
 
 <footer class="footer">
-    © 2026 SportX. Virtual sports prediction simulator.
+
+    © 2026 SportX.
+    Virtual sports prediction simulator.
+
 </footer>
 
 
+
+<!-- =========================================================
+     PAGE JAVASCRIPT
+========================================================= -->
+
 <script>
 
-/* ==========================================
+/* =========================================================
    READ SPORT FROM URL
-========================================== */
+========================================================= */
 
-const params = new URLSearchParams(window.location.search);
-const urlSport = params.get("type");
+const params =
+    new URLSearchParams(window.location.search);
+
+const urlSport =
+    params.get("type");
 
 
-/* ==========================================
+/* =========================================================
    ELEMENTS
-========================================== */
+========================================================= */
 
 const filterButtons =
     document.querySelectorAll(".sport-filter");
@@ -1290,16 +2074,19 @@ const matchCount =
     document.getElementById("matchCount");
 
 
-/* ==========================================
-   FILTER
-========================================== */
+/* =========================================================
+   FILTER MATCHES
+========================================================= */
 
 function filterMatches(sport){
 
     const search =
-        searchInput.value.toLowerCase().trim();
+        searchInput.value
+            .toLowerCase()
+            .trim();
 
     let visible = 0;
+
 
     matchCards.forEach(card => {
 
@@ -1307,14 +2094,17 @@ function filterMatches(sport){
             card.dataset.sport;
 
         const cardSearch =
-            card.dataset.search;
+            card.dataset.search.toLowerCase();
+
 
         const sportMatch =
             sport === "all" ||
             cardSport === sport;
 
+
         const searchMatch =
             cardSearch.includes(search);
+
 
         if(sportMatch && searchMatch){
 
@@ -1330,56 +2120,77 @@ function filterMatches(sport){
 
     });
 
+
     emptyState.style.display =
-        visible === 0 ? "block" : "none";
+        visible === 0
+            ? "block"
+            : "none";
+
 
     matchCount.textContent =
-        visible + (visible === 1 ? " match" : " matches");
+        visible +
+        (visible === 1 ? " match" : " matches");
+
 }
 
 
-/* ==========================================
+/* =========================================================
    FILTER BUTTON EVENTS
-========================================== */
+========================================================= */
 
 filterButtons.forEach(button => {
 
-    button.addEventListener("click", () => {
+    button.addEventListener(
+        "click",
+        () => {
 
-        filterButtons.forEach(btn =>
-            btn.classList.remove("active")
-        );
+            filterButtons.forEach(btn => {
 
-        button.classList.add("active");
+                btn.classList.remove("active");
 
-        filterMatches(
-            button.dataset.sport
-        );
-
-    });
-
-});
+            });
 
 
-/* ==========================================
-   SEARCH
-========================================== */
+            button.classList.add("active");
 
-searchInput.addEventListener("input", () => {
 
-    const active =
-        document.querySelector(".sport-filter.active");
+            filterMatches(
+                button.dataset.sport
+            );
 
-    filterMatches(
-        active.dataset.sport
+        }
     );
 
 });
 
 
-/* ==========================================
+/* =========================================================
+   SEARCH
+========================================================= */
+
+searchInput.addEventListener(
+    "input",
+    () => {
+
+        const active =
+            document.querySelector(
+                ".sport-filter.active"
+            );
+
+
+        filterMatches(
+            active
+                ? active.dataset.sport
+                : "all"
+        );
+
+    }
+);
+
+
+/* =========================================================
    URL SPORT AUTO SELECT
-========================================== */
+========================================================= */
 
 if(urlSport){
 
@@ -1388,26 +2199,42 @@ if(urlSport){
             `.sport-filter[data-sport="${urlSport}"]`
         );
 
+
     if(target){
 
-        filterButtons.forEach(btn =>
-            btn.classList.remove("active")
-        );
+        filterButtons.forEach(btn => {
+
+            btn.classList.remove("active");
+
+        });
+
 
         target.classList.add("active");
 
+
         filterMatches(urlSport);
 
+    }else{
+
+        filterMatches("all");
+
     }
+
+}else{
+
+    filterMatches("all");
 
 }
 
 
-/* ==========================================
-   ODD SELECT
-========================================== */
+/* =========================================================
+   ODDS SELECT
+========================================================= */
 
-function selectOdd(selection, odd){
+function selectOdd(
+    selection,
+    odd
+){
 
     showToast(
         `${selection} selected • Odds ${odd}`
@@ -1416,9 +2243,9 @@ function selectOdd(selection, odd){
 }
 
 
-/* ==========================================
+/* =========================================================
    MATCH MODAL
-========================================== */
+========================================================= */
 
 function openMatch(
     teams,
@@ -1427,24 +2254,39 @@ function openMatch(
     sport
 ){
 
-    document.getElementById("modalTeams")
+    document
+        .getElementById("modalTeams")
         .textContent = teams;
 
-    document.getElementById("modalLeague")
+
+    document
+        .getElementById("modalLeague")
         .textContent = league;
 
-    document.getElementById("modalTime")
+
+    document
+        .getElementById("modalTime")
         .textContent = time;
 
-    document.getElementById("modalSport")
+
+    document
+        .getElementById("modalSport")
         .textContent = sport;
+
 
     document
         .getElementById("matchModal")
         .classList.add("show");
 
+
+    document.body.style.overflow = "hidden";
+
 }
 
+
+/* =========================================================
+   CLOSE MODAL
+========================================================= */
 
 function closeModal(){
 
@@ -1452,76 +2294,98 @@ function closeModal(){
         .getElementById("matchModal")
         .classList.remove("show");
 
+
+    document.body.style.overflow = "";
+
 }
 
 
-/* ==========================================
+/* =========================================================
    CLOSE MODAL OUTSIDE
-========================================== */
+========================================================= */
 
 document
     .getElementById("matchModal")
-    .addEventListener("click", event => {
+    .addEventListener(
+        "click",
+        event => {
 
-        if(event.target.id === "matchModal"){
+            if(
+                event.target.id === "matchModal"
+            ){
+
+                closeModal();
+
+            }
+
+        }
+    );
+
+
+/* =========================================================
+   ESC CLOSE
+========================================================= */
+
+document.addEventListener(
+    "keydown",
+    event => {
+
+        if(event.key === "Escape"){
+
             closeModal();
+
         }
 
-    });
-
-
-/* ==========================================
-   ESC CLOSE
-========================================== */
-
-document.addEventListener("keydown", event => {
-
-    if(event.key === "Escape"){
-        closeModal();
     }
+);
 
-});
 
-
-/* ==========================================
+/* =========================================================
    TOAST
-========================================== */
+========================================================= */
 
 let toastTimer;
+
 
 function showToast(message){
 
     const toast =
         document.getElementById("toast");
 
-    toast.textContent = message;
+
+    toast.textContent =
+        message;
+
 
     toast.classList.add("show");
 
+
     clearTimeout(toastTimer);
 
-    toastTimer = setTimeout(() => {
 
-        toast.classList.remove("show");
+    toastTimer =
+        setTimeout(
+            () => {
 
-    }, 2200);
+                toast.classList.remove(
+                    "show"
+                );
 
-}
-
-
-/* ==========================================
-   INITIAL
-========================================== */
-
-if(!urlSport){
-
-    filterMatches("all");
+            },
+            2200
+        );
 
 }
 
 </script>
 
+
+<!-- =========================================================
+     SHARED AUTH
+========================================================= -->
+
 <script src="auth.js"></script>
-    
+
+
 </body>
 </html>
