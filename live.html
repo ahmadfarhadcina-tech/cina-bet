@@ -105,15 +105,6 @@ a{
     gap:12px;
 }
 
-.balance{
-    padding:10px 14px;
-    border-radius:12px;
-    color:var(--green);
-    background:rgba(22,217,139,.07);
-    border:1px solid rgba(22,217,139,.2);
-    font-weight:800;
-}
-
 .login-btn{
     padding:10px 17px;
     border-radius:11px;
@@ -126,6 +117,69 @@ a{
 .login-btn:hover{
     transform:translateY(-2px);
     box-shadow:0 10px 25px rgba(22,217,139,.18);
+}
+
+/* ================= AUTH USER ================= */
+
+.user-account{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:6px 8px;
+    border-radius:14px;
+    background:var(--panel);
+    border:1px solid var(--border);
+}
+
+.user-avatar{
+    width:34px;
+    height:34px;
+    border-radius:10px;
+    display:grid;
+    place-items:center;
+    background:linear-gradient(
+        135deg,
+        var(--green),
+        var(--green-dark)
+    );
+    color:#03120c;
+    font-size:12px;
+    font-weight:900;
+}
+
+.user-info{
+    display:flex;
+    flex-direction:column;
+    gap:2px;
+    min-width:75px;
+}
+
+.user-info strong{
+    color:var(--text);
+    font-size:12px;
+}
+
+.user-info span{
+    color:var(--green);
+    font-size:10px;
+    font-weight:800;
+}
+
+.logout-btn{
+    padding:8px 10px;
+    border-radius:9px;
+    background:rgba(255,255,255,.05);
+    border:1px solid var(--border);
+    color:var(--muted);
+    font-size:11px;
+    font-weight:800;
+    transition:.2s ease;
+}
+
+.logout-btn:hover{
+    color:var(--danger);
+    border-color:rgba(255,95,109,.35);
+    transform:translateY(-1px);
 }
 
 /* ================= MAIN ================= */
@@ -640,6 +694,7 @@ a{
         opacity:0;
         transform:translateY(18px);
     }
+
     to{
         opacity:1;
         transform:translateY(0);
@@ -647,8 +702,13 @@ a{
 }
 
 @keyframes fadeIn{
-    from{opacity:0}
-    to{opacity:1}
+    from{
+        opacity:0;
+    }
+
+    to{
+        opacity:1;
+    }
 }
 
 @keyframes modalIn{
@@ -656,6 +716,7 @@ a{
         opacity:0;
         transform:translateY(20px) scale(.97);
     }
+
     to{
         opacity:1;
         transform:translateY(0) scale(1);
@@ -679,10 +740,6 @@ a{
 @media(max-width:900px){
 
     .nav{
-        display:none;
-    }
-
-    .balance{
         display:none;
     }
 
@@ -736,6 +793,18 @@ a{
         padding:15px;
     }
 
+    .user-info{
+        display:none;
+    }
+
+    .user-account{
+        padding:5px;
+    }
+
+    .logout-btn{
+        padding:8px 9px;
+    }
+
     .login-btn{
         padding:9px 12px;
         font-size:12px;
@@ -763,13 +832,38 @@ a{
 
     <div class="header-right">
 
-        <div class="balance">
-            AFN 1,000
+        <!-- LOGGED OUT -->
+        <div data-auth-guest>
+            <a href="login.html" class="login-btn">
+                Login
+            </a>
         </div>
 
-        <a href="login.html" class="login-btn">
-            Login
-        </a>
+        <!-- LOGGED IN -->
+        <div
+            data-auth-user
+            class="user-account"
+            style="display:none;"
+        >
+
+            <div class="user-avatar">
+                <span data-user-initials>US</span>
+            </div>
+
+            <div class="user-info">
+                <strong data-user-name>User</strong>
+                <span data-user-balance>AFN 1,000</span>
+            </div>
+
+            <button
+                type="button"
+                class="logout-btn"
+                data-auth-logout
+            >
+                Logout
+            </button>
+
+        </div>
 
     </div>
 
@@ -850,7 +944,10 @@ a{
 
         <div class="summary-card">
             <span>Live Matches</span>
-            <strong class="live-number" id="liveCount">
+            <strong
+                class="live-number"
+                id="liveCount"
+            >
                 5
             </strong>
         </div>
@@ -886,7 +983,6 @@ a{
 
 
     <section class="matches" id="matches">
-
 
         <!-- MATCH 1 -->
 
@@ -947,7 +1043,6 @@ a{
 
                 </div>
 
-
                 <div class="match-stats">
 
                     <div class="stat">
@@ -966,7 +1061,6 @@ a{
                     </div>
 
                 </div>
-
 
                 <div class="live-odds">
 
@@ -996,16 +1090,11 @@ a{
 
                 </div>
 
-
                 <div class="card-bottom">
 
                     <button
                         class="details-btn"
-                        onclick="openLive(
-                            'Manchester vs Madrid',
-                            '2 - 1',
-                            '67\\''
-                        )"
+                        onclick="openLive('Manchester vs Madrid','2 - 1','67\'')"
                     >
                         Live Details →
                     </button>
@@ -1080,7 +1169,6 @@ a{
 
                 </div>
 
-
                 <div class="match-stats">
 
                     <div class="stat">
@@ -1099,7 +1187,6 @@ a{
                     </div>
 
                 </div>
-
 
                 <div class="live-odds">
 
@@ -1129,16 +1216,11 @@ a{
 
                 </div>
 
-
                 <div class="card-bottom">
 
                     <button
                         class="details-btn"
-                        onclick="openLive(
-                            'Liverpool vs Arsenal',
-                            '1 - 0',
-                            '38\\''
-                        )"
+                        onclick="openLive('Liverpool vs Arsenal','1 - 0','38\'')"
                     >
                         Live Details →
                     </button>
@@ -1213,7 +1295,6 @@ a{
 
                 </div>
 
-
                 <div class="match-stats">
 
                     <div class="stat">
@@ -1232,7 +1313,6 @@ a{
                     </div>
 
                 </div>
-
 
                 <div class="live-odds">
 
@@ -1262,16 +1342,11 @@ a{
 
                 </div>
 
-
                 <div class="card-bottom">
 
                     <button
                         class="details-btn"
-                        onclick="openLive(
-                            'Lakers vs Warriors',
-                            '78 - 74',
-                            'Q3 • 04:32'
-                        )"
+                        onclick="openLive('Lakers vs Warriors','78 - 74','Q3 • 04:32')"
                     >
                         Live Details →
                     </button>
@@ -1346,7 +1421,6 @@ a{
 
                 </div>
 
-
                 <div class="match-stats">
 
                     <div class="stat">
@@ -1365,7 +1439,6 @@ a{
                     </div>
 
                 </div>
-
 
                 <div class="live-odds">
 
@@ -1395,16 +1468,11 @@ a{
 
                 </div>
 
-
                 <div class="card-bottom">
 
                     <button
                         class="details-btn"
-                        onclick="openLive(
-                            'Alcaraz vs Sinner',
-                            '1 - 1',
-                            'Set 3'
-                        )"
+                        onclick="openLive('Alcaraz vs Sinner','1 - 1','Set 3')"
                     >
                         Live Details →
                     </button>
@@ -1479,7 +1547,6 @@ a{
 
                 </div>
 
-
                 <div class="match-stats">
 
                     <div class="stat">
@@ -1498,7 +1565,6 @@ a{
                     </div>
 
                 </div>
-
 
                 <div class="live-odds">
 
@@ -1528,16 +1594,11 @@ a{
 
                 </div>
 
-
                 <div class="card-bottom">
 
                     <button
                         class="details-btn"
-                        onclick="openLive(
-                            'Fnatic vs Sentinels',
-                            '1 - 0',
-                            'Map 2'
-                        )"
+                        onclick="openLive('Fnatic vs Sentinels','1 - 0','Map 2')"
                     >
                         Live Details →
                     </button>
@@ -1597,7 +1658,6 @@ a{
 
         </div>
 
-
         <div class="modal-score">
 
             <div
@@ -1623,55 +1683,26 @@ a{
 
         </div>
 
-
         <div class="modal-grid">
 
             <div class="info-box">
-
-                <span>
-                    Status
-                </span>
-
-                <strong>
-                    LIVE
-                </strong>
-
+                <span>Status</span>
+                <strong>LIVE</strong>
             </div>
 
             <div class="info-box">
-
-                <span>
-                    Markets
-                </span>
-
-                <strong>
-                    Available
-                </strong>
-
+                <span>Markets</span>
+                <strong>Available</strong>
             </div>
 
             <div class="info-box">
-
-                <span>
-                    Predictions
-                </span>
-
-                <strong>
-                    Live
-                </strong>
-
+                <span>Predictions</span>
+                <strong>Live</strong>
             </div>
 
             <div class="info-box">
-
-                <span>
-                    Data
-                </span>
-
-                <strong>
-                    Updating
-                </strong>
-
+                <span>Data</span>
+                <strong>Updating</strong>
             </div>
 
         </div>
@@ -1777,6 +1808,8 @@ function filterMatches(sport){
         (visible === 1
         ? " match"
         : " matches");
+
+    liveCount.textContent = visible;
 
 }
 
@@ -1887,7 +1920,9 @@ document
                 event.target.id ===
                 "liveModal"
             ){
+
                 closeModal();
+
             }
 
         }
@@ -1903,7 +1938,9 @@ document.addEventListener(
     event => {
 
         if(event.key === "Escape"){
+
             closeModal();
+
         }
 
     }
@@ -1973,6 +2010,9 @@ setInterval(() => {
 filterMatches("all");
 
 </script>
+
+<!-- SHARED AUTH -->
 <script src="auth.js"></script>
+
 </body>
 </html>
