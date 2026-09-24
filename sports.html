@@ -6,8 +6,9 @@
 
 <title>Sports | SportX</title>
 
-<style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
+<style>
 :root{
     --bg:#07100e;
     --panel:#0d1815;
@@ -34,23 +35,14 @@ html{
 body{
     font-family:Inter,Arial,sans-serif;
     background:
-        radial-gradient(
-            circle at 20% 0%,
-            rgba(22,217,139,.09),
-            transparent 30%
-        ),
-        radial-gradient(
-            circle at 90% 20%,
-            rgba(22,217,139,.05),
-            transparent 25%
-        ),
+        radial-gradient(circle at 20% 0%,rgba(22,217,139,.09),transparent 30%),
+        radial-gradient(circle at 90% 20%,rgba(22,217,139,.05),transparent 25%),
         var(--bg);
     color:var(--text);
     min-height:100vh;
 }
 
-button,
-input{
+button,input{
     font:inherit;
 }
 
@@ -63,10 +55,7 @@ a{
     text-decoration:none;
 }
 
-
-/* =========================================================
-   HEADER
-========================================================= */
+/* HEADER */
 
 .header{
     position:sticky;
@@ -117,11 +106,6 @@ a{
     gap:12px;
 }
 
-
-/* =========================================================
-   LOGIN
-========================================================= */
-
 .login-btn{
     display:inline-flex;
     align-items:center;
@@ -139,11 +123,6 @@ a{
     box-shadow:0 10px 25px rgba(22,217,139,.18);
 }
 
-
-/* =========================================================
-   AUTH USER
-========================================================= */
-
 .user-account{
     display:flex;
     align-items:center;
@@ -156,11 +135,7 @@ a{
     display:grid;
     place-items:center;
     border-radius:11px;
-    background:linear-gradient(
-        135deg,
-        var(--green),
-        #76ffc0
-    );
+    background:linear-gradient(135deg,var(--green),#76ffc0);
     color:#06100d;
     font-size:12px;
     font-weight:950;
@@ -201,13 +176,9 @@ a{
     color:var(--danger);
     border-color:rgba(255,95,109,.25);
     background:rgba(255,95,109,.06);
-    transform:translateY(-2px);
 }
 
-
-/* =========================================================
-   PAGE
-========================================================= */
+/* PAGE */
 
 .container{
     width:min(1180px,90%);
@@ -244,10 +215,7 @@ a{
     line-height:1.7;
 }
 
-
-/* =========================================================
-   SEARCH
-========================================================= */
+/* SEARCH */
 
 .search-box{
     margin-bottom:25px;
@@ -282,10 +250,7 @@ a{
     color:var(--muted);
 }
 
-
-/* =========================================================
-   SPORTS FILTER
-========================================================= */
+/* FILTER */
 
 .sports-filter{
     display:flex;
@@ -322,10 +287,7 @@ a{
     font-weight:900;
 }
 
-
-/* =========================================================
-   SECTION
-========================================================= */
+/* SECTION */
 
 .section-title{
     display:flex;
@@ -343,10 +305,30 @@ a{
     font-size:13px;
 }
 
+/* LOADING */
 
-/* =========================================================
-   MATCH CARDS
-========================================================= */
+.loading{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:12px;
+    padding:55px 20px;
+    color:var(--muted);
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:18px;
+}
+
+.spinner{
+    width:22px;
+    height:22px;
+    border:3px solid rgba(255,255,255,.08);
+    border-top-color:var(--green);
+    border-radius:50%;
+    animation:spin .8s linear infinite;
+}
+
+/* MATCHES */
 
 .matches{
     display:grid;
@@ -355,11 +337,7 @@ a{
 
 .match-card{
     background:
-        linear-gradient(
-            145deg,
-            rgba(255,255,255,.025),
-            transparent
-        ),
+        linear-gradient(145deg,rgba(255,255,255,.025),transparent),
         var(--panel);
     border:1px solid var(--border);
     border-radius:18px;
@@ -395,6 +373,17 @@ a{
     font-weight:800;
 }
 
+.status.live{
+    background:rgba(255,95,109,.10);
+    color:#ff7783;
+    animation:pulse 1.5s infinite;
+}
+
+.status.finished{
+    background:rgba(255,255,255,.06);
+    color:var(--muted);
+}
+
 .match-main{
     display:grid;
     grid-template-columns:1fr auto 1fr;
@@ -407,6 +396,7 @@ a{
     align-items:center;
     gap:12px;
     font-weight:800;
+    min-width:0;
 }
 
 .team:last-child{
@@ -414,19 +404,37 @@ a{
     text-align:right;
 }
 
+.team-name{
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+
 .team-logo{
-    width:43px;
-    height:43px;
+    width:48px;
+    height:48px;
+    flex:0 0 48px;
     border-radius:13px;
     display:grid;
     place-items:center;
     background:var(--panel-2);
     border:1px solid var(--border);
-    font-size:18px;
+    overflow:hidden;
+}
+
+.team-logo img{
+    width:100%;
+    height:100%;
+    object-fit:contain;
+    padding:5px;
+}
+
+.logo-fallback{
+    font-size:20px;
 }
 
 .match-time{
     text-align:center;
+    min-width:80px;
 }
 
 .match-time strong{
@@ -439,48 +447,17 @@ a{
     font-size:11px;
 }
 
-.odds{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:8px;
-    margin-top:18px;
-}
-
-.odd-btn{
-    border:1px solid var(--border);
-    background:var(--panel-2);
-    color:var(--text);
-    border-radius:11px;
-    padding:10px 8px;
-    transition:.25s ease;
-}
-
-.odd-btn:hover{
-    background:rgba(22,217,139,.1);
-    border-color:rgba(22,217,139,.3);
-    transform:translateY(-2px);
-}
-
-.odd-btn:active{
-    transform:translateY(0) scale(.98);
-}
-
-.odd-btn span{
-    display:block;
-    color:var(--muted);
-    font-size:10px;
-    margin-bottom:4px;
-}
-
-.odd-btn strong{
+.score{
     color:var(--green);
+    font-size:21px !important;
+    font-weight:950;
 }
 
 .match-bottom{
     display:flex;
     justify-content:space-between;
     align-items:center;
-    margin-top:15px;
+    margin-top:18px;
     padding-top:14px;
     border-top:1px solid var(--border);
 }
@@ -504,10 +481,7 @@ a{
     font-size:12px;
 }
 
-
-/* =========================================================
-   EMPTY
-========================================================= */
+/* EMPTY */
 
 .empty{
     display:none;
@@ -524,10 +498,7 @@ a{
     margin-bottom:12px;
 }
 
-
-/* =========================================================
-   MODAL
-========================================================= */
+/* MODAL */
 
 .modal{
     position:fixed;
@@ -575,7 +546,6 @@ a{
     color:var(--text);
     border-radius:11px;
     font-size:20px;
-    transition:.2s ease;
 }
 
 .close:hover{
@@ -623,10 +593,7 @@ a{
     font-size:14px;
 }
 
-
-/* =========================================================
-   TOAST
-========================================================= */
+/* TOAST */
 
 .toast{
     position:fixed;
@@ -649,10 +616,7 @@ a{
     transform:translate(-50%,0);
 }
 
-
-/* =========================================================
-   FOOTER
-========================================================= */
+/* FOOTER */
 
 .footer{
     margin-top:70px;
@@ -663,58 +627,47 @@ a{
     font-size:13px;
 }
 
-
-/* =========================================================
-   ANIMATIONS
-========================================================= */
+/* ANIMATIONS */
 
 @keyframes rise{
-
     from{
         opacity:0;
         transform:translateY(18px);
     }
-
     to{
         opacity:1;
         transform:translateY(0);
     }
-
 }
 
 @keyframes fadeIn{
-
-    from{
-        opacity:0;
-    }
-
-    to{
-        opacity:1;
-    }
-
+    from{opacity:0;}
+    to{opacity:1;}
 }
 
 @keyframes modalIn{
-
     from{
         opacity:0;
         transform:translateY(20px) scale(.97);
     }
-
     to{
         opacity:1;
         transform:translateY(0) scale(1);
     }
-
 }
 
+@keyframes spin{
+    to{transform:rotate(360deg);}
+}
 
-/* =========================================================
-   RESPONSIVE
-========================================================= */
+@keyframes pulse{
+    0%,100%{opacity:1;}
+    50%{opacity:.55;}
+}
+
+/* RESPONSIVE */
 
 @media(max-width:900px){
-
     .nav{
         display:none;
     }
@@ -722,11 +675,9 @@ a{
     .header{
         padding:0 4%;
     }
-
 }
 
 @media(max-width:600px){
-
     .container{
         width:92%;
     }
@@ -758,16 +709,13 @@ a{
     }
 
     .team-logo{
-        width:38px;
-        height:38px;
+        width:40px;
+        height:40px;
+        flex-basis:40px;
     }
 
     .match-time strong{
         font-size:15px;
-    }
-
-    .odd-btn{
-        padding:9px 4px;
     }
 
     .login-btn{
@@ -782,16 +730,9 @@ a{
     .logout-btn{
         padding:9px 10px;
     }
-
 }
 
-
-/* =========================================================
-   VERY SMALL SCREENS
-========================================================= */
-
 @media(max-width:380px){
-
     .logo{
         font-size:22px;
     }
@@ -818,19 +759,11 @@ a{
     .modal-box{
         padding:20px;
     }
-
 }
-
 </style>
 </head>
 
-
 <body>
-
-
-<!-- =========================================================
-     HEADER
-========================================================= -->
 
 <header class="header">
 
@@ -838,74 +771,31 @@ a{
         Sport<span>X</span>
     </a>
 
-
     <nav class="nav">
-
-        <a href="index.html">
-            Home
-        </a>
-
-        <a href="sports.html" class="active">
-            Sports
-        </a>
-
-        <a href="live.html">
-            Live
-        </a>
-
-        <a href="bets.html">
-            My Bets
-        </a>
-
+        <a href="index.html">Home</a>
+        <a href="sports.html" class="active">Sports</a>
+        <a href="live.html">Live</a>
+        <a href="bets.html">My Bets</a>
     </nav>
-
 
     <div class="header-right">
 
-
-        <!-- GUEST -->
-
         <div data-auth-guest>
-
-            <a
-                href="login.html"
-                class="login-btn"
-            >
+            <a href="login.html" class="login-btn">
                 Login
             </a>
-
         </div>
 
-
-        <!-- LOGGED IN USER -->
-
-        <div
-            data-auth-user
-            class="user-account"
-            style="display:none;"
-        >
+        <div data-auth-user class="user-account" style="display:none;">
 
             <div class="user-avatar">
-
-                <span data-user-initials>
-                    US
-                </span>
-
+                <span data-user-initials>US</span>
             </div>
-
 
             <div class="user-info">
-
-                <strong data-user-name>
-                    User
-                </strong>
-
-                <span data-user-balance>
-                    AFN 1,000
-                </span>
-
+                <strong data-user-name>User</strong>
+                <span data-user-balance>AFN 1,000</span>
             </div>
-
 
             <button
                 type="button"
@@ -921,21 +811,12 @@ a{
 
 </header>
 
-
-
-<!-- =========================================================
-     MAIN
-========================================================= -->
-
 <main class="container">
-
-
-    <!-- PAGE INTRO -->
 
     <section class="page-head">
 
         <span class="badge">
-            SPORTS CENTER
+            LIVE SPORTS DATA
         </span>
 
         <h1>
@@ -943,15 +824,10 @@ a{
         </h1>
 
         <p>
-            Explore upcoming matches, leagues and prediction markets
-            across your favorite sports.
+            Explore real football matches, live scores, leagues and upcoming fixtures.
         </p>
 
     </section>
-
-
-
-    <!-- SEARCH -->
 
     <div class="search-box">
 
@@ -968,926 +844,63 @@ a{
 
     </div>
 
-
-
-    <!-- SPORTS FILTER -->
-
     <div class="sports-filter">
 
-
-        <button
-            class="sport-filter active"
-            data-sport="all"
-        >
+        <button class="sport-filter active" data-sport="all">
             All Sports
         </button>
 
-
-        <button
-            class="sport-filter"
-            data-sport="football"
-        >
+        <button class="sport-filter" data-sport="football">
             ⚽ Football
         </button>
 
-
-        <button
-            class="sport-filter"
-            data-sport="basketball"
-        >
+        <button class="sport-filter" data-sport="basketball">
             🏀 Basketball
         </button>
 
-
-        <button
-            class="sport-filter"
-            data-sport="tennis"
-        >
+        <button class="sport-filter" data-sport="tennis">
             🎾 Tennis
         </button>
 
-
-        <button
-            class="sport-filter"
-            data-sport="cricket"
-        >
+        <button class="sport-filter" data-sport="cricket">
             🏏 Cricket
         </button>
 
-
-        <button
-            class="sport-filter"
-            data-sport="esports"
-        >
+        <button class="sport-filter" data-sport="esports">
             🎮 Esports
         </button>
 
-
-        <button
-            class="sport-filter"
-            data-sport="boxing"
-        >
+        <button class="sport-filter" data-sport="boxing">
             🥊 Boxing
         </button>
 
-
     </div>
-
-
-
-    <!-- SECTION TITLE -->
 
     <div class="section-title">
 
         <h2>
-            Upcoming Matches
+            Matches
         </h2>
 
         <span id="matchCount">
-            6 matches
+            Loading...
         </span>
 
     </div>
 
+    <div class="loading" id="loadingState">
 
+        <div class="spinner"></div>
 
-    <!-- =====================================================
-         MATCHES
-    ====================================================== -->
+        <span>
+            Loading live sports data...
+        </span>
 
-    <section
-        class="matches"
-        id="matches"
-    >
+    </div>
 
+    <section class="matches" id="matches"></section>
 
-        <!-- ================= FOOTBALL ================= -->
-
-        <article
-            class="match-card"
-            data-sport="football"
-            data-search="barcelona arsenal champions league football"
-        >
-
-            <div class="match-top">
-
-                <span class="league">
-                    UEFA Champions League
-                </span>
-
-                <span class="status">
-                    UPCOMING
-                </span>
-
-            </div>
-
-
-            <div class="match-main">
-
-                <div class="team">
-
-                    <div class="team-logo">
-                        🔵🔴
-                    </div>
-
-                    Barcelona
-
-                </div>
-
-
-                <div class="match-time">
-
-                    <strong>
-                        20:00
-                    </strong>
-
-                    <span>
-                        Today
-                    </span>
-
-                </div>
-
-
-                <div class="team">
-
-                    Arsenal
-
-                    <div class="team-logo">
-                        🔴
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <div class="odds">
-
-                <button
-                    class="odd-btn"
-                    onclick="selectOdd('Barcelona','1.85')"
-                >
-
-                    <span>
-                        Barcelona
-                    </span>
-
-                    <strong>
-                        1.85
-                    </strong>
-
-                </button>
-
-
-                <button
-                    class="odd-btn"
-                    onclick="selectOdd('Draw','3.40')"
-                >
-
-                    <span>
-                        Draw
-                    </span>
-
-                    <strong>
-                        3.40
-                    </strong>
-
-                </button>
-
-
-                <button
-                    class="odd-btn"
-                    onclick="selectOdd('Arsenal','4.10')"
-                >
-
-                    <span>
-                        Arsenal
-                    </span>
-
-                    <strong>
-                        4.10
-                    </strong>
-
-                </button>
-
-            </div>
-
-
-            <div class="match-bottom">
-
-                <button
-                    class="details-btn"
-                    onclick="openMatch(
-                        'Barcelona vs Arsenal',
-                        'UEFA Champions League',
-                        '20:00',
-                        'Football'
-                    )"
-                >
-                    Match Details →
-                </button>
-
-                <span class="market-count">
-                    +18 markets
-                </span>
-
-            </div>
-
-        </article>
-
-
-
-        <!-- ================= FOOTBALL ================= -->
-
-        <article
-            class="match-card"
-            data-sport="football"
-            data-search="liverpool chelsea premier league football"
-        >
-
-            <div class="match-top">
-
-                <span class="league">
-                    Premier League
-                </span>
-
-                <span class="status">
-                    UPCOMING
-                </span>
-
-            </div>
-
-
-            <div class="match-main">
-
-                <div class="team">
-
-                    <div class="team-logo">
-                        🔴
-                    </div>
-
-                    Liverpool
-
-                </div>
-
-
-                <div class="match-time">
-
-                    <strong>
-                        21:30
-                    </strong>
-
-                    <span>
-                        Today
-                    </span>
-
-                </div>
-
-
-                <div class="team">
-
-                    Chelsea
-
-                    <div class="team-logo">
-                        🔵
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <div class="odds">
-
-                <button
-                    class="odd-btn"
-                    onclick="selectOdd('Liverpool','1.72')"
-                >
-
-                    <span>
-                        Liverpool
-                    </span>
-
-                    <strong>
-                        1.72
-                    </strong>
-
-                </button>
-
-
-                <button
-                    class="odd-btn"
-                    onclick="selectOdd('Draw','3.70')"
-                >
-
-                    <span>
-                        Draw
-                    </span>
-
-                    <strong>
-                        3.70
-                    </strong>
-
-                </button>
-
-
-                <button
-                    class="odd-btn"
-                    onclick="selectOdd('Chelsea','4.35')"
-                >
-
-                    <span>
-                        Chelsea
-                    </span>
-
-                    <strong>
-                        4.35
-                    </strong>
-
-                </button>
-
-            </div>
-
-
-            <div class="match-bottom">
-
-                <button
-                    class="details-btn"
-                    onclick="openMatch(
-                        'Liverpool vs Chelsea',
-                        'Premier League',
-                        '21:30',
-                        'Football'
-                    )"
-                >
-                    Match Details →
-                </button>
-
-                <span class="market-count">
-                    +21 markets
-                </span>
-
-            </div>
-
-        </article>
-
-
-
-        <!-- ================= BASKETBALL ================= -->
-
-        <article
-            class="match-card"
-            data-sport="basketball"
-            data-search="lakers celtics nba basketball"
-        >
-
-            <div class="match-top">
-
-                <span class="league">
-                    NBA
-                </span>
-
-                <span class="status">
-                    UPCOMING
-                </span>
-
-            </div>
-
-
-            <div class="match-main">
-
-                <div class="team">
-
-                    <div class="team-logo">
-                        🟣
-                    </div>
-
-                    Lakers
-
-                </div>
-
-
-                <div class="match-time">
-
-                    <strong>
-                        22:00
-                    </strong>
-
-                    <span>
-                        Today
-                    </span>
-
-                </div>
-
-
-                <div class="team">
-
-                    Celtics
-
-                    <div class="team-logo">
-                        ☘️
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <div class="odds">
-
-                <button
-                    class="odd-btn"
-                    onclick="selectOdd('Lakers','1.90')"
-                >
-
-                    <span>
-                        Lakers
-                    </span>
-
-                    <strong>
-                        1.90
-                    </strong>
-
-                </button>
-
-
-                <button
-                    class="odd-btn"
-                    onclick="selectOdd('Celtics','1.95')"
-                >
-
-                    <span>
-                        Celtics
-                    </span>
-
-                    <strong>
-                        1.95
-                    </strong>
-
-                </button>
-
-
-                <button
-                    class="odd-btn"
-                    onclick="selectOdd('Total Over','1.88')"
-                >
-
-                    <span>
-                        Over 210.5
-                    </span>
-
-                    <strong>
-                        1.88
-                    </strong>
-
-                </button>
-
-            </div>
-
-
-            <div class="match-bottom">
-
-                <button
-                    class="details-btn"
-                    onclick="openMatch(
-                        'Lakers vs Celtics',
-                        'NBA',
-                        '22:00',
-                        'Basketball'
-                    )"
-                >
-                    Match Details →
-                </button>
-
-                <span class="market-count">
-                    +14 markets
-                </span>
-
-            </div>
-
-        </article>
-
-
-
-        <!-- ================= TENNIS ================= -->
-
-        <article
-            class="match-card"
-            data-sport="tennis"
-            data-search="alcaraz sinner tennis"
-        >
-
-            <div class="match-top">
-
-                <span class="league">
-                    ATP Masters
-                </span>
-
-                <span class="status">
-                    UPCOMING
-                </span>
-
-            </div>
-
-
-            <div class="match-main">
-
-                <div class="team">
-
-                    <div class="team-logo">
-                        🎾
-                    </div>
-
-                    Alcaraz
-
-                </div>
-
-
-                <div class="match-time">
-
-                    <strong>
-                        18:30
-                    </strong>
-
-                    <span>
-                        Tomorrow
-                    </span>
-
-                </div>
-
-
-                <div class="team">
-
-                    Sinner
-
-                    <div class="team-logo">
-                        🎾
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <div class="odds">
-
-                <button
-                    class="odd-btn"
-                    onclick="selectOdd('Alcaraz','1.75')"
-                >
-
-                    <span>
-                        Alcaraz
-                    </span>
-
-                    <strong>
-                        1.75
-                    </strong>
-
-                </button>
-
-
-                <button
-                    class="odd-btn"
-                    onclick="selectOdd('Sinner','2.05')"
-                >
-
-                    <span>
-                        Sinner
-                    </span>
-
-                    <strong>
-                        2.05
-                    </strong>
-
-                </button>
-
-
-                <button
-                    class="odd-btn"
-                    onclick="selectOdd('Over 2.5','1.80')"
-                >
-
-                    <span>
-                        Sets Over
-                    </span>
-
-                    <strong>
-                        1.80
-                    </strong>
-
-                </button>
-
-            </div>
-
-
-            <div class="match-bottom">
-
-                <button
-                    class="details-btn"
-                    onclick="openMatch(
-                        'Alcaraz vs Sinner',
-                        'ATP Masters',
-                        '18:30',
-                        'Tennis'
-                    )"
-                >
-                    Match Details →
-                </button>
-
-                <span class="market-count">
-                    +12 markets
-                </span>
-
-            </div>
-
-        </article>
-
-
-
-        <!-- ================= CRICKET ================= -->
-
-        <article
-            class="match-card"
-            data-sport="cricket"
-            data-search="india australia cricket t20"
-        >
-
-            <div class="match-top">
-
-                <span class="league">
-                    T20 International
-                </span>
-
-                <span class="status">
-                    UPCOMING
-                </span>
-
-            </div>
-
-
-            <div class="match-main">
-
-                <div class="team">
-
-                    <div class="team-logo">
-                        🇮🇳
-                    </div>
-
-                    India
-
-                </div>
-
-
-                <div class="match-time">
-
-                    <strong>
-                        16:00
-                    </strong>
-
-                    <span>
-                        Tomorrow
-                    </span>
-
-                </div>
-
-
-                <div class="team">
-
-                    Australia
-
-                    <div class="team-logo">
-                        🇦🇺
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <div class="odds">
-
-                <button
-                    class="odd-btn"
-                    onclick="selectOdd('India','1.68')"
-                >
-
-                    <span>
-                        India
-                    </span>
-
-                    <strong>
-                        1.68
-                    </strong>
-
-                </button>
-
-
-                <button
-                    class="odd-btn"
-                    onclick="selectOdd('Australia','2.20')"
-                >
-
-                    <span>
-                        Australia
-                    </span>
-
-                    <strong>
-                        2.20
-                    </strong>
-
-                </button>
-
-
-                <button
-                    class="odd-btn"
-                    onclick="selectOdd('Total Runs','1.90')"
-                >
-
-                    <span>
-                        Over 165.5
-                    </span>
-
-                    <strong>
-                        1.90
-                    </strong>
-
-                </button>
-
-            </div>
-
-
-            <div class="match-bottom">
-
-                <button
-                    class="details-btn"
-                    onclick="openMatch(
-                        'India vs Australia',
-                        'T20 International',
-                        '16:00',
-                        'Cricket'
-                    )"
-                >
-                    Match Details →
-                </button>
-
-                <span class="market-count">
-                    +16 markets
-                </span>
-
-            </div>
-
-        </article>
-
-
-
-        <!-- ================= ESPORTS ================= -->
-
-        <article
-            class="match-card"
-            data-sport="esports"
-            data-search="valorant sentinels fnatic esports"
-        >
-
-            <div class="match-top">
-
-                <span class="league">
-                    Valorant Champions
-                </span>
-
-                <span class="status">
-                    UPCOMING
-                </span>
-
-            </div>
-
-
-            <div class="match-main">
-
-                <div class="team">
-
-                    <div class="team-logo">
-                        🎮
-                    </div>
-
-                    Sentinels
-
-                </div>
-
-
-                <div class="match-time">
-
-                    <strong>
-                        19:00
-                    </strong>
-
-                    <span>
-                        Tomorrow
-                    </span>
-
-                </div>
-
-
-                <div class="team">
-
-                    Fnatic
-
-                    <div class="team-logo">
-                        🟠
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <div class="odds">
-
-                <button
-                    class="odd-btn"
-                    onclick="selectOdd('Sentinels','2.10')"
-                >
-
-                    <span>
-                        Sentinels
-                    </span>
-
-                    <strong>
-                        2.10
-                    </strong>
-
-                </button>
-
-
-                <button
-                    class="odd-btn"
-                    onclick="selectOdd('Fnatic','1.70')"
-                >
-
-                    <span>
-                        Fnatic
-                    </span>
-
-                    <strong>
-                        1.70
-                    </strong>
-
-                </button>
-
-
-                <button
-                    class="odd-btn"
-                    onclick="selectOdd('Over Maps','1.85')"
-                >
-
-                    <span>
-                        Over 2.5 Maps
-                    </span>
-
-                    <strong>
-                        1.85
-                    </strong>
-
-                </button>
-
-            </div>
-
-
-            <div class="match-bottom">
-
-                <button
-                    class="details-btn"
-                    onclick="openMatch(
-                        'Sentinels vs Fnatic',
-                        'Valorant Champions',
-                        '19:00',
-                        'Esports'
-                    )"
-                >
-                    Match Details →
-                </button>
-
-                <span class="market-count">
-                    +10 markets
-                </span>
-
-            </div>
-
-        </article>
-
-
-    </section>
-
-
-
-    <!-- =====================================================
-         EMPTY STATE
-    ====================================================== -->
-
-    <div
-        class="empty"
-        id="emptyState"
-    >
+    <div class="empty" id="emptyState">
 
         <div class="empty-icon">
             🔎
@@ -1905,19 +918,9 @@ a{
 
 </main>
 
-
-
-<!-- =========================================================
-     MATCH MODAL
-========================================================= -->
-
-<div
-    class="modal"
-    id="matchModal"
->
+<div class="modal" id="matchModal">
 
     <div class="modal-box">
-
 
         <div class="modal-head">
 
@@ -1935,14 +938,10 @@ a{
 
         </div>
 
-
         <div class="modal-match">
 
-            <div
-                class="modal-teams"
-                id="modalTeams"
-            >
-                Barcelona vs Arsenal
+            <div class="modal-teams" id="modalTeams">
+                -
             </div>
 
             <div class="modal-vs">
@@ -1951,58 +950,26 @@ a{
 
         </div>
 
-
         <div class="modal-info">
 
             <div class="info-box">
-
-                <span>
-                    League
-                </span>
-
-                <strong id="modalLeague">
-                    Champions League
-                </strong>
-
+                <span>League</span>
+                <strong id="modalLeague">-</strong>
             </div>
 
-
             <div class="info-box">
-
-                <span>
-                    Sport
-                </span>
-
-                <strong id="modalSport">
-                    Football
-                </strong>
-
+                <span>Status</span>
+                <strong id="modalStatus">-</strong>
             </div>
 
-
             <div class="info-box">
-
-                <span>
-                    Start Time
-                </span>
-
-                <strong id="modalTime">
-                    20:00
-                </strong>
-
+                <span>Start Time</span>
+                <strong id="modalTime">-</strong>
             </div>
 
-
             <div class="info-box">
-
-                <span>
-                    Markets
-                </span>
-
-                <strong>
-                    18+ Available
-                </strong>
-
+                <span>Score</span>
+                <strong id="modalScore">-</strong>
             </div>
 
         </div>
@@ -2011,22 +978,7 @@ a{
 
 </div>
 
-
-
-<!-- =========================================================
-     TOAST
-========================================================= -->
-
-<div
-    class="toast"
-    id="toast"
-></div>
-
-
-
-<!-- =========================================================
-     FOOTER
-========================================================= -->
+<div class="toast" id="toast"></div>
 
 <footer class="footer">
 
@@ -2035,16 +987,54 @@ a{
 
 </footer>
 
-
-
-<!-- =========================================================
-     PAGE JAVASCRIPT
-========================================================= -->
-
 <script>
+/* =========================================================
+   SUPABASE
+========================================================= */
+
+const SUPABASE_URL =
+    "https://zchtcosljkkkiykhforj.supabase.co";
+
+const SUPABASE_PUBLISHABLE_KEY =
+    "sb_publishable_aGLckKZjNaVbpdxZUFhCqA_VzHppjrW";
+
+const supabaseClient =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_PUBLISHABLE_KEY
+    );
+
 
 /* =========================================================
-   READ SPORT FROM URL
+   ELEMENTS
+========================================================= */
+
+const matchesContainer =
+    document.getElementById("matches");
+
+const loadingState =
+    document.getElementById("loadingState");
+
+const emptyState =
+    document.getElementById("emptyState");
+
+const searchInput =
+    document.getElementById("searchInput");
+
+const matchCount =
+    document.getElementById("matchCount");
+
+const filterButtons =
+    document.querySelectorAll(".sport-filter");
+
+
+let allMatches = [];
+
+let activeSport = "all";
+
+
+/* =========================================================
+   URL FILTER
 ========================================================= */
 
 const params =
@@ -2053,89 +1043,548 @@ const params =
 const urlSport =
     params.get("type");
 
+if(urlSport){
+    const target =
+        document.querySelector(
+            `.sport-filter[data-sport="${urlSport}"]`
+        );
 
-/* =========================================================
-   ELEMENTS
-========================================================= */
+    if(target){
+        activeSport = urlSport;
 
-const filterButtons =
-    document.querySelectorAll(".sport-filter");
+        filterButtons.forEach(btn =>
+            btn.classList.remove("active")
+        );
 
-const matchCards =
-    document.querySelectorAll(".match-card");
-
-const searchInput =
-    document.getElementById("searchInput");
-
-const emptyState =
-    document.getElementById("emptyState");
-
-const matchCount =
-    document.getElementById("matchCount");
+        target.classList.add("active");
+    }
+}
 
 
 /* =========================================================
-   FILTER MATCHES
+   LOAD REAL MATCHES
 ========================================================= */
 
-function filterMatches(sport){
+async function loadMatches(){
+
+    loadingState.style.display = "flex";
+    matchesContainer.innerHTML = "";
+    emptyState.style.display = "none";
+    matchCount.textContent = "Loading...";
+
+    try{
+
+        /*
+         * This calls the SportX Edge Function.
+         *
+         * The Edge Function:
+         * SportScore → Supabase
+         *
+         * It then returns the synchronized matches.
+         */
+
+        const { data, error } =
+            await supabaseClient.functions.invoke(
+                "smooth-worker",
+                {
+                    method:"GET"
+                }
+            );
+
+        if(error){
+            throw error;
+        }
+
+        if(!data || !data.success){
+            throw new Error(
+                data?.error ||
+                "Unable to load sports data."
+            );
+        }
+
+        /*
+         * The Edge Function returns the processed
+         * match list. We need the IDs and names.
+         *
+         * To get logos and league names reliably,
+         * load the synced records from Supabase.
+         */
+
+        const { data: dbMatches, error: dbError } =
+            await supabaseClient
+                .from("matches")
+                .select(`
+                    id,
+                    start_time,
+                    status,
+                    home_score,
+                    away_score,
+                    is_live,
+                    league_id,
+                    home_team:teams!matches_home_team_id_fkey(
+                        id,
+                        name,
+                        logo_url,
+                        league_id
+                    ),
+                    away_team:teams!matches_away_team_id_fkey(
+                        id,
+                        name,
+                        logo_url,
+                        league_id
+                    )
+                `)
+                .order("start_time", {
+                    ascending:true
+                })
+                .limit(100);
+
+        /*
+         * If RLS is not ready yet, use the data returned
+         * by the Edge Function instead of breaking the page.
+         */
+
+        if(dbError){
+
+            console.warn(
+                "Direct database read unavailable:",
+                dbError
+            );
+
+            allMatches =
+                (data.matches || []).map(item => ({
+                    id:item.id,
+                    home_team:{
+                        name:item.home,
+                        logo_url:null
+                    },
+                    away_team:{
+                        name:item.away,
+                        logo_url:null
+                    },
+                    league:{
+                        name:"Football"
+                    },
+                    start_time:null,
+                    status:item.status,
+                    home_score:item.home_score,
+                    away_score:item.away_score,
+                    is_live:item.status === "live"
+                }));
+
+        }else{
+
+            /*
+             * Load league names separately because the
+             * current schema does not expose a direct
+             * nested league relation in this query.
+             */
+
+            const leagueIds =
+                [...new Set(
+                    (dbMatches || [])
+                        .map(m => m.league_id)
+                        .filter(Boolean)
+                )];
+
+            let leagues = [];
+
+            if(leagueIds.length){
+
+                const { data: leagueData } =
+                    await supabaseClient
+                        .from("leagues")
+                        .select("id,name")
+                        .in("id",leagueIds);
+
+                leagues = leagueData || [];
+            }
+
+            const leagueMap =
+                new Map(
+                    leagues.map(l => [l.id,l.name])
+                );
+
+            allMatches =
+                (dbMatches || []).map(match => ({
+                    ...match,
+
+                    league:{
+                        name:
+                            leagueMap.get(
+                                match.league_id
+                            ) ||
+                            "Football"
+                    }
+                }));
+
+        }
+
+        loadingState.style.display = "none";
+
+        renderMatches();
+
+    }catch(error){
+
+        console.error(
+            "SportX match loading error:",
+            error
+        );
+
+        loadingState.style.display = "none";
+
+        matchesContainer.innerHTML = "";
+
+        matchCount.textContent = "Error";
+
+        emptyState.style.display = "block";
+
+        emptyState.innerHTML = `
+            <div class="empty-icon">⚠️</div>
+            <strong>Unable to load matches</strong>
+            <p style="margin-top:8px">
+                ${escapeHtml(
+                    error.message ||
+                    "Please try again."
+                )}
+            </p>
+        `;
+
+    }
+}
+
+
+/* =========================================================
+   RENDER
+========================================================= */
+
+function renderMatches(){
 
     const search =
         searchInput.value
             .toLowerCase()
             .trim();
 
-    let visible = 0;
+    const filtered =
+        allMatches.filter(match => {
+
+            const home =
+                match.home_team?.name ||
+                "";
+
+            const away =
+                match.away_team?.name ||
+                "";
+
+            const league =
+                match.league?.name ||
+                "";
+
+            const text =
+                `${home} ${away} ${league}`
+                    .toLowerCase();
+
+            const sportMatch =
+                activeSport === "all" ||
+                activeSport === "football";
+
+            return sportMatch &&
+                text.includes(search);
+
+        });
 
 
-    matchCards.forEach(card => {
-
-        const cardSport =
-            card.dataset.sport;
-
-        const cardSearch =
-            card.dataset.search.toLowerCase();
-
-
-        const sportMatch =
-            sport === "all" ||
-            cardSport === sport;
-
-
-        const searchMatch =
-            cardSearch.includes(search);
-
-
-        if(sportMatch && searchMatch){
-
-            card.style.display = "block";
-
-            visible++;
-
-        }else{
-
-            card.style.display = "none";
-
-        }
-
-    });
-
+    matchesContainer.innerHTML = "";
 
     emptyState.style.display =
-        visible === 0
-            ? "block"
-            : "none";
+        filtered.length
+            ? "none"
+            : "block";
 
 
     matchCount.textContent =
-        visible +
-        (visible === 1 ? " match" : " matches");
+        filtered.length +
+        (
+            filtered.length === 1
+                ? " match"
+                : " matches"
+        );
+
+
+    filtered.forEach(
+        (match,index) => {
+
+            matchesContainer.appendChild(
+                createMatchCard(
+                    match,
+                    index
+                )
+            );
+
+        }
+    );
 
 }
 
 
 /* =========================================================
-   FILTER BUTTON EVENTS
+   CREATE MATCH CARD
+========================================================= */
+
+function createMatchCard(match,index){
+
+    const home =
+        match.home_team || {};
+
+    const away =
+        match.away_team || {};
+
+    const league =
+        match.league?.name ||
+        "Football";
+
+    const status =
+        match.status ||
+        "scheduled";
+
+    const homeScore =
+        Number(match.home_score ?? 0);
+
+    const awayScore =
+        Number(match.away_score ?? 0);
+
+    const date =
+        match.start_time
+            ? new Date(match.start_time)
+            : null;
+
+    const time =
+        date
+            ? date.toLocaleTimeString(
+                [],
+                {
+                    hour:"2-digit",
+                    minute:"2-digit"
+                }
+            )
+            : "--:--";
+
+    const dateText =
+        date
+            ? formatMatchDate(date)
+            : "Unknown date";
+
+    const card =
+        document.createElement("article");
+
+    card.className =
+        "match-card";
+
+    card.style.animationDelay =
+        `${Math.min(index * 35,500)}ms`;
+
+
+    const statusLabel =
+        status === "live"
+            ? "LIVE"
+            : status === "finished"
+                ? "FINISHED"
+                : status === "cancelled"
+                    ? "CANCELLED"
+                    : status === "postponed"
+                        ? "POSTPONED"
+                        : "UPCOMING";
+
+
+    const statusClass =
+        status === "live"
+            ? "live"
+            : status === "finished"
+                ? "finished"
+                : "";
+
+
+    card.innerHTML = `
+
+        <div class="match-top">
+
+            <span class="league">
+                ${escapeHtml(league)}
+            </span>
+
+            <span class="status ${statusClass}">
+                ${statusLabel}
+            </span>
+
+        </div>
+
+
+        <div class="match-main">
+
+            <div class="team">
+
+                ${teamLogo(
+                    home.logo_url,
+                    home.name
+                )}
+
+                <span class="team-name">
+                    ${escapeHtml(
+                        home.name || "Home Team"
+                    )}
+                </span>
+
+            </div>
+
+
+            <div class="match-time">
+
+                ${
+                    status === "finished" ||
+                    status === "live"
+                    ? `
+                        <strong class="score">
+                            ${homeScore} - ${awayScore}
+                        </strong>
+                    `
+                    : `
+                        <strong>
+                            ${time}
+                        </strong>
+                    `
+                }
+
+                <span>
+                    ${escapeHtml(dateText)}
+                </span>
+
+            </div>
+
+
+            <div class="team">
+
+                <span class="team-name">
+                    ${escapeHtml(
+                        away.name || "Away Team"
+                    )}
+                </span>
+
+                ${teamLogo(
+                    away.logo_url,
+                    away.name
+                )}
+
+            </div>
+
+        </div>
+
+
+        <div class="match-bottom">
+
+            <button
+                class="details-btn"
+                type="button"
+                onclick="openMatch('${safeJs(
+                    home.name || "Home Team"
+                )}','${safeJs(
+                    away.name || "Away Team"
+                )}','${safeJs(
+                    league
+                )}','${safeJs(
+                    time
+                )}','${safeJs(
+                    statusLabel
+                )}','${homeScore}','${awayScore}')"
+            >
+                Match Details →
+            </button>
+
+            <span class="market-count">
+                Live data
+            </span>
+
+        </div>
+
+    `;
+
+    return card;
+}
+
+
+/* =========================================================
+   TEAM LOGO
+========================================================= */
+
+function teamLogo(url,name){
+
+    if(url){
+
+        return `
+            <div class="team-logo">
+                <img
+                    src="${escapeAttribute(url)}"
+                    alt="${escapeAttribute(
+                        name || "Team"
+                    )} logo"
+                    loading="lazy"
+                    onerror="this.style.display='none';this.parentElement.innerHTML='<span class=&quot;logo-fallback&quot;>⚽</span>';"
+                >
+            </div>
+        `;
+
+    }
+
+    return `
+        <div class="team-logo">
+            <span class="logo-fallback">
+                ⚽
+            </span>
+        </div>
+    `;
+}
+
+
+/* =========================================================
+   DATE
+========================================================= */
+
+function formatMatchDate(date){
+
+    const now =
+        new Date();
+
+    const today =
+        now.toDateString();
+
+    const tomorrow =
+        new Date(
+            now.getFullYear(),
+            now.getMonth(),
+            now.getDate() + 1
+        ).toDateString();
+
+    if(date.toDateString() === today){
+        return "Today";
+    }
+
+    if(date.toDateString() === tomorrow){
+        return "Tomorrow";
+    }
+
+    return date.toLocaleDateString(
+        [],
+        {
+            day:"numeric",
+            month:"short",
+            year:"numeric"
+        }
+    );
+
+}
+
+
+/* =========================================================
+   FILTER BUTTONS
 ========================================================= */
 
 filterButtons.forEach(button => {
@@ -2144,19 +1593,16 @@ filterButtons.forEach(button => {
         "click",
         () => {
 
-            filterButtons.forEach(btn => {
-
-                btn.classList.remove("active");
-
-            });
-
+            filterButtons.forEach(btn =>
+                btn.classList.remove("active")
+            );
 
             button.classList.add("active");
 
+            activeSport =
+                button.dataset.sport;
 
-            filterMatches(
-                button.dataset.sport
-            );
+            renderMatches();
 
         }
     );
@@ -2170,170 +1616,99 @@ filterButtons.forEach(button => {
 
 searchInput.addEventListener(
     "input",
-    () => {
-
-        const active =
-            document.querySelector(
-                ".sport-filter.active"
-            );
-
-
-        filterMatches(
-            active
-                ? active.dataset.sport
-                : "all"
-        );
-
-    }
+    renderMatches
 );
 
 
 /* =========================================================
-   URL SPORT AUTO SELECT
-========================================================= */
-
-if(urlSport){
-
-    const target =
-        document.querySelector(
-            `.sport-filter[data-sport="${urlSport}"]`
-        );
-
-
-    if(target){
-
-        filterButtons.forEach(btn => {
-
-            btn.classList.remove("active");
-
-        });
-
-
-        target.classList.add("active");
-
-
-        filterMatches(urlSport);
-
-    }else{
-
-        filterMatches("all");
-
-    }
-
-}else{
-
-    filterMatches("all");
-
-}
-
-
-/* =========================================================
-   ODDS SELECT
-========================================================= */
-
-function selectOdd(
-    selection,
-    odd
-){
-
-    showToast(
-        `${selection} selected • Odds ${odd}`
-    );
-
-}
-
-
-/* =========================================================
-   MATCH MODAL
+   MODAL
 ========================================================= */
 
 function openMatch(
-    teams,
+    home,
+    away,
     league,
     time,
-    sport
+    status,
+    homeScore,
+    awayScore
 ){
 
-    document
-        .getElementById("modalTeams")
-        .textContent = teams;
+    document.getElementById(
+        "modalTeams"
+    ).textContent =
+        `${home} vs ${away}`;
 
 
-    document
-        .getElementById("modalLeague")
-        .textContent = league;
+    document.getElementById(
+        "modalLeague"
+    ).textContent =
+        league;
 
 
-    document
-        .getElementById("modalTime")
-        .textContent = time;
+    document.getElementById(
+        "modalTime"
+    ).textContent =
+        time;
 
 
-    document
-        .getElementById("modalSport")
-        .textContent = sport;
+    document.getElementById(
+        "modalStatus"
+    ).textContent =
+        status;
 
 
-    document
-        .getElementById("matchModal")
-        .classList.add("show");
+    document.getElementById(
+        "modalScore"
+    ).textContent =
+        `${homeScore} - ${awayScore}`;
 
 
-    document.body.style.overflow = "hidden";
+    document.getElementById(
+        "matchModal"
+    ).classList.add("show");
+
+
+    document.body.style.overflow =
+        "hidden";
 
 }
 
-
-/* =========================================================
-   CLOSE MODAL
-========================================================= */
 
 function closeModal(){
 
-    document
-        .getElementById("matchModal")
-        .classList.remove("show");
+    document.getElementById(
+        "matchModal"
+    ).classList.remove("show");
 
-
-    document.body.style.overflow = "";
+    document.body.style.overflow =
+        "";
 
 }
 
 
-/* =========================================================
-   CLOSE MODAL OUTSIDE
-========================================================= */
+document.getElementById(
+    "matchModal"
+).addEventListener(
+    "click",
+    event => {
 
-document
-    .getElementById("matchModal")
-    .addEventListener(
-        "click",
-        event => {
-
-            if(
-                event.target.id === "matchModal"
-            ){
-
-                closeModal();
-
-            }
-
+        if(
+            event.target.id === "matchModal"
+        ){
+            closeModal();
         }
-    );
 
+    }
+);
 
-/* =========================================================
-   ESC CLOSE
-========================================================= */
 
 document.addEventListener(
     "keydown",
     event => {
 
         if(event.key === "Escape"){
-
             closeModal();
-
         }
 
     }
@@ -2346,46 +1721,70 @@ document.addEventListener(
 
 let toastTimer;
 
-
 function showToast(message){
 
     const toast =
         document.getElementById("toast");
 
-
     toast.textContent =
         message;
 
-
     toast.classList.add("show");
 
-
     clearTimeout(toastTimer);
-
 
     toastTimer =
         setTimeout(
             () => {
-
-                toast.classList.remove(
-                    "show"
-                );
-
+                toast.classList.remove("show");
             },
             2200
         );
 
 }
 
+
+/* =========================================================
+   SECURITY HELPERS
+========================================================= */
+
+function escapeHtml(value){
+
+    return String(value ?? "")
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+
+}
+
+
+function escapeAttribute(value){
+
+    return escapeHtml(value);
+}
+
+
+function safeJs(value){
+
+    return String(value ?? "")
+        .replace(/\\/g,"\\\\")
+        .replace(/'/g,"\\'")
+        .replace(/\r/g,"\\r")
+        .replace(/\n/g,"\\n");
+}
+
+
+/* =========================================================
+   START
+========================================================= */
+
+loadMatches();
+
 </script>
 
-
-<!-- =========================================================
-     SHARED AUTH
-========================================================= -->
-
 <script src="auth.js"></script>
-
 
 </body>
 </html>
