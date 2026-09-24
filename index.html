@@ -541,14 +541,34 @@
     </nav>
 
     <div class="header-actions">
-      <div class="balance">
-        Balance: <span>AFN 1,000</span>
-      </div>
 
-      <a href="login.html" class="login-btn">
-        Login
-      </a>
+  <div data-auth-guest>
+    <a href="login.html" class="login-btn">
+      Login
+    </a>
+  </div>
+
+  <div data-auth-user class="user-account" style="display:none;">
+
+    <div class="user-avatar">
+      <span data-user-initials>US</span>
     </div>
+
+    <div class="user-info">
+      <strong data-user-name>User</strong>
+      <span data-user-balance>AFN 1,000</span>
+    </div>
+
+    <button
+      type="button"
+      class="logout-btn"
+      data-auth-logout>
+      Logout
+    </button>
+
+  </div>
+
+</div>
 
   </header>
 
