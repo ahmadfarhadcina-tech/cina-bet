@@ -998,7 +998,32 @@ if(existingUser){
 }
 
 </script>
+<script>
+/* ALREADY LOGGED IN */
 
+const existingUser =
+    localStorage.getItem("sportx_demo_user");
+
+if(existingUser){
+
+    try{
+
+        const user = JSON.parse(existingUser);
+
+        if(user && user.loggedIn === true){
+
+            window.location.replace("index.html");
+
+        }
+
+    }catch(error){
+
+        localStorage.removeItem("sportx_demo_user");
+
+    }
+
+}
+</script>
 <script src="auth.js"></script>
     
 </body>
