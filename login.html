@@ -6,6 +6,8 @@
 
 <title>Login | SportX</title>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <style>
 :root{
     --bg:#07100e;
@@ -46,8 +48,6 @@ input{
 button{
     cursor:pointer;
 }
-
-/* HEADER */
 
 .header{
     height:72px;
@@ -97,8 +97,6 @@ button{
 .back:hover{
     color:var(--green);
 }
-
-/* MAIN */
 
 .main{
     flex:1;
@@ -151,8 +149,6 @@ button{
     font-size:13px;
 }
 
-/* CARD */
-
 .auth-card{
     padding:28px;
     border:1px solid var(--border);
@@ -172,8 +168,6 @@ button{
     font-size:12px;
     line-height:1.6;
 }
-
-/* SOCIAL */
 
 .social-buttons{
     display:grid;
@@ -223,8 +217,6 @@ button{
     color:#fff;
 }
 
-/* DIVIDER */
-
 .divider{
     display:flex;
     align-items:center;
@@ -242,8 +234,6 @@ button{
     flex:1;
     background:var(--border);
 }
-
-/* FORM */
 
 .form-group{
     margin-bottom:16px;
@@ -356,8 +346,6 @@ label{
     opacity:.75;
 }
 
-/* REGISTER */
-
 .register{
     margin-top:20px;
     text-align:center;
@@ -370,8 +358,6 @@ label{
     font-weight:900;
     text-decoration:none;
 }
-
-/* SECURITY */
 
 .security-note{
     display:flex;
@@ -391,8 +377,6 @@ label{
     font-size:15px;
 }
 
-/* ERROR */
-
 .error{
     display:none;
     margin-bottom:15px;
@@ -409,8 +393,6 @@ label{
     display:block;
     animation:shake .3s ease;
 }
-
-/* TOAST */
 
 .toast{
     position:fixed;
@@ -436,8 +418,6 @@ label{
     transform:translate(-50%,0);
 }
 
-/* FOOTER */
-
 footer{
     padding:22px;
     border-top:1px solid var(--border);
@@ -445,8 +425,6 @@ footer{
     text-align:center;
     font-size:10px;
 }
-
-/* ANIMATION */
 
 @keyframes rise{
     from{
@@ -464,8 +442,6 @@ footer{
     25%{transform:translateX(-5px)}
     75%{transform:translateX(5px)}
 }
-
-/* MOBILE */
 
 @media(max-width:500px){
 
@@ -510,7 +486,6 @@ footer{
     </div>
 </header>
 
-
 <main class="main">
 
     <div class="auth-wrapper">
@@ -530,7 +505,6 @@ footer{
 
         </div>
 
-
         <section class="auth-card">
 
             <h2>Sign in</h2>
@@ -539,13 +513,7 @@ footer{
                 Use your email or continue with a connected account.
             </p>
 
-
-            <!-- ERROR -->
-
             <div class="error" id="errorBox"></div>
-
-
-            <!-- SOCIAL LOGIN -->
 
             <div class="social-buttons">
 
@@ -569,13 +537,9 @@ footer{
 
             </div>
 
-
             <div class="divider">
                 OR CONTINUE WITH EMAIL
             </div>
-
-
-            <!-- EMAIL LOGIN -->
 
             <form id="loginForm">
 
@@ -599,7 +563,6 @@ footer{
                     </div>
 
                 </div>
-
 
                 <div class="form-group">
 
@@ -631,7 +594,6 @@ footer{
 
                 </div>
 
-
                 <div class="form-options">
 
                     <label class="remember">
@@ -652,7 +614,6 @@ footer{
 
                 </div>
 
-
                 <button
                     type="submit"
                     class="login-btn"
@@ -663,12 +624,10 @@ footer{
 
             </form>
 
-
             <div class="register">
                 Don't have an account?
                 <a href="register.html">Create Account</a>
             </div>
-
 
             <div class="security-note">
 
@@ -688,35 +647,30 @@ footer{
 
 </main>
 
-
 <footer>
     © 2026 SportX. Virtual sports prediction simulator.
 </footer>
-
 
 <div class="toast" id="toast"></div>
 
 
 <script>
 
-/*
-    SPORTX AUTH FOUNDATION
+/* =========================================================
+   SPORTX — REAL SUPABASE AUTHENTICATION
+   ========================================================= */
 
-    Current stage:
-    - Professional login UI
-    - Form validation
-    - Demo authentication flow
-    - Google/Facebook OAuth placeholders
+const SUPABASE_URL =
+    "https://zchtcosljkkkiykhforj.supabase.co";
 
-    Production stage:
-    Frontend
-        ↓
-    Backend Auth API
-        ↓
-    PostgreSQL
-        ↓
-    Secure Session / Token
-*/
+const SUPABASE_KEY =
+    "sb_publishable_aGLckKZjNaVbpdxZUFhCqA_VzHppjrW";
+
+const supabaseClient =
+    supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+    );
 
 
 const loginForm =
@@ -736,6 +690,11 @@ const errorBox =
 
 const toast =
     document.getElementById("toast");
+
+
+/* Remove ONLY the old fake demo session */
+
+localStorage.removeItem("sportx_demo_user");
 
 
 /* PASSWORD VISIBILITY */
@@ -807,7 +766,7 @@ loginForm.addEventListener("submit", async event => {
     hideError();
 
     const email =
-        emailInput.value.trim();
+        emailInput.value.trim().toLowerCase();
 
     const password =
         passwordInput.value;
@@ -815,7 +774,10 @@ loginForm.addEventListener("submit", async event => {
 
     if(!email){
 
-        showError("Please enter your email address.");
+        showError(
+            "Please enter your email address."
+        );
+
         emailInput.focus();
         return;
 
@@ -824,7 +786,10 @@ loginForm.addEventListener("submit", async event => {
 
     if(!password){
 
-        showError("Please enter your password.");
+        showError(
+            "Please enter your password."
+        );
+
         passwordInput.focus();
         return;
 
@@ -847,70 +812,122 @@ loginForm.addEventListener("submit", async event => {
     loginBtn.textContent = "Signing In...";
 
 
-    /*
-        DEMO ONLY
+    try{
 
-        This will later become:
+        /*
+            REAL SUPABASE LOGIN
 
-        fetch("/api/auth/login", {
-            method: "POST",
-            headers: {
-                "Content-Type":"application/json"
-            },
-            body: JSON.stringify({
-                email,
-                password
-            })
-        })
-    */
+            No localStorage fake account.
+            Supabase verifies the email/password.
+        */
 
-
-    await new Promise(resolve =>
-        setTimeout(resolve,900)
-    );
+        const {
+            data,
+            error
+        } =
+            await supabaseClient.auth.signInWithPassword({
+                email:email,
+                password:password
+            });
 
 
-    /*
-        Temporary demo session.
+        if(error){
 
-        IMPORTANT:
-        This is NOT the final security system.
-        Production authentication will be handled
-        by the backend.
-    */
-
-    const demoUser = {
-
-        id:"demo-user-001",
-
-        email:email,
-
-        name:
-            email
-                .split("@")[0]
-                .replace(/[._-]/g," "),
-
-        provider:"email",
-
-        loggedIn:true
-
-    };
+            const message =
+                String(error.message || "").toLowerCase();
 
 
-    localStorage.setItem(
-        "sportx_demo_user",
-        JSON.stringify(demoUser)
-    );
+            /*
+                Supabase intentionally does not expose
+                whether an email exists in order to reduce
+                account enumeration.
+
+                Therefore we show a clear but safe message.
+            */
+
+            if(
+                message.includes("invalid login credentials") ||
+                message.includes("invalid credentials")
+            ){
+
+                showError(
+                    "Account does not exist, or the email/password is incorrect."
+                );
+
+            }
+            else if(
+                message.includes("email not confirmed")
+            ){
+
+                showError(
+                    "Please verify your email address before signing in."
+                );
+
+            }
+            else{
+
+                showError(
+                    error.message ||
+                    "Unable to sign in. Please try again."
+                );
+
+            }
+
+            return;
+        }
 
 
-    showToast("Login successful. Welcome to SportX!");
+        /*
+            A successful password login must return
+            a real Supabase session.
+        */
 
-    setTimeout(() => {
+        if(
+            !data ||
+            !data.session ||
+            !data.user
+        ){
 
-        window.location.href =
-            "index.html";
+            showError(
+                "Login could not be completed. Please try again."
+            );
 
-    },700);
+            return;
+        }
+
+
+        showToast(
+            "Login successful. Welcome to SportX!"
+        );
+
+
+        setTimeout(() => {
+
+            window.location.replace(
+                "index.html"
+            );
+
+        },700);
+
+
+    }catch(error){
+
+        console.error(
+            "SportX login error:",
+            error
+        );
+
+        showError(
+            "A connection error occurred. Please try again."
+        );
+
+    }finally{
+
+        loginBtn.classList.remove("loading");
+
+        loginBtn.textContent = "Sign In";
+
+    }
 
 });
 
@@ -919,18 +936,46 @@ loginForm.addEventListener("submit", async event => {
 
 document
 .getElementById("googleBtn")
-.addEventListener("click", () => {
+.addEventListener("click", async () => {
 
-    /*
-        Production:
+    hideError();
 
-        window.location.href =
-            "/api/auth/google";
-    */
+    try{
 
-    showToast(
-        "Google authentication will be connected to the SportX backend."
-    );
+        const {
+            error
+        } =
+            await supabaseClient.auth.signInWithOAuth({
+
+                provider:"google",
+
+                options:{
+                    redirectTo:
+                        window.location.origin +
+                        window.location.pathname
+                            .replace("login.html","") +
+                        "index.html"
+                }
+
+            });
+
+
+        if(error){
+
+            showError(
+                error.message ||
+                "Google sign-in is currently unavailable."
+            );
+
+        }
+
+    }catch(error){
+
+        showError(
+            "Google sign-in is currently unavailable."
+        );
+
+    }
 
 });
 
@@ -939,18 +984,46 @@ document
 
 document
 .getElementById("facebookBtn")
-.addEventListener("click", () => {
+.addEventListener("click", async () => {
 
-    /*
-        Production:
+    hideError();
 
-        window.location.href =
-            "/api/auth/facebook";
-    */
+    try{
 
-    showToast(
-        "Facebook authentication will be connected to the SportX backend."
-    );
+        const {
+            error
+        } =
+            await supabaseClient.auth.signInWithOAuth({
+
+                provider:"facebook",
+
+                options:{
+                    redirectTo:
+                        window.location.origin +
+                        window.location.pathname
+                            .replace("login.html","") +
+                        "index.html"
+                }
+
+            });
+
+
+        if(error){
+
+            showError(
+                error.message ||
+                "Facebook sign-in is currently unavailable."
+            );
+
+        }
+
+    }catch(error){
+
+        showError(
+            "Facebook sign-in is currently unavailable."
+        );
+
+    }
 
 });
 
@@ -959,72 +1032,106 @@ document
 
 document
 .getElementById("forgotBtn")
-.addEventListener("click", () => {
+.addEventListener("click", async () => {
 
-    showToast(
-        "Password recovery will be available after the authentication backend is connected."
-    );
+    hideError();
 
-});
+    const email =
+        emailInput.value.trim().toLowerCase();
 
 
-/* ALREADY LOGGED IN */
+    if(!email){
 
-const existingUser =
-    localStorage.getItem("sportx_demo_user");
+        showError(
+            "Enter your email address first."
+        );
 
-if(existingUser){
+        emailInput.focus();
+
+        return;
+    }
+
 
     try{
 
-        const user =
-            JSON.parse(existingUser);
+        const {
+            error
+        } =
+            await supabaseClient.auth.resetPasswordForEmail(
+                email,
+                {
+                    redirectTo:
+                        window.location.origin +
+                        window.location.pathname
+                            .replace("login.html","") +
+                        "reset-password.html"
+                }
+            );
 
-        if(user.loggedIn){
 
-            // Login page can later redirect
-            // authenticated users automatically.
+        if(error){
 
+            showError(
+                error.message ||
+                "Unable to send the password reset email."
+            );
+
+            return;
         }
+
+
+        showToast(
+            "Password reset instructions have been sent to your email."
+        );
+
 
     }catch(error){
 
-        localStorage.removeItem(
-            "sportx_demo_user"
+        showError(
+            "Unable to send the password reset email."
         );
 
     }
 
-}
+});
 
-</script>
-<script>
-/* ALREADY LOGGED IN */
 
-const existingUser =
-    localStorage.getItem("sportx_demo_user");
+/* ALREADY AUTHENTICATED */
 
-if(existingUser){
+(async () => {
 
     try{
 
-        const user = JSON.parse(existingUser);
+        const {
+            data
+        } =
+            await supabaseClient.auth.getSession();
 
-        if(user && user.loggedIn === true){
 
-            window.location.replace("index.html");
+        if(
+            data &&
+            data.session &&
+            data.session.user
+        ){
+
+            window.location.replace(
+                "index.html"
+            );
 
         }
 
     }catch(error){
 
-        localStorage.removeItem("sportx_demo_user");
+        console.error(
+            "Session check error:",
+            error
+        );
 
     }
 
-}
+})();
+
 </script>
-<script src="auth.js"></script>
-    
+
 </body>
 </html>
