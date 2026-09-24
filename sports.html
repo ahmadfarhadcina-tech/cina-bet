@@ -581,6 +581,13 @@ a{
         0 8px 25px rgba(22,217,139,.07);
 }
 
+.match-card.future-card{
+    border-color:rgba(185,133,0,.20);
+
+    box-shadow:
+        0 8px 25px rgba(185,133,0,.045);
+}
+
 .match-top{
     width:100%;
 
@@ -637,6 +644,23 @@ a{
     background:rgba(22,217,139,.08);
 
     border:1px solid rgba(22,217,139,.18);
+
+    border-radius:20px;
+
+    padding:4px 7px;
+}
+
+.future-badge{
+    flex:0 0 auto;
+
+    font-size:9px;
+    font-weight:900;
+
+    color:#987000;
+
+    background:rgba(185,133,0,.08);
+
+    border:1px solid rgba(185,133,0,.18);
 
     border-radius:20px;
 
@@ -1348,7 +1372,8 @@ a{
         flex-basis:21px;
     }
 
-    .featured-badge{
+    .featured-badge,
+    .future-badge{
         display:none;
     }
 
@@ -1605,6 +1630,38 @@ a{
     </section>
 
 
+    <!-- NORMAL -->
+
+    <section
+        class="match-section"
+        id="normalSection"
+        style="display:none;"
+    >
+
+        <div class="section-title">
+
+            <h2>
+                Normal Matches
+            </h2>
+
+            <span id="normalCount">
+                0 matches
+            </span>
+
+        </div>
+
+        <p class="section-description">
+            Real upcoming matches in the next 2 days.
+        </p>
+
+        <section
+            class="matches"
+            id="normalMatches"
+        ></section>
+
+    </section>
+
+
     <!-- FEATURED -->
 
     <section
@@ -1626,7 +1683,7 @@ a{
         </div>
 
         <p class="section-description">
-            High-profile upcoming matches within the next 7 days.
+            High-profile upcoming matches from famous teams.
         </p>
 
         <section
@@ -1637,33 +1694,33 @@ a{
     </section>
 
 
-    <!-- NORMAL -->
+    <!-- FUTURE -->
 
     <section
         class="match-section"
-        id="normalSection"
+        id="futureSection"
         style="display:none;"
     >
 
         <div class="section-title">
 
             <h2>
-                Upcoming Matches
+                Future Matches
             </h2>
 
-            <span id="normalCount">
+            <span id="futureCount">
                 0 matches
             </span>
 
         </div>
 
         <p class="section-description">
-            Real upcoming matches within the next 2 days.
+            Real upcoming fixtures available in the connected sports database.
         </p>
 
         <section
             class="matches"
-            id="normalMatches"
+            id="futureMatches"
         ></section>
 
     </section>
@@ -1879,13 +1936,15 @@ const supabaseClient =
 const SPORT_SCORE_URL =
     "https://sportscore.com/api/widget/matches/?sport=football&limit=50";
 
+const NORMAL_DAYS = 2;
+
 const FEATURED_DAYS = 7;
 
-const NORMAL_DAYS = 2;
+const MAX_NORMAL_MATCHES = 2;
 
 const MAX_FEATURED_MATCHES = 8;
 
-const MAX_NORMAL_MATCHES = 8;
+const MAX_FUTURE_MATCHES = 12;
 
 const MAX_LIVE_MATCHES = 8;
 
@@ -1906,22 +1965,32 @@ const FEATURED_TEAMS = new Set([
 
     "real madrid",
     "barcelona",
+
     "manchester united",
     "manchester city",
+
     "liverpool",
     "arsenal",
     "chelsea",
+
     "bayern munich",
+
     "paris saint germain",
     "paris saint-germain",
     "psg",
+
     "juventus",
+
     "inter milan",
     "internazionale",
+
     "ac milan",
+
     "atletico madrid",
     "atletico",
+
     "borussia dortmund",
+
     "tottenham hotspur"
 
 ]);
@@ -1955,38 +2024,47 @@ const syncStatus =
 const syncText =
     document.getElementById("syncText");
 
-const featuredSection =
-    document.getElementById("featuredSection");
+const liveSection =
+    document.getElementById("liveSection");
 
 const normalSection =
     document.getElementById("normalSection");
 
-const liveSection =
-    document.getElementById("liveSection");
+const featuredSection =
+    document.getElementById("featuredSection");
+
+const futureSection =
+    document.getElementById("futureSection");
 
 const resultsSection =
     document.getElementById("resultsSection");
 
-const featuredMatches =
-    document.getElementById("featuredMatches");
+const liveMatches =
+    document.getElementById("liveMatches");
 
 const normalMatches =
     document.getElementById("normalMatches");
 
-const liveMatches =
-    document.getElementById("liveMatches");
+const featuredMatches =
+    document.getElementById("featuredMatches");
+
+const futureMatches =
+    document.getElementById("futureMatches");
 
 const matchesContainer =
     document.getElementById("matches");
 
-const featuredCount =
-    document.getElementById("featuredCount");
+const liveCount =
+    document.getElementById("liveCount");
 
 const normalCount =
     document.getElementById("normalCount");
 
-const liveCount =
-    document.getElementById("liveCount");
+const featuredCount =
+    document.getElementById("featuredCount");
+
+const futureCount =
+    document.getElementById("futureCount");
 
 const emptyState =
     document.getElementById("emptyState");
@@ -2038,21 +2116,27 @@ function addRipple(event){
 
 }
 
+
 navButtons.forEach(
     button => {
+
         button.addEventListener(
             "pointerdown",
             addRipple
         );
+
     }
 );
 
+
 filterButtons.forEach(
     button => {
+
         button.addEventListener(
             "pointerdown",
             addRipple
         );
+
     }
 );
 
@@ -2292,7 +2376,7 @@ async function invokeWorkerWithTimeout(
 
 
 /* =========================================================
-   WORKER → MATCHES
+   WORKER MATCH CONVERTER
 ========================================================= */
 
 function convertWorkerMatches(
@@ -2387,14 +2471,14 @@ function convertWorkerMatches(
                         item.status_text,
 
                     home_score:
-                        Number(
-                            item.home_score ?? 0
-                        ),
+                        item.home_score == null
+                            ? null
+                            : Number(item.home_score),
 
                     away_score:
-                        Number(
-                            item.away_score ?? 0
-                        ),
+                        item.away_score == null
+                            ? null
+                            : Number(item.away_score),
 
                     is_live:
                         item.is_live === true,
@@ -2413,8 +2497,6 @@ function convertWorkerMatches(
 
 /* =========================================================
    DATABASE
-   FIX:
-   No dependency on FK constraint names.
 ========================================================= */
 
 async function loadDatabaseMatches(){
@@ -2444,7 +2526,7 @@ async function loadDatabaseMatches(){
                     ascending:true
                 }
             )
-            .limit(500);
+            .limit(1000);
 
 
     if(error){
@@ -2469,10 +2551,13 @@ async function loadDatabaseMatches(){
             ...new Set(
                 data.flatMap(
                     row => [
+
                         row.home_team_id,
                         row.away_team_id
+
                     ]
-                ).filter(Boolean)
+                )
+                .filter(Boolean)
             )
         ];
 
@@ -2512,19 +2597,19 @@ async function loadDatabaseMatches(){
                 );
 
 
-        if(result.error){
-
-            console.warn(
-                "Team loading warning:",
-                result.error
-            );
-
-        }else{
+        if(!result.error){
 
             teams =
                 Array.isArray(result.data)
                     ? result.data
                     : [];
+
+        }else{
+
+            console.warn(
+                "Team loading warning:",
+                result.error
+            );
 
         }
 
@@ -2548,19 +2633,19 @@ async function loadDatabaseMatches(){
                 );
 
 
-        if(result.error){
-
-            console.warn(
-                "League loading warning:",
-                result.error
-            );
-
-        }else{
+        if(!result.error){
 
             leagues =
                 Array.isArray(result.data)
                     ? result.data
                     : [];
+
+        }else{
+
+            console.warn(
+                "League loading warning:",
+                result.error
+            );
 
         }
 
@@ -2674,14 +2759,14 @@ async function loadDatabaseMatches(){
                     row.status,
 
                 home_score:
-                    Number(
-                        row.home_score ?? 0
-                    ),
+                    row.home_score == null
+                        ? null
+                        : Number(row.home_score),
 
                 away_score:
-                    Number(
-                        row.away_score ?? 0
-                    ),
+                    row.away_score == null
+                        ? null
+                        : Number(row.away_score),
 
                 is_live:
                     row.is_live === true
@@ -2803,14 +2888,14 @@ async function loadSportScoreMatches(){
                         item.status_text,
 
                     home_score:
-                        Number(
-                            item.home_score ?? 0
-                        ),
+                        item.home_score == null
+                            ? null
+                            : Number(item.home_score),
 
                     away_score:
-                        Number(
-                            item.away_score ?? 0
-                        ),
+                        item.away_score == null
+                            ? null
+                            : Number(item.away_score),
 
                     is_live:
                         item.is_live === true,
@@ -2828,7 +2913,7 @@ async function loadSportScoreMatches(){
 
 
 /* =========================================================
-   DATE
+   DATE KEY
 ========================================================= */
 
 function normalizeDateKey(value){
@@ -3048,10 +3133,10 @@ function isFeaturedTeam(match){
 
 
 /* =========================================================
-   WINDOW
+   MATCH CATEGORY
 ========================================================= */
 
-function getMatchWindow(match){
+function getMatchCategory(match){
 
     if(
         match.status === "live"
@@ -3081,14 +3166,14 @@ function getMatchWindow(match){
     }
 
 
-    const start =
+    const timestamp =
         new Date(
             match.start_time || 0
         ).getTime();
 
 
     if(
-        !Number.isFinite(start)
+        !Number.isFinite(timestamp)
     ){
 
         return "other";
@@ -3100,22 +3185,37 @@ function getMatchWindow(match){
         Date.now();
 
 
+    /*
+     * A match that is already in the past
+     * but was incorrectly marked scheduled
+     * should not appear as future.
+     */
+
+    if(timestamp < now){
+
+        return "other";
+
+    }
+
+
     const normalLimit =
         now +
-        NORMAL_DAYS *
-        86400000;
+        NORMAL_DAYS * 86400000;
 
 
     const featuredLimit =
         now +
-        FEATURED_DAYS *
-        86400000;
+        FEATURED_DAYS * 86400000;
 
+
+    /*
+     * Famous teams inside the next 7 days
+     * go into Featured.
+     */
 
     if(
-        start >= now &&
-        start <= featuredLimit &&
-        isFeaturedTeam(match)
+        isFeaturedTeam(match) &&
+        timestamp <= featuredLimit
     ){
 
         return "featured";
@@ -3123,9 +3223,13 @@ function getMatchWindow(match){
     }
 
 
+    /*
+     * Normal = real upcoming matches
+     * in the next 2 days.
+     */
+
     if(
-        start >= now &&
-        start <= normalLimit
+        timestamp <= normalLimit
     ){
 
         return "normal";
@@ -3133,13 +3237,18 @@ function getMatchWindow(match){
     }
 
 
-    return "other";
+    /*
+     * Everything else that is genuinely
+     * in the future goes into Future.
+     */
+
+    return "future";
 
 }
 
 
 /* =========================================================
-   SEARCH
+   SEARCH SCORE
 ========================================================= */
 
 function getSearchScore(
@@ -3244,8 +3353,11 @@ function filterForActiveSport(
 ){
 
     /*
-     * Real football is currently connected.
-     * No fake data is returned for other sports.
+     * SportScore connection currently supplies
+     * real football data.
+     *
+     * No fake basketball, tennis, cricket,
+     * esports or boxing matches are created.
      */
 
     if(
@@ -3279,7 +3391,9 @@ function formatMatchDateTime(
 
             label:"Unknown date · UTC",
 
-            timezone:"UTC"
+            timezone:"UTC",
+
+            full:"Unknown date · UTC"
 
         };
 
@@ -3302,7 +3416,9 @@ function formatMatchDateTime(
 
             label:"Unknown date · UTC",
 
-            timezone:"UTC"
+            timezone:"UTC",
+
+            full:"Unknown date · UTC"
 
         };
 
@@ -3325,6 +3441,7 @@ function formatMatchDateTime(
 
     const tomorrow =
         new Date(now);
+
 
     tomorrow.setUTCDate(
         tomorrow.getUTCDate() + 1
@@ -3468,7 +3585,7 @@ function teamLogo(
 function createMatchCard(
     match,
     index,
-    featured = false
+    type = "normal"
 ){
 
     const home =
@@ -3493,15 +3610,11 @@ function createMatchCard(
 
 
     const homeScore =
-        Number(
-            match.home_score ?? 0
-        );
+        match.home_score;
 
 
     const awayScore =
-        Number(
-            match.away_score ?? 0
-        );
+        match.away_score;
 
 
     const dateInfo =
@@ -3517,8 +3630,13 @@ function createMatchCard(
     card.className =
         "match-card" +
         (
-            featured
+            type === "featured"
                 ? " featured-card"
+                : ""
+        ) +
+        (
+            type === "future"
+                ? " future-card"
                 : ""
         );
 
@@ -3571,6 +3689,39 @@ function createMatchCard(
         status === "finished";
 
 
+    const safeHomeScore =
+        homeScore == null
+            ? "-"
+            : homeScore;
+
+    const safeAwayScore =
+        awayScore == null
+            ? "-"
+            : awayScore;
+
+
+    let badge = "";
+
+
+    if(type === "featured"){
+
+        badge = `
+            <span class="featured-badge">
+                FEATURED
+            </span>
+        `;
+
+    }else if(type === "future"){
+
+        badge = `
+            <span class="future-badge">
+                FUTURE
+            </span>
+        `;
+
+    }
+
+
     card.innerHTML = `
 
         <div class="match-top">
@@ -3595,15 +3746,7 @@ function createMatchCard(
                     ${escapeHtml(league)}
                 </span>
 
-                ${
-                    featured
-                        ? `
-                            <span class="featured-badge">
-                                FEATURED
-                            </span>
-                        `
-                        : ""
-                }
+                ${badge}
 
             </div>
 
@@ -3640,7 +3783,9 @@ function createMatchCard(
                     scoreVisible
                         ? `
                             <strong class="score">
-                                ${homeScore} - ${awayScore}
+                                ${escapeHtml(
+                                    `${safeHomeScore} - ${safeAwayScore}`
+                                )}
                             </strong>
                         `
                         : `
@@ -3697,7 +3842,9 @@ function createMatchCard(
                         ? "Live now"
                         : status === "finished"
                             ? "Final result"
-                            : "UTC time"
+                            : type === "future"
+                                ? "Future fixture"
+                                : "UTC time"
                 }
 
             </span>
@@ -3730,9 +3877,9 @@ function createMatchCard(
 
                 statusLabel,
 
-                homeScore,
+                safeHomeScore,
 
-                awayScore
+                safeAwayScore
             );
 
         }
@@ -3745,13 +3892,13 @@ function createMatchCard(
 
 
 /* =========================================================
-   RENDER
+   RENDER SECTION
 ========================================================= */
 
 function renderSection(
     container,
     matches,
-    featured = false
+    type = "normal"
 ){
 
     container.innerHTML = "";
@@ -3764,7 +3911,7 @@ function renderSection(
                 createMatchCard(
                     match,
                     index,
-                    featured
+                    type
                 )
             );
 
@@ -3831,13 +3978,13 @@ function sortMatches(
 function renderMatches(){
 
     allMatches =
-        removeOldFinishedMatches(
+        removeDuplicateMatches(
             allMatches
         );
 
 
     allMatches =
-        removeDuplicateMatches(
+        removeOldFinishedMatches(
             allMatches
         );
 
@@ -3854,17 +4001,22 @@ function renderMatches(){
         );
 
 
-    /* SEARCH */
+    /* =========================
+       SEARCH
+    ========================= */
 
     if(query){
 
-        featuredSection.style.display =
+        liveSection.style.display =
             "none";
 
         normalSection.style.display =
             "none";
 
-        liveSection.style.display =
+        featuredSection.style.display =
+            "none";
+
+        futureSection.style.display =
             "none";
 
         resultsSection.style.display =
@@ -3897,7 +4049,8 @@ function renderMatches(){
 
         renderSection(
             matchesContainer,
-            filtered
+            filtered,
+            "normal"
         );
 
 
@@ -3935,47 +4088,76 @@ function renderMatches(){
         "none";
 
 
+    /* =========================
+       LIVE
+    ========================= */
+
     let live =
         sportMatches.filter(
             match =>
-                match.status === "live"
+                getMatchCategory(match) ===
+                "live"
         );
 
 
-    let upcoming =
+    /* =========================
+       NORMAL
+    ========================= */
+
+    let normal =
         sportMatches.filter(
             match =>
-                match.status !== "finished" &&
-                match.status !== "live" &&
-                match.status !== "cancelled" &&
-                match.status !== "postponed"
+                getMatchCategory(match) ===
+                "normal"
         );
 
 
+    /* =========================
+       FEATURED
+    ========================= */
+
     let featured =
-        upcoming.filter(
+        sportMatches.filter(
             match =>
-                getMatchWindow(match) ===
+                getMatchCategory(match) ===
                 "featured"
         );
 
 
-    let normal =
-        upcoming.filter(
+    /* =========================
+       FUTURE
+    ========================= */
+
+    let future =
+        sportMatches.filter(
             match =>
-                getMatchWindow(match) ===
-                "normal"
+                getMatchCategory(match) ===
+                "future"
         );
 
 
     live =
         sortMatches(live);
 
+    normal =
+        sortMatches(normal);
+
     featured =
         sortMatches(featured);
 
+    future =
+        sortMatches(future);
+
+
+    /*
+     * Exactly two Normal cards.
+     */
+
     normal =
-        sortMatches(normal);
+        normal.slice(
+            0,
+            MAX_NORMAL_MATCHES
+        );
 
 
     live =
@@ -3992,14 +4174,16 @@ function renderMatches(){
         );
 
 
-    normal =
-        normal.slice(
+    future =
+        future.slice(
             0,
-            MAX_NORMAL_MATCHES
+            MAX_FUTURE_MATCHES
         );
 
 
-    /* LIVE */
+    /* =========================
+       LIVE
+    ========================= */
 
     if(live.length){
 
@@ -4008,7 +4192,8 @@ function renderMatches(){
 
         renderSection(
             liveMatches,
-            live
+            live,
+            "live"
         );
 
     }else{
@@ -4016,12 +4201,41 @@ function renderMatches(){
         liveSection.style.display =
             "none";
 
-        liveMatches.innerHTML = "";
+        liveMatches.innerHTML =
+            "";
 
     }
 
 
-    /* FEATURED */
+    /* =========================
+       NORMAL
+    ========================= */
+
+    if(normal.length){
+
+        normalSection.style.display =
+            "block";
+
+        renderSection(
+            normalMatches,
+            normal,
+            "normal"
+        );
+
+    }else{
+
+        normalSection.style.display =
+            "none";
+
+        normalMatches.innerHTML =
+            "";
+
+    }
+
+
+    /* =========================
+       FEATURED
+    ========================= */
 
     if(featured.length){
 
@@ -4031,7 +4245,7 @@ function renderMatches(){
         renderSection(
             featuredMatches,
             featured,
-            true
+            "featured"
         );
 
     }else{
@@ -4039,44 +4253,45 @@ function renderMatches(){
         featuredSection.style.display =
             "none";
 
-        featuredMatches.innerHTML = "";
+        featuredMatches.innerHTML =
+            "";
 
     }
 
 
-    /* NORMAL */
+    /* =========================
+       FUTURE
+    ========================= */
 
-    if(normal.length){
+    if(future.length){
 
-        normalSection.style.display =
+        futureSection.style.display =
             "block";
 
         renderSection(
-            normalMatches,
-            normal
+            futureMatches,
+            future,
+            "future"
         );
 
     }else{
 
-        normalSection.style.display =
+        futureSection.style.display =
             "none";
 
-        normalMatches.innerHTML = "";
+        futureMatches.innerHTML =
+            "";
 
     }
 
 
+    /* =========================
+       COUNTS
+    ========================= */
+
     liveCount.textContent =
         `${live.length} ${
             live.length === 1
-                ? "match"
-                : "matches"
-        }`;
-
-
-    featuredCount.textContent =
-        `${featured.length} ${
-            featured.length === 1
                 ? "match"
                 : "matches"
         }`;
@@ -4090,10 +4305,27 @@ function renderMatches(){
         }`;
 
 
+    featuredCount.textContent =
+        `${featured.length} ${
+            featured.length === 1
+                ? "match"
+                : "matches"
+        }`;
+
+
+    futureCount.textContent =
+        `${future.length} ${
+            future.length === 1
+                ? "match"
+                : "matches"
+        }`;
+
+
     const totalVisible =
         live.length +
+        normal.length +
         featured.length +
-        normal.length;
+        future.length;
 
 
     if(totalVisible === 0){
@@ -4111,7 +4343,7 @@ function renderMatches(){
                 "No matches available right now";
 
             emptyText.textContent =
-                "There are currently no real matches in the connected data windows.";
+                "There are currently no real matches in the connected data.";
 
         }else{
 
@@ -4182,9 +4414,13 @@ async function loadMatches(){
 
         let databaseMatches = [];
 
+        let workerMatches = [];
+
+        let sportScoreMatches = [];
+
 
         /* ==========================================
-           1. READ SUPABASE
+           1. READ CURRENT SUPABASE DATA
         ========================================== */
 
         try{
@@ -4195,7 +4431,7 @@ async function loadMatches(){
         }catch(error){
 
             console.warn(
-                "Supabase database read failed:",
+                "Initial Supabase read failed:",
                 error
             );
 
@@ -4203,32 +4439,14 @@ async function loadMatches(){
 
 
         /* ==========================================
-           2. CONVERT DATABASE
+           2. WORKER SYNC
         ========================================== */
-
-        if(databaseMatches.length){
-
-            allMatches =
-                removeDuplicateMatches(
-                    databaseMatches
-                );
-
-            allMatches =
-                removeOldFinishedMatches(
-                    allMatches
-                );
-
-        }
-
-
-        /* ==========================================
-           3. WORKER SYNC
-        ========================================== */
-
-        let workerMatches = [];
-
 
         try{
+
+            loadingText.textContent =
+                "Syncing real SportScore fixtures...";
+
 
             const workerResult =
                 await invokeWorkerWithTimeout(
@@ -4304,11 +4522,42 @@ async function loadMatches(){
 
 
         /* ==========================================
-           4. DIRECT SPORT SCORE FALLBACK
+           3. IMPORTANT:
+           READ SUPABASE AGAIN AFTER WORKER
         ========================================== */
 
-        let sportScoreMatches = [];
+        try{
 
+            loadingText.textContent =
+                "Reading synced fixtures...";
+
+
+            const refreshedDatabaseMatches =
+                await loadDatabaseMatches();
+
+
+            if(
+                refreshedDatabaseMatches.length
+            ){
+
+                databaseMatches =
+                    refreshedDatabaseMatches;
+
+            }
+
+        }catch(error){
+
+            console.warn(
+                "Post-worker Supabase read failed:",
+                error
+            );
+
+        }
+
+
+        /* ==========================================
+           4. DIRECT SPORT SCORE
+        ========================================== */
 
         try{
 
@@ -4331,12 +4580,12 @@ async function loadMatches(){
 
 
         /* ==========================================
-           5. MERGE
+           5. MERGE ALL REAL DATA
         ========================================== */
 
         allMatches =
             [
-                ...allMatches,
+                ...databaseMatches,
                 ...workerMatches,
                 ...sportScoreMatches
             ];
@@ -4355,7 +4604,7 @@ async function loadMatches(){
 
 
         /* ==========================================
-           6. RESULT
+           6. FINISH
         ========================================== */
 
         loadingState.style.display =
@@ -4371,7 +4620,7 @@ async function loadMatches(){
         if(allMatches.length){
 
             syncText.textContent =
-                "Sports data synced";
+                `Sports data synced · ${allMatches.length} real fixtures`;
 
         }else{
 
@@ -4731,7 +4980,7 @@ setInterval(
 
 
 /* =========================================================
-   REMOVE FINISHED MATCHES
+   REMOVE OLD FINISHED
 ========================================================= */
 
 setInterval(
