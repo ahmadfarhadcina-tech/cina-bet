@@ -43,6 +43,10 @@ body{
     color:var(--text);
 }
 
+body.auth-checking{
+    overflow:hidden;
+}
+
 a{
     color:inherit;
     text-decoration:none;
@@ -58,14 +62,18 @@ button{
     cursor:pointer;
 }
 
-/* ================= HEADER ================= */
+/* =========================================================
+   HEADER
+   ========================================================= */
 
 .header{
     position:sticky;
     top:0;
     z-index:100;
     height:72px;
+
     border-bottom:1px solid var(--border);
+
     background:rgba(7,16,14,.88);
     backdrop-filter:blur(18px);
 }
@@ -74,9 +82,11 @@ button{
     width:min(1180px,calc(100% - 32px));
     height:100%;
     margin:auto;
+
     display:flex;
     align-items:center;
     justify-content:space-between;
+
     gap:20px;
 }
 
@@ -84,6 +94,7 @@ button{
     display:flex;
     align-items:center;
     gap:10px;
+
     font-size:22px;
     font-weight:900;
     letter-spacing:-.5px;
@@ -92,12 +103,23 @@ button{
 .logo-mark{
     width:36px;
     height:36px;
+
     display:grid;
     place-items:center;
+
     border-radius:11px;
+
     color:#06100d;
-    background:linear-gradient(135deg,var(--green),#76ffc0);
-    box-shadow:0 8px 25px rgba(22,217,139,.2);
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--green),
+            #76ffc0
+        );
+
+    box-shadow:
+        0 8px 25px rgba(22,217,139,.2);
 }
 
 .nav{
@@ -108,10 +130,14 @@ button{
 
 .nav a{
     padding:10px 13px;
+
     border-radius:10px;
+
     color:var(--muted);
+
     font-size:14px;
     font-weight:700;
+
     transition:.25s ease;
 }
 
@@ -128,38 +154,140 @@ button{
 .header-right{
     display:flex;
     align-items:center;
+    justify-content:flex-end;
+
     gap:10px;
 }
 
-.balance{
+/* =========================================================
+   GUEST LOGIN
+   ========================================================= */
+
+[data-auth-guest]{
     display:flex;
     align-items:center;
-    gap:8px;
-    padding:9px 12px;
-    border:1px solid rgba(22,217,139,.18);
-    border-radius:10px;
-    background:rgba(22,217,139,.06);
-    color:var(--green);
-    font-size:13px;
-    font-weight:800;
 }
 
 .login-btn{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+
     padding:10px 15px;
+
     border-radius:10px;
+
     background:var(--green);
     color:#06100d;
+
     font-size:13px;
     font-weight:900;
+
     transition:.25s ease;
 }
 
 .login-btn:hover{
     transform:translateY(-2px);
-    box-shadow:0 10px 25px rgba(22,217,139,.18);
+
+    box-shadow:
+        0 10px 25px rgba(22,217,139,.18);
 }
 
-/* ================= MAIN ================= */
+/* =========================================================
+   AUTHENTICATED USER
+   ========================================================= */
+
+.user-account{
+    display:flex;
+    align-items:center;
+    gap:9px;
+}
+
+.user-avatar{
+    width:38px;
+    height:38px;
+
+    flex-shrink:0;
+
+    display:grid;
+    place-items:center;
+
+    border-radius:50%;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--green),
+            var(--green-dark)
+        );
+
+    color:#06100d;
+
+    font-size:12px;
+    font-weight:900;
+
+    box-shadow:
+        0 6px 18px rgba(22,217,139,.15);
+}
+
+.user-info{
+    min-width:95px;
+
+    display:flex;
+    flex-direction:column;
+    gap:2px;
+}
+
+.user-info strong{
+    color:var(--text);
+
+    font-size:12px;
+    font-weight:900;
+
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+
+    max-width:110px;
+}
+
+.user-info span{
+    color:var(--green);
+
+    font-size:10px;
+    font-weight:800;
+
+    white-space:nowrap;
+}
+
+.logout-btn{
+    padding:9px 12px;
+
+    border:1px solid var(--border);
+    border-radius:10px;
+
+    background:var(--panel-2);
+    color:var(--muted);
+
+    font-size:11px;
+    font-weight:800;
+
+    transition:.25s ease;
+}
+
+.logout-btn:hover{
+    border-color:rgba(255,95,109,.2);
+
+    background:rgba(255,95,109,.08);
+
+    color:var(--danger);
+
+    transform:translateY(-1px);
+}
+
+/* =========================================================
+   MAIN
+   ========================================================= */
 
 .container{
     width:min(1180px,calc(100% - 32px));
@@ -174,8 +302,11 @@ main{
     display:flex;
     align-items:flex-end;
     justify-content:space-between;
+
     gap:25px;
+
     margin-bottom:30px;
+
     animation:rise .55s ease both;
 }
 
@@ -183,84 +314,132 @@ main{
     display:inline-flex;
     align-items:center;
     gap:8px;
+
     margin-bottom:12px;
     padding:7px 11px;
+
     border-radius:999px;
+
     background:rgba(22,217,139,.08);
+
     border:1px solid rgba(22,217,139,.13);
+
     color:var(--green);
+
     font-size:11px;
     font-weight:900;
+
     letter-spacing:.8px;
 }
 
 .eyebrow-dot{
     width:6px;
     height:6px;
+
     border-radius:50%;
+
     background:var(--green);
-    box-shadow:0 0 10px var(--green);
+
+    box-shadow:
+        0 0 10px var(--green);
 }
 
 h1{
     font-size:clamp(32px,5vw,52px);
     line-height:1;
+
     letter-spacing:-1.8px;
 }
 
 .page-head p{
     max-width:620px;
+
     margin-top:13px;
+
     color:var(--muted);
+
     line-height:1.7;
+
     font-size:14px;
 }
 
-/* ================= SUMMARY ================= */
+/* =========================================================
+   SUMMARY
+   ========================================================= */
 
 .summary{
     display:grid;
     grid-template-columns:repeat(4,1fr);
+
     gap:14px;
+
     margin-bottom:26px;
 }
 
 .summary-card{
     position:relative;
+
     overflow:hidden;
+
     padding:20px;
+
     border:1px solid var(--border);
+
     border-radius:17px;
-    background:linear-gradient(145deg,var(--panel),rgba(13,24,21,.75));
+
+    background:
+        linear-gradient(
+            145deg,
+            var(--panel),
+            rgba(13,24,21,.75)
+        );
+
     box-shadow:var(--shadow);
+
     animation:rise .55s ease both;
 }
 
-.summary-card:nth-child(2){animation-delay:.06s}
-.summary-card:nth-child(3){animation-delay:.12s}
-.summary-card:nth-child(4){animation-delay:.18s}
+.summary-card:nth-child(2){
+    animation-delay:.06s;
+}
+
+.summary-card:nth-child(3){
+    animation-delay:.12s;
+}
+
+.summary-card:nth-child(4){
+    animation-delay:.18s;
+}
 
 .summary-card::after{
     content:"";
+
     position:absolute;
+
     width:90px;
     height:90px;
+
     right:-35px;
     bottom:-40px;
+
     border-radius:50%;
+
     background:rgba(22,217,139,.07);
 }
 
 .summary-label{
     color:var(--muted);
+
     font-size:12px;
     font-weight:700;
 }
 
 .summary-value{
     margin-top:9px;
+
     font-size:27px;
     font-weight:900;
+
     letter-spacing:-.7px;
 }
 
@@ -276,18 +455,26 @@ h1{
     color:var(--gold);
 }
 
-/* ================= CONTROLS ================= */
+/* =========================================================
+   CONTROLS
+   ========================================================= */
 
 .controls{
     display:flex;
     align-items:center;
     justify-content:space-between;
+
     gap:15px;
+
     margin-bottom:22px;
     padding:13px;
+
     border:1px solid var(--border);
+
     border-radius:15px;
+
     background:rgba(13,24,21,.72);
+
     animation:rise .6s ease both;
 }
 
@@ -299,16 +486,22 @@ h1{
 
 .tab{
     padding:9px 14px;
+
     border-radius:9px;
+
     background:transparent;
+
     color:var(--muted);
+
     font-size:12px;
     font-weight:800;
+
     transition:.25s ease;
 }
 
 .tab:hover{
     color:var(--text);
+
     background:rgba(255,255,255,.04);
 }
 
@@ -319,36 +512,57 @@ h1{
 
 .search{
     position:relative;
+
     width:270px;
 }
 
 .search input{
     width:100%;
+
     padding:11px 13px 11px 38px;
+
     border:1px solid var(--border);
+
     border-radius:10px;
+
     outline:none;
+
     background:var(--panel-2);
+
     color:var(--text);
+
     font-size:12px;
+
     transition:.25s ease;
+}
+
+.search input::placeholder{
+    color:#65756f;
 }
 
 .search input:focus{
     border-color:rgba(22,217,139,.4);
-    box-shadow:0 0 0 3px rgba(22,217,139,.06);
+
+    box-shadow:
+        0 0 0 3px rgba(22,217,139,.06);
 }
 
 .search-icon{
     position:absolute;
+
     left:13px;
     top:50%;
+
     transform:translateY(-50%);
+
     color:var(--muted);
+
     pointer-events:none;
 }
 
-/* ================= BET LIST ================= */
+/* =========================================================
+   BET LIST
+   ========================================================= */
 
 .bet-list{
     display:grid;
@@ -357,32 +571,52 @@ h1{
 
 .bet-card{
     position:relative;
+
     overflow:hidden;
+
     border:1px solid var(--border);
+
     border-radius:18px;
-    background:linear-gradient(145deg,var(--panel),var(--panel-2));
-    box-shadow:0 14px 35px rgba(0,0,0,.16);
+
+    background:
+        linear-gradient(
+            145deg,
+            var(--panel),
+            var(--panel-2)
+        );
+
+    box-shadow:
+        0 14px 35px rgba(0,0,0,.16);
+
     animation:rise .55s ease both;
+
     transition:.3s ease;
 }
 
 .bet-card:hover{
     transform:translateY(-3px);
+
     border-color:rgba(22,217,139,.18);
-    box-shadow:0 20px 45px rgba(0,0,0,.25);
+
+    box-shadow:
+        0 20px 45px rgba(0,0,0,.25);
 }
 
 .bet-top{
     display:flex;
     align-items:center;
     justify-content:space-between;
+
     gap:15px;
+
     padding:17px 18px;
+
     border-bottom:1px solid var(--border);
 }
 
 .bet-id{
     color:var(--muted);
+
     font-size:11px;
     font-weight:700;
 }
@@ -391,24 +625,32 @@ h1{
     display:inline-flex;
     align-items:center;
     gap:6px;
+
     padding:6px 9px;
+
     border-radius:999px;
+
     font-size:10px;
     font-weight:900;
+
     text-transform:uppercase;
+
     letter-spacing:.5px;
 }
 
 .status::before{
     content:"";
+
     width:6px;
     height:6px;
+
     border-radius:50%;
 }
 
 .status.open,
 .status.pending{
     color:var(--gold);
+
     background:rgba(244,201,93,.08);
 }
 
@@ -419,6 +661,7 @@ h1{
 
 .status.won{
     color:var(--green);
+
     background:rgba(22,217,139,.08);
 }
 
@@ -428,6 +671,7 @@ h1{
 
 .status.lost{
     color:var(--danger);
+
     background:rgba(255,95,109,.08);
 }
 
@@ -443,6 +687,7 @@ h1{
     display:flex;
     align-items:center;
     justify-content:space-between;
+
     gap:20px;
 }
 
@@ -451,62 +696,81 @@ h1{
 }
 
 .league{
+    margin-bottom:7px;
+
     color:var(--green);
+
     font-size:11px;
     font-weight:800;
-    margin-bottom:7px;
 }
 
 .match-title{
     font-size:18px;
     font-weight:900;
+
     letter-spacing:-.4px;
 }
 
 .match-time{
     margin-top:6px;
+
     color:var(--muted);
+
     font-size:11px;
 }
 
 .prediction{
     min-width:155px;
+
     padding:12px 14px;
+
     border:1px solid rgba(22,217,139,.13);
+
     border-radius:12px;
+
     background:rgba(22,217,139,.045);
 }
 
 .prediction-label{
     color:var(--muted);
+
     font-size:10px;
     font-weight:700;
 }
 
 .prediction-value{
     margin-top:5px;
+
     color:var(--green);
+
     font-size:14px;
     font-weight:900;
 }
 
 .odds{
     margin-top:5px;
+
     color:var(--muted);
+
     font-size:10px;
 }
 
 .bet-bottom{
     display:grid;
+
     grid-template-columns:repeat(4,1fr);
+
     gap:10px;
+
     margin-top:19px;
     padding-top:16px;
+
     border-top:1px solid var(--border);
 }
 
 .bet-stat{
     padding-right:10px;
+
     border-right:1px solid var(--border);
 }
 
@@ -516,11 +780,13 @@ h1{
 
 .bet-stat-label{
     color:var(--muted);
+
     font-size:10px;
 }
 
 .bet-stat-value{
     margin-top:5px;
+
     font-size:13px;
     font-weight:900;
 }
@@ -535,47 +801,70 @@ h1{
 
 .bet-actions{
     display:flex;
+
     justify-content:flex-end;
+
     margin-top:16px;
 }
 
 .details-btn{
     padding:10px 15px;
+
     border:1px solid rgba(22,217,139,.18);
+
     border-radius:10px;
+
     background:rgba(22,217,139,.06);
+
     color:var(--green);
+
     font-size:11px;
     font-weight:900;
+
     transition:.25s ease;
 }
 
 .details-btn:hover{
     background:var(--green);
+
     color:#06100d;
+
     transform:translateY(-2px);
 }
 
-/* ================= EMPTY ================= */
+/* =========================================================
+   EMPTY STATE
+   ========================================================= */
 
 .empty{
     display:none;
+
     padding:65px 25px;
+
     text-align:center;
+
     border:1px dashed rgba(255,255,255,.1);
+
     border-radius:18px;
+
     background:rgba(13,24,21,.55);
 }
 
 .empty-icon{
     width:58px;
     height:58px;
+
     margin:0 auto 15px;
+
     display:grid;
     place-items:center;
+
     border-radius:18px;
+
     background:rgba(22,217,139,.08);
+
     color:var(--green);
+
     font-size:25px;
 }
 
@@ -585,49 +874,76 @@ h1{
 
 .empty p{
     margin:8px auto 20px;
+
     max-width:420px;
+
     color:var(--muted);
+
     font-size:13px;
+
     line-height:1.7;
 }
 
 .empty a{
     display:inline-flex;
+
     padding:11px 17px;
+
     border-radius:10px;
+
     background:var(--green);
+
     color:#06100d;
+
     font-size:12px;
     font-weight:900;
 }
 
-/* ================= MODAL ================= */
+/* =========================================================
+   BET DETAILS MODAL
+   ========================================================= */
 
 .modal{
     position:fixed;
+
     inset:0;
+
     z-index:500;
+
     display:none;
+
     align-items:center;
     justify-content:center;
+
     padding:20px;
+
     background:rgba(0,0,0,.72);
+
     backdrop-filter:blur(10px);
 }
 
 .modal.show{
     display:flex;
+
     animation:fadeIn .2s ease;
 }
 
 .modal-box{
     width:min(520px,100%);
+
     max-height:90vh;
+
     overflow:auto;
+
     border:1px solid var(--border);
+
     border-radius:20px;
+
     background:#0b1713;
-    box-shadow:0 30px 90px rgba(0,0,0,.5);
+
+    box-shadow:
+        0 30px 90px rgba(0,0,0,.5);
+
     animation:modalIn .3s ease;
 }
 
@@ -635,7 +951,9 @@ h1{
     display:flex;
     align-items:center;
     justify-content:space-between;
+
     padding:19px;
+
     border-bottom:1px solid var(--border);
 }
 
@@ -646,17 +964,24 @@ h1{
 .close{
     width:34px;
     height:34px;
+
     display:grid;
     place-items:center;
+
     border-radius:9px;
+
     background:rgba(255,255,255,.05);
+
     color:var(--muted);
+
     font-size:18px;
+
     transition:.2s ease;
 }
 
 .close:hover{
     background:rgba(255,95,109,.1);
+
     color:var(--danger);
 }
 
@@ -666,108 +991,157 @@ h1{
 
 .detail-match{
     padding:17px;
+
     border:1px solid var(--border);
+
     border-radius:14px;
+
     background:var(--panel);
+
     text-align:center;
 }
 
 .detail-league{
     color:var(--green);
+
     font-size:11px;
     font-weight:800;
 }
 
 .detail-teams{
     margin-top:8px;
+
     font-size:21px;
     font-weight:900;
 }
 
 .detail-time{
     margin-top:7px;
+
     color:var(--muted);
+
     font-size:11px;
 }
 
 .detail-grid{
     display:grid;
+
     grid-template-columns:1fr 1fr;
+
     gap:10px;
+
     margin-top:15px;
 }
 
 .detail-item{
     padding:13px;
+
     border:1px solid var(--border);
+
     border-radius:12px;
+
     background:var(--panel);
 }
 
 .detail-item span{
     display:block;
+
     color:var(--muted);
+
     font-size:10px;
 }
 
 .detail-item strong{
     display:block;
+
     margin-top:5px;
+
     font-size:14px;
 }
 
 .modal-footer{
     margin-top:16px;
+
     padding-top:15px;
+
     border-top:1px solid var(--border);
+
     color:var(--muted);
+
     font-size:11px;
+
     line-height:1.6;
 }
 
-/* ================= TOAST ================= */
+/* =========================================================
+   TOAST
+   ========================================================= */
 
 .toast{
     position:fixed;
+
     left:50%;
     bottom:25px;
+
     z-index:700;
+
     transform:translate(-50%,20px);
+
     padding:12px 17px;
+
     border:1px solid rgba(22,217,139,.18);
+
     border-radius:11px;
+
     background:#10221c;
+
     color:var(--text);
-    box-shadow:0 15px 40px rgba(0,0,0,.35);
+
+    box-shadow:
+        0 15px 40px rgba(0,0,0,.35);
+
     font-size:12px;
     font-weight:700;
+
     opacity:0;
+
     pointer-events:none;
+
     transition:.3s ease;
 }
 
 .toast.show{
     opacity:1;
+
     transform:translate(-50%,0);
 }
 
-/* ================= FOOTER ================= */
+/* =========================================================
+   FOOTER
+   ========================================================= */
 
 footer{
     border-top:1px solid var(--border);
+
     padding:25px 0;
+
     color:var(--muted);
+
     font-size:11px;
+
     text-align:center;
 }
 
-/* ================= ANIMATIONS ================= */
+/* =========================================================
+   ANIMATIONS
+   ========================================================= */
 
 @keyframes rise{
     from{
         opacity:0;
         transform:translateY(18px);
     }
+
     to{
         opacity:1;
         transform:translateY(0);
@@ -775,8 +1149,13 @@ footer{
 }
 
 @keyframes fadeIn{
-    from{opacity:0}
-    to{opacity:1}
+    from{
+        opacity:0;
+    }
+
+    to{
+        opacity:1;
+    }
 }
 
 @keyframes modalIn{
@@ -784,13 +1163,16 @@ footer{
         opacity:0;
         transform:translateY(18px) scale(.97);
     }
+
     to{
         opacity:1;
         transform:translateY(0) scale(1);
     }
 }
 
-/* ================= RESPONSIVE ================= */
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
 
 @media(max-width:900px){
 
@@ -828,12 +1210,21 @@ footer{
         padding-top:35px;
     }
 
-    .balance{
+    .user-info{
         display:none;
     }
 
-    .login-btn{
-        padding:9px 12px;
+    .user-account{
+        gap:6px;
+    }
+
+    .user-avatar{
+        width:35px;
+        height:35px;
+    }
+
+    .logout-btn{
+        padding:8px 10px;
     }
 
     h1{
@@ -855,7 +1246,9 @@ footer{
 
     .tabs{
         display:grid;
-        grid-template-columns:repeat(3,1fr);
+
+        grid-template-columns:
+            repeat(3,1fr);
     }
 
     .tab{
@@ -864,6 +1257,7 @@ footer{
 
     .match-row{
         align-items:stretch;
+
         flex-direction:column;
     }
 
@@ -882,7 +1276,9 @@ footer{
     .bet-stat:nth-child(3),
     .bet-stat:nth-child(4){
         margin-top:4px;
+
         padding-top:10px;
+
         border-top:1px solid var(--border);
     }
 
@@ -895,122 +1291,265 @@ footer{
 
 <body>
 
+<!-- =======================================================
+     HEADER
+     ======================================================= -->
+
 <header class="header">
+
     <div class="header-inner">
 
         <a href="index.html" class="logo">
-            <span class="logo-mark">S</span>
-            <span>SportX</span>
+
+            <span class="logo-mark">
+                S
+            </span>
+
+            <span>
+                SportX
+            </span>
+
         </a>
 
+
         <nav class="nav">
-            <a href="index.html">Home</a>
-            <a href="sports.html">Sports</a>
-            <a href="live.html">Live</a>
-            <a href="bets.html" class="active">My Bets</a>
+
+            <a href="index.html">
+                Home
+            </a>
+
+            <a href="sports.html">
+                Sports
+            </a>
+
+            <a href="live.html">
+                Live
+            </a>
+
+            <a href="bets.html" class="active">
+                My Bets
+            </a>
+
         </nav>
 
+
         <div class="header-right">
-            <div class="balance">● AFN 1,000</div>
-            <a href="login.html" class="login-btn">Login</a>
+
+            <!-- LOGGED OUT -->
+
+            <div data-auth-guest>
+
+                <a
+                    href="login.html"
+                    class="login-btn">
+                    Login
+                </a>
+
+            </div>
+
+
+            <!-- LOGGED IN -->
+
+            <div
+                data-auth-user
+                class="user-account"
+                style="display:none;">
+
+                <div class="user-avatar">
+
+                    <span data-user-initials>
+                        US
+                    </span>
+
+                </div>
+
+                <div class="user-info">
+
+                    <strong data-user-name>
+                        User
+                    </strong>
+
+                    <span data-user-balance>
+                        AFN 1,000
+                    </span>
+
+                </div>
+
+                <button
+                    type="button"
+                    class="logout-btn"
+                    data-auth-logout>
+                    Logout
+                </button>
+
+            </div>
+
         </div>
 
     </div>
+
 </header>
 
 
+<!-- =======================================================
+     MAIN
+     ======================================================= -->
+
 <main>
+
 <div class="container">
 
     <section class="page-head">
 
         <div>
+
             <div class="eyebrow">
+
                 <span class="eyebrow-dot"></span>
+
                 MY PREDICTIONS
+
             </div>
 
-            <h1>My Bets</h1>
+            <h1>
+                My Bets
+            </h1>
 
             <p>
                 Track your virtual predictions, open selections,
                 settled results and simulated profit or loss.
             </p>
+
         </div>
 
     </section>
 
 
-    <!-- SUMMARY -->
+    <!-- ===================================================
+         SUMMARY
+         =================================================== -->
 
     <section class="summary">
 
         <div class="summary-card">
-            <div class="summary-label">Total Bets</div>
-            <div class="summary-value">12</div>
+
+            <div class="summary-label">
+                Total Bets
+            </div>
+
+            <div class="summary-value">
+                12
+            </div>
+
         </div>
 
-        <div class="summary-card">
-            <div class="summary-label">Open Bets</div>
-            <div class="summary-value gold">3</div>
-        </div>
 
         <div class="summary-card">
-            <div class="summary-label">Settled Bets</div>
-            <div class="summary-value">9</div>
+
+            <div class="summary-label">
+                Open Bets
+            </div>
+
+            <div class="summary-value gold">
+                3
+            </div>
+
         </div>
 
+
         <div class="summary-card">
-            <div class="summary-label">Virtual P/L</div>
-            <div class="summary-value green">+AFN 245</div>
+
+            <div class="summary-label">
+                Settled Bets
+            </div>
+
+            <div class="summary-value">
+                9
+            </div>
+
+        </div>
+
+
+        <div class="summary-card">
+
+            <div class="summary-label">
+                Virtual P/L
+            </div>
+
+            <div class="summary-value green">
+                +AFN 245
+            </div>
+
         </div>
 
     </section>
 
 
-    <!-- CONTROLS -->
+    <!-- ===================================================
+         CONTROLS
+         =================================================== -->
 
     <section class="controls">
 
         <div class="tabs">
 
-            <button class="tab active" data-filter="all">
+            <button
+                class="tab active"
+                data-filter="all">
                 All
             </button>
 
-            <button class="tab" data-filter="open">
+            <button
+                class="tab"
+                data-filter="open">
                 Open
             </button>
 
-            <button class="tab" data-filter="pending">
+            <button
+                class="tab"
+                data-filter="pending">
                 Pending
             </button>
 
-            <button class="tab" data-filter="won">
+            <button
+                class="tab"
+                data-filter="won">
                 Won
             </button>
 
-            <button class="tab" data-filter="lost">
+            <button
+                class="tab"
+                data-filter="lost">
                 Lost
             </button>
 
         </div>
 
+
         <div class="search">
-            <span class="search-icon">⌕</span>
+
+            <span class="search-icon">
+                ⌕
+            </span>
+
             <input
                 type="search"
                 id="searchInput"
                 placeholder="Search teams, matches or Bet ID..."
-            >
+                autocomplete="off">
+
         </div>
 
     </section>
 
 
-    <!-- BET LIST -->
+    <!-- ===================================================
+         BET LIST
+         =================================================== -->
 
-    <section class="bet-list" id="betList">
+    <section
+        class="bet-list"
+        id="betList">
 
 
         <!-- BET 1 -->
@@ -1018,8 +1557,7 @@ footer{
         <article
             class="bet-card"
             data-status="open"
-            data-search="barcelona arsenal sx-10001"
-        >
+            data-search="barcelona arsenal sx-10001">
 
             <div class="bet-top">
 
@@ -1032,6 +1570,7 @@ footer{
                 </div>
 
             </div>
+
 
             <div class="bet-body">
 
@@ -1053,6 +1592,7 @@ footer{
 
                     </div>
 
+
                     <div class="prediction">
 
                         <div class="prediction-label">
@@ -1071,34 +1611,73 @@ footer{
 
                 </div>
 
+
                 <div class="bet-bottom">
 
                     <div class="bet-stat">
-                        <div class="bet-stat-label">Stake</div>
-                        <div class="bet-stat-value">AFN 100</div>
+
+                        <div class="bet-stat-label">
+                            Stake
+                        </div>
+
+                        <div class="bet-stat-value">
+                            AFN 100
+                        </div>
+
                     </div>
 
-                    <div class="bet-stat">
-                        <div class="bet-stat-label">Potential Return</div>
-                        <div class="bet-stat-value">AFN 185</div>
-                    </div>
 
                     <div class="bet-stat">
-                        <div class="bet-stat-label">Placed</div>
-                        <div class="bet-stat-value">18:42</div>
+
+                        <div class="bet-stat-label">
+                            Potential Return
+                        </div>
+
+                        <div class="bet-stat-value">
+                            AFN 185
+                        </div>
+
                     </div>
 
+
                     <div class="bet-stat">
-                        <div class="bet-stat-label">Type</div>
-                        <div class="bet-stat-value">Single</div>
+
+                        <div class="bet-stat-label">
+                            Placed
+                        </div>
+
+                        <div class="bet-stat-value">
+                            18:42
+                        </div>
+
+                    </div>
+
+
+                    <div class="bet-stat">
+
+                        <div class="bet-stat-label">
+                            Type
+                        </div>
+
+                        <div class="bet-stat-value">
+                            Single
+                        </div>
+
                     </div>
 
                 </div>
 
+
                 <div class="bet-actions">
-                    <button class="details-btn" onclick="openBet('SX-10001')">
+
+                    <button
+                        class="details-btn"
+                        onclick="openBet('SX-10001')">
+
                         View Details
+
                     </button>
+
                 </div>
 
             </div>
@@ -1111,8 +1690,7 @@ footer{
         <article
             class="bet-card"
             data-status="open"
-            data-search="lakers celtics sx-10002"
-        >
+            data-search="lakers celtics sx-10002">
 
             <div class="bet-top">
 
@@ -1125,6 +1703,7 @@ footer{
                 </div>
 
             </div>
+
 
             <div class="bet-body">
 
@@ -1146,6 +1725,7 @@ footer{
 
                     </div>
 
+
                     <div class="prediction">
 
                         <div class="prediction-label">
@@ -1164,34 +1744,73 @@ footer{
 
                 </div>
 
+
                 <div class="bet-bottom">
 
                     <div class="bet-stat">
-                        <div class="bet-stat-label">Stake</div>
-                        <div class="bet-stat-value">AFN 150</div>
+
+                        <div class="bet-stat-label">
+                            Stake
+                        </div>
+
+                        <div class="bet-stat-value">
+                            AFN 150
+                        </div>
+
                     </div>
 
-                    <div class="bet-stat">
-                        <div class="bet-stat-label">Potential Return</div>
-                        <div class="bet-stat-value">AFN 285</div>
-                    </div>
 
                     <div class="bet-stat">
-                        <div class="bet-stat-label">Placed</div>
-                        <div class="bet-stat-value">17:21</div>
+
+                        <div class="bet-stat-label">
+                            Potential Return
+                        </div>
+
+                        <div class="bet-stat-value">
+                            AFN 285
+                        </div>
+
                     </div>
 
+
                     <div class="bet-stat">
-                        <div class="bet-stat-label">Type</div>
-                        <div class="bet-stat-value">Single</div>
+
+                        <div class="bet-stat-label">
+                            Placed
+                        </div>
+
+                        <div class="bet-stat-value">
+                            17:21
+                        </div>
+
+                    </div>
+
+
+                    <div class="bet-stat">
+
+                        <div class="bet-stat-label">
+                            Type
+                        </div>
+
+                        <div class="bet-stat-value">
+                            Single
+                        </div>
+
                     </div>
 
                 </div>
 
+
                 <div class="bet-actions">
-                    <button class="details-btn" onclick="openBet('SX-10002')">
+
+                    <button
+                        class="details-btn"
+                        onclick="openBet('SX-10002')">
+
                         View Details
+
                     </button>
+
                 </div>
 
             </div>
@@ -1204,8 +1823,7 @@ footer{
         <article
             class="bet-card"
             data-status="won"
-            data-search="liverpool chelsea sx-10003"
-        >
+            data-search="liverpool chelsea sx-10003">
 
             <div class="bet-top">
 
@@ -1218,6 +1836,7 @@ footer{
                 </div>
 
             </div>
+
 
             <div class="bet-body">
 
@@ -1239,6 +1858,7 @@ footer{
 
                     </div>
 
+
                     <div class="prediction">
 
                         <div class="prediction-label">
@@ -1257,34 +1877,73 @@ footer{
 
                 </div>
 
+
                 <div class="bet-bottom">
 
                     <div class="bet-stat">
-                        <div class="bet-stat-label">Stake</div>
-                        <div class="bet-stat-value">AFN 100</div>
+
+                        <div class="bet-stat-label">
+                            Stake
+                        </div>
+
+                        <div class="bet-stat-value">
+                            AFN 100
+                        </div>
+
                     </div>
 
-                    <div class="bet-stat">
-                        <div class="bet-stat-label">Return</div>
-                        <div class="bet-stat-value profit">AFN 172</div>
-                    </div>
 
                     <div class="bet-stat">
-                        <div class="bet-stat-label">Profit</div>
-                        <div class="bet-stat-value profit">+AFN 72</div>
+
+                        <div class="bet-stat-label">
+                            Return
+                        </div>
+
+                        <div class="bet-stat-value profit">
+                            AFN 172
+                        </div>
+
                     </div>
 
+
                     <div class="bet-stat">
-                        <div class="bet-stat-label">Type</div>
-                        <div class="bet-stat-value">Single</div>
+
+                        <div class="bet-stat-label">
+                            Profit
+                        </div>
+
+                        <div class="bet-stat-value profit">
+                            +AFN 72
+                        </div>
+
+                    </div>
+
+
+                    <div class="bet-stat">
+
+                        <div class="bet-stat-label">
+                            Type
+                        </div>
+
+                        <div class="bet-stat-value">
+                            Single
+                        </div>
+
                     </div>
 
                 </div>
 
+
                 <div class="bet-actions">
-                    <button class="details-btn" onclick="openBet('SX-10003')">
+
+                    <button
+                        class="details-btn"
+                        onclick="openBet('SX-10003')">
+
                         View Details
+
                     </button>
+
                 </div>
 
             </div>
@@ -1297,8 +1956,7 @@ footer{
         <article
             class="bet-card"
             data-status="lost"
-            data-search="manchester madrid sx-10004"
-        >
+            data-search="manchester madrid sx-10004">
 
             <div class="bet-top">
 
@@ -1311,6 +1969,7 @@ footer{
                 </div>
 
             </div>
+
 
             <div class="bet-body">
 
@@ -1332,6 +1991,7 @@ footer{
 
                     </div>
 
+
                     <div class="prediction">
 
                         <div class="prediction-label">
@@ -1350,34 +2010,73 @@ footer{
 
                 </div>
 
+
                 <div class="bet-bottom">
 
                     <div class="bet-stat">
-                        <div class="bet-stat-label">Stake</div>
-                        <div class="bet-stat-value">AFN 50</div>
+
+                        <div class="bet-stat-label">
+                            Stake
+                        </div>
+
+                        <div class="bet-stat-value">
+                            AFN 50
+                        </div>
+
                     </div>
 
-                    <div class="bet-stat">
-                        <div class="bet-stat-label">Return</div>
-                        <div class="bet-stat-value">AFN 0</div>
-                    </div>
 
                     <div class="bet-stat">
-                        <div class="bet-stat-label">Loss</div>
-                        <div class="bet-stat-value loss">-AFN 50</div>
+
+                        <div class="bet-stat-label">
+                            Return
+                        </div>
+
+                        <div class="bet-stat-value">
+                            AFN 0
+                        </div>
+
                     </div>
 
+
                     <div class="bet-stat">
-                        <div class="bet-stat-label">Type</div>
-                        <div class="bet-stat-value">Single</div>
+
+                        <div class="bet-stat-label">
+                            Loss
+                        </div>
+
+                        <div class="bet-stat-value loss">
+                            -AFN 50
+                        </div>
+
+                    </div>
+
+
+                    <div class="bet-stat">
+
+                        <div class="bet-stat-label">
+                            Type
+                        </div>
+
+                        <div class="bet-stat-value">
+                            Single
+                        </div>
+
                     </div>
 
                 </div>
 
+
                 <div class="bet-actions">
-                    <button class="details-btn" onclick="openBet('SX-10004')">
+
+                    <button
+                        class="details-btn"
+                        onclick="openBet('SX-10004')">
+
                         View Details
+
                     </button>
+
                 </div>
 
             </div>
@@ -1390,8 +2089,7 @@ footer{
         <article
             class="bet-card"
             data-status="pending"
-            data-search="alcaraz sinner sx-10005"
-        >
+            data-search="alcaraz sinner sx-10005">
 
             <div class="bet-top">
 
@@ -1404,6 +2102,7 @@ footer{
                 </div>
 
             </div>
+
 
             <div class="bet-body">
 
@@ -1425,6 +2124,7 @@ footer{
 
                     </div>
 
+
                     <div class="prediction">
 
                         <div class="prediction-label">
@@ -1443,53 +2143,101 @@ footer{
 
                 </div>
 
+
                 <div class="bet-bottom">
 
                     <div class="bet-stat">
-                        <div class="bet-stat-label">Stake</div>
-                        <div class="bet-stat-value">AFN 80</div>
+
+                        <div class="bet-stat-label">
+                            Stake
+                        </div>
+
+                        <div class="bet-stat-value">
+                            AFN 80
+                        </div>
+
                     </div>
 
-                    <div class="bet-stat">
-                        <div class="bet-stat-label">Potential Return</div>
-                        <div class="bet-stat-value">AFN 140</div>
-                    </div>
 
                     <div class="bet-stat">
-                        <div class="bet-stat-label">Placed</div>
-                        <div class="bet-stat-value">16:08</div>
+
+                        <div class="bet-stat-label">
+                            Potential Return
+                        </div>
+
+                        <div class="bet-stat-value">
+                            AFN 140
+                        </div>
+
                     </div>
 
+
                     <div class="bet-stat">
-                        <div class="bet-stat-label">Type</div>
-                        <div class="bet-stat-value">Single</div>
+
+                        <div class="bet-stat-label">
+                            Placed
+                        </div>
+
+                        <div class="bet-stat-value">
+                            16:08
+                        </div>
+
+                    </div>
+
+
+                    <div class="bet-stat">
+
+                        <div class="bet-stat-label">
+                            Type
+                        </div>
+
+                        <div class="bet-stat-value">
+                            Single
+                        </div>
+
                     </div>
 
                 </div>
 
+
                 <div class="bet-actions">
-                    <button class="details-btn" onclick="openBet('SX-10005')">
+
+                    <button
+                        class="details-btn"
+                        onclick="openBet('SX-10005')">
+
                         View Details
+
                     </button>
+
                 </div>
 
             </div>
 
         </article>
 
-
     </section>
 
 
-    <section class="empty" id="emptyState">
+    <!-- ===================================================
+         EMPTY STATE
+         =================================================== -->
 
-        <div class="empty-icon">⌁</div>
+    <section
+        class="empty"
+        id="emptyState">
 
-        <h3>No predictions found</h3>
+        <div class="empty-icon">
+            ⌁
+        </div>
+
+        <h3>
+            No predictions found
+        </h3>
 
         <p>
-            There are no predictions matching your current filter
-            or search.
+            There are no predictions matching your current
+            filter or search.
         </p>
 
         <a href="sports.html">
@@ -1499,46 +2247,81 @@ footer{
     </section>
 
 </div>
+
 </main>
 
 
+<!-- =======================================================
+     FOOTER
+     ======================================================= -->
+
 <footer>
+
     <div class="container">
-        © 2026 SportX. Virtual sports prediction simulator.
+
+        © 2026 SportX.
+        Virtual sports prediction simulator.
+
     </div>
+
 </footer>
 
 
-<!-- BET DETAILS MODAL -->
+<!-- =======================================================
+     BET DETAILS MODAL
+     ======================================================= -->
 
-<div class="modal" id="betModal">
+<div
+    class="modal"
+    id="betModal">
 
     <div class="modal-box">
 
         <div class="modal-head">
 
-            <h2>Prediction Details</h2>
+            <h2>
+                Prediction Details
+            </h2>
 
-            <button class="close" onclick="closeModal()">
+            <button
+                class="close"
+                onclick="closeModal()">
+
                 ×
+
             </button>
 
         </div>
+
 
         <div class="modal-content">
 
             <div class="detail-match">
 
-                <div class="detail-league" id="modalLeague">
+                <div
+                    class="detail-league"
+                    id="modalLeague">
+
                     UEFA CHAMPIONS LEAGUE
+
                 </div>
 
-                <div class="detail-teams" id="modalTeams">
+
+                <div
+                    class="detail-teams"
+                    id="modalTeams">
+
                     Barcelona vs Arsenal
+
                 </div>
 
-                <div class="detail-time" id="modalTime">
+
+                <div
+                    class="detail-time"
+                    id="modalTime">
+
                     Today • 20:00
+
                 </div>
 
             </div>
@@ -1547,41 +2330,92 @@ footer{
             <div class="detail-grid">
 
                 <div class="detail-item">
-                    <span>Bet ID</span>
-                    <strong id="modalId">SX-10001</strong>
+
+                    <span>
+                        Bet ID
+                    </span>
+
+                    <strong id="modalId">
+                        SX-10001
+                    </strong>
+
                 </div>
 
-                <div class="detail-item">
-                    <span>Status</span>
-                    <strong id="modalStatus">Open</strong>
-                </div>
 
                 <div class="detail-item">
-                    <span>Prediction</span>
-                    <strong id="modalPrediction">Barcelona Win</strong>
+
+                    <span>
+                        Status
+                    </span>
+
+                    <strong id="modalStatus">
+                        Open
+                    </strong>
+
                 </div>
 
-                <div class="detail-item">
-                    <span>Odds</span>
-                    <strong id="modalOdds">1.85</strong>
-                </div>
 
                 <div class="detail-item">
-                    <span>Virtual Stake</span>
-                    <strong id="modalStake">AFN 100</strong>
+
+                    <span>
+                        Prediction
+                    </span>
+
+                    <strong id="modalPrediction">
+                        Barcelona Win
+                    </strong>
+
                 </div>
 
+
                 <div class="detail-item">
-                    <span>Potential Return</span>
-                    <strong id="modalReturn">AFN 185</strong>
+
+                    <span>
+                        Odds
+                    </span>
+
+                    <strong id="modalOdds">
+                        1.85
+                    </strong>
+
+                </div>
+
+
+                <div class="detail-item">
+
+                    <span>
+                        Virtual Stake
+                    </span>
+
+                    <strong id="modalStake">
+                        AFN 100
+                    </strong>
+
+                </div>
+
+
+                <div class="detail-item">
+
+                    <span>
+                        Potential Return
+                    </span>
+
+                    <strong id="modalReturn">
+                        AFN 185
+                    </strong>
+
                 </div>
 
             </div>
 
+
             <div class="modal-footer">
-                This page currently uses simulated virtual prediction
-                data. Match results and account records will later be
-                supplied by the SportX backend and PostgreSQL database.
+
+                This page currently uses simulated virtual
+                prediction data. Match results and account
+                records will later be supplied by the SportX
+                backend and PostgreSQL database.
+
             </div>
 
         </div>
@@ -1591,10 +2425,24 @@ footer{
 </div>
 
 
-<div class="toast" id="toast"></div>
+<div
+    class="toast"
+    id="toast">
+</div>
 
+
+<!-- =======================================================
+     BET PAGE JAVASCRIPT
+     ======================================================= -->
 
 <script>
+
+"use strict";
+
+
+/* =========================================================
+   DEMO BET DATA
+   ========================================================= */
 
 const betData = {
 
@@ -1656,28 +2504,47 @@ const betData = {
 };
 
 
-const tabs = document.querySelectorAll(".tab");
-const cards = document.querySelectorAll(".bet-card");
-const searchInput = document.getElementById("searchInput");
-const emptyState = document.getElementById("emptyState");
+/* =========================================================
+   ELEMENTS
+   ========================================================= */
+
+const tabs =
+    document.querySelectorAll(".tab");
+
+const cards =
+    document.querySelectorAll(".bet-card");
+
+const searchInput =
+    document.getElementById("searchInput");
+
+const emptyState =
+    document.getElementById("emptyState");
 
 
 let currentFilter = "all";
 
 
-/* FILTER */
+/* =========================================================
+   FILTER TABS
+   ========================================================= */
 
 tabs.forEach(tab => {
 
     tab.addEventListener("click", () => {
 
         tabs.forEach(item => {
+
             item.classList.remove("active");
+
         });
+
 
         tab.classList.add("active");
 
-        currentFilter = tab.dataset.filter;
+
+        currentFilter =
+            tab.dataset.filter;
+
 
         applyFilters();
 
@@ -1686,146 +2553,265 @@ tabs.forEach(tab => {
 });
 
 
-/* SEARCH */
+/* =========================================================
+   SEARCH
+   ========================================================= */
 
-searchInput.addEventListener("input", applyFilters);
+searchInput.addEventListener(
+    "input",
+    applyFilters
+);
 
+
+/* =========================================================
+   APPLY FILTERS
+   ========================================================= */
 
 function applyFilters(){
 
-    const query = searchInput.value
-        .trim()
-        .toLowerCase();
+    const query =
+        searchInput.value
+            .trim()
+            .toLowerCase();
+
 
     let visible = 0;
 
+
     cards.forEach(card => {
 
-        const status = card.dataset.status;
-        const searchable = card.dataset.search;
+        const status =
+            card.dataset.status;
+
+
+        const searchable =
+            card.dataset.search;
+
 
         const statusMatch =
             currentFilter === "all" ||
             status === currentFilter;
 
+
         const searchMatch =
             !query ||
             searchable.includes(query);
 
+
         if(statusMatch && searchMatch){
 
-            card.style.display = "block";
+            card.style.display =
+                "block";
+
             visible++;
 
         }else{
 
-            card.style.display = "none";
+            card.style.display =
+                "none";
 
         }
 
     });
 
+
     emptyState.style.display =
-        visible === 0 ? "block" : "none";
+        visible === 0
+            ? "block"
+            : "none";
 
 }
 
 
-/* MODAL */
+/* =========================================================
+   OPEN BET DETAILS
+   ========================================================= */
 
 function openBet(id){
 
-    const bet = betData[id];
+    const bet =
+        betData[id];
 
-    if(!bet) return;
 
-    document.getElementById("modalLeague").textContent =
+    if(!bet){
+
+        showToast(
+            "Prediction details are unavailable."
+        );
+
+        return;
+    }
+
+
+    document.getElementById(
+        "modalLeague"
+    ).textContent =
         bet.league;
 
-    document.getElementById("modalTeams").textContent =
+
+    document.getElementById(
+        "modalTeams"
+    ).textContent =
         bet.teams;
 
-    document.getElementById("modalTime").textContent =
+
+    document.getElementById(
+        "modalTime"
+    ).textContent =
         bet.time;
 
-    document.getElementById("modalId").textContent =
+
+    document.getElementById(
+        "modalId"
+    ).textContent =
         id;
 
-    document.getElementById("modalStatus").textContent =
+
+    document.getElementById(
+        "modalStatus"
+    ).textContent =
         bet.status;
 
-    document.getElementById("modalPrediction").textContent =
+
+    document.getElementById(
+        "modalPrediction"
+    ).textContent =
         bet.prediction;
 
-    document.getElementById("modalOdds").textContent =
+
+    document.getElementById(
+        "modalOdds"
+    ).textContent =
         bet.odds;
 
-    document.getElementById("modalStake").textContent =
+
+    document.getElementById(
+        "modalStake"
+    ).textContent =
         bet.stake;
 
-    document.getElementById("modalReturn").textContent =
+
+    document.getElementById(
+        "modalReturn"
+    ).textContent =
         bet.returned;
 
-    document.getElementById("betModal")
-        .classList.add("show");
 
-    document.body.style.overflow = "hidden";
+    document.getElementById(
+        "betModal"
+    ).classList.add("show");
+
+
+    document.body.style.overflow =
+        "hidden";
 
 }
 
+
+/* =========================================================
+   CLOSE MODAL
+   ========================================================= */
 
 function closeModal(){
 
-    document.getElementById("betModal")
-        .classList.remove("show");
+    document.getElementById(
+        "betModal"
+    ).classList.remove("show");
 
-    document.body.style.overflow = "";
+
+    document.body.style.overflow =
+        "";
 
 }
 
 
-document.getElementById("betModal")
-    .addEventListener("click", event => {
+/* =========================================================
+   MODAL BACKDROP
+   ========================================================= */
 
-        if(event.target.id === "betModal"){
+document.getElementById(
+    "betModal"
+).addEventListener(
+    "click",
+    event => {
+
+        if(
+            event.target.id ===
+            "betModal"
+        ){
+
             closeModal();
+
         }
 
-    });
-
-
-document.addEventListener("keydown", event => {
-
-    if(event.key === "Escape"){
-        closeModal();
     }
+);
 
-});
+
+/* =========================================================
+   ESCAPE KEY
+   ========================================================= */
+
+document.addEventListener(
+    "keydown",
+    event => {
+
+        if(event.key === "Escape"){
+
+            closeModal();
+
+        }
+
+    }
+);
 
 
-/* TOAST */
+/* =========================================================
+   TOAST
+   ========================================================= */
 
 function showToast(message){
 
-    const toast = document.getElementById("toast");
+    const toast =
+        document.getElementById(
+            "toast"
+        );
 
-    toast.textContent = message;
 
-    toast.classList.add("show");
+    toast.textContent =
+        message;
 
-    clearTimeout(window.toastTimer);
 
-    window.toastTimer = setTimeout(() => {
+    toast.classList.add(
+        "show"
+    );
 
-        toast.classList.remove("show");
 
-    },2600);
+    clearTimeout(
+        window.sportXToastTimer
+    );
+
+
+    window.sportXToastTimer =
+        setTimeout(() => {
+
+            toast.classList.remove(
+                "show"
+            );
+
+        },2600);
 
 }
 
 </script>
 
-    <script src="auth.js"></script>
+
+<!-- =======================================================
+     SPORTX SHARED AUTH
+     ======================================================= -->
+
+<script src="auth.js"></script>
+
 
 </body>
 </html>
