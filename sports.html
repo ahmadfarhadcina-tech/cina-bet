@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 
 <title>Sports | SportX</title>
 
@@ -30,6 +30,10 @@
     --shadow-hover:0 18px 42px rgba(20,32,28,.11);
 }
 
+/* =========================
+   GLOBAL FIX
+========================= */
+
 *{
     box-sizing:border-box;
     margin:0;
@@ -38,10 +42,19 @@
 
 html{
     scroll-behavior:smooth;
+    scrollbar-gutter:stable;
 }
 
 body{
+    width:100%;
+    min-width:0;
+    min-height:100vh;
+
+    overflow-x:hidden;
+    overflow-y:scroll;
+
     font-family:Inter,Arial,sans-serif;
+
     background:
         radial-gradient(
             circle at 15% 0%,
@@ -54,8 +67,8 @@ body{
             transparent 25%
         ),
         var(--bg);
+
     color:var(--text);
-    min-height:100vh;
 }
 
 button,
@@ -80,15 +93,14 @@ a{
     position:sticky;
     top:0;
     z-index:100;
+
+    width:100%;
     height:72px;
 
     display:flex;
     align-items:center;
-    justify-content:space-between;
 
-    padding:0 5%;
-
-    background:rgba(255,255,255,.94);
+    background:rgba(255,255,255,.96);
     backdrop-filter:blur(18px);
 
     border-bottom:1px solid var(--border);
@@ -97,7 +109,22 @@ a{
         0 4px 18px rgba(20,32,28,.035);
 }
 
+.header-inner{
+    width:min(1180px,92%);
+    height:100%;
+
+    margin:0 auto;
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    min-width:0;
+}
+
 .logo{
+    flex:0 0 auto;
+
     font-size:25px;
     font-weight:900;
     letter-spacing:-1px;
@@ -110,13 +137,20 @@ a{
 .nav{
     display:flex;
     align-items:center;
+    justify-content:center;
+
     gap:8px;
+
+    min-width:0;
 }
 
 .nav a{
     padding:10px 14px;
+
     color:var(--muted);
+
     border-radius:10px;
+
     transition:.25s ease;
 }
 
@@ -126,101 +160,13 @@ a{
     background:rgba(22,185,120,.08);
 }
 
-.header-right{
-    display:flex;
-    align-items:center;
-    gap:12px;
-}
-
-.login-btn{
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
-
-    padding:10px 17px;
-
-    border-radius:11px;
-
-    background:var(--green);
-    color:#fff;
-
-    font-weight:900;
-
-    transition:.25s ease;
-}
-
-.login-btn:hover{
-    transform:translateY(-2px);
-    box-shadow:
-        0 10px 25px rgba(22,185,120,.18);
-}
-
-.user-account{
-    display:flex;
-    align-items:center;
-    gap:9px;
-}
-
-.user-avatar{
-    width:38px;
-    height:38px;
-
-    display:grid;
-    place-items:center;
-
-    border-radius:11px;
-
-    background:
-        linear-gradient(
-            135deg,
-            var(--green),
-            #65e8b0
-        );
-
-    color:#063322;
-
-    font-size:12px;
-    font-weight:950;
-}
-
-.user-info{
-    display:flex;
-    flex-direction:column;
-    gap:2px;
-    min-width:75px;
-}
-
-.user-info strong{
-    color:var(--text);
-    font-size:11px;
-    font-weight:900;
-}
-
-.user-info span{
-    color:var(--green);
-    font-size:10px;
-    font-weight:800;
-}
-
-.logout-btn{
-    border:1px solid var(--border);
-    background:var(--panel-2);
-    color:var(--muted);
-
-    padding:9px 12px;
-
-    border-radius:10px;
-
-    font-size:10px;
-    font-weight:800;
-
-    transition:.25s ease;
-}
-
-.logout-btn:hover{
-    color:var(--danger);
-    border-color:rgba(229,72,85,.28);
-    background:rgba(229,72,85,.05);
+/*
+   Empty right space keeps the header balanced
+   without Login / Logout controls.
+*/
+.header-spacer{
+    width:90px;
+    flex:0 0 90px;
 }
 
 /* =========================
@@ -228,12 +174,16 @@ a{
 ========================= */
 
 .container{
-    width:min(1180px,90%);
-    margin:auto;
+    width:min(1180px,92%);
+
+    margin:0 auto;
+
+    min-width:0;
 }
 
 .page-head{
     padding:58px 0 28px;
+
     animation:rise .6s ease both;
 }
 
@@ -251,19 +201,25 @@ a{
 
     font-size:12px;
     font-weight:800;
+
     letter-spacing:.8px;
 }
 
 .page-head h1{
     font-size:clamp(34px,5vw,54px);
+
     margin-top:15px;
+
     letter-spacing:-2px;
 }
 
 .page-head p{
     color:var(--muted);
+
     margin-top:10px;
+
     max-width:650px;
+
     line-height:1.7;
 }
 
@@ -272,16 +228,20 @@ a{
 ========================= */
 
 .search-box{
+    width:100%;
+
     margin-bottom:25px;
+
     position:relative;
 }
 
 .search-box input{
+    display:block;
+
     width:100%;
     height:54px;
 
-    padding:
-        0 48px 0 18px;
+    padding:0 48px 0 18px;
 
     border-radius:15px;
 
@@ -311,6 +271,7 @@ a{
 
 .search-icon{
     position:absolute;
+
     right:17px;
     top:16px;
 
@@ -324,13 +285,16 @@ a{
 ========================= */
 
 .sports-filter{
+    width:100%;
+
     display:flex;
+    align-items:center;
+
     gap:10px;
 
     overflow-x:auto;
 
-    padding:
-        3px 2px 18px;
+    padding:3px 2px 18px;
 
     scrollbar-width:none;
 }
@@ -359,8 +323,7 @@ a{
 
     color:var(--text);
 
-    border-color:
-        rgba(22,185,120,.4);
+    border-color:rgba(22,185,120,.4);
 
     background:#fbfefd;
 }
@@ -383,9 +346,13 @@ a{
 ========================= */
 
 .section-title{
+    width:100%;
+
     display:flex;
     justify-content:space-between;
     align-items:center;
+
+    gap:15px;
 
     margin:20px 0 15px;
 }
@@ -396,7 +363,10 @@ a{
 
 .section-title span{
     color:var(--muted);
+
     font-size:13px;
+
+    white-space:nowrap;
 }
 
 /* =========================
@@ -404,6 +374,8 @@ a{
 ========================= */
 
 .loading{
+    width:100%;
+
     display:flex;
     justify-content:center;
     align-items:center;
@@ -427,6 +399,8 @@ a{
     width:22px;
     height:22px;
 
+    flex:0 0 22px;
+
     border:3px solid #e7ecea;
 
     border-top-color:var(--green);
@@ -441,11 +415,21 @@ a{
 ========================= */
 
 .matches{
+    width:100%;
+
     display:grid;
+
+    grid-template-columns:1fr;
+
     gap:14px;
+
+    min-width:0;
 }
 
 .match-card{
+    width:100%;
+    min-width:0;
+
     background:#fff;
 
     border:1px solid var(--border-strong);
@@ -454,7 +438,10 @@ a{
 
     padding:19px;
 
-    transition:.3s ease;
+    transition:
+        transform .25s ease,
+        border-color .25s ease,
+        box-shadow .25s ease;
 
     animation:rise .4s ease both;
 
@@ -472,11 +459,17 @@ a{
 }
 
 .match-top{
+    width:100%;
+
     display:flex;
     align-items:center;
     justify-content:space-between;
 
+    gap:12px;
+
     margin-bottom:18px;
+
+    min-width:0;
 }
 
 .league-wrap{
@@ -486,6 +479,8 @@ a{
     gap:8px;
 
     min-width:0;
+
+    flex:1;
 }
 
 .league-logo{
@@ -512,46 +507,91 @@ a{
 .status{
     flex:0 0 auto;
 
+    display:inline-flex;
+    align-items:center;
+    gap:5px;
+
     font-size:11px;
 
     padding:6px 9px;
 
     border-radius:20px;
 
-    background:rgba(200,148,24,.09);
-
-    color:var(--gold);
-
-    font-weight:800;
+    font-weight:900;
 }
+
+/* UPCOMING */
+
+.status.upcoming{
+    background:rgba(200,148,24,.09);
+    color:var(--gold);
+}
+
+/* LIVE = GREEN */
 
 .status.live{
-    background:rgba(229,72,85,.09);
-    color:#d93645;
+    background:rgba(22,185,120,.11);
 
-    animation:pulse 1.5s infinite;
+    color:var(--green-dark);
+
+    animation:pulseGreen 1.5s infinite;
 }
 
+.status.live::before{
+    content:"";
+
+    width:6px;
+    height:6px;
+
+    border-radius:50%;
+
+    background:var(--green);
+}
+
+/* FINISHED = RED */
+
 .status.finished{
-    background:#eef1f0;
-    color:#697570;
+    background:rgba(229,72,85,.09);
+
+    color:var(--danger);
+}
+
+.status.finished::before{
+    content:"";
+
+    width:6px;
+    height:6px;
+
+    border-radius:50%;
+
+    background:var(--danger);
 }
 
 .status.cancelled{
     background:rgba(229,72,85,.08);
+
     color:var(--danger);
 }
 
 .status.postponed{
     background:rgba(200,148,24,.09);
+
     color:#aa7a08;
 }
 
+/* =========================
+   MATCH MAIN
+========================= */
+
 .match-main{
+    width:100%;
+
     display:grid;
 
     grid-template-columns:
-        1fr auto 1fr;
+        minmax(0,1fr)
+        90px
+        minmax(0,1fr);
 
     align-items:center;
 
@@ -559,25 +599,30 @@ a{
 }
 
 .team{
+    min-width:0;
+
     display:flex;
     align-items:center;
 
     gap:12px;
 
     font-weight:800;
-
-    min-width:0;
 }
 
 .team:last-child{
     justify-content:flex-end;
+
     text-align:right;
 }
 
 .team-name{
+    min-width:0;
+
     overflow:hidden;
 
     text-overflow:ellipsis;
+
+    white-space:nowrap;
 }
 
 .team-logo{
@@ -614,32 +659,52 @@ a{
 .match-time{
     text-align:center;
 
-    min-width:80px;
+    min-width:0;
 }
 
 .match-time strong{
     display:block;
 
     font-size:18px;
+
+    white-space:nowrap;
 }
 
 .match-time span{
+    display:block;
+
     color:var(--muted);
+
     font-size:11px;
+
+    margin-top:3px;
+
+    white-space:nowrap;
 }
 
 .score{
-    color:var(--green)!important;
+    color:var(--green-dark)!important;
+
     font-size:21px!important;
+
     font-weight:950;
 }
 
+/* =========================
+   MATCH BOTTOM
+========================= */
+
 .match-bottom{
+    width:100%;
+
     display:flex;
     justify-content:space-between;
     align-items:center;
 
+    gap:15px;
+
     margin-top:18px;
+
     padding-top:14px;
 
     border-top:1px solid var(--border);
@@ -649,9 +714,11 @@ a{
     color:var(--green-dark);
 
     font-size:13px;
+
     font-weight:800;
 
     background:none;
+
     border:0;
 }
 
@@ -661,6 +728,7 @@ a{
 
 .market-count{
     color:var(--muted);
+
     font-size:12px;
 }
 
@@ -670,6 +738,8 @@ a{
 
 .empty{
     display:none;
+
+    width:100%;
 
     text-align:center;
 
@@ -688,6 +758,7 @@ a{
 
 .empty-icon{
     font-size:38px;
+
     margin-bottom:12px;
 }
 
@@ -697,6 +768,7 @@ a{
 
 .modal{
     position:fixed;
+
     inset:0;
 
     z-index:500;
@@ -721,6 +793,11 @@ a{
 
 .modal-box{
     width:min(520px,100%);
+
+    max-height:
+        calc(100vh - 40px);
+
+    overflow:auto;
 
     background:#fff;
 
@@ -772,6 +849,7 @@ a{
 
 .modal-teams{
     font-size:21px;
+
     font-weight:900;
 }
 
@@ -784,8 +862,7 @@ a{
 .modal-info{
     display:grid;
 
-    grid-template-columns:
-        1fr 1fr;
+    grid-template-columns:1fr 1fr;
 
     gap:10px;
 
@@ -831,8 +908,7 @@ a{
 
     background:#fff;
 
-    border:1px solid
-        rgba(22,185,120,.28);
+    border:1px solid rgba(22,185,120,.28);
 
     color:var(--text);
 
@@ -864,6 +940,8 @@ a{
 ========================= */
 
 .footer{
+    width:100%;
+
     margin-top:70px;
 
     padding:30px 5%;
@@ -882,6 +960,7 @@ a{
 
 .footer a{
     color:var(--green-dark);
+
     font-weight:800;
 }
 
@@ -893,14 +972,17 @@ a{
 
     from{
         opacity:0;
-        transform:translateY(15px);
+
+        transform:
+            translateY(15px);
     }
 
     to{
         opacity:1;
-        transform:translateY(0);
-    }
 
+        transform:
+            translateY(0);
+    }
 }
 
 @keyframes fadeIn{
@@ -912,13 +994,13 @@ a{
     to{
         opacity:1;
     }
-
 }
 
 @keyframes modalIn{
 
     from{
         opacity:0;
+
         transform:
             translateY(20px)
             scale(.97);
@@ -926,11 +1008,11 @@ a{
 
     to{
         opacity:1;
+
         transform:
             translateY(0)
             scale(1);
     }
-
 }
 
 @keyframes spin{
@@ -938,10 +1020,9 @@ a{
     to{
         transform:rotate(360deg);
     }
-
 }
 
-@keyframes pulse{
+@keyframes pulseGreen{
 
     0%,100%{
         opacity:1;
@@ -950,26 +1031,79 @@ a{
     50%{
         opacity:.55;
     }
-
 }
 
 /* =========================
-   RESPONSIVE
+   TABLET
 ========================= */
 
 @media(max-width:900px){
 
-    .nav{
-        display:none;
+    .header-inner{
+        width:94%;
     }
 
-    .header{
-        padding:0 4%;
+    .nav{
+        gap:3px;
+    }
+
+    .nav a{
+        padding:9px 10px;
+
+        font-size:13px;
+    }
+
+    .header-spacer{
+        width:60px;
+        flex-basis:60px;
     }
 
 }
 
+/* =========================
+   MOBILE
+========================= */
+
 @media(max-width:600px){
+
+    .header{
+        height:66px;
+    }
+
+    .header-inner{
+        width:92%;
+    }
+
+    .logo{
+        font-size:22px;
+    }
+
+    .nav{
+        display:flex;
+
+        gap:2px;
+
+        overflow-x:auto;
+
+        scrollbar-width:none;
+    }
+
+    .nav::-webkit-scrollbar{
+        display:none;
+    }
+
+    .nav a{
+        padding:8px 8px;
+
+        font-size:11px;
+
+        white-space:nowrap;
+    }
+
+    .header-spacer{
+        width:0;
+        flex-basis:0;
+    }
 
     .container{
         width:92%;
@@ -983,23 +1117,38 @@ a{
         font-size:38px;
     }
 
+    .page-head p{
+        font-size:14px;
+    }
+
     .match-card{
         padding:15px;
     }
 
     .match-main{
-        gap:8px;
+        grid-template-columns:
+            minmax(0,1fr)
+            70px
+            minmax(0,1fr);
+
+        gap:7px;
     }
 
     .team{
         flex-direction:column;
 
+        justify-content:center;
+
         text-align:center;
+
+        gap:7px;
 
         font-size:12px;
     }
 
     .team:last-child{
+        justify-content:center;
+
         text-align:center;
     }
 
@@ -1014,8 +1163,18 @@ a{
         font-size:15px;
     }
 
-    .user-info{
-        display:none;
+    .match-time span{
+        font-size:10px;
+    }
+
+    .status{
+        font-size:10px;
+
+        padding:5px 8px;
+    }
+
+    .league{
+        font-size:11px;
     }
 
     .league-logo{
@@ -1025,34 +1184,87 @@ a{
         flex-basis:21px;
     }
 
+    .match-bottom{
+        margin-top:15px;
+        padding-top:12px;
+    }
+
+    .details-btn{
+        font-size:12px;
+    }
+
+    .market-count{
+        font-size:10px;
+    }
+
 }
+
+/* =========================
+   VERY SMALL PHONES
+========================= */
 
 @media(max-width:380px){
 
+    .header-inner{
+        width:94%;
+    }
+
     .logo{
-        font-size:22px;
+        font-size:20px;
     }
 
-    .header{
-        height:66px;
+    .nav a{
+        padding:7px 6px;
+
+        font-size:10px;
     }
 
-    .header-right{
-        gap:6px;
+    .container{
+        width:94%;
     }
 
-    .user-avatar{
-        width:34px;
-        height:34px;
+    .match-main{
+        grid-template-columns:
+            minmax(0,1fr)
+            62px
+            minmax(0,1fr);
+
+        gap:4px;
     }
 
-    .logout-btn{
-        font-size:9px;
-        padding:8px 9px;
+    .team{
+        font-size:11px;
+    }
+
+    .team-logo{
+        width:36px;
+        height:36px;
+
+        flex-basis:36px;
     }
 
     .modal-box{
         padding:20px;
+    }
+
+}
+
+/* =========================
+   LANDSCAPE PHONE
+========================= */
+
+@media(
+    max-width:900px
+) and (
+    orientation:landscape
+){
+
+    .header{
+        height:60px;
+    }
+
+    .page-head{
+        padding-top:30px;
     }
 
 }
@@ -1063,81 +1275,39 @@ a{
 
 <header class="header">
 
-    <a href="index.html" class="logo">
-        Sport<span>X</span>
-    </a>
+    <div class="header-inner">
 
-    <nav class="nav">
-
-        <a href="index.html">
-            Home
+        <a
+            href="index.html"
+            class="logo"
+        >
+            Sport<span>X</span>
         </a>
 
-        <a href="sports.html" class="active">
-            Sports
-        </a>
+        <nav class="nav">
 
-        <a href="live.html">
-            Live
-        </a>
-
-        <a href="bets.html">
-            My Bets
-        </a>
-
-    </nav>
-
-    <div class="header-right">
-
-        <div data-auth-guest>
-
-            <a
-                href="login.html"
-                class="login-btn"
-            >
-                Login
+            <a href="index.html">
+                Home
             </a>
 
-        </div>
-
-
-        <div
-            data-auth-user
-            class="user-account"
-            style="display:none;"
-        >
-
-            <div class="user-avatar">
-
-                <span data-user-initials>
-                    US
-                </span>
-
-            </div>
-
-
-            <div class="user-info">
-
-                <strong data-user-name>
-                    User
-                </strong>
-
-                <span data-user-balance>
-                    AFN 1,000
-                </span>
-
-            </div>
-
-
-            <button
-                type="button"
-                class="logout-btn"
-                data-auth-logout
+            <a
+                href="sports.html"
+                class="active"
             >
-                Logout
-            </button>
+                Sports
+            </a>
 
-        </div>
+            <a href="live.html">
+                Live
+            </a>
+
+            <a href="bets.html">
+                My Bets
+            </a>
+
+        </nav>
+
+        <div class="header-spacer"></div>
 
     </div>
 
@@ -1432,6 +1602,18 @@ const supabaseClient =
         SUPABASE_URL,
         SUPABASE_PUBLISHABLE_KEY
     );
+
+
+/* =========================================================
+   SETTINGS
+========================================================= */
+
+/*
+ * Finished matches remain visible for 2 hours
+ * after their scheduled start time.
+ */
+const FINISHED_HIDE_AFTER_MS =
+    2 * 60 * 60 * 1000;
 
 
 /* =========================================================
@@ -1742,8 +1924,9 @@ function convertWorkerMatches(
                     null,
 
                 status:
-                    item.status ||
-                    "scheduled",
+                    normalizeStatus(
+                        item
+                    ),
 
                 home_score:
                     Number(
@@ -1756,11 +1939,106 @@ function convertWorkerMatches(
                     ),
 
                 is_live:
-                    item.status === "live"
+                    isLiveMatch(
+                        item
+                    )
 
             });
 
         }
+    );
+
+}
+
+
+/* =========================================================
+   STATUS NORMALIZER
+========================================================= */
+
+function normalizeStatus(
+    item
+){
+
+    const raw =
+        String(
+            item?.status ||
+            ""
+        )
+        .toLowerCase()
+        .trim();
+
+    const text =
+        String(
+            item?.status_text ||
+            ""
+        )
+        .toLowerCase()
+        .trim();
+
+
+    if(
+        item?.is_live === true ||
+        raw === "live" ||
+        raw === "inprogress" ||
+        raw === "in_progress" ||
+        raw === "playing" ||
+        text.includes("live")
+    ){
+
+        return "live";
+
+    }
+
+
+    if(
+        raw === "finished" ||
+        raw === "finish" ||
+        raw === "ended" ||
+        raw === "completed" ||
+        text.includes("finished") ||
+        text.includes("ended")
+    ){
+
+        return "finished";
+
+    }
+
+
+    if(
+        raw === "cancelled" ||
+        raw === "canceled"
+    ){
+
+        return "cancelled";
+
+    }
+
+
+    if(
+        raw === "postponed"
+    ){
+
+        return "postponed";
+
+    }
+
+
+    return "scheduled";
+
+}
+
+
+/* =========================================================
+   LIVE DETECTION
+========================================================= */
+
+function isLiveMatch(
+    item
+){
+
+    return (
+        item?.is_live === true ||
+        normalizeStatus(item) === "live"
     );
 
 }
@@ -1915,6 +2193,16 @@ async function convertDatabaseMatches(
                 );
 
 
+            const normalized =
+                normalizeStatus({
+                    status:
+                        match.status,
+
+                    is_live:
+                        match.is_live
+                });
+
+
             return prepareMatch({
 
                 id:
@@ -1977,8 +2265,7 @@ async function convertDatabaseMatches(
                     match.start_time,
 
                 status:
-                    match.status ||
-                    "scheduled",
+                    normalized,
 
                 home_score:
                     Number(
@@ -1991,11 +2278,60 @@ async function convertDatabaseMatches(
                     ),
 
                 is_live:
-                    Boolean(
-                        match.is_live
-                    )
+                    normalized === "live"
 
             });
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   REMOVE OLD FINISHED MATCHES
+========================================================= */
+
+function removeOldFinishedMatches(
+    matches
+){
+
+    const now =
+        Date.now();
+
+
+    return matches.filter(
+        match => {
+
+            if(
+                match.status !==
+                "finished"
+            ){
+
+                return true;
+
+            }
+
+
+            const start =
+                new Date(
+                    match.start_time
+                ).getTime();
+
+
+            if(
+                Number.isNaN(start)
+            ){
+
+                return true;
+
+            }
+
+
+            return (
+                now - start
+            ) <
+            FINISHED_HIDE_AFTER_MS;
 
         }
     );
@@ -2023,9 +2359,9 @@ function removeDuplicateMatches(
 
         cancelled:0,
 
-        live:4,
+        live:5,
 
-        finished:5
+        finished:4
 
     };
 
@@ -2110,6 +2446,98 @@ function removeDuplicateMatches(
 
 
 /* =========================================================
+   SORT MATCHES
+========================================================= */
+
+function sortMatches(
+    matches
+){
+
+    return [...matches].sort(
+        (a,b) => {
+
+            /*
+             * LIVE FIRST
+             */
+
+            if(
+                a.status === "live" &&
+                b.status !== "live"
+            ){
+
+                return -1;
+
+            }
+
+
+            if(
+                b.status === "live" &&
+                a.status !== "live"
+            ){
+
+                return 1;
+
+            }
+
+
+            /*
+             * UPCOMING BEFORE FINISHED
+             */
+
+            const aFinished =
+                a.status === "finished";
+
+            const bFinished =
+                b.status === "finished";
+
+
+            if(
+                aFinished &&
+                !bFinished
+            ){
+
+                return 1;
+
+            }
+
+
+            if(
+                bFinished &&
+                !aFinished
+            ){
+
+                return -1;
+
+            }
+
+
+            /*
+             * THEN CHRONOLOGICAL
+             */
+
+            const aTime =
+                new Date(
+                    a.start_time || 0
+                ).getTime();
+
+            const bTime =
+                new Date(
+                    b.start_time || 0
+                ).getTime();
+
+
+            return (
+                aTime -
+                bTime
+            );
+
+        }
+    );
+
+}
+
+
+/* =========================================================
    LOAD REAL MATCHES
 ========================================================= */
 
@@ -2136,15 +2564,12 @@ async function loadMatches(){
 
     try{
 
-        /*
-         * -----------------------------------------------------
-         * STEP 1
-         * Try Supabase database first.
-         * -----------------------------------------------------
-         */
-
         let databaseMatches = [];
 
+
+        /*
+         * DATABASE FIRST
+         */
 
         try{
 
@@ -2176,12 +2601,7 @@ async function loadMatches(){
 
 
         /*
-         * -----------------------------------------------------
-         * STEP 2
-         *
-         * If database has matches,
-         * use them immediately.
-         * -----------------------------------------------------
+         * USE DATABASE
          */
 
         if(
@@ -2194,14 +2614,14 @@ async function loadMatches(){
                 );
 
 
+            allMatches =
+                removeOldFinishedMatches(
+                    allMatches
+                );
+
+
             loadingState.style.display =
                 "none";
-
-
-            console.log(
-                "SportX using database:",
-                allMatches.length
-            );
 
 
             renderMatches();
@@ -2212,23 +2632,11 @@ async function loadMatches(){
 
 
         /*
-         * -----------------------------------------------------
-         * STEP 3
-         *
-         * Database is empty.
-         *
-         * Ask smooth-worker for fresh
-         * SportScore data.
-         * -----------------------------------------------------
+         * DATABASE EMPTY
          */
 
         loadingText.textContent =
             "Syncing live sports data...";
-
-
-        console.log(
-            "SportX database empty. Calling smooth-worker..."
-        );
 
 
         let workerResult;
@@ -2262,20 +2670,6 @@ async function loadMatches(){
             workerResult?.data;
 
 
-        const workerError =
-            workerResult?.error;
-
-
-        if(workerError){
-
-            console.warn(
-                "SportX worker warning:",
-                workerError
-            );
-
-        }
-
-
         const sourceMatches =
             Array.isArray(
                 workerData?.matches
@@ -2283,21 +2677,6 @@ async function loadMatches(){
                 ? workerData.matches
                 : [];
 
-
-        console.log(
-            "SportX worker matches:",
-            sourceMatches.length
-        );
-
-
-        /*
-         * -----------------------------------------------------
-         * STEP 4
-         *
-         * Convert worker response directly
-         * into cards.
-         * -----------------------------------------------------
-         */
 
         if(
             sourceMatches.length > 0
@@ -2315,14 +2694,14 @@ async function loadMatches(){
                 );
 
 
+            allMatches =
+                removeOldFinishedMatches(
+                    allMatches
+                );
+
+
             loadingState.style.display =
                 "none";
-
-
-            console.log(
-                "SportX using SportScore worker:",
-                allMatches.length
-            );
 
 
             renderMatches();
@@ -2331,15 +2710,6 @@ async function loadMatches(){
 
         }
 
-
-        /*
-         * -----------------------------------------------------
-         * STEP 5
-         *
-         * Nothing was returned.
-         * Show a real error instead of infinite loading.
-         * -----------------------------------------------------
-         */
 
         throw new Error(
             "No sports matches are available right now."
@@ -2482,7 +2852,6 @@ function getSearchScore(
         score += 900;
     }
 
-
     if(home.startsWith(query)){
         score += 700;
     }
@@ -2495,7 +2864,6 @@ function getSearchScore(
         score += 650;
     }
 
-
     if(home.includes(query)){
         score += 500;
     }
@@ -2507,7 +2875,6 @@ function getSearchScore(
     if(league.includes(query)){
         score += 450;
     }
-
 
     if(combined.includes(query)){
         score += 200;
@@ -2569,6 +2936,17 @@ function getSearchScore(
 
 function renderMatches(){
 
+    /*
+     * Remove old finished games every time
+     * the page renders.
+     */
+
+    allMatches =
+        removeOldFinishedMatches(
+            allMatches
+        );
+
+
     const query =
         normalizeSearchText(
             searchInput.value
@@ -2578,10 +2956,6 @@ function renderMatches(){
     let filtered =
         allMatches.filter(
             match => {
-
-                /*
-                 * Current live source is football.
-                 */
 
                 const sportMatch =
                     activeSport === "all" ||
@@ -2613,10 +2987,6 @@ function renderMatches(){
         );
 
 
-    /*
-     * SEARCH SORT
-     */
-
     if(query){
 
         filtered.sort(
@@ -2634,30 +3004,10 @@ function renderMatches(){
 
     }else{
 
-        /*
-         * Chronological order
-         */
-
-        filtered.sort(
-            (a,b) => {
-
-                const aTime =
-                    new Date(
-                        a.start_time || 0
-                    ).getTime();
-
-                const bTime =
-                    new Date(
-                        b.start_time || 0
-                    ).getTime();
-
-                return (
-                    aTime -
-                    bTime
-                );
-
-            }
-        );
+        filtered =
+            sortMatches(
+                filtered
+            );
 
     }
 
@@ -2812,36 +3162,46 @@ function createMatchCard(
         )}ms`;
 
 
-    const statusLabel =
-        status === "live"
-            ? "LIVE"
+    let statusLabel =
+        "UPCOMING";
 
-            : status === "finished"
-                ? "FINISHED"
-
-                : status === "cancelled"
-                    ? "CANCELLED"
-
-                    : status === "postponed"
-                        ? "POSTPONED"
-
-                        : "UPCOMING";
+    let statusClass =
+        "upcoming";
 
 
-    const statusClass =
-        status === "live"
-            ? "live"
+    if(status === "live"){
 
-            : status === "finished"
-                ? "finished"
+        statusLabel =
+            "LIVE";
 
-                : status === "cancelled"
-                    ? "cancelled"
+        statusClass =
+            "live";
 
-                    : status === "postponed"
-                        ? "postponed"
+    }else if(status === "finished"){
 
-                        : "";
+        statusLabel =
+            "FINISHED";
+
+        statusClass =
+            "finished";
+
+    }else if(status === "cancelled"){
+
+        statusLabel =
+            "CANCELLED";
+
+        statusClass =
+            "cancelled";
+
+    }else if(status === "postponed"){
+
+        statusLabel =
+            "POSTPONED";
+
+        statusClass =
+            "postponed";
+
+    }
 
 
     card.innerHTML = `
@@ -2916,11 +3276,9 @@ function createMatchCard(
                     ? `
 
                         <strong class="score">
-
                             ${homeScore}
                             -
                             ${awayScore}
-
                         </strong>
 
                     `
@@ -2946,12 +3304,10 @@ function createMatchCard(
             <div class="team">
 
                 <span class="team-name">
-
                     ${escapeHtml(
                         away.name ||
                         "Away Team"
                     )}
-
                 </span>
 
                 ${teamLogo(
@@ -2975,7 +3331,15 @@ function createMatchCard(
             </button>
 
             <span class="market-count">
-                Live data
+
+                ${
+                    status === "live"
+                        ? "Live now"
+                        : status === "finished"
+                            ? "Final result"
+                            : "Live data"
+                }
+
             </span>
 
         </div>
@@ -3171,7 +3535,7 @@ filterButtons.forEach(
 
 
 /* =========================================================
-   FAST SEARCH
+   SEARCH
 ========================================================= */
 
 let searchFrame =
@@ -3408,17 +3772,61 @@ function escapeAttribute(
 
 
 /* =========================================================
+   AUTO REFRESH
+========================================================= */
+
+/*
+ * Refresh every 60 seconds so LIVE/FINISHED
+ * states can update without manually refreshing.
+ */
+setInterval(
+    () => {
+
+        loadMatches();
+
+    },
+    60000
+);
+
+
+/*
+ * Remove expired finished games from the
+ * current screen automatically.
+ */
+setInterval(
+    () => {
+
+        const before =
+            allMatches.length;
+
+
+        allMatches =
+            removeOldFinishedMatches(
+                allMatches
+            );
+
+
+        if(
+            before !==
+            allMatches.length
+        ){
+
+            renderMatches();
+
+        }
+
+    },
+    60000
+);
+
+
+/* =========================================================
    START
 ========================================================= */
 
 loadMatches();
 
 </script>
-
-
-<!-- SHARED SPORTX AUTH -->
-
-<script src="auth.js"></script>
 
 </body>
 </html>
