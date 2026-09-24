@@ -1,0 +1,2015 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Profile | SportX</title>
+
+<style>
+:root{
+    --bg:#07100e;
+    --panel:#0d1815;
+    --panel-2:#111f1b;
+    --green:#16d98b;
+    --green-dark:#0e9d65;
+    --text:#f3f7f5;
+    --muted:#8d9d97;
+    --border:rgba(255,255,255,.07);
+    --danger:#ff5f6d;
+    --gold:#f4c95d;
+    --blue:#5da9ff;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    font-family:Inter,Arial,Helvetica,sans-serif;
+    background:
+        radial-gradient(circle at 15% 10%,rgba(22,217,139,.08),transparent 30%),
+        radial-gradient(circle at 85% 20%,rgba(22,217,139,.05),transparent 25%),
+        var(--bg);
+    color:var(--text);
+    min-height:100vh;
+}
+
+a{
+    color:inherit;
+    text-decoration:none;
+}
+
+button,
+input,
+select{
+    font:inherit;
+}
+
+button{
+    border:0;
+    cursor:pointer;
+}
+
+.container{
+    width:min(1180px,calc(100% - 32px));
+    margin:auto;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+header{
+    position:sticky;
+    top:0;
+    z-index:100;
+    background:rgba(7,16,14,.88);
+    backdrop-filter:blur(18px);
+    border-bottom:1px solid var(--border);
+}
+
+.navbar{
+    min-height:72px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:20px;
+}
+
+.logo{
+    font-size:24px;
+    font-weight:900;
+    letter-spacing:-1px;
+}
+
+.logo span{
+    color:var(--green);
+}
+
+.nav-links{
+    display:flex;
+    align-items:center;
+    gap:26px;
+}
+
+.nav-links a{
+    color:var(--muted);
+    font-size:14px;
+    font-weight:700;
+    transition:.25s ease;
+}
+
+.nav-links a:hover,
+.nav-links a.active{
+    color:var(--green);
+}
+
+.header-right{
+    display:flex;
+    align-items:center;
+}
+
+.login-btn{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    padding:10px 18px;
+    border-radius:10px;
+    background:var(--green);
+    color:#04110c;
+    font-size:14px;
+    font-weight:900;
+    transition:.25s ease;
+}
+
+.login-btn:hover{
+    transform:translateY(-2px);
+    background:#29e99c;
+    box-shadow:0 10px 30px rgba(22,217,139,.18);
+}
+
+.user-account{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.user-avatar{
+    width:38px;
+    height:38px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:linear-gradient(135deg,var(--green),var(--green-dark));
+    color:#04110c;
+    font-weight:900;
+    font-size:13px;
+}
+
+.user-info{
+    display:flex;
+    flex-direction:column;
+    line-height:1.2;
+}
+
+.user-info strong{
+    font-size:13px;
+}
+
+.user-info span{
+    color:var(--green);
+    font-size:12px;
+    margin-top:3px;
+}
+
+.logout-btn{
+    margin-left:5px;
+    padding:8px 12px;
+    border-radius:8px;
+    background:rgba(255,95,109,.08);
+    color:var(--danger);
+    font-size:12px;
+    font-weight:800;
+    transition:.25s ease;
+}
+
+.logout-btn:hover{
+    background:rgba(255,95,109,.16);
+}
+
+/* =========================
+   MAIN
+========================= */
+
+main{
+    padding:45px 0 70px;
+}
+
+.page-head{
+    margin-bottom:28px;
+    animation:rise .5s ease both;
+}
+
+.page-head h1{
+    font-size:34px;
+    margin-bottom:8px;
+}
+
+.page-head p{
+    color:var(--muted);
+    font-size:14px;
+}
+
+/* =========================
+   PROFILE HERO
+========================= */
+
+.profile-hero{
+    display:flex;
+    align-items:center;
+    gap:22px;
+    padding:25px;
+    background:
+        linear-gradient(135deg,rgba(22,217,139,.12),rgba(13,24,21,.96));
+    border:1px solid rgba(22,217,139,.15);
+    border-radius:20px;
+    margin-bottom:22px;
+    animation:rise .55s ease both;
+}
+
+.profile-avatar{
+    width:92px;
+    height:92px;
+    flex-shrink:0;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:linear-gradient(135deg,var(--green),var(--green-dark));
+    color:#04110c;
+    font-size:29px;
+    font-weight:900;
+    border:4px solid rgba(255,255,255,.06);
+}
+
+.profile-main{
+    flex:1;
+}
+
+.profile-main h2{
+    font-size:24px;
+    margin-bottom:5px;
+}
+
+.profile-main p{
+    color:var(--muted);
+    font-size:13px;
+}
+
+.profile-status{
+    display:inline-flex;
+    align-items:center;
+    gap:7px;
+    margin-top:10px;
+    padding:6px 10px;
+    border-radius:20px;
+    background:rgba(22,217,139,.08);
+    color:var(--green);
+    font-size:11px;
+    font-weight:800;
+}
+
+.status-dot{
+    width:6px;
+    height:6px;
+    border-radius:50%;
+    background:var(--green);
+}
+
+.edit-profile-btn{
+    padding:11px 17px;
+    border-radius:10px;
+    background:rgba(255,255,255,.06);
+    border:1px solid var(--border);
+    color:var(--text);
+    font-weight:800;
+    font-size:13px;
+    transition:.25s ease;
+}
+
+.edit-profile-btn:hover{
+    background:rgba(22,217,139,.08);
+    border-color:rgba(22,217,139,.2);
+    transform:translateY(-2px);
+}
+
+/* =========================
+   GRID
+========================= */
+
+.profile-grid{
+    display:grid;
+    grid-template-columns:1.25fr .75fr;
+    gap:20px;
+}
+
+.panel{
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:18px;
+    overflow:hidden;
+    animation:rise .6s ease both;
+}
+
+.panel-header{
+    padding:19px 20px;
+    border-bottom:1px solid var(--border);
+}
+
+.panel-header h3{
+    font-size:17px;
+}
+
+.panel-header p{
+    color:var(--muted);
+    font-size:11px;
+    margin-top:5px;
+}
+
+.panel-body{
+    padding:20px;
+}
+
+/* =========================
+   INFORMATION
+========================= */
+
+.info-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:15px;
+}
+
+.info-item{
+    padding:15px;
+    border-radius:12px;
+    background:rgba(255,255,255,.025);
+    border:1px solid var(--border);
+}
+
+.info-label{
+    color:var(--muted);
+    font-size:10px;
+    font-weight:700;
+    text-transform:uppercase;
+    margin-bottom:7px;
+}
+
+.info-value{
+    font-size:13px;
+    font-weight:800;
+    word-break:break-word;
+}
+
+/* =========================
+   SETTINGS
+========================= */
+
+.setting-list{
+    display:flex;
+    flex-direction:column;
+}
+
+.setting{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:15px;
+    padding:15px 0;
+    border-bottom:1px solid var(--border);
+}
+
+.setting:last-child{
+    border-bottom:0;
+}
+
+.setting-info strong{
+    display:block;
+    font-size:13px;
+    margin-bottom:4px;
+}
+
+.setting-info span{
+    color:var(--muted);
+    font-size:11px;
+    line-height:1.5;
+}
+
+/* Toggle */
+
+.toggle{
+    position:relative;
+    width:44px;
+    height:24px;
+    flex-shrink:0;
+}
+
+.toggle input{
+    display:none;
+}
+
+.slider{
+    position:absolute;
+    inset:0;
+    background:#23312c;
+    border-radius:20px;
+    cursor:pointer;
+    transition:.25s ease;
+}
+
+.slider::before{
+    content:"";
+    position:absolute;
+    width:18px;
+    height:18px;
+    left:3px;
+    top:3px;
+    border-radius:50%;
+    background:#87948f;
+    transition:.25s ease;
+}
+
+.toggle input:checked + .slider{
+    background:rgba(22,217,139,.3);
+}
+
+.toggle input:checked + .slider::before{
+    transform:translateX(20px);
+    background:var(--green);
+}
+
+/* =========================
+   ACCOUNT ACTIONS
+========================= */
+
+.account-actions{
+    margin-top:20px;
+}
+
+.account-action{
+    width:100%;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:15px;
+    padding:15px;
+    margin-bottom:10px;
+    border-radius:12px;
+    background:rgba(255,255,255,.025);
+    border:1px solid var(--border);
+    color:var(--text);
+    text-align:left;
+    transition:.25s ease;
+}
+
+.account-action:last-child{
+    margin-bottom:0;
+}
+
+.account-action:hover{
+    transform:translateY(-2px);
+    background:rgba(255,255,255,.045);
+    border-color:rgba(22,217,139,.16);
+}
+
+.action-left{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.action-icon{
+    width:38px;
+    height:38px;
+    border-radius:10px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:rgba(22,217,139,.08);
+    color:var(--green);
+    font-size:17px;
+}
+
+.action-text strong{
+    display:block;
+    font-size:13px;
+    margin-bottom:3px;
+}
+
+.action-text span{
+    color:var(--muted);
+    font-size:10px;
+}
+
+.action-arrow{
+    color:var(--muted);
+    font-size:18px;
+}
+
+.account-action.danger{
+    color:var(--danger);
+}
+
+.account-action.danger .action-icon{
+    background:rgba(255,95,109,.08);
+    color:var(--danger);
+}
+
+/* =========================
+   STATS
+========================= */
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:12px;
+    margin-top:20px;
+}
+
+.stat{
+    padding:15px;
+    background:rgba(255,255,255,.025);
+    border:1px solid var(--border);
+    border-radius:12px;
+}
+
+.stat-label{
+    color:var(--muted);
+    font-size:10px;
+    margin-bottom:7px;
+}
+
+.stat-value{
+    font-size:18px;
+    font-weight:900;
+}
+
+/* =========================
+   MODAL
+========================= */
+
+.modal-overlay{
+    position:fixed;
+    inset:0;
+    z-index:500;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+    background:rgba(0,0,0,.72);
+    backdrop-filter:blur(8px);
+}
+
+.modal-overlay.show{
+    display:flex;
+    animation:fadeIn .2s ease;
+}
+
+.modal{
+    width:min(470px,100%);
+    background:#0b1714;
+    border:1px solid var(--border);
+    border-radius:20px;
+    box-shadow:0 30px 80px rgba(0,0,0,.5);
+    overflow:hidden;
+    animation:modalIn .25s ease;
+}
+
+.modal-header{
+    padding:20px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    border-bottom:1px solid var(--border);
+}
+
+.modal-header h3{
+    font-size:17px;
+}
+
+.close-modal{
+    width:34px;
+    height:34px;
+    border-radius:9px;
+    background:rgba(255,255,255,.05);
+    color:var(--muted);
+    font-size:18px;
+}
+
+.close-modal:hover{
+    color:var(--text);
+    background:rgba(255,255,255,.09);
+}
+
+.modal-body{
+    padding:20px;
+}
+
+.form-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:14px;
+}
+
+.form-group{
+    margin-bottom:15px;
+}
+
+.form-group.full{
+    grid-column:1 / -1;
+}
+
+.form-group label{
+    display:block;
+    font-size:11px;
+    font-weight:800;
+    margin-bottom:7px;
+}
+
+.form-group input,
+.form-group select{
+    width:100%;
+    background:#08120f;
+    border:1px solid var(--border);
+    color:var(--text);
+    padding:12px 13px;
+    border-radius:10px;
+    outline:none;
+    transition:.2s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus{
+    border-color:rgba(22,217,139,.5);
+    box-shadow:0 0 0 3px rgba(22,217,139,.07);
+}
+
+.modal-actions{
+    display:flex;
+    gap:10px;
+    margin-top:5px;
+}
+
+.primary-btn,
+.secondary-btn{
+    flex:1;
+    padding:12px 18px;
+    border-radius:10px;
+    font-weight:800;
+    font-size:13px;
+    transition:.25s ease;
+}
+
+.primary-btn{
+    background:var(--green);
+    color:#04110c;
+}
+
+.primary-btn:hover{
+    transform:translateY(-2px);
+    box-shadow:0 10px 25px rgba(22,217,139,.15);
+}
+
+.secondary-btn{
+    background:rgba(255,255,255,.05);
+    color:var(--text);
+    border:1px solid var(--border);
+}
+
+.secondary-btn:hover{
+    background:rgba(255,255,255,.09);
+}
+
+/* =========================
+   TOAST
+========================= */
+
+.toast{
+    position:fixed;
+    left:50%;
+    bottom:25px;
+    z-index:700;
+    transform:translate(-50%,20px);
+    background:#10231d;
+    border:1px solid rgba(22,217,139,.2);
+    color:var(--text);
+    padding:13px 18px;
+    border-radius:11px;
+    font-size:12px;
+    font-weight:700;
+    opacity:0;
+    pointer-events:none;
+    transition:.3s ease;
+    box-shadow:0 15px 40px rgba(0,0,0,.3);
+}
+
+.toast.show{
+    opacity:1;
+    transform:translate(-50%,0);
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+footer{
+    border-top:1px solid var(--border);
+    padding:25px 0;
+    color:var(--muted);
+    font-size:12px;
+    text-align:center;
+}
+
+/* =========================
+   ANIMATIONS
+========================= */
+
+@keyframes rise{
+    from{
+        opacity:0;
+        transform:translateY(18px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+@keyframes fadeIn{
+    from{opacity:0;}
+    to{opacity:1;}
+}
+
+@keyframes modalIn{
+    from{
+        opacity:0;
+        transform:translateY(15px) scale(.97);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0) scale(1);
+    }
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width:900px){
+
+    .profile-grid{
+        grid-template-columns:1fr;
+    }
+
+    .nav-links{
+        gap:15px;
+    }
+}
+
+@media(max-width:700px){
+
+    .container{
+        width:min(100% - 22px,1180px);
+    }
+
+    .navbar{
+        min-height:64px;
+    }
+
+    .nav-links{
+        display:none;
+    }
+
+    .page-head h1{
+        font-size:28px;
+    }
+
+    .profile-hero{
+        align-items:flex-start;
+        flex-wrap:wrap;
+    }
+
+    .profile-avatar{
+        width:76px;
+        height:76px;
+        font-size:24px;
+    }
+
+    .profile-main{
+        min-width:calc(100% - 100px);
+    }
+
+    .edit-profile-btn{
+        width:100%;
+    }
+
+    .user-info{
+        display:none;
+    }
+
+    .logout-btn{
+        padding:8px 10px;
+    }
+}
+
+@media(max-width:520px){
+
+    main{
+        padding-top:30px;
+    }
+
+    .info-grid{
+        grid-template-columns:1fr;
+    }
+
+    .stats{
+        grid-template-columns:1fr;
+    }
+
+    .form-grid{
+        grid-template-columns:1fr;
+    }
+
+    .form-group.full{
+        grid-column:auto;
+    }
+
+    .modal-actions{
+        flex-direction:column;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div class="container navbar">
+
+    <a href="index.html" class="logo">
+        Sport<span>X</span>
+    </a>
+
+    <nav class="nav-links">
+
+        <a href="index.html">
+            Home
+        </a>
+
+        <a href="sports.html">
+            Sports
+        </a>
+
+        <a href="live.html">
+            Live
+        </a>
+
+        <a href="bets.html">
+            My Bets
+        </a>
+
+        <a href="wallet.html">
+            Wallet
+        </a>
+
+        <a href="profile.html" class="active">
+            Profile
+        </a>
+
+    </nav>
+
+    <div class="header-right">
+
+        <div data-auth-guest>
+
+            <a href="login.html" class="login-btn">
+                Login
+            </a>
+
+        </div>
+
+        <div
+            data-auth-user
+            class="user-account"
+            style="display:none;"
+        >
+
+            <div class="user-avatar">
+
+                <span data-user-initials>
+                    US
+                </span>
+
+            </div>
+
+            <div class="user-info">
+
+                <strong data-user-name>
+                    User
+                </strong>
+
+                <span data-user-balance>
+                    AFN 1,000
+                </span>
+
+            </div>
+
+            <button
+                type="button"
+                class="logout-btn"
+                data-auth-logout
+            >
+                Logout
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+</header>
+
+
+<main>
+
+<div class="container">
+
+    <!-- PAGE HEADER -->
+
+    <section class="page-head">
+
+        <h1>
+            My Profile
+        </h1>
+
+        <p>
+            Manage your SportX account and personal preferences.
+        </p>
+
+    </section>
+
+
+    <!-- PROFILE HERO -->
+
+    <section class="profile-hero">
+
+        <div
+            class="profile-avatar"
+            id="profileAvatar"
+        >
+            US
+        </div>
+
+        <div class="profile-main">
+
+            <h2 id="profileName">
+                User
+            </h2>
+
+            <p id="profileEmail">
+                user@sportx.demo
+            </p>
+
+            <div class="profile-status">
+
+                <span class="status-dot"></span>
+
+                Active Account
+
+            </div>
+
+        </div>
+
+        <button
+            type="button"
+            class="edit-profile-btn"
+            onclick="openEditProfile()"
+        >
+            Edit Profile
+        </button>
+
+    </section>
+
+
+    <!-- MAIN GRID -->
+
+    <section class="profile-grid">
+
+        <!-- PERSONAL INFORMATION -->
+
+        <div class="panel">
+
+            <div class="panel-header">
+
+                <h3>
+                    Personal Information
+                </h3>
+
+                <p>
+                    Your account information
+                </p>
+
+            </div>
+
+            <div class="panel-body">
+
+                <div class="info-grid">
+
+                    <div class="info-item">
+
+                        <div class="info-label">
+                            First Name
+                        </div>
+
+                        <div
+                            class="info-value"
+                            id="firstNameValue"
+                        >
+                            User
+                        </div>
+
+                    </div>
+
+
+                    <div class="info-item">
+
+                        <div class="info-label">
+                            Last Name
+                        </div>
+
+                        <div
+                            class="info-value"
+                            id="lastNameValue"
+                        >
+                            Account
+                        </div>
+
+                    </div>
+
+
+                    <div class="info-item">
+
+                        <div class="info-label">
+                            Email Address
+                        </div>
+
+                        <div
+                            class="info-value"
+                            id="emailValue"
+                        >
+                            user@sportx.demo
+                        </div>
+
+                    </div>
+
+
+                    <div class="info-item">
+
+                        <div class="info-label">
+                            Country
+                        </div>
+
+                        <div
+                            class="info-value"
+                            id="countryValue"
+                        >
+                            Afghanistan
+                        </div>
+
+                    </div>
+
+
+                    <div class="info-item">
+
+                        <div class="info-label">
+                            Account Type
+                        </div>
+
+                        <div class="info-value">
+                            SportX Simulator
+                        </div>
+
+                    </div>
+
+
+                    <div class="info-item">
+
+                        <div class="info-label">
+                            Member Since
+                        </div>
+
+                        <div class="info-value">
+                            September 2026
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- STATS -->
+
+                <div class="stats">
+
+                    <div class="stat">
+
+                        <div class="stat-label">
+                            TOTAL PREDICTIONS
+                        </div>
+
+                        <div class="stat-value">
+                            12
+                        </div>
+
+                    </div>
+
+
+                    <div class="stat">
+
+                        <div class="stat-label">
+                            OPEN PREDICTIONS
+                        </div>
+
+                        <div class="stat-value">
+                            3
+                        </div>
+
+                    </div>
+
+
+                    <div class="stat">
+
+                        <div class="stat-label">
+                            VIRTUAL P/L
+                        </div>
+
+                        <div
+                            class="stat-value"
+                            style="color:var(--green);"
+                        >
+                            +245
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- SETTINGS -->
+
+        <div class="panel">
+
+            <div class="panel-header">
+
+                <h3>
+                    Preferences
+                </h3>
+
+                <p>
+                    Customize your experience
+                </p>
+
+            </div>
+
+            <div class="panel-body">
+
+                <div class="setting-list">
+
+                    <div class="setting">
+
+                        <div class="setting-info">
+
+                            <strong>
+                                Email Notifications
+                            </strong>
+
+                            <span>
+                                Receive important account updates.
+                            </span>
+
+                        </div>
+
+                        <label class="toggle">
+
+                            <input
+                                type="checkbox"
+                                id="emailNotifications"
+                                checked
+                            >
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+
+                    <div class="setting">
+
+                        <div class="setting-info">
+
+                            <strong>
+                                Prediction Alerts
+                            </strong>
+
+                            <span>
+                                Get alerts about your predictions.
+                            </span>
+
+                        </div>
+
+                        <label class="toggle">
+
+                            <input
+                                type="checkbox"
+                                id="predictionAlerts"
+                                checked
+                            >
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+
+                    <div class="setting">
+
+                        <div class="setting-info">
+
+                            <strong>
+                                Live Match Updates
+                            </strong>
+
+                            <span>
+                                Receive live match notifications.
+                            </span>
+
+                        </div>
+
+                        <label class="toggle">
+
+                            <input
+                                type="checkbox"
+                                id="liveUpdates"
+                            >
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+                </div>
+
+
+                <div class="account-actions">
+
+                    <button
+                        type="button"
+                        class="account-action"
+                        onclick="openChangePassword()"
+                    >
+
+                        <div class="action-left">
+
+                            <div class="action-icon">
+                                🔐
+                            </div>
+
+                            <div class="action-text">
+
+                                <strong>
+                                    Change Password
+                                </strong>
+
+                                <span>
+                                    Update your account password
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                        <div class="action-arrow">
+                            ›
+                        </div>
+
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="account-action"
+                        onclick="showToast('Security settings will be connected to the backend later.')"
+                    >
+
+                        <div class="action-left">
+
+                            <div class="action-icon">
+                                🛡
+                            </div>
+
+                            <div class="action-text">
+
+                                <strong>
+                                    Security
+                                </strong>
+
+                                <span>
+                                    Manage account security options
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                        <div class="action-arrow">
+                            ›
+                        </div>
+
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="account-action danger"
+                        data-auth-logout
+                    >
+
+                        <div class="action-left">
+
+                            <div class="action-icon">
+                                ⇥
+                            </div>
+
+                            <div class="action-text">
+
+                                <strong>
+                                    Log Out
+                                </strong>
+
+                                <span>
+                                    Sign out of this account
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                        <div class="action-arrow">
+                            ›
+                        </div>
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</div>
+
+</main>
+
+
+<footer>
+
+<div class="container">
+
+    © 2026 SportX. Virtual sports prediction simulator.
+
+</div>
+
+</footer>
+
+
+<!-- =========================
+     EDIT PROFILE MODAL
+========================= -->
+
+<div
+    class="modal-overlay"
+    id="editProfileModal"
+    onclick="closeOverlay(event,'editProfileModal')"
+>
+
+    <div class="modal">
+
+        <div class="modal-header">
+
+            <h3>
+                Edit Profile
+            </h3>
+
+            <button
+                type="button"
+                class="close-modal"
+                onclick="closeModal('editProfileModal')"
+            >
+                ×
+            </button>
+
+        </div>
+
+        <div class="modal-body">
+
+            <div class="form-grid">
+
+                <div class="form-group">
+
+                    <label for="editFirstName">
+                        First Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="editFirstName"
+                        placeholder="First name"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="editLastName">
+                        Last Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="editLastName"
+                        placeholder="Last name"
+                    >
+
+                </div>
+
+
+                <div class="form-group full">
+
+                    <label for="editEmail">
+                        Email Address
+                    </label>
+
+                    <input
+                        type="email"
+                        id="editEmail"
+                        placeholder="Email address"
+                    >
+
+                </div>
+
+
+                <div class="form-group full">
+
+                    <label for="editCountry">
+                        Country
+                    </label>
+
+                    <select id="editCountry">
+
+                        <option value="Afghanistan">
+                            Afghanistan
+                        </option>
+
+                        <option value="Pakistan">
+                            Pakistan
+                        </option>
+
+                        <option value="Iran">
+                            Iran
+                        </option>
+
+                        <option value="United States">
+                            United States
+                        </option>
+
+                        <option value="United Kingdom">
+                            United Kingdom
+                        </option>
+
+                        <option value="Other">
+                            Other
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+
+            <div class="modal-actions">
+
+                <button
+                    type="button"
+                    class="secondary-btn"
+                    onclick="closeModal('editProfileModal')"
+                >
+                    Cancel
+                </button>
+
+                <button
+                    type="button"
+                    class="primary-btn"
+                    onclick="saveProfile()"
+                >
+                    Save Changes
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================
+     CHANGE PASSWORD MODAL
+========================= -->
+
+<div
+    class="modal-overlay"
+    id="passwordModal"
+    onclick="closeOverlay(event,'passwordModal')"
+>
+
+    <div class="modal">
+
+        <div class="modal-header">
+
+            <h3>
+                Change Password
+            </h3>
+
+            <button
+                type="button"
+                class="close-modal"
+                onclick="closeModal('passwordModal')"
+            >
+                ×
+            </button>
+
+        </div>
+
+        <div class="modal-body">
+
+            <div class="form-group">
+
+                <label for="currentPassword">
+                    Current Password
+                </label>
+
+                <input
+                    type="password"
+                    id="currentPassword"
+                    placeholder="Enter current password"
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="newPassword">
+                    New Password
+                </label>
+
+                <input
+                    type="password"
+                    id="newPassword"
+                    placeholder="Enter new password"
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="confirmPassword">
+                    Confirm New Password
+                </label>
+
+                <input
+                    type="password"
+                    id="confirmPassword"
+                    placeholder="Confirm new password"
+                >
+
+            </div>
+
+
+            <div class="modal-actions">
+
+                <button
+                    type="button"
+                    class="secondary-btn"
+                    onclick="closeModal('passwordModal')"
+                >
+                    Cancel
+                </button>
+
+                <button
+                    type="button"
+                    class="primary-btn"
+                    onclick="changePassword()"
+                >
+                    Update Password
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<div class="toast" id="toast"></div>
+
+
+<!-- SHARED AUTH -->
+
+<script src="auth.js"></script>
+
+
+<script>
+
+/* =========================
+   LOAD USER
+========================= */
+
+let currentUser = null;
+
+
+function loadProfile(){
+
+    const stored =
+        localStorage.getItem("sportx_demo_user");
+
+    if(!stored){
+
+        return;
+
+    }
+
+
+    try{
+
+        currentUser = JSON.parse(stored);
+
+        if(!currentUser){
+
+            return;
+
+        }
+
+
+        const firstName =
+            currentUser.firstName ||
+            currentUser.name ||
+            "User";
+
+        const lastName =
+            currentUser.lastName ||
+            "Account";
+
+        const fullName =
+            `${firstName} ${lastName}`.trim();
+
+        const email =
+            currentUser.email ||
+            "user@sportx.demo";
+
+        const country =
+            currentUser.country ||
+            "Afghanistan";
+
+
+        document.getElementById("profileName")
+            .textContent = fullName;
+
+        document.getElementById("profileEmail")
+            .textContent = email;
+
+        document.getElementById("firstNameValue")
+            .textContent = firstName;
+
+        document.getElementById("lastNameValue")
+            .textContent = lastName;
+
+        document.getElementById("emailValue")
+            .textContent = email;
+
+        document.getElementById("countryValue")
+            .textContent = country;
+
+
+        const initials =
+            `${firstName.charAt(0)}${lastName.charAt(0)}`
+            .toUpperCase();
+
+
+        document.getElementById("profileAvatar")
+            .textContent = initials;
+
+    }catch(error){
+
+        console.error(error);
+
+    }
+
+}
+
+
+/* =========================
+   EDIT PROFILE
+========================= */
+
+function openEditProfile(){
+
+    const user =
+        currentUser || {};
+
+    document.getElementById("editFirstName").value =
+        user.firstName ||
+        user.name ||
+        "";
+
+    document.getElementById("editLastName").value =
+        user.lastName ||
+        "";
+
+    document.getElementById("editEmail").value =
+        user.email ||
+        "";
+
+    document.getElementById("editCountry").value =
+        user.country ||
+        "Afghanistan";
+
+
+    document
+        .getElementById("editProfileModal")
+        .classList.add("show");
+
+}
+
+
+function saveProfile(){
+
+    const firstName =
+        document.getElementById("editFirstName").value.trim();
+
+    const lastName =
+        document.getElementById("editLastName").value.trim();
+
+    const email =
+        document.getElementById("editEmail").value.trim();
+
+    const country =
+        document.getElementById("editCountry").value;
+
+
+    if(!firstName){
+
+        showToast("Please enter your first name.");
+
+        return;
+
+    }
+
+
+    if(!email){
+
+        showToast("Please enter your email address.");
+
+        return;
+
+    }
+
+
+    currentUser =
+        currentUser || {};
+
+
+    currentUser.firstName =
+        firstName;
+
+    currentUser.lastName =
+        lastName;
+
+    currentUser.name =
+        `${firstName} ${lastName}`.trim();
+
+    currentUser.email =
+        email;
+
+    currentUser.country =
+        country;
+
+
+    localStorage.setItem(
+        "sportx_demo_user",
+        JSON.stringify(currentUser)
+    );
+
+
+    loadProfile();
+
+    closeModal("editProfileModal");
+
+    showToast("Profile updated successfully.");
+
+}
+
+
+/* =========================
+   PASSWORD
+========================= */
+
+function openChangePassword(){
+
+    document
+        .getElementById("passwordModal")
+        .classList.add("show");
+
+}
+
+
+function changePassword(){
+
+    const current =
+        document.getElementById("currentPassword").value;
+
+    const newPassword =
+        document.getElementById("newPassword").value;
+
+    const confirm =
+        document.getElementById("confirmPassword").value;
+
+
+    if(!current){
+
+        showToast("Enter your current password.");
+
+        return;
+
+    }
+
+
+    if(newPassword.length < 8){
+
+        showToast(
+            "New password must contain at least 8 characters."
+        );
+
+        return;
+
+    }
+
+
+    if(newPassword !== confirm){
+
+        showToast(
+            "New passwords do not match."
+        );
+
+        return;
+
+    }
+
+
+    closeModal("passwordModal");
+
+    document.getElementById("currentPassword").value = "";
+
+    document.getElementById("newPassword").value = "";
+
+    document.getElementById("confirmPassword").value = "";
+
+
+    showToast(
+        "Password update will be connected to the backend."
+    );
+
+}
+
+
+/* =========================
+   MODALS
+========================= */
+
+function closeModal(id){
+
+    document
+        .getElementById(id)
+        .classList.remove("show");
+
+}
+
+
+function closeOverlay(event,id){
+
+    if(event.target.id === id){
+
+        closeModal(id);
+
+    }
+
+}
+
+
+/* =========================
+   TOAST
+========================= */
+
+let toastTimer;
+
+
+function showToast(message){
+
+    const toast =
+        document.getElementById("toast");
+
+    toast.textContent =
+        message;
+
+    toast.classList.add("show");
+
+
+    clearTimeout(toastTimer);
+
+    toastTimer = setTimeout(() => {
+
+        toast.classList.remove("show");
+
+    },3000);
+
+}
+
+
+/* =========================
+   PREFERENCES
+========================= */
+
+document.querySelectorAll(
+    ".toggle input"
+).forEach(toggle => {
+
+    toggle.addEventListener("change", function(){
+
+        const label =
+            this.closest(".setting")
+                .querySelector(".setting-info strong")
+                .textContent;
+
+        showToast(
+            `${label} ${this.checked ? "enabled" : "disabled"}.`
+        );
+
+    });
+
+});
+
+
+/* =========================
+   ESC KEY
+========================= */
+
+document.addEventListener("keydown",function(event){
+
+    if(event.key !== "Escape"){
+
+        return;
+
+    }
+
+    closeModal("editProfileModal");
+
+    closeModal("passwordModal");
+
+});
+
+
+/* =========================
+   INIT
+========================= */
+
+loadProfile();
+
+</script>
+
+</body>
+</html>
