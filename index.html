@@ -8,265 +8,1065 @@
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
+
 :root{
---bg:#fff;--panel:#fff;--panel-2:#f6f8f7;--green:#16d98b;
---green-dark:#0e9d65;--text:#12201b;--muted:#66736e;
---border:rgba(15,23,42,.13);--danger:#e54855;--gold:#b98500;
+--bg:#fff;
+--panel:#fff;
+--panel-2:#f6f8f7;
+--green:#16d98b;
+--green-dark:#0e9d65;
+--text:#12201b;
+--muted:#66736e;
+--border:rgba(15,23,42,.13);
+--danger:#e54855;
+--gold:#b98500;
 --shadow:0 10px 35px rgba(15,23,42,.07)
 }
+
 html{scroll-behavior:smooth}
+
 body{
 font-family:Inter,Arial,sans-serif;
 background:
 radial-gradient(circle at 80% 0%,rgba(22,217,139,.08),transparent 30%),
-radial-gradient(circle at 10% 30%,rgba(22,217,139,.05),transparent 25%),var(--bg);
-color:var(--text);min-height:100vh
+radial-gradient(circle at 10% 30%,rgba(22,217,139,.05),transparent 25%),
+var(--bg);
+color:var(--text);
+min-height:100vh
 }
+
 button,a{-webkit-tap-highlight-color:transparent}
 button{font:inherit;border:0;cursor:pointer}
 a{color:inherit;text-decoration:none}
 .hidden{display:none!important}
 
 .header{
-min-height:72px;display:flex;align-items:center;justify-content:space-between;
-gap:20px;padding:10px 5%;border-bottom:1px solid var(--border);
-background:rgba(255,255,255,.94);backdrop-filter:blur(18px);
-box-shadow:0 4px 18px rgba(15,23,42,.05);position:sticky;top:0;z-index:100
+min-height:72px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:20px;
+padding:10px 5%;
+border-bottom:1px solid var(--border);
+background:rgba(255,255,255,.94);
+backdrop-filter:blur(18px);
+box-shadow:0 4px 18px rgba(15,23,42,.05);
+position:sticky;
+top:0;
+z-index:100
 }
-.logo{display:flex;align-items:center;gap:10px;color:var(--text);font-size:23px;font-weight:900;letter-spacing:-.7px}
+
+.logo{
+display:flex;
+align-items:center;
+gap:10px;
+color:var(--text);
+font-size:23px;
+font-weight:900;
+letter-spacing:-.7px
+}
+
 .logo-mark{
-width:38px;height:38px;border-radius:12px;display:grid;place-items:center;
+width:38px;
+height:38px;
+border-radius:12px;
+display:grid;
+place-items:center;
 background:linear-gradient(135deg,var(--green),var(--green-dark));
-color:#03120c;box-shadow:0 8px 30px rgba(22,217,139,.22)
+color:#03120c;
+box-shadow:0 8px 30px rgba(22,217,139,.22)
 }
-.desktop-nav{display:flex;gap:25px;color:var(--muted);font-size:14px}
-.desktop-nav a:hover,.desktop-nav a.active{color:var(--green-dark)}
-.header-actions{display:flex;align-items:center;gap:9px}
-.login-btn,.profile-btn{
-display:inline-flex;align-items:center;justify-content:center;padding:10px 14px;
-border-radius:11px;font-weight:800;transition:.2s
+
+.desktop-nav{
+display:flex;
+gap:25px;
+color:var(--muted);
+font-size:14px
 }
-.login-btn{background:var(--green);color:#03120c}
-.login-btn:hover,.profile-btn:hover{transform:translateY(-2px)}
-.profile-btn{background:#fff;border:1px solid var(--border);color:var(--text)}
-.profile-btn:hover{border-color:rgba(22,217,139,.4);color:var(--green-dark)}
+
+.desktop-nav a:hover,
+.desktop-nav a.active{
+color:var(--green-dark)
+}
+
+.header-actions{
+display:flex;
+align-items:center;
+gap:9px
+}
+
+.login-btn,
+.profile-btn{
+display:inline-flex;
+align-items:center;
+justify-content:center;
+padding:10px 14px;
+border-radius:11px;
+font-weight:800;
+transition:.2s
+}
+
+.login-btn{
+background:var(--green);
+color:#03120c
+}
+
+.login-btn:hover,
+.profile-btn:hover{
+transform:translateY(-2px)
+}
+
+.profile-btn{
+background:#fff;
+border:1px solid var(--border);
+color:var(--text)
+}
+
+.profile-btn:hover{
+border-color:rgba(22,217,139,.4);
+color:var(--green-dark)
+}
 
 .user-account{
-display:flex;align-items:center;gap:8px;padding:5px 7px 5px 6px;
-background:#fff;border:1px solid var(--border);border-radius:13px;
+display:flex;
+align-items:center;
+gap:8px;
+padding:5px 7px 5px 6px;
+background:#fff;
+border:1px solid var(--border);
+border-radius:13px;
 box-shadow:0 5px 18px rgba(15,23,42,.05)
 }
+
 .user-avatar{
-width:38px;height:38px;flex:0 0 38px;border-radius:11px;display:grid;
-place-items:center;overflow:hidden;background:linear-gradient(135deg,var(--green),var(--green-dark));
-color:#06100d;font-size:11px;font-weight:900
+width:38px;
+height:38px;
+flex:0 0 38px;
+border-radius:11px;
+display:grid;
+place-items:center;
+overflow:hidden;
+background:linear-gradient(135deg,var(--green),var(--green-dark));
+color:#06100d;
+font-size:11px;
+font-weight:900
 }
-.user-avatar img{width:100%;height:100%;object-fit:cover;display:block}
-.user-info{display:flex;flex-direction:column;min-width:82px}
-.user-info strong{font-size:11px;font-weight:900}
-.user-info span{color:var(--green-dark);font-size:10px;font-weight:800;margin-top:2px}
+
+.user-avatar img{
+width:100%;
+height:100%;
+object-fit:cover;
+display:block
+}
+
+.user-info{
+display:flex;
+flex-direction:column;
+min-width:82px
+}
+
+.user-info strong{
+font-size:11px;
+font-weight:900
+}
+
+.user-info span{
+color:var(--green-dark);
+font-size:10px;
+font-weight:800;
+margin-top:2px
+}
+
 .logout-btn{
-padding:8px 10px;border:1px solid var(--border);border-radius:9px;
-background:var(--panel-2);color:var(--muted);font-size:10px;font-weight:800
+padding:8px 10px;
+border:1px solid var(--border);
+border-radius:9px;
+background:var(--panel-2);
+color:var(--muted);
+font-size:10px;
+font-weight:800
 }
-.logout-btn:hover{color:var(--danger);border-color:rgba(229,72,85,.25)}
+
+.logout-btn:hover{
+color:var(--danger);
+border-color:rgba(229,72,85,.25)
+}
 
 .hero{
-max-width:1250px;margin:auto;padding:72px 5% 45px;display:grid;
-grid-template-columns:1.15fr .85fr;gap:35px;align-items:center
+max-width:1250px;
+margin:auto;
+padding:72px 5% 45px;
+display:grid;
+grid-template-columns:1.15fr .85fr;
+gap:35px;
+align-items:center
 }
-.hero-content{animation:rise .7s ease both}
+
+.hero-content{
+animation:rise .7s ease both
+}
+
 .badge{
-display:inline-flex;padding:8px 13px;border-radius:999px;background:rgba(22,217,139,.09);
-border:1px solid rgba(22,217,139,.25);color:var(--green-dark);
-font-size:12px;font-weight:800;margin-bottom:20px
+display:inline-flex;
+padding:8px 13px;
+border-radius:999px;
+background:rgba(22,217,139,.09);
+border:1px solid rgba(22,217,139,.25);
+color:var(--green-dark);
+font-size:12px;
+font-weight:800;
+margin-bottom:20px
 }
-.hero h1{font-size:clamp(42px,6vw,76px);line-height:.98;letter-spacing:-3px;max-width:720px}
-.hero h1 strong{color:var(--green-dark)}
-.hero p{color:var(--muted);max-width:600px;line-height:1.7;margin:24px 0;font-size:16px}
-.hero-buttons{display:flex;gap:12px;flex-wrap:wrap}
-.primary-btn,.secondary-btn{padding:14px 20px;border-radius:12px;transition:.25s}
-.primary-btn{background:var(--green);color:#03120c;font-weight:900}
-.secondary-btn{background:var(--panel);border:1px solid var(--border)}
-.primary-btn:hover,.secondary-btn:hover{transform:translateY(-3px)}
+
+.hero h1{
+font-size:clamp(42px,6vw,76px);
+line-height:.98;
+letter-spacing:-3px;
+max-width:720px
+}
+
+.hero h1 strong{
+color:var(--green-dark)
+}
+
+.hero p{
+color:var(--muted);
+max-width:600px;
+line-height:1.7;
+margin:24px 0;
+font-size:16px
+}
+
+.hero-buttons{
+display:flex;
+gap:12px;
+flex-wrap:wrap
+}
+
+.primary-btn,
+.secondary-btn{
+padding:14px 20px;
+border-radius:12px;
+transition:.25s
+}
+
+.primary-btn{
+background:var(--green);
+color:#03120c;
+font-weight:900
+}
+
+.secondary-btn{
+background:var(--panel);
+border:1px solid var(--border)
+}
+
+.primary-btn:hover,
+.secondary-btn:hover{
+transform:translateY(-3px)
+}
 
 .hero-card{
-min-height:350px;border:1px solid var(--border);border-radius:26px;
-background:linear-gradient(145deg,rgba(22,217,139,.08),transparent 55%),var(--panel);
-padding:24px;box-shadow:0 30px 80px rgba(15,23,42,.10)
+min-height:350px;
+border:1px solid var(--border);
+border-radius:26px;
+background:
+linear-gradient(145deg,rgba(22,217,139,.08),transparent 55%),
+var(--panel);
+padding:24px;
+box-shadow:0 30px 80px rgba(15,23,42,.10)
 }
-.live-title{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}
-.live-title span{color:var(--green-dark);font-size:12px;font-weight:900}
-.live-title .not-live{color:var(--muted)}
-.live-preview{padding:20px;border-radius:18px;background:#f8faf9;border:1px solid var(--border)}
-.hero-match-meta{text-align:center;color:var(--muted);font-size:11px;margin-bottom:18px}
-.hero-teams{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:10px;text-align:center}
+
+.live-title{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:20px
+}
+
+.live-title span{
+color:var(--green-dark);
+font-size:12px;
+font-weight:900
+}
+
+.live-title .not-live{
+color:var(--muted)
+}
+
+.live-preview{
+padding:20px;
+border-radius:18px;
+background:#f8faf9;
+border:1px solid var(--border)
+}
+
+.hero-match-meta{
+text-align:center;
+color:var(--muted);
+font-size:11px;
+margin-bottom:18px
+}
+
+.hero-teams{
+display:grid;
+grid-template-columns:1fr auto 1fr;
+align-items:center;
+gap:10px;
+text-align:center
+}
+
 .hero-team-logo{
-width:58px;height:58px;margin:0 auto 9px;object-fit:contain;border-radius:15px;
-background:#fff;border:1px solid var(--border);padding:7px
+width:58px;
+height:58px;
+margin:0 auto 9px;
+object-fit:contain;
+border-radius:15px;
+background:#fff;
+border:1px solid var(--border);
+padding:7px
 }
-.hero-team-name{font-size:13px;font-weight:900}
-.hero-score{font-size:26px;font-weight:900}
-.hero-minute{color:var(--danger);font-size:11px;font-weight:900;margin-top:7px}
-.hero-empty{min-height:260px;display:grid;place-items:center;text-align:center;color:var(--muted)}
-.hero-empty-icon{font-size:42px;margin-bottom:12px}
-.hero-empty strong{display:block;font-size:15px;margin-bottom:6px}
 
-.account-section{max-width:1250px;margin:auto;padding:0 5% 25px}
+.hero-team-name{
+font-size:13px;
+font-weight:900
+}
+
+.hero-score{
+font-size:26px;
+font-weight:900
+}
+
+.hero-minute{
+color:var(--danger);
+font-size:11px;
+font-weight:900;
+margin-top:7px
+}
+
+.hero-empty{
+min-height:260px;
+display:grid;
+place-items:center;
+text-align:center;
+color:var(--muted)
+}
+
+.hero-empty-icon{
+font-size:42px;
+margin-bottom:12px
+}
+
+.hero-empty strong{
+display:block;
+font-size:15px;
+margin-bottom:6px
+}
+
+.account-section{
+max-width:1250px;
+margin:auto;
+padding:0 5% 25px
+}
+
 .account-panel{
-background:#fff;border:1px solid var(--border);border-radius:22px;padding:18px;
-box-shadow:var(--shadow);display:grid;grid-template-columns:minmax(230px,1.1fr) 2fr;
-gap:18px;align-items:center
+background:#fff;
+border:1px solid var(--border);
+border-radius:22px;
+padding:18px;
+box-shadow:var(--shadow);
+display:grid;
+grid-template-columns:minmax(230px,1.1fr) 2fr;
+gap:18px;
+align-items:center
 }
-.account-profile{display:flex;align-items:center;gap:14px;min-width:0}
+
+.account-profile{
+display:flex;
+align-items:center;
+gap:14px;
+min-width:0
+}
+
 .home-profile-avatar{
-width:64px;height:64px;flex:0 0 64px;border-radius:18px;overflow:hidden;
-display:grid;place-items:center;background:linear-gradient(135deg,var(--green),var(--green-dark));
-font-size:18px;font-weight:900
+width:64px;
+height:64px;
+flex:0 0 64px;
+border-radius:18px;
+overflow:hidden;
+display:grid;
+place-items:center;
+background:linear-gradient(135deg,var(--green),var(--green-dark));
+font-size:18px;
+font-weight:900
 }
-.home-profile-avatar img{width:100%;height:100%;object-fit:cover}
-.account-profile-info{min-width:0}
-.account-profile-info strong{display:block;font-size:16px;font-weight:900;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.account-profile-info span{display:block;margin-top:5px;color:var(--green-dark);font-size:12px;font-weight:800}
-.account-actions{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+
+.home-profile-avatar img{
+width:100%;
+height:100%;
+object-fit:cover
+}
+
+.account-profile-info{
+min-width:0
+}
+
+.account-profile-info strong{
+display:block;
+font-size:16px;
+font-weight:900;
+overflow:hidden;
+text-overflow:ellipsis;
+white-space:nowrap
+}
+
+.account-profile-info span{
+display:block;
+margin-top:5px;
+color:var(--green-dark);
+font-size:12px;
+font-weight:800
+}
+
+.account-actions{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:10px
+}
+
 .account-action{
-min-height:76px;border:1px solid var(--border);background:var(--panel-2);border-radius:15px;
-display:flex;align-items:center;gap:11px;padding:13px;transition:.25s
+min-height:76px;
+border:1px solid var(--border);
+background:var(--panel-2);
+border-radius:15px;
+display:flex;
+align-items:center;
+gap:11px;
+padding:13px;
+transition:.25s
 }
-.account-action:hover{transform:translateY(-3px);border-color:rgba(22,217,139,.45);background:#fff;box-shadow:0 10px 25px rgba(15,23,42,.07)}
+
+.account-action:hover{
+transform:translateY(-3px);
+border-color:rgba(22,217,139,.45);
+background:#fff;
+box-shadow:0 10px 25px rgba(15,23,42,.07)
+}
+
 .account-action-icon{
-width:42px;height:42px;flex:0 0 42px;display:grid;place-items:center;
-border-radius:12px;background:#fff;border:1px solid var(--border);font-size:20px
+width:42px;
+height:42px;
+flex:0 0 42px;
+display:grid;
+place-items:center;
+border-radius:12px;
+background:#fff;
+border:1px solid var(--border);
+font-size:20px
 }
-.account-action-text strong{display:block;font-size:12px;font-weight:900}
-.account-action-text span{display:block;color:var(--muted);font-size:10px;margin-top:4px}
+
+.account-action-text strong{
+display:block;
+font-size:12px;
+font-weight:900
+}
+
+.account-action-text span{
+display:block;
+color:var(--muted);
+font-size:10px;
+margin-top:4px
+}
+
 .guest-panel{
-display:flex;align-items:center;justify-content:space-between;gap:15px;padding:18px;
-background:#fff;border:1px solid var(--border);border-radius:20px
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:15px;
+padding:18px;
+background:#fff;
+border:1px solid var(--border);
+border-radius:20px
 }
-.guest-panel strong{display:block;font-size:14px}
-.guest-panel span{display:block;color:var(--muted);font-size:11px;margin-top:4px}
-.guest-login{padding:11px 18px;border-radius:11px;background:var(--green);color:#03120c;font-size:12px;font-weight:900}
 
-.section{max-width:1250px;margin:auto;padding:25px 5% 45px}
-.section-heading{display:flex;align-items:end;justify-content:space-between;margin-bottom:20px}
-.section-heading h2{font-size:25px}
-.section-heading p{color:var(--muted);font-size:13px;margin-top:5px}
-.view-all{color:var(--green-dark);font-size:13px;font-weight:800}
+.guest-panel strong{
+display:block;
+font-size:14px
+}
 
-.sports{display:grid;grid-template-columns:repeat(6,1fr);gap:12px}
+.guest-panel span{
+display:block;
+color:var(--muted);
+font-size:11px;
+margin-top:4px
+}
+
+.guest-login{
+padding:11px 18px;
+border-radius:11px;
+background:var(--green);
+color:#03120c;
+font-size:12px;
+font-weight:900
+}
+
+.section{
+max-width:1250px;
+margin:auto;
+padding:25px 5% 45px
+}
+
+.section-heading{
+display:flex;
+align-items:end;
+justify-content:space-between;
+margin-bottom:20px
+}
+
+.section-heading h2{
+font-size:25px
+}
+
+.section-heading p{
+color:var(--muted);
+font-size:13px;
+margin-top:5px
+}
+
+.view-all{
+color:var(--green-dark);
+font-size:13px;
+font-weight:800
+}
+
+.sports{
+display:grid;
+grid-template-columns:repeat(6,1fr);
+gap:12px
+}
+
 .sport{
-padding:20px 10px;background:var(--panel);border:1px solid var(--border);
-border-radius:16px;text-align:center;transition:.25s
+padding:20px 10px;
+background:var(--panel);
+border:1px solid var(--border);
+border-radius:16px;
+text-align:center;
+transition:.25s
 }
-.sport:hover{transform:translateY(-5px);border-color:rgba(22,217,139,.4);background:var(--panel-2)}
-.sport-icon{font-size:27px;margin-bottom:10px}
-.sport-name{font-size:13px;font-weight:700}
 
-.matches{display:grid;grid-template-columns:repeat(2,1fr);gap:15px}
-.match{
-background:var(--panel);border:1px solid var(--border);border-radius:19px;padding:18px;
-transition:.25s;box-shadow:0 5px 18px rgba(15,23,42,.03);position:relative;overflow:hidden
+.sport:hover{
+transform:translateY(-5px);
+border-color:rgba(22,217,139,.4);
+background:var(--panel-2)
 }
-.match:hover{transform:translateY(-4px);border-color:rgba(22,217,139,.35);box-shadow:var(--shadow)}
+
+.sport-icon{
+font-size:27px;
+margin-bottom:10px
+}
+
+.sport-name{
+font-size:13px;
+font-weight:700
+}
+
+.matches{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:15px
+}
+
+.match{
+background:var(--panel);
+border:1px solid var(--border);
+border-radius:19px;
+padding:18px;
+transition:.25s;
+box-shadow:0 5px 18px rgba(15,23,42,.03);
+position:relative;
+overflow:hidden
+}
+
+.match:hover{
+transform:translateY(-4px);
+border-color:rgba(22,217,139,.35);
+box-shadow:var(--shadow)
+}
+
 .match::before{
-content:"";position:absolute;top:0;left:0;right:0;height:3px;
+content:"";
+position:absolute;
+top:0;
+left:0;
+right:0;
+height:3px;
 background:linear-gradient(90deg,#d8dedb,#9aa6a1)
 }
-.future-match::before{background:linear-gradient(90deg,var(--gold),#e2bd52)}
-.match-top{display:flex;justify-content:space-between;align-items:center;gap:10px;color:var(--muted);font-size:10px;margin-bottom:15px}
-.competition{display:flex;align-items:center;gap:6px;min-width:0}
-.competition-logo{width:18px;height:18px;object-fit:contain}
-.competition-name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.match-time{white-space:nowrap;font-weight:800}
-.match-teams{display:grid;grid-template-columns:1fr 38px 1fr;align-items:center;text-align:center;gap:8px}
-.team{min-width:0}
-.team-logo{
-width:52px;height:52px;object-fit:contain;display:block;margin:0 auto 8px;
-border-radius:14px;background:#fff;border:1px solid var(--border);padding:7px
-}
-.team-placeholder{
-width:52px;height:52px;display:grid;place-items:center;margin:0 auto 8px;
-border-radius:14px;background:#f6f8f7;border:1px solid var(--border);font-size:22px
-}
-.team-name{font-size:12px;font-weight:900;line-height:1.3;word-break:break-word}
-.vs{color:var(--muted);font-size:10px;font-weight:800}
-.match-category{
-display:inline-flex;align-items:center;gap:5px;padding:5px 8px;border-radius:999px;
-background:var(--panel-2);border:1px solid var(--border);color:var(--muted);font-size:9px;font-weight:900
-}
-.future-category{color:#8b6500;background:rgba(185,133,0,.08);border-color:rgba(185,133,0,.2)}
-.odds{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:17px}
-.odd{background:var(--panel-2);border:1px solid var(--border);border-radius:10px;padding:10px 5px;text-align:center}
-.odd small{display:block;color:var(--muted);font-size:9px;margin-bottom:4px}
-.odd strong{font-size:13px}
-.no-odds{margin-top:17px;padding:10px;border-radius:10px;background:var(--panel-2);border:1px solid var(--border);color:var(--muted);text-align:center;font-size:10px}
-.match-footer{display:flex;justify-content:space-between;align-items:center;margin-top:14px;padding-top:12px;border-top:1px solid var(--border)}
-.match-status{font-size:10px;font-weight:900}
-.status-upcoming{color:var(--green-dark)}
-.status-live{color:var(--danger)}
-.status-ended{color:var(--muted)}
-.status-future{color:#8b6500}
-.details-btn{color:var(--green-dark);font-size:10px;font-weight:900}
 
-.loading-card,.empty-card{
-grid-column:1/-1;min-height:210px;display:grid;place-items:center;text-align:center;
-background:var(--panel);border:1px solid var(--border);border-radius:18px;padding:30px
+.future-match::before{
+background:linear-gradient(90deg,var(--gold),#e2bd52)
 }
-.spinner{width:34px;height:34px;border:3px solid rgba(22,217,139,.15);border-top-color:var(--green-dark);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 12px}
-.loading-card p,.empty-card p{color:var(--muted);font-size:12px;line-height:1.6}
-.empty-icon{font-size:42px;margin-bottom:10px}
-.empty-card h3{font-size:17px;margin-bottom:6px}
-.retry-btn{margin-top:15px;padding:10px 16px;border-radius:10px;background:var(--green);color:#03120c;font-size:11px;font-weight:900}
+
+.live-match::before{
+background:linear-gradient(90deg,#e54855,#ff9a9f)
+}
+
+.wwe-match::before{
+background:linear-gradient(90deg,#6d4aff,#b29aff)
+}
+
+.match-top{
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:10px;
+color:var(--muted);
+font-size:10px;
+margin-bottom:15px
+}
+
+.competition{
+display:flex;
+align-items:center;
+gap:6px;
+min-width:0
+}
+
+.competition-logo{
+width:18px;
+height:18px;
+object-fit:contain
+}
+
+.competition-name{
+overflow:hidden;
+text-overflow:ellipsis;
+white-space:nowrap
+}
+
+.match-time{
+white-space:nowrap;
+font-weight:800
+}
+
+.match-teams{
+display:grid;
+grid-template-columns:1fr 38px 1fr;
+align-items:center;
+text-align:center;
+gap:8px
+}
+
+.team{
+min-width:0
+}
+
+.team-logo{
+width:52px;
+height:52px;
+object-fit:contain;
+display:block;
+margin:0 auto 8px;
+border-radius:14px;
+background:#fff;
+border:1px solid var(--border);
+padding:7px
+}
+
+.team-placeholder{
+width:52px;
+height:52px;
+display:grid;
+place-items:center;
+margin:0 auto 8px;
+border-radius:14px;
+background:#f6f8f7;
+border:1px solid var(--border);
+font-size:22px
+}
+
+.team-name{
+font-size:12px;
+font-weight:900;
+line-height:1.3;
+word-break:break-word
+}
+
+.vs{
+color:var(--muted);
+font-size:10px;
+font-weight:800
+}
+
+.match-category{
+display:inline-flex;
+align-items:center;
+gap:5px;
+padding:5px 8px;
+border-radius:999px;
+background:var(--panel-2);
+border:1px solid var(--border);
+color:var(--muted);
+font-size:9px;
+font-weight:900
+}
+
+.future-category{
+color:#8b6500;
+background:rgba(185,133,0,.08);
+border-color:rgba(185,133,0,.2)
+}
+
+.live-category{
+color:var(--danger);
+background:rgba(229,72,85,.08);
+border-color:rgba(229,72,85,.2)
+}
+
+.wwe-category{
+color:#6344d8;
+background:rgba(99,68,216,.08);
+border-color:rgba(99,68,216,.2)
+}
+
+.odds{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:7px;
+margin-top:17px
+}
+
+.odd{
+background:var(--panel-2);
+border:1px solid var(--border);
+border-radius:10px;
+padding:10px 5px;
+text-align:center
+}
+
+.odd small{
+display:block;
+color:var(--muted);
+font-size:9px;
+margin-bottom:4px
+}
+
+.odd strong{
+font-size:13px
+}
+
+.no-odds{
+margin-top:17px;
+padding:10px;
+border-radius:10px;
+background:var(--panel-2);
+border:1px solid var(--border);
+color:var(--muted);
+text-align:center;
+font-size:10px
+}
+
+.match-footer{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-top:14px;
+padding-top:12px;
+border-top:1px solid var(--border)
+}
+
+.match-status{
+font-size:10px;
+font-weight:900
+}
+
+.status-upcoming{
+color:var(--green-dark)
+}
+
+.status-live{
+color:var(--danger)
+}
+
+.status-ended{
+color:var(--muted)
+}
+
+.status-future{
+color:#8b6500
+}
+
+.status-wwe{
+color:#6344d8
+}
+
+.details-btn{
+color:var(--green-dark);
+font-size:10px;
+font-weight:900
+}
+
+.loading-card,
+.empty-card{
+grid-column:1/-1;
+min-height:210px;
+display:grid;
+place-items:center;
+text-align:center;
+background:var(--panel);
+border:1px solid var(--border);
+border-radius:18px;
+padding:30px
+}
+
+.spinner{
+width:34px;
+height:34px;
+border:3px solid rgba(22,217,139,.15);
+border-top-color:var(--green-dark);
+border-radius:50%;
+animation:spin .8s linear infinite;
+margin:0 auto 12px
+}
+
+.loading-card p,
+.empty-card p{
+color:var(--muted);
+font-size:12px;
+line-height:1.6
+}
+
+.empty-icon{
+font-size:42px;
+margin-bottom:10px
+}
+
+.empty-card h3{
+font-size:17px;
+margin-bottom:6px
+}
+
+.retry-btn{
+margin-top:15px;
+padding:10px 16px;
+border-radius:10px;
+background:var(--green);
+color:#03120c;
+font-size:11px;
+font-weight:900
+}
 
 .modal{
-position:fixed;inset:0;z-index:500;display:none;align-items:center;justify-content:center;
-padding:18px;background:rgba(15,23,42,.45);backdrop-filter:blur(8px)
+position:fixed;
+inset:0;
+z-index:500;
+display:none;
+align-items:center;
+justify-content:center;
+padding:18px;
+background:rgba(15,23,42,.45);
+backdrop-filter:blur(8px)
 }
-.modal.show{display:flex}
-.modal-box{width:min(480px,100%);background:#fff;border:1px solid var(--border);border-radius:22px;padding:23px;box-shadow:0 30px 90px rgba(15,23,42,.2)}
-.modal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
-.modal-header h3{font-size:18px}
-.modal-close{width:32px;height:32px;border-radius:9px;background:var(--panel-2);color:var(--muted);font-size:18px}
-.modal-match{text-align:center}
-.modal-competition{color:var(--muted);font-size:11px;margin-bottom:17px}
-.modal-teams{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:12px}
-.modal-team img{width:65px;height:65px;object-fit:contain;display:block;margin:0 auto 8px;padding:7px;border:1px solid var(--border);border-radius:15px}
-.modal-team strong{display:block;font-size:13px}
-.modal-vs{color:var(--muted);font-size:11px;font-weight:900}
-.modal-time{color:var(--green-dark);font-size:12px;font-weight:900;margin-top:18px}
+
+.modal.show{
+display:flex
+}
+
+.modal-box{
+width:min(480px,100%);
+background:#fff;
+border:1px solid var(--border);
+border-radius:22px;
+padding:23px;
+box-shadow:0 30px 90px rgba(15,23,42,.2)
+}
+
+.modal-header{
+display:flex;
+align-items:center;
+justify-content:space-between;
+margin-bottom:18px
+}
+
+.modal-header h3{
+font-size:18px
+}
+
+.modal-close{
+width:32px;
+height:32px;
+border-radius:9px;
+background:var(--panel-2);
+color:var(--muted);
+font-size:18px
+}
+
+.modal-match{
+text-align:center
+}
+
+.modal-competition{
+color:var(--muted);
+font-size:11px;
+margin-bottom:17px
+}
+
+.modal-teams{
+display:grid;
+grid-template-columns:1fr auto 1fr;
+align-items:center;
+gap:12px
+}
+
+.modal-team img{
+width:65px;
+height:65px;
+object-fit:contain;
+display:block;
+margin:0 auto 8px;
+padding:7px;
+border:1px solid var(--border);
+border-radius:15px
+}
+
+.modal-team strong{
+display:block;
+font-size:13px
+}
+
+.modal-vs{
+color:var(--muted);
+font-size:11px;
+font-weight:900
+}
+
+.modal-time{
+color:var(--green-dark);
+font-size:12px;
+font-weight:900;
+margin-top:18px
+}
 
 .toast{
-position:fixed;left:50%;bottom:24px;transform:translate(-50%,30px);opacity:0;
-pointer-events:none;z-index:9999;background:#12201b;color:#fff;padding:12px 17px;
-border-radius:11px;font-size:12px;box-shadow:0 15px 40px rgba(0,0,0,.15);transition:.25s
+position:fixed;
+left:50%;
+bottom:24px;
+transform:translate(-50%,30px);
+opacity:0;
+pointer-events:none;
+z-index:9999;
+background:#12201b;
+color:#fff;
+padding:12px 17px;
+border-radius:11px;
+font-size:12px;
+box-shadow:0 15px 40px rgba(0,0,0,.15);
+transition:.25s
 }
-.toast.show{opacity:1;transform:translate(-50%,0)}
-footer{border-top:1px solid var(--border);padding:30px 5%;color:var(--muted);background:#fff;text-align:center;font-size:12px}
-footer a{color:var(--green-dark);font-weight:800}
 
-@keyframes rise{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-@keyframes spin{to{transform:rotate(360deg)}}
+.toast.show{
+opacity:1;
+transform:translate(-50%,0)
+}
+
+footer{
+border-top:1px solid var(--border);
+padding:30px 5%;
+color:var(--muted);
+background:#fff;
+text-align:center;
+font-size:12px
+}
+
+footer a{
+color:var(--green-dark);
+font-weight:800
+}
+
+@keyframes rise{
+from{opacity:0;transform:translateY(20px)}
+to{opacity:1;transform:translateY(0)}
+}
+
+@keyframes spin{
+to{transform:rotate(360deg)}
+}
 
 @media(max-width:950px){
+
 .desktop-nav{display:none}
-.hero{grid-template-columns:1fr;padding-top:45px}
-.sports{grid-template-columns:repeat(3,1fr)}
-.account-panel{grid-template-columns:1fr}
-.user-info{display:none}
+
+.hero{
+grid-template-columns:1fr;
+padding-top:45px
 }
+
+.sports{
+grid-template-columns:repeat(3,1fr)
+}
+
+.account-panel{
+grid-template-columns:1fr
+}
+
+.user-info{
+display:none
+}
+
+}
+
 @media(max-width:650px){
-.header{padding:10px 16px}
-.hero,.section,.account-section{padding-left:16px;padding-right:16px}
-.hero h1{font-size:45px}
-.matches{grid-template-columns:1fr}
-.sports{grid-template-columns:repeat(2,1fr)}
-.logo{font-size:19px}
-.login-btn,.profile-btn{padding:9px 11px;font-size:11px}
-.user-account{padding:5px}
-.account-actions{grid-template-columns:1fr}
-.guest-panel{flex-direction:column;align-items:stretch}
-.guest-login{text-align:center}
+
+.header{
+padding:10px 16px
+}
+
+.hero,
+.section,
+.account-section{
+padding-left:16px;
+padding-right:16px
+}
+
+.hero h1{
+font-size:45px
+}
+
+.matches{
+grid-template-columns:1fr
+}
+
+.sports{
+grid-template-columns:repeat(2,1fr)
+}
+
+.logo{
+font-size:19px
+}
+
+.login-btn,
+.profile-btn{
+padding:9px 11px;
+font-size:11px
+}
+
+.user-account{
+padding:5px
+}
+
+.account-actions{
+grid-template-columns:1fr
+}
+
+.guest-panel{
+flex-direction:column;
+align-items:stretch
+}
+
+.guest-login{
+text-align:center
+}
+
 }
 </style>
 </head>
@@ -311,7 +1111,11 @@ SportX
 <span data-user-balance>1,000 AFN</span>
 </div>
 
-<button type="button" class="logout-btn" data-auth-logout>
+<button
+type="button"
+class="logout-btn"
+data-auth-logout
+>
 Logout
 </button>
 
@@ -327,7 +1131,9 @@ Logout
 
 <div class="hero-content">
 
-<div class="badge">● SPORT PREDICTION SIMULATOR</div>
+<div class="badge">
+● SPORT PREDICTION SIMULATOR
+</div>
 
 <h1>
 Predict the game.<br>
@@ -341,27 +1147,52 @@ in one modern sports platform.
 </p>
 
 <div class="hero-buttons">
-<a href="sports.html" class="primary-btn">Explore Sports</a>
-<a href="live.html" class="secondary-btn">Watch Live Matches</a>
+
+<a href="sports.html" class="primary-btn">
+Explore Sports
+</a>
+
+<a href="live.html" class="secondary-btn">
+Watch Live Matches
+</a>
+
 </div>
 
 </div>
+
 
 <div class="hero-card">
 
 <div class="live-title">
+
 <h3>Live Match</h3>
-<span id="heroLiveLabel">Checking...</span>
+
+<span id="heroLiveLabel">
+Checking...
+</span>
+
 </div>
 
 <div id="heroLiveContainer">
 
 <div class="hero-empty">
+
 <div>
-<div class="hero-empty-icon">⚽</div>
-<strong>Loading live matches</strong>
-<span>Checking real sports data...</span>
+
+<div class="hero-empty-icon">
+⚽
 </div>
+
+<strong>
+Loading live matches
+</strong>
+
+<span>
+Checking real sports data...
+</span>
+
+</div>
+
 </div>
 
 </div>
@@ -373,41 +1204,87 @@ in one modern sports platform.
 
 <section class="account-section">
 
-<div data-auth-user class="account-panel" style="display:none;">
+<div
+data-auth-user
+class="account-panel"
+style="display:none;"
+>
 
 <a href="profile.html" class="account-profile">
 
 <div class="home-profile-avatar">
 
-<img id="homeProfileImage" alt="Profile photo" style="display:none;">
+<img
+id="homeProfileImage"
+alt="Profile photo"
+style="display:none;"
+>
 
-<span id="homeProfileInitials" data-user-initials>US</span>
+<span
+id="homeProfileInitials"
+data-user-initials
+>
+US
+</span>
 
 </div>
 
 <div class="account-profile-info">
-<strong data-user-name>User</strong>
-<span data-user-balance>1,000 AFN</span>
+
+<strong data-user-name>
+User
+</strong>
+
+<span data-user-balance>
+1,000 AFN
+</span>
+
 </div>
 
 </a>
+
 
 <div class="account-actions">
 
 <a href="bets.html" class="account-action">
-<div class="account-action-icon">🎯</div>
-<div class="account-action-text">
-<strong>My Bets</strong>
-<span>View predictions</span>
+
+<div class="account-action-icon">
+🎯
 </div>
+
+<div class="account-action-text">
+
+<strong>
+My Bets
+</strong>
+
+<span>
+View predictions
+</span>
+
+</div>
+
 </a>
 
+
 <a href="wallet.html" class="account-action">
-<div class="account-action-icon">💰</div>
-<div class="account-action-text">
-<strong>Wallet</strong>
-<span>Balance & transactions</span>
+
+<div class="account-action-icon">
+💰
 </div>
+
+<div class="account-action-text">
+
+<strong>
+Wallet
+</strong>
+
+<span>
+Balance & transactions
+</span>
+
+</div>
+
 </a>
 
 </div>
@@ -418,11 +1295,20 @@ in one modern sports platform.
 <div data-auth-guest class="guest-panel">
 
 <div>
-<strong>Sign in to access your SportX account</strong>
-<span>Manage your profile, wallet and virtual predictions.</span>
+
+<strong>
+Sign in to access your SportX account
+</strong>
+
+<span>
+Manage your profile, wallet and virtual predictions.
+</span>
+
 </div>
 
-<a href="login.html" class="guest-login">Login / Register</a>
+<a href="login.html" class="guest-login">
+Login / Register
+</a>
 
 </div>
 
@@ -434,13 +1320,23 @@ in one modern sports platform.
 <div class="section-heading">
 
 <div>
-<h2>Sports</h2>
-<p>Choose your favorite sport</p>
+
+<h2>
+Sports
+</h2>
+
+<p>
+Choose your favorite sport
+</p>
+
 </div>
 
-<a href="sports.html" class="view-all">View All →</a>
+<a href="sports.html" class="view-all">
+View All →
+</a>
 
 </div>
+
 
 <div class="sports">
 
@@ -475,29 +1371,95 @@ in one modern sports platform.
 </a>
 
 </div>
+
 </section>
 
+
+<!-- LIVE -->
 
 <section class="section">
 
 <div class="section-heading">
 
 <div>
-<h2>Normal Matches</h2>
-<p>Live and upcoming real matches</p>
+
+<h2>
+Live Matches
+</h2>
+
+<p>
+Real matches happening now
+</p>
+
 </div>
 
-<a href="sports.html" class="view-all">See All →</a>
+<a href="live.html" class="view-all">
+See All →
+</a>
 
 </div>
+
+
+<div id="liveMatches" class="matches">
+
+<div class="loading-card">
+
+<div>
+
+<div class="spinner"></div>
+
+<p>
+Loading live matches...
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- NORMAL -->
+
+<section class="section">
+
+<div class="section-heading">
+
+<div>
+
+<h2>
+Normal Matches
+</h2>
+
+<p>
+Real upcoming matches
+</p>
+
+</div>
+
+<a href="sports.html" class="view-all">
+See All →
+</a>
+
+</div>
+
 
 <div id="normalMatches" class="matches">
 
 <div class="loading-card">
+
 <div>
+
 <div class="spinner"></div>
-<p>Loading real matches...</p>
+
+<p>
+Loading real matches...
+</p>
+
 </div>
+
 </div>
 
 </div>
@@ -505,26 +1467,91 @@ in one modern sports platform.
 </section>
 
 
+<!-- WWE -->
+
 <section class="section">
 
 <div class="section-heading">
 
 <div>
-<h2>Future Match</h2>
-<p>The next real future fixture</p>
+
+<h2>
+WWE
+</h2>
+
+<p>
+Real WWE events and matches
+</p>
+
 </div>
 
-<a href="sports.html" class="view-all">Explore →</a>
+<a href="sports.html" class="view-all">
+Explore →
+</a>
 
 </div>
+
+
+<div id="wweMatches" class="matches">
+
+<div class="loading-card">
+
+<div>
+
+<div class="spinner"></div>
+
+<p>
+Loading WWE...
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- FUTURE -->
+
+<section class="section">
+
+<div class="section-heading">
+
+<div>
+
+<h2>
+Future Match
+</h2>
+
+<p>
+The next real future fixture
+</p>
+
+</div>
+
+<a href="sports.html" class="view-all">
+Explore →
+</a>
+
+</div>
+
 
 <div id="futureMatches" class="matches">
 
 <div class="loading-card">
+
 <div>
+
 <div class="spinner"></div>
-<p>Loading future fixture...</p>
+
+<p>
+Loading future fixture...
+</p>
+
 </div>
+
 </div>
 
 </div>
@@ -534,18 +1561,37 @@ in one modern sports platform.
 </main>
 
 
-<div id="matchModal" class="modal" aria-hidden="true">
+<div
+id="matchModal"
+class="modal"
+aria-hidden="true"
+>
 
 <div class="modal-box">
 
 <div class="modal-header">
-<h3>Match Details</h3>
-<button type="button" class="modal-close" id="closeModal">×</button>
+
+<h3>
+Match Details
+</h3>
+
+<button
+type="button"
+class="modal-close"
+id="closeModal"
+>
+×
+</button>
+
 </div>
 
-<div id="modalContent" class="modal-match"></div>
+<div
+id="modalContent"
+class="modal-match"
+></div>
 
 </div>
+
 </div>
 
 
@@ -560,108 +1606,101 @@ Virtual sports prediction simulator.
 <br><br>
 
 Sports data powered by
-<a href="https://sportscore.com/" target="_blank" rel="noopener noreferrer">
+
+<a
+href="https://sportscore.com/"
+target="_blank"
+rel="noopener noreferrer"
+>
 SportScore
 </a>
 
 </footer>
 
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <script>
 
-const SUPABASE_URL="https://zchtcosljkkkiykhforj.supabase.co";
-const SUPABASE_KEY="sb_publishable_aGLckKZjNaVbpdxZUFhCqA_VzHppjrW";
-const SPORT_SCORE="https://sportscore.com/api/widget";
+/* =========================================================
+   SPORTX HOME DATA ENGINE
+   SAME DATA LAYER AS sports.html
+========================================================= */
 
-const MAX_NORMAL=2;
-const MAX_FUTURE=1;
-const REFRESH_MS=60000;
-const END_KEEP_MS=2*60*60*1000;
+const SUPABASE_URL =
+"https://zchtcosljkkkiykhforj.supabase.co";
 
-let supabaseClient=null;
-let allNormalMatches=[];
-let allFutureMatches=[];
+const SUPABASE_PUBLISHABLE_KEY =
+"sb_publishable_aGLckKZjNaVbpdxZUFhCqA_VzHppjrW";
+
+const SPORT_SCORE_URL =
+"https://sportscore.com/api/widget/matches/?sport=football&limit=50";
 
 
-/* ================= SUPABASE ================= */
+/* ================= SETTINGS ================= */
 
-async function loadSupabase(){
+const NORMAL_DAYS = 2;
+const FEATURED_DAYS = 7;
 
-if(window.supabase){
+const MAX_NORMAL_MATCHES = 2;
+const MAX_FEATURED_MATCHES = 8;
+const MAX_FUTURE_MATCHES = 1;
+const MAX_LIVE_MATCHES = 1;
+const MAX_WWE_MATCHES = 1;
 
-if(!supabaseClient){
-supabaseClient=window.supabase.createClient(
+const MAX_SOURCE_MATCHES = 100;
+
+const FINISHED_HIDE_AFTER_MS =
+30 * 60 * 1000;
+
+const REFRESH_INTERVAL_MS =
+60 * 1000;
+
+
+/* ================= CLIENT ================= */
+
+let supabaseClient =
+window.supabase.createClient(
 SUPABASE_URL,
-SUPABASE_KEY
-);
-}
-
-return supabaseClient;
-}
-
-const script=document.createElement("script");
-
-script.src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2";
-script.async=true;
-
-await new Promise((resolve,reject)=>{
-
-let finished=false;
-
-const timer=setTimeout(()=>{
-if(!finished){
-finished=true;
-reject(new Error("Supabase loading timeout"));
-}
-},10000);
-
-script.onload=()=>{
-if(!finished){
-finished=true;
-clearTimeout(timer);
-resolve();
-}
-};
-
-script.onerror=()=>{
-if(!finished){
-finished=true;
-clearTimeout(timer);
-reject(new Error("Supabase library unavailable"));
-}
-};
-
-document.head.appendChild(script);
-
-});
-
-if(window.supabase&&!supabaseClient){
-
-supabaseClient=window.supabase.createClient(
-SUPABASE_URL,
-SUPABASE_KEY
+SUPABASE_PUBLISHABLE_KEY
 );
 
-}
 
-return supabaseClient;
-}
+/* ================= STATE ================= */
+
+let allMatches = [];
+
+let allLiveMatches = [];
+let allNormalMatches = [];
+let allFutureMatches = [];
+let allWweMatches = [];
 
 
-/* ================= HELPERS ================= */
+/* =========================================================
+   NORMALIZE
+========================================================= */
 
-function normalize(value){
+function normalizeSearchText(value){
 
-return String(value||"")
+return String(value || "")
 .toLowerCase()
+.normalize("NFD")
+.replace(/[\u0300-\u036f]/g,"")
+.replace(/['’`]/g,"")
 .replace(/[^\p{L}\p{N}]+/gu," ")
+.replace(/\s+/g," ")
 .trim();
 
 }
 
+
+/* =========================================================
+   ESCAPE
+========================================================= */
+
 function escapeHTML(value){
 
-return String(value||"")
+return String(value ?? "")
 .replace(/&/g,"&amp;")
 .replace(/</g,"&lt;")
 .replace(/>/g,"&gt;")
@@ -670,135 +1709,1214 @@ return String(value||"")
 
 }
 
+
+/* =========================================================
+   DATE
+========================================================= */
+
 function parseDate(match){
 
-const value=
-match?.start_time||
-match?.time||
-match?.kickoff||
+const value =
+match?.start_time ||
+match?.time ||
+match?.kickoff ||
 match?.date;
 
-if(!value)return null;
+if(!value)
+return null;
 
-const date=new Date(value);
+const date =
+new Date(value);
 
-return Number.isNaN(date.getTime())?null:date;
+return Number.isNaN(date.getTime())
+?null
+:date;
 
 }
+
+
+/* =========================================================
+   STATUS
+========================================================= */
+
+function normalizeStatus(item){
+
+const raw =
+String(
+item?.status ??
+item?.state ??
+""
+).toLowerCase()
+.trim();
+
+const text =
+String(
+item?.status_text ??
+item?.statusText ??
+""
+).toLowerCase()
+.trim();
+
+
+if(
+item?.is_live === true ||
+item?.isLive === true ||
+[
+"live",
+"inprogress",
+"in_progress",
+"in-play",
+"inplay",
+"playing",
+"1h",
+"2h",
+"ht"
+].includes(raw) ||
+text.includes("live")
+){
+
+return "live";
+
+}
+
+
+if(
+[
+"finished",
+"finish",
+"ended",
+"completed",
+"ft",
+"final",
+"closed"
+].includes(raw) ||
+text.includes("finished") ||
+text.includes("ended") ||
+text.includes("full time")
+){
+
+return "finished";
+
+}
+
+
+if(
+[
+"cancelled",
+"canceled"
+].includes(raw)
+){
+
+return "cancelled";
+
+}
+
+
+if(raw === "postponed"){
+
+return "postponed";
+
+}
+
+
+return "scheduled";
+
+}
+
+
+/* =========================================================
+   PREPARE MATCH
+========================================================= */
+
+function prepareMatch(match){
+
+const home =
+match?.home_team?.name ||
+match?.home ||
+match?.homeTeam?.name ||
+"Unknown";
+
+const away =
+match?.away_team?.name ||
+match?.away ||
+match?.awayTeam?.name ||
+"Unknown";
+
+const league =
+match?.league?.name ||
+match?.competition ||
+match?.league_name ||
+"Sports";
+
+const prepared = {
+...match,
+
+home,
+away,
+league,
+
+_search:{
+home:normalizeSearchText(home),
+away:normalizeSearchText(away),
+league:normalizeSearchText(league),
+combined:normalizeSearchText(
+`${home} ${away} ${league}`
+)
+}
+
+};
+
+prepared.normalized_status =
+normalizeStatus(prepared);
+
+return prepared;
+
+}
+
+
+/* =========================================================
+   WORKER
+========================================================= */
+
+async function invokeWorkerWithTimeout(
+timeoutMs = 9000
+){
+
+const workerPromise =
+supabaseClient.functions.invoke(
+"smooth-worker",
+{
+method:"POST",
+body:{}
+}
+);
+
+const timeoutPromise =
+new Promise(
+(_,reject)=>{
+
+setTimeout(
+()=>reject(
+new Error(
+"Sports data service timed out."
+)
+),
+timeoutMs
+);
+
+}
+);
+
+return Promise.race([
+workerPromise,
+timeoutPromise
+]);
+
+}
+
+
+/* =========================================================
+   WORKER CONVERTER
+========================================================= */
+
+function convertWorkerMatches(
+sourceMatches
+){
+
+if(!Array.isArray(sourceMatches))
+return [];
+
+return sourceMatches
+.filter(
+item =>
+item &&
+(item.home || item.home_team?.name) &&
+(item.away || item.away_team?.name)
+)
+.map(
+(item,index)=>{
+
+const home =
+item.home ||
+item.home_team?.name ||
+"Unknown";
+
+const away =
+item.away ||
+item.away_team?.name ||
+"Unknown";
+
+const league =
+item.league ||
+item.competition ||
+item.league_name ||
+"Sports";
+
+return prepareMatch({
+
+id:
+item.id ||
+item.match_id ||
+`worker-${index}`,
+
+home_team:{
+id:
+item.home_team_id ||
+item.home_team?.id ||
+null,
+
+name:home,
+
+logo_url:
+item.home_logo ||
+item.home_team?.logo_url ||
+item.home_team?.logo ||
+""
+},
+
+away_team:{
+id:
+item.away_team_id ||
+item.away_team?.id ||
+null,
+
+name:away,
+
+logo_url:
+item.away_logo ||
+item.away_team?.logo_url ||
+item.away_team?.logo ||
+""
+},
+
+league:{
+id:
+item.league_id ||
+item.league?.id ||
+null,
+
+name:league,
+
+logo_url:
+item.competition_logo ||
+item.league?.logo_url ||
+""
+},
+
+start_time:
+item.start_time ||
+item.time ||
+item.kickoff ||
+item.date ||
+null,
+
+updated_at:
+item.updated_at ||
+null,
+
+status:
+item.status ||
+item.state ||
+"",
+
+status_text:
+item.status_text ||
+item.statusText ||
+"",
+
+home_score:
+Number.isFinite(
+Number(item.home_score)
+)
+?Number(item.home_score)
+:null,
+
+away_score:
+Number.isFinite(
+Number(item.away_score)
+)
+?Number(item.away_score)
+:null,
+
+is_live:
+item.is_live === true ||
+item.isLive === true,
+
+source_url:
+item.source_url ||
+item.url ||
+"",
+
+sport:
+item.sport ||
+item.sport_name ||
+"",
+
+sport_slug:
+item.sport_slug ||
+""
+
+});
+
+}
+);
+
+}
+
+
+/* =========================================================
+   DATABASE
+========================================================= */
+
+async function loadDatabaseMatches(){
+
+try{
+
+const result =
+await supabaseClient
+.from("matches")
+.select(`
+id,
+sport_id,
+league_id,
+home_team_id,
+away_team_id,
+start_time,
+updated_at,
+status,
+home_score,
+away_score,
+is_live
+`)
+.order(
+"start_time",
+{
+ascending:true
+}
+)
+.limit(1000);
+
+
+if(result.error){
+
+console.warn(
+"matches table:",
+result.error
+);
+
+return [];
+
+}
+
+
+const rows =
+result.data || [];
+
+if(!rows.length)
+return [];
+
+
+/* ---------- TEAMS ---------- */
+
+const teamIds = [
+...new Set(
+rows.flatMap(
+row=>[
+row.home_team_id,
+row.away_team_id
+]
+).filter(Boolean)
+)
+];
+
+const teams = {};
+
+
+if(teamIds.length){
+
+const teamResult =
+await supabaseClient
+.from("teams")
+.select(`
+id,
+name,
+logo_url,
+league_id
+`)
+.in(
+"id",
+teamIds
+);
+
+if(!teamResult.error){
+
+(teamResult.data || [])
+.forEach(
+team=>{
+teams[team.id] =
+team;
+}
+);
+
+}
+
+}
+
+
+/* ---------- LEAGUES ---------- */
+
+const leagueIds = [
+...new Set(
+rows
+.map(row=>row.league_id)
+.filter(Boolean)
+)
+];
+
+const leagues = {};
+
+
+if(leagueIds.length){
+
+const leagueResult =
+await supabaseClient
+.from("leagues")
+.select(`
+id,
+name,
+logo_url,
+sport_id
+`)
+.in(
+"id",
+leagueIds
+);
+
+if(!leagueResult.error){
+
+(leagueResult.data || [])
+.forEach(
+league=>{
+leagues[league.id] =
+league;
+}
+);
+
+}
+
+}
+
+
+/* ---------- SPORTS ---------- */
+
+const sportIds = [
+...new Set(
+rows
+.map(row=>row.sport_id)
+.filter(Boolean)
+)
+];
+
+const sports = {};
+
+
+if(sportIds.length){
+
+const sportResult =
+await supabaseClient
+.from("sports")
+.select(`
+id,
+name,
+slug,
+icon,
+logo_url
+`)
+.in(
+"id",
+sportIds
+);
+
+if(!sportResult.error){
+
+(sportResult.data || [])
+.forEach(
+sport=>{
+sports[sport.id] =
+sport;
+}
+);
+
+}
+
+
+/* ---------- BUILD ---------- */
+
+return rows.map(
+row=>{
+
+const home =
+teams[row.home_team_id] || {};
+
+const away =
+teams[row.away_team_id] || {};
+
+const league =
+leagues[row.league_id] || {};
+
+const sport =
+sports[row.sport_id] || {};
+
+
+return prepareMatch({
+
+id:row.id,
+
+sport_id:
+row.sport_id || null,
+
+league_id:
+row.league_id || null,
+
+home_team:{
+id:
+row.home_team_id || null,
+
+name:
+home.name || "Unknown",
+
+logo_url:
+home.logo_url || ""
+},
+
+away_team:{
+id:
+row.away_team_id || null,
+
+name:
+away.name || "Unknown",
+
+logo_url:
+away.logo_url || ""
+},
+
+league:{
+id:
+row.league_id || null,
+
+name:
+league.name ||
+sport.name ||
+"Sports",
+
+logo_url:
+league.logo_url ||
+sport.logo_url ||
+""
+},
+
+start_time:
+row.start_time,
+
+updated_at:
+row.updated_at || null,
+
+status:
+row.status || "",
+
+home_score:
+row.home_score,
+
+away_score:
+row.away_score,
+
+is_live:
+row.is_live === true,
+
+sport:
+sport.name ||
+sport.slug ||
+"Sports",
+
+sport_slug:
+sport.slug ||
+"",
+
+sport_icon:
+sport.icon ||
+"",
+
+source:"database"
+
+});
+
+});
+
+}catch(error){
+
+console.warn(
+"Database matches:",
+error
+);
+
+return [];
+
+}
+
+}
+
+
+/* =========================================================
+   SPORT SCORE
+========================================================= */
+
+async function loadSportScoreMatches(){
+
+try{
+
+const response =
+await fetch(
+SPORT_SCORE_URL,
+{
+method:"GET",
+cache:"no-store",
+headers:{
+"Accept":"application/json"
+}
+}
+);
+
+if(!response.ok){
+
+throw new Error(
+`SportScore HTTP ${response.status}`
+);
+
+}
+
+const json =
+await response.json();
+
+
+let source =
+Array.isArray(json)
+?json
+:Array.isArray(json?.matches)
+?json.matches
+:Array.isArray(json?.data)
+?json.data
+:[];
+
+
+source =
+source.slice(
+0,
+MAX_SOURCE_MATCHES
+);
+
+
+return source
+.filter(
+item =>
+item &&
+(item.home ||
+item.home_team?.name) &&
+(item.away ||
+item.away_team?.name)
+)
+.map(
+(item,index)=>{
+
+const home =
+item.home ||
+item.home_team?.name ||
+"Unknown";
+
+const away =
+item.away ||
+item.away_team?.name ||
+"Unknown";
+
+
+return prepareMatch({
+
+id:
+item.id ||
+item.match_id ||
+`score-${index}`,
+
+home_team:{
+id:
+item.home_team?.id ||
+item.home_team_id ||
+null,
+
+name:home,
+
+logo_url:
+item.home_logo ||
+item.home_team?.logo_url ||
+item.home_team?.logo ||
+""
+},
+
+away_team:{
+id:
+item.away_team?.id ||
+item.away_team_id ||
+null,
+
+name:away,
+
+logo_url:
+item.away_logo ||
+item.away_team?.logo_url ||
+item.away_team?.logo ||
+""
+},
+
+league:{
+id:
+item.league?.id ||
+item.league_id ||
+null,
+
+name:
+item.competition ||
+item.league?.name ||
+"Football",
+
+logo_url:
+item.competition_logo ||
+item.league?.logo_url ||
+""
+},
+
+start_time:
+item.start_time ||
+item.time ||
+item.kickoff ||
+null,
+
+updated_at:
+item.updated_at ||
+null,
+
+status:
+item.status ||
+"",
+
+status_text:
+item.status_text ||
+"",
+
+home_score:
+Number.isFinite(
+Number(item.home_score)
+)
+?Number(item.home_score)
+:null,
+
+away_score:
+Number.isFinite(
+Number(item.away_score)
+)
+?Number(item.away_score)
+:null,
+
+is_live:
+item.is_live === true ||
+item.isLive === true,
+
+sport:
+"Football",
+
+sport_slug:
+"football",
+
+source:"sportscore",
+
+source_url:
+item.url ||
+item.source_url ||
+""
+
+});
+
+}
+);
+
+}catch(error){
+
+console.warn(
+"SportScore:",
+error
+);
+
+return [];
+
+}
+
+}
+
+
+/* =========================================================
+   STATUS HELPERS
+========================================================= */
 
 function isLiveMatch(match){
 
-const status=String(match?.status||"").toLowerCase();
-
-return(
-status==="live"||
-status==="inplay"||
-status==="in-play"||
-status==="playing"||
-status==="1h"||
-status==="2h"||
-status==="ht"||
-match?.is_live===true
+return (
+match?.normalized_status === "live" ||
+normalizeStatus(match) === "live"
 );
 
 }
 
-
-/* ================= FINISHED ================= */
 
 function isFinished(match){
 
-const status=String(
-match?.status||
-match?.status_text||
-""
-).toLowerCase();
+const status =
+normalizeStatus(match);
 
-return(
-status.includes("finished")||
-status.includes("complete")||
-status.includes("ended")||
-status==="ft"||
-status==="full time"||
-status==="final"||
-status==="closed"||
-status==="cancelled"
+return (
+status === "finished" ||
+status === "cancelled"
 );
 
 }
 
-function getFinishedAt(match){
 
-if(match?.updated_at){
+function isWweMatch(match){
 
-const d=new Date(match.updated_at);
+const text =
+normalizeSearchText(
+[
+match?.sport,
+match?.sport_slug,
+match?.league,
+match?.competition,
+match?.home,
+match?.away
+].join(" ")
+);
 
-if(!Number.isNaN(d.getTime())){
-return d;
-}
 
-}
-
-const start=parseDate(match);
-
-if(start){
-
-return new Date(
-start.getTime()+2*60*60*1000
+return (
+text.includes("wwe") ||
+text.includes("wrestling") ||
+text.includes("world wrestling")
 );
 
 }
 
-return null;
+
+/* =========================================================
+   DATE KEY
+========================================================= */
+
+function normalizeDateKey(value){
+
+const date =
+new Date(value);
+
+if(Number.isNaN(date.getTime()))
+return String(value || "");
+
+return date.toISOString();
 
 }
 
-function shouldKeepEnded(match){
 
-if(!isFinished(match)){
+/* =========================================================
+   DEDUPLICATION
+========================================================= */
+
+function removeDuplicateMatches(
+matches
+){
+
+const map =
+new Map();
+
+const priority = {
+cancelled:0,
+scheduled:1,
+postponed:2,
+finished:4,
+live:5
+};
+
+
+for(
+const match of matches || []
+){
+
+const key =
+[
+normalizeSearchText(
+match?.home ||
+match?.home_team?.name
+),
+normalizeSearchText(
+match?.away ||
+match?.away_team?.name
+),
+normalizeDateKey(
+match?.start_time ||
+match?.time
+)
+].join("|");
+
+
+const old =
+map.get(key);
+
+
+if(!old){
+
+map.set(
+key,
+match
+);
+
+continue;
+
+}
+
+
+const oldStatus =
+normalizeStatus(old);
+
+const newStatus =
+normalizeStatus(match);
+
+
+if(
+(priority[newStatus] ?? 1) >=
+(priority[oldStatus] ?? 1)
+){
+
+map.set(
+key,
+{
+...old,
+...match
+}
+);
+
+}
+
+}
+
+
+return [
+...map.values()
+];
+
+}
+
+
+/* =========================================================
+   REMOVE OLD FINISHED
+========================================================= */
+
+function removeOldFinishedMatches(
+matches
+){
+
+const now =
+Date.now();
+
+
+return (
+matches || []
+).filter(
+match=>{
+
+if(
+normalizeStatus(match) !==
+"finished"
+){
+
 return true;
+
 }
 
-const finishedAt=getFinishedAt(match);
 
-if(!finishedAt){
+const finishedAt =
+match?.updated_at ||
+match?.start_time ||
+match?.time;
+
+
+const timestamp =
+new Date(
+finishedAt
+).getTime();
+
+
+if(
+Number.isNaN(timestamp)
+){
+
 return false;
-}
-
-return(
-Date.now()-finishedAt.getTime()
-)<END_KEEP_MS
-);
 
 }
 
-function isAfterSevenDays(match){
 
-const date=parseDate(match);
+return (
+now - timestamp
+)<=
+FINISHED_HIDE_AFTER_MS;
 
-if(!date)return true;
-
-return(
-date.getTime()>
-Date.now()+7*86400000
+}
 );
 
 }
 
 
-/* ================= TIME ================= */
+/* =========================================================
+   MATCH KEY
+========================================================= */
 
-function formatDateUTC(iso){
+function matchKey(match){
 
-const date=new Date(iso);
+return [
+normalizeSearchText(
+match?.home ||
+match?.home_team?.name
+),
+normalizeSearchText(
+match?.away ||
+match?.away_team?.name
+),
+normalizeDateKey(
+match?.start_time ||
+match?.time
+)
+].join("|");
 
-if(Number.isNaN(date.getTime())){
+}
+
+
+/* =========================================================
+   MERGE
+========================================================= */
+
+function mergeMatches(...groups){
+
+const map =
+new Map();
+
+
+for(
+const group of groups
+){
+
+for(
+const raw of group || []
+){
+
+const match =
+prepareMatch(raw);
+
+
+if(!parseDate(match))
+continue;
+
+
+const key =
+matchKey(match);
+
+
+const old =
+map.get(key);
+
+
+if(!old){
+
+map.set(
+key,
+match
+);
+
+continue;
+
+}
+
+
+const oldStatus =
+normalizeStatus(old);
+
+const newStatus =
+normalizeStatus(match);
+
+
+const priority = {
+cancelled:0,
+scheduled:1,
+postponed:2,
+finished:4,
+live:5
+};
+
+
+if(
+(priority[newStatus] ?? 1) >=
+(priority[oldStatus] ?? 1)
+){
+
+map.set(
+key,
+{
+...old,
+...match
+}
+);
+
+}
+
+}
+
+}
+
+
+return [
+...map.values()
+];
+
+}
+
+
+/* =========================================================
+   TIME FORMAT
+========================================================= */
+
+function formatDateUTC(
+value
+){
+
+const date =
+new Date(value);
+
+if(
+Number.isNaN(
+date.getTime()
+)
+){
+
 return "Time unavailable";
+
 }
 
-const now=new Date();
 
-const today=new Date(
+const now =
+new Date();
+
+
+const today =
+new Date(
 Date.UTC(
 now.getUTCFullYear(),
 now.getUTCMonth(),
@@ -806,7 +2924,9 @@ now.getUTCDate()
 )
 );
 
-const target=new Date(
+
+const target =
+new Date(
 Date.UTC(
 date.getUTCFullYear(),
 date.getUTCMonth(),
@@ -814,23 +2934,30 @@ date.getUTCDate()
 )
 );
 
-const days=Math.round(
-(target-today)/86400000
+
+const days =
+Math.round(
+(target - today) /
+86400000
 );
+
 
 let dayText;
 
-if(days===0)dayText="Today";
-else if(days===1)dayText="Tomorrow";
-else if(days===2)dayText="In 2 days";
-else if(days===3)dayText="In 3 days";
-else if(days===4)dayText="In 4 days";
-else if(days===5)dayText="In 5 days";
-else if(days===6)dayText="In 6 days";
-else if(days===7)dayText="In 7 days";
+
+if(days === 0)
+dayText = "Today";
+
+else if(days === 1)
+dayText = "Tomorrow";
+
+else if(days > 1 && days <= 7)
+dayText = `In ${days} days`;
+
 else{
 
-dayText=date.toLocaleDateString(
+dayText =
+date.toLocaleDateString(
 "en-US",
 {
 weekday:"short",
@@ -843,7 +2970,9 @@ timeZone:"UTC"
 
 }
 
-const time=date.toLocaleTimeString(
+
+const time =
+date.toLocaleTimeString(
 "en-US",
 {
 hour:"numeric",
@@ -853,90 +2982,131 @@ timeZone:"UTC"
 }
 );
 
-return`${dayText} · ${time} · UTC`;
+
+return `${dayText} · ${time} · UTC`;
 
 }
 
 
-/* ================= PROFILE / AUTH ================= */
+/* =========================================================
+   PROFILE
+========================================================= */
 
-function renderProfilePhoto(url,initials){
+function renderProfilePhoto(
+url,
+initials
+){
 
-const headerImage=
-document.getElementById("headerProfileImage");
+const headerImage =
+document.getElementById(
+"headerProfileImage"
+);
 
-const homeImage=
-document.getElementById("homeProfileImage");
+const homeImage =
+document.getElementById(
+"homeProfileImage"
+);
 
-const headerInitials=
+const headerInitials =
 document.querySelector(
 ".user-avatar [data-user-initials]"
 );
 
-const homeInitials=
-document.getElementById("homeProfileInitials");
+const homeInitials =
+document.getElementById(
+"homeProfileInitials"
+);
 
-const cleanURL=String(url||"").trim();
+
+const cleanURL =
+String(url || "").trim();
+
 
 if(cleanURL){
 
 if(headerImage){
 
-headerImage.src=cleanURL;
-headerImage.style.display="block";
+headerImage.src =
+cleanURL;
 
-headerImage.onerror=()=>{
+headerImage.style.display =
+"block";
 
-headerImage.style.display="none";
+headerImage.onerror =
+()=>{
+
+headerImage.style.display =
+"none";
 
 if(headerInitials)
-headerInitials.style.display="grid";
+headerInitials.style.display =
+"grid";
 
 };
 
 }
+
 
 if(homeImage){
 
-homeImage.src=cleanURL;
-homeImage.style.display="block";
+homeImage.src =
+cleanURL;
 
-homeImage.onerror=()=>{
+homeImage.style.display =
+"block";
 
-homeImage.style.display="none";
+homeImage.onerror =
+()=>{
+
+homeImage.style.display =
+"none";
 
 if(homeInitials)
-homeInitials.style.display="grid";
+homeInitials.style.display =
+"grid";
 
 };
 
 }
 
+
 if(headerInitials)
-headerInitials.style.display="none";
+headerInitials.style.display =
+"none";
 
 if(homeInitials)
-homeInitials.style.display="none";
+homeInitials.style.display =
+"none";
 
 }else{
 
 if(headerImage)
-headerImage.style.display="none";
+headerImage.style.display =
+"none";
 
 if(homeImage)
-homeImage.style.display="none";
+homeImage.style.display =
+"none";
+
 
 if(headerInitials){
 
-headerInitials.textContent=initials||"U";
-headerInitials.style.display="grid";
+headerInitials.textContent =
+initials || "U";
+
+headerInitials.style.display =
+"grid";
 
 }
 
+
 if(homeInitials){
 
-homeInitials.textContent=initials||"U";
-homeInitials.style.display="grid";
+homeInitials.textContent =
+initials || "U";
+
+homeInitials.style.display =
+"grid";
 
 }
 
@@ -949,100 +3119,101 @@ async function loadProfileData(){
 
 try{
 
-const client=
-supabaseClient||
-await loadSupabase();
+const result =
+await supabaseClient.auth.getUser();
 
-if(!client)return;
-
-const result=
-await client.auth.getUser();
-
-const user=result.data?.user;
-
-if(!user)return;
-
-const metadata=
-user.user_metadata||{};
-
-let profile={};
+const user =
+result.data?.user;
 
 
-/*
-Try the profiles table first.
-*/
+if(!user)
+return;
+
+
+const metadata =
+user.user_metadata || {};
+
+
+let profile = {};
+
 
 try{
 
-const profileResult=
-await client
+const profileResult =
+await supabaseClient
 .from("profiles")
 .select("*")
 .eq("id",user.id)
 .limit(1)
 .maybeSingle();
 
+
 if(!profileResult.error){
 
-profile=
-profileResult.data||{};
+profile =
+profileResult.data || {};
 
 }
 
 }catch(e){}
 
 
-/*
-Support multiple existing profile field names.
-*/
-
-const avatar=
-profile.avatar_url||
-profile.avatar||
-profile.photo_url||
-profile.profile_image||
-profile.image_url||
-profile.avatarUrl||
-metadata.avatar_url||
-metadata.avatar||
-metadata.photo_url||
-metadata.profile_image||
-metadata.avatarUrl||
-user.user_metadata?.picture||
+const avatar =
+profile.avatar_url ||
+profile.avatar ||
+profile.photo_url ||
+profile.profile_image ||
+profile.image_url ||
+metadata.avatar_url ||
+metadata.avatar ||
+metadata.photo_url ||
+metadata.profile_image ||
+user.user_metadata?.picture ||
 "";
 
 
-const name=
-profile.display_name||
-profile.name||
-metadata.display_name||
-metadata.name||
-`${metadata.first_name||""} ${metadata.last_name||""}`.trim()||
-user.email?.split("@")[0]||
+const name =
+profile.display_name ||
+profile.name ||
+metadata.display_name ||
+metadata.name ||
+`${metadata.first_name || ""} ${metadata.last_name || ""}`.trim() ||
+user.email?.split("@")[0] ||
 "User";
 
 
-const initials=
+const initials =
 name
 .split(/\s+/)
 .filter(Boolean)
 .slice(0,2)
 .map(x=>x[0])
 .join("")
-.toUpperCase()||"U";
+.toUpperCase() ||
+"U";
 
 
 document
-.querySelectorAll("[data-user-name]")
+.querySelectorAll(
+"[data-user-name]"
+)
 .forEach(
-el=>el.textContent=name
+el=>{
+el.textContent =
+name;
+}
 );
 
 
 document
-.querySelectorAll("[data-user-initials]")
+.querySelectorAll(
+"[data-user-initials]"
+)
 .forEach(
-el=>el.textContent=initials
+el=>{
+el.textContent =
+initials;
+}
 );
 
 
@@ -1052,20 +3223,10 @@ initials
 );
 
 
-console.log(
-"SportX profile:",
-{
-name,
-avatar,
-userId:user.id
-}
-);
-
-
 }catch(error){
 
 console.warn(
-"Profile sync:",
+"Profile:",
 error
 );
 
@@ -1074,612 +3235,15 @@ error
 }
 
 
-/* ================= DATABASE ================= */
-
-async function loadDatabaseMatches(){
-
-try{
-
-await loadSupabase();
-
-if(!supabaseClient)return[];
-
-
-/*
-IMPORTANT:
-Home now reads ALL sports.
-It is no longer restricted to Football.
-*/
-
-const result=
-await supabaseClient
-.from("matches")
-.select(`
-id,
-sport_id,
-league_id,
-home_team_id,
-away_team_id,
-start_time,
-status,
-home_score,
-away_score,
-is_live,
-external_id,
-source,
-updated_at
-`)
-.order("start_time",{ascending:true})
-.limit(500);
-
-
-if(result.error){
-
-console.warn(
-"Matches database error:",
-result.error
-);
-
-return[];
-
-}
-
-const rows=result.data||[];
-
-if(!rows.length)return[];
-
-
-/* ================= SPORTS ================= */
-
-const sportIds=[
-...new Set(
-rows
-.map(r=>r.sport_id)
-.filter(Boolean)
-)
-];
-
-const sports={};
-
-if(sportIds.length){
-
-const r=
-await supabaseClient
-.from("sports")
-.select(
-"id,name,slug,icon,logo_url"
-)
-.in("id",sportIds);
-
-if(!r.error){
-
-(r.data||[]).forEach(
-sport=>{
-sports[sport.id]=sport;
-}
-);
-
-}
-
-}
-
-
-/* ================= TEAMS ================= */
-
-const teamIds=[
-...new Set(
-rows.flatMap(r=>[
-r.home_team_id,
-r.away_team_id
-]).filter(Boolean)
-)
-];
-
-const teams={};
-
-if(teamIds.length){
-
-const r=
-await supabaseClient
-.from("teams")
-.select(
-"id,name,short_name,logo_url"
-)
-.in("id",teamIds);
-
-if(!r.error){
-
-(r.data||[]).forEach(
-team=>{
-teams[team.id]=team;
-}
-);
-
-}
-
-}
-
-
-/* ================= LEAGUES ================= */
-
-const leagueIds=[
-...new Set(
-rows
-.map(r=>r.league_id)
-.filter(Boolean)
-)
-];
-
-const leagues={};
-
-if(leagueIds.length){
-
-const r=
-await supabaseClient
-.from("leagues")
-.select(
-"id,name,country,logo_url"
-)
-.in("id",leagueIds);
-
-if(!r.error){
-
-(r.data||[]).forEach(
-league=>{
-leagues[league.id]=league;
-}
-);
-
-}
-
-}
-
-
-/* ================= BUILD ================= */
-
-return rows.map(row=>{
-
-const home=
-teams[row.home_team_id]||{};
-
-const away=
-teams[row.away_team_id]||{};
-
-const league=
-leagues[row.league_id]||{};
-
-const sport=
-sports[row.sport_id]||{};
-
-
-return{
-
-id:row.id,
-
-external_id:
-row.external_id||"",
-
-source:
-row.source||"database",
-
-sport_id:
-row.sport_id||null,
-
-sport:
-sport.name||
-sport.slug||
-"Sports",
-
-sport_slug:
-sport.slug||
-"",
-
-sport_icon:
-sport.icon||
-"",
-
-home:
-home.name||
-"Unknown",
-
-away:
-away.name||
-"Unknown",
-
-home_logo:
-home.logo_url||
-"",
-
-away_logo:
-away.logo_url||
-"",
-
-competition:
-league.name||
-sport.name||
-"Sports",
-
-competition_logo:
-league.logo_url||
-sport.logo_url||
-"",
-
-time:
-row.start_time,
-
-start_time:
-row.start_time,
-
-status:
-row.status||"",
-
-home_score:
-row.home_score??0,
-
-away_score:
-row.away_score??0,
-
-is_live:
-row.is_live===true,
-
-updated_at:
-row.updated_at||null
-
-};
-
-});
-
-
-}catch(error){
-
-console.warn(
-"Database matches:",
-error
-);
-
-return[];
-
-}
-
-}
-
-
-/* ================= SPORT SCORE ================= */
-
-async function fetchSportScoreMatches(){
-
-try{
-
-const response=
-await fetch(
-`${SPORT_SCORE}/matches/?limit=100`,
-{
-cache:"no-store"
-}
-);
-
-if(!response.ok)
-throw new Error(
-"SportScore error"
-);
-
-const data=
-await response.json();
-
-return Array.isArray(data.matches)
-?data.matches.map(
-normalizeSportScoreMatch
-)
-:[];
-
-}catch(error){
-
-console.warn(
-"SportScore:",
-error
-);
-
-return[];
-
-}
-
-}
-
-
-function normalizeSportScoreMatch(match){
-
-return{
-
-id:
-match.url||
-[
-normalize(match.home),
-normalize(match.away),
-match.time||""
-].join("-"),
-
-external_id:
-match.url
-?`sportscore:${match.url}`
-:"",
-
-source:"sportscore",
-
-sport:
-match.sport||
-"Sports",
-
-sport_slug:
-match.sport_slug||
-"",
-
-home:
-match.home||
-"Unknown",
-
-away:
-match.away||
-"Unknown",
-
-home_logo:
-match.home_logo||
-"",
-
-away_logo:
-match.away_logo||
-"",
-
-competition:
-match.competition||
-"Sports",
-
-competition_logo:
-match.competition_logo||
-"",
-
-time:
-match.time||
-null,
-
-start_time:
-match.time||
-null,
-
-status:
-String(
-match.status||
-"scheduled"
-).toLowerCase(),
-
-status_text:
-match.status_text||
-"",
-
-home_score:
-match.home_score??0,
-
-away_score:
-match.away_score??0,
-
-is_live:
-[
-"live",
-"inplay",
-"in-play",
-"playing"
-].includes(
-String(match.status||"").toLowerCase()
-),
-
-updated_at:
-match.updated_at||
-null,
-
-url:
-match.url||
-""
-
-};
-
-}
-
-
-/* ================= MERGE ================= */
-
-function matchKey(match){
-
-return String(
-match.external_id||
-match.id||
-[
-normalize(match.sport),
-normalize(match.home),
-normalize(match.away),
-match.start_time||""
-].join("|")
-);
-
-}
-
-
-function mergeMatches(...groups){
-
-const map=new Map();
-
-for(
-const group of groups
-){
-
-for(
-const match of group||[]
-){
-
-if(!parseDate(match))
-continue;
-
-const key=
-matchKey(match);
-
-const old=
-map.get(key);
-
-map.set(
-key,
-old
-?{...old,...match}
-:{...match}
-);
-
-}
-
-}
-
-return[
-...map.values()
-];
-
-}
-
-
-/* ================= NORMAL 2 ================= */
-
-function getNormalMatches(
-databaseMatches,
-sportScoreMatches
-){
-
-const all=
-mergeMatches(
-databaseMatches,
-sportScoreMatches
-);
-
-return all
-
-.filter(match=>{
-
-const date=
-parseDate(match);
-
-if(!date)
-return false;
-
-if(isAfterSevenDays(match))
-return false;
-
-if(!shouldKeepEnded(match))
-return false;
-
-return true;
-
-})
-
-.sort((a,b)=>{
-
-if(
-isLiveMatch(a)&&
-!isLiveMatch(b)
-)
-return-1;
-
-if(
-!isLiveMatch(a)&&
-isLiveMatch(b)
-)
-return 1;
-
-const ad=
-parseDate(a)?.getTime()||0;
-
-const bd=
-parseDate(b)?.getTime()||0;
-
-return ad-bd;
-
-})
-
-.slice(0,MAX_NORMAL)
-
-.map(match=>({
-
-...match,
-
-category:"normal"
-
-}));
-
-}
-
-
-/* ================= FUTURE 1 ================= */
-
-async function getFutureMatches(
-databaseMatches,
-sportScoreMatches
-){
-
-const now=Date.now();
-
-return mergeMatches(
-databaseMatches,
-sportScoreMatches
-)
-
-.filter(match=>{
-
-const date=
-parseDate(match);
-
-if(!date)
-return false;
-
-if(
-date.getTime()<=now
-)
-return false;
-
-if(
-date.getTime()>
-now+7*86400000
-)
-return false;
-
-if(isLiveMatch(match))
-return false;
-
-if(isFinished(match))
-return false;
-
-return true;
-
-})
-
-.sort(
-(a,b)=>
-parseDate(a).getTime()-
-parseDate(b).getTime()
-)
-
-.slice(0,MAX_FUTURE)
-
-.map(match=>({
-
-...match,
-
-category:"future"
-
-}));
-
-}
-
-
-/* ================= IMAGE ================= */
+/* =========================================================
+   IMAGE
+========================================================= */
 
 function safeImage(url){
 
 if(!url){
 
-return`
+return `
 <div class="team-placeholder">
 ⚽
 </div>
@@ -1687,7 +3251,8 @@ return`
 
 }
 
-return`
+
+return `
 
 <img
 class="team-logo"
@@ -1712,71 +3277,357 @@ style="display:none;"
 }
 
 
-/* ================= MATCH CARD ================= */
+/* =========================================================
+   CATEGORY
+========================================================= */
 
-function renderMatch(match){
+function getCategory(
+match
+){
 
-const date=
+if(
+isLiveMatch(match)
+)
+return "live";
+
+
+if(
+isFinished(match)
+)
+return "finished";
+
+
+if(
+isWweMatch(match)
+)
+return "wwe";
+
+
+const date =
 parseDate(match);
 
+
 if(!date)
-return"";
-
-const live=
-isLiveMatch(match);
-
-const finished=
-isFinished(match);
-
-const future=
-match.category==="future";
-
-let displayTime="";
-let statusText="";
-let statusClass="";
+return "other";
 
 
-if(live){
+const now =
+Date.now();
 
-displayTime="LIVE NOW";
 
-statusText="● LIVE";
+if(
+date.getTime() < now
+)
+return "other";
 
-statusClass="status-live";
 
-}else if(finished){
+const sevenDays =
+now +
+FEATURED_DAYS *
+86400000;
 
-displayTime="LIVE END";
 
-statusText="● LIVE END";
+if(
+date.getTime() <= sevenDays
+)
+return "normal";
 
-statusClass="status-ended";
 
-}else{
-
-displayTime=
-formatDateUTC(
-date.toISOString()
-);
-
-statusText=
-future
-?"● FUTURE"
-:"● UPCOMING";
-
-statusClass=
-future
-?"status-future"
-:"status-upcoming";
+return "future";
 
 }
 
 
-return`
+/* =========================================================
+   BUILD HOME SECTIONS
+========================================================= */
+
+function buildHomeSections(
+matches
+){
+
+const clean =
+removeOldFinishedMatches(
+removeDuplicateMatches(
+matches
+)
+);
+
+
+const live =
+clean
+.filter(
+m =>
+isLiveMatch(m)
+);
+
+
+const wwe =
+clean
+.filter(
+m =>
+isWweMatch(m)
+);
+
+
+const now =
+Date.now();
+
+
+const future =
+clean
+.filter(
+m=>{
+
+const d =
+parseDate(m);
+
+if(!d)
+return false;
+
+if(
+d.getTime() <= now
+)
+return false;
+
+if(
+isLiveMatch(m) ||
+isFinished(m)
+)
+return false;
+
+return true;
+
+}
+)
+.sort(
+(a,b)=>
+parseDate(a).getTime() -
+parseDate(b).getTime()
+);
+
+
+const normal =
+clean
+.filter(
+m=>{
+
+const d =
+parseDate(m);
+
+if(!d)
+return false;
+
+if(
+isLiveMatch(m)
+)
+return false;
+
+if(
+isWweMatch(m)
+)
+return false;
+
+if(
+isFinished(m)
+)
+return true;
+
+if(
+d.getTime() < now
+)
+return false;
+
+return (
+d.getTime() <=
+now +
+NORMAL_DAYS *
+86400000
+);
+
+}
+)
+.sort(
+(a,b)=>
+parseDate(a).getTime() -
+parseDate(b).getTime()
+);
+
+
+return {
+
+live:
+live
+.sort(
+(a,b)=>
+parseDate(a)?.getTime() -
+parseDate(b)?.getTime()
+)
+.slice(
+0,
+MAX_LIVE_MATCHES
+),
+
+normal:
+normal.slice(
+0,
+MAX_NORMAL_MATCHES
+),
+
+wwe:
+wwe
+.sort(
+(a,b)=>{
+const ad =
+parseDate(a)?.getTime() || 0;
+
+const bd =
+parseDate(b)?.getTime() || 0;
+
+return ad-bd;
+}
+)
+.slice(
+0,
+MAX_WWE_MATCHES
+),
+
+future:
+future.slice(
+0,
+MAX_FUTURE_MATCHES
+)
+
+};
+
+}
+
+
+/* =========================================================
+   MATCH CARD
+========================================================= */
+
+function renderMatch(
+match
+){
+
+const date =
+parseDate(match);
+
+
+const status =
+normalizeStatus(match);
+
+
+const live =
+status === "live";
+
+const finished =
+status === "finished" ||
+status === "cancelled";
+
+const wwe =
+isWweMatch(match);
+
+
+let displayTime;
+let statusText;
+let statusClass;
+let categoryText;
+let categoryClass;
+
+
+if(live){
+
+displayTime =
+"LIVE";
+
+statusText =
+"● LIVE";
+
+statusClass =
+"status-live";
+
+categoryText =
+"Live";
+
+categoryClass =
+"live-category";
+
+}else if(finished){
+
+displayTime =
+"LIVE END";
+
+statusText =
+"● LIVE END";
+
+statusClass =
+"status-ended";
+
+categoryText =
+"LIVE END";
+
+categoryClass =
+"";
+
+}else if(wwe){
+
+displayTime =
+date
+?formatDateUTC(
+date.toISOString()
+)
+:"Time unavailable";
+
+statusText =
+"● WWE";
+
+statusClass =
+"status-wwe";
+
+categoryText =
+"WWE";
+
+categoryClass =
+"wwe-category";
+
+}else{
+
+displayTime =
+date
+?formatDateUTC(
+date.toISOString()
+)
+:"Time unavailable";
+
+statusText =
+"● UPCOMING";
+
+statusClass =
+"status-upcoming";
+
+categoryText =
+"Future";
+
+categoryClass =
+"future-category";
+
+}
+
+
+return `
 
 <article
-class="match ${future?"future-match":""}"
-data-match-id="${escapeHTML(match.id||"")}"
+class="
+match
+${live ? "live-match" : ""}
+${wwe ? "wwe-match" : ""}
+${!live && !wwe && !finished ? "future-match" : ""}
+"
+data-match-id="${escapeHTML(
+match.id || matchKey(match)
+)}"
 >
 
 <div class="match-top">
@@ -1784,11 +3635,16 @@ data-match-id="${escapeHTML(match.id||"")}"
 <div class="competition">
 
 ${
+match.league?.logo_url ||
 match.competition_logo
-?`
+?
+`
 <img
 class="competition-logo"
-src="${escapeHTML(match.competition_logo)}"
+src="${escapeHTML(
+match.league?.logo_url ||
+match.competition_logo
+)}"
 alt=""
 >
 `
@@ -1796,17 +3652,26 @@ alt=""
 }
 
 <span class="competition-name">
+
 ${escapeHTML(
-match.competition||
-match.sport||
+match.league ||
+match.competition ||
+match.sport ||
 "Sports"
 )}
+
 </span>
 
 </div>
 
-<span class="match-category ${future?"future-category":""}">
-${future?"Future":"Normal"}
+
+<span
+class="
+match-category
+${categoryClass}
+"
+>
+${categoryText}
 </span>
 
 </div>
@@ -1817,13 +3682,15 @@ class="match-time"
 style="
 text-align:center;
 margin-bottom:15px;
-color:${finished
+color:${
+finished
 ?"var(--muted)"
 :live
 ?"var(--danger)"
-:future
-?"#8b6500"
-:"var(--green-dark)"};
+:wwe
+?"#6344d8"
+:"var(--green-dark)"
+};
 "
 >
 ${escapeHTML(displayTime)}
@@ -1834,10 +3701,17 @@ ${escapeHTML(displayTime)}
 
 <div class="team">
 
-${safeImage(match.home_logo)}
+${safeImage(
+match.home_team?.logo_url ||
+match.home_logo
+)}
 
 <div class="team-name">
-${escapeHTML(match.home||"Home")}
+${escapeHTML(
+match.home ||
+match.home_team?.name ||
+"Home"
+)}
 </div>
 
 </div>
@@ -1846,15 +3720,22 @@ ${escapeHTML(match.home||"Home")}
 <div class="vs">
 
 ${
-live||finished
-?`
+live ||
+finished
+?
+`
 <strong>
-${Number(match.home_score??0)}
+${Number(
+match.home_score ?? 0
+)}
 :
-${Number(match.away_score??0)}
+${Number(
+match.away_score ?? 0
+)}
 </strong>
 `
-:"VS"
+:
+"VS"
 }
 
 </div>
@@ -1862,10 +3743,17 @@ ${Number(match.away_score??0)}
 
 <div class="team">
 
-${safeImage(match.away_logo)}
+${safeImage(
+match.away_team?.logo_url ||
+match.away_logo
+)}
 
 <div class="team-name">
-${escapeHTML(match.away||"Away")}
+${escapeHTML(
+match.away ||
+match.away_team?.name ||
+"Away"
+)}
 </div>
 
 </div>
@@ -1876,11 +3764,19 @@ ${escapeHTML(match.away||"Away")}
 <div class="no-odds">
 
 ${
+live
+?
+"● Match is currently live."
+:
 finished
-?"Match finished — LIVE END"
-:future
-?"Prediction markets will appear when available."
-:"Prediction markets will appear when available."
+?
+"Match finished — LIVE END"
+:
+wwe
+?
+"WWE event data is live from the available sports source."
+:
+"Prediction markets will appear when available."
 }
 
 </div>
@@ -1888,14 +3784,19 @@ finished
 
 <div class="match-footer">
 
-<span class="match-status ${statusClass}">
+<span
+class="match-status ${statusClass}"
+>
 ${statusText}
 </span>
+
 
 <button
 type="button"
 class="details-btn"
-data-details-match="${escapeHTML(match.id||"")}"
+data-details-match="${escapeHTML(
+match.id || matchKey(match)
+)}"
 >
 Match Details →
 </button>
@@ -1909,37 +3810,52 @@ Match Details →
 }
 
 
-/* ================= NORMAL ================= */
+/* =========================================================
+   RENDER SECTION
+========================================================= */
 
-function renderNormalMatches(matches){
+function renderSection(
+containerId,
+matches,
+emptyIcon,
+emptyTitle,
+emptyText
+){
 
-const container=
+const container =
 document.getElementById(
-"normalMatches"
+containerId
 );
 
-if(!container)return;
+
+if(!container)
+return;
+
 
 if(!matches.length){
 
-container.innerHTML=`
+container.innerHTML = `
 
 <div class="empty-card">
 
 <div>
 
-<div class="empty-icon">⚽</div>
+<div class="empty-icon">
+${emptyIcon}
+</div>
 
-<h3>No matches available</h3>
+<h3>
+${escapeHTML(emptyTitle)}
+</h3>
 
 <p>
-There are currently no real live or upcoming matches.
+${escapeHTML(emptyText)}
 </p>
 
 <button
 type="button"
 class="retry-btn"
-id="retryNormalMatches"
+onclick="loadHomeMatches()"
 >
 Refresh Matches
 </button>
@@ -1950,328 +3866,47 @@ Refresh Matches
 
 `;
 
-document
-.getElementById(
-"retryNormalMatches"
-)
-?.addEventListener(
-"click",
-loadHomeMatches
-);
-
 return;
 
 }
 
-container.innerHTML=
+
+container.innerHTML =
 matches
 .map(renderMatch)
 .join("");
+
 
 attachMatchEvents();
 
 }
 
 
-/* ================= FUTURE ================= */
-
-function renderFutureMatches(matches){
-
-const container=
-document.getElementById(
-"futureMatches"
-);
-
-if(!container)return;
-
-if(!matches.length){
-
-container.innerHTML=`
-
-<div class="empty-card">
-
-<div>
-
-<div class="empty-icon">📅</div>
-
-<h3>No future fixture</h3>
-
-<p>
-No genuine future fixture is currently available.
-</p>
-
-<button
-type="button"
-class="retry-btn"
-id="retryFutureMatches"
->
-Refresh
-</button>
-
-</div>
-
-</div>
-
-`;
-
-document
-.getElementById(
-"retryFutureMatches"
-)
-?.addEventListener(
-"click",
-loadHomeMatches
-);
-
-return;
-
-}
-
-container.innerHTML=
-matches
-.map(renderMatch)
-.join("");
-
-attachMatchEvents();
-
-}
-
-
-/* ================= HERO LIVE ================= */
-
-async function loadLiveHero(){
-
-const label=
-document.getElementById(
-"heroLiveLabel"
-);
-
-const container=
-document.getElementById(
-"heroLiveContainer"
-);
-
-if(!label||!container)
-return;
-
-try{
-
-const matches=
-await fetchSportScoreMatches();
-
-const live=
-matches.filter(
-isLiveMatch
-);
-
-if(!live.length){
-
-label.textContent=
-"NO LIVE MATCH";
-
-label.classList.add(
-"not-live"
-);
-
-container.innerHTML=`
-
-<div class="hero-empty">
-
-<div>
-
-<div class="hero-empty-icon">⚽</div>
-
-<strong>No live matches right now</strong>
-
-<span>Check the matches below.</span>
-
-</div>
-
-</div>
-
-`;
-
-return;
-
-}
-
-const match=live[0];
-
-label.textContent=
-"● LIVE NOW";
-
-label.classList.remove(
-"not-live"
-);
-
-container.innerHTML=`
-
-<div class="live-preview">
-
-<div class="hero-match-meta">
-
-${escapeHTML(
-match.competition||
-match.sport||
-"Sports"
-)}
-
-</div>
-
-<div class="hero-teams">
-
-<div>
-
-${
-match.home_logo
-?`
-<img
-class="hero-team-logo"
-src="${escapeHTML(match.home_logo)}"
-alt=""
->
-`
-:`
-<div
-class="hero-team-logo"
-style="
-display:grid;
-place-items:center;
-font-size:24px
-"
->
-⚽
-</div>
-`
-}
-
-<div class="hero-team-name">
-${escapeHTML(
-match.home||"Home"
-)}
-</div>
-
-</div>
-
-
-<div>
-
-<div class="hero-score">
-
-${Number(
-match.home_score??0
-)}
-:
-${Number(
-match.away_score??0
-)}
-
-</div>
-
-<div class="hero-minute">
-● LIVE
-</div>
-
-</div>
-
-
-<div>
-
-${
-match.away_logo
-?`
-<img
-class="hero-team-logo"
-src="${escapeHTML(match.away_logo)}"
-alt=""
->
-`
-:`
-<div
-class="hero-team-logo"
-style="
-display:grid;
-place-items:center;
-font-size:24px
-"
->
-⚽
-</div>
-`
-}
-
-<div class="hero-team-name">
-${escapeHTML(
-match.away||"Away"
-)}
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-`;
-
-}catch(error){
-
-label.textContent=
-"LIVE DATA";
-
-label.classList.add(
-"not-live"
-);
-
-container.innerHTML=`
-
-<div class="hero-empty">
-
-<div>
-
-<div class="hero-empty-icon">
-⚽
-</div>
-
-<strong>
-Live data unavailable
-</strong>
-
-<span>
-Please check again shortly.
-</span>
-
-</div>
-
-</div>
-
-`;
-
-}
-
-}
-
-
-/* ================= FIND MATCH ================= */
-
-function findMatchById(id){
-
-const key=
+/* =========================================================
+   FIND MATCH
+========================================================= */
+
+function findMatchById(
+id
+){
+
+const key =
 String(id);
 
-return(
-allNormalMatches.find(
-m=>String(m.id)===key
-)||
-allFutureMatches.find(
-m=>String(m.id)===key
-)
+
+return allMatches.find(
+match =>
+String(
+match.id || matchKey(match)
+) === key
 );
 
 }
 
 
-/* ================= EVENTS ================= */
+/* =========================================================
+   EVENTS
+========================================================= */
 
 function attachMatchEvents(){
 
@@ -2279,21 +3914,28 @@ document
 .querySelectorAll(
 "[data-details-match]"
 )
-.forEach(button=>{
+.forEach(
+button=>{
 
-if(button.dataset.bound==="true")
+if(
+button.dataset.bound === "true"
+)
 return;
 
-button.dataset.bound="true";
+
+button.dataset.bound =
+"true";
+
 
 button.addEventListener(
 "click",
 ()=>{
 
-const match=
+const match =
 findMatchById(
 button.dataset.detailsMatch
 );
+
 
 if(match)
 openMatchModal(match);
@@ -2305,57 +3947,75 @@ openMatchModal(match);
 }
 
 
-/* ================= MODAL ================= */
+/* =========================================================
+   MODAL
+========================================================= */
 
-function openMatchModal(match){
+function openMatchModal(
+match
+){
 
-const modal=
+const modal =
 document.getElementById(
 "matchModal"
 );
 
-const content=
+const content =
 document.getElementById(
 "modalContent"
 );
 
-if(!modal||!content)
+
+if(!modal || !content)
 return;
 
-const date=
+
+const date =
 parseDate(match);
 
-const live=
+const live =
 isLiveMatch(match);
 
-const finished=
+const finished =
 isFinished(match);
 
-content.innerHTML=`
+const wwe =
+isWweMatch(match);
+
+
+content.innerHTML = `
 
 <div class="modal-competition">
 
 ${escapeHTML(
-match.competition||
-match.sport||
+match.league ||
+match.competition ||
+match.sport ||
 "Sports"
 )}
 
 </div>
+
 
 <div class="modal-teams">
 
 <div class="modal-team">
 
 ${
+match.home_team?.logo_url ||
 match.home_logo
-?`
+?
+`
 <img
-src="${escapeHTML(match.home_logo)}"
+src="${escapeHTML(
+match.home_team?.logo_url ||
+match.home_logo
+)}"
 alt=""
 >
 `
-:`
+:
+`
 <div
 style="
 height:65px;
@@ -2371,7 +4031,9 @@ font-size:28px
 
 <strong>
 ${escapeHTML(
-match.home||"Home"
+match.home ||
+match.home_team?.name ||
+"Home"
 )}
 </strong>
 
@@ -2381,13 +4043,19 @@ match.home||"Home"
 <div class="modal-vs">
 
 ${
-live||finished
-?`
-${Number(match.home_score??0)}
-:
-${Number(match.away_score??0)}
+live || finished
+?
 `
-:"VS"
+${Number(
+match.home_score ?? 0
+)}
+:
+${Number(
+match.away_score ?? 0
+)}
+`
+:
+"VS"
 }
 
 </div>
@@ -2396,14 +4064,20 @@ ${Number(match.away_score??0)}
 <div class="modal-team">
 
 ${
+match.away_team?.logo_url ||
 match.away_logo
-?`
+?
+`
 <img
-src="${escapeHTML(match.away_logo)}"
+src="${escapeHTML(
+match.away_team?.logo_url ||
+match.away_logo
+)}"
 alt=""
 >
 `
-:`
+:
+`
 <div
 style="
 height:65px;
@@ -2419,7 +4093,9 @@ font-size:28px
 
 <strong>
 ${escapeHTML(
-match.away||"Away"
+match.away ||
+match.away_team?.name ||
+"Away"
 )}
 </strong>
 
@@ -2431,32 +4107,56 @@ match.away||"Away"
 <div class="modal-time">
 
 ${
+live
+?
+"LIVE"
+:
 finished
-?"LIVE END"
-:date
-?formatDateUTC(
+?
+"LIVE END"
+:
+wwe
+?
+"◉ WWE"
+:
+date
+?
+formatDateUTC(
 date.toISOString()
 )
-:"Time unavailable"
+:
+"Time unavailable"
 }
 
 </div>
+
 
 <div class="no-odds">
 
 ${
 live
-?"● LIVE MATCH"
-:finished
-?"● LIVE END — Match finished"
-:"Prediction markets will appear when available."
+?
+"● LIVE MATCH"
+:
+finished
+?
+"● LIVE END — Match finished"
+:
+wwe
+?
+"● WWE EVENT"
+:
+"Prediction markets will appear when available."
 }
 
 </div>
 
 `;
 
-modal.classList.add("show");
+
+modal.classList.add(
+"show"
+);
 
 modal.setAttribute(
 "aria-hidden",
@@ -2468,12 +4168,15 @@ modal.setAttribute(
 
 function closeMatchModal(){
 
-const modal=
+const modal =
 document.getElementById(
 "matchModal"
 );
 
-if(!modal)return;
+
+if(!modal)
+return;
+
 
 modal.classList.remove(
 "show"
@@ -2503,10 +4206,15 @@ document
 )
 ?.addEventListener(
 "click",
-e=>{
+event=>{
 
-if(e.target.id==="matchModal"){
+if(
+event.target.id ===
+"matchModal"
+){
+
 closeMatchModal();
+
 }
 
 });
@@ -2514,130 +4222,547 @@ closeMatchModal();
 
 document.addEventListener(
 "keydown",
-e=>{
+event=>{
 
-if(e.key==="Escape"){
+if(
+event.key === "Escape"
+){
+
 closeMatchModal();
-}
 
 }
+
+});
+
+
+/* =========================================================
+   HERO LIVE
+========================================================= */
+
+function renderHeroLive(){
+
+const label =
+document.getElementById(
+"heroLiveLabel"
+);
+
+const container =
+document.getElementById(
+"heroLiveContainer"
 );
 
 
-/* ================= HOME DATA ================= */
+if(!label || !container)
+return;
+
+
+const live =
+allLiveMatches[0];
+
+
+if(!live){
+
+label.textContent =
+"NO LIVE MATCH";
+
+label.classList.add(
+"not-live"
+);
+
+
+container.innerHTML = `
+
+<div class="hero-empty">
+
+<div>
+
+<div class="hero-empty-icon">
+⚽
+</div>
+
+<strong>
+No live matches right now
+</strong>
+
+<span>
+Check the live section below.
+</span>
+
+</div>
+
+</div>
+
+`;
+
+return;
+
+}
+
+
+label.textContent =
+"● LIVE NOW";
+
+label.classList.remove(
+"not-live"
+);
+
+
+container.innerHTML = `
+
+<div class="live-preview">
+
+<div class="hero-match-meta">
+
+${escapeHTML(
+live.league ||
+live.competition ||
+live.sport ||
+"Sports"
+)}
+
+</div>
+
+
+<div class="hero-teams">
+
+<div>
+
+${
+live.home_team?.logo_url ||
+live.home_logo
+?
+`
+<img
+class="hero-team-logo"
+src="${escapeHTML(
+live.home_team?.logo_url ||
+live.home_logo
+)}"
+alt=""
+>
+`
+:
+`
+<div
+class="hero-team-logo"
+style="
+display:grid;
+place-items:center;
+font-size:24px
+"
+>
+⚽
+</div>
+`
+}
+
+<div class="hero-team-name">
+${escapeHTML(
+live.home ||
+live.home_team?.name ||
+"Home"
+)}
+</div>
+
+</div>
+
+
+<div>
+
+<div class="hero-score">
+
+${Number(
+live.home_score ?? 0
+)}
+:
+${Number(
+live.away_score ?? 0
+)}
+
+</div>
+
+<div class="hero-minute">
+● LIVE
+</div>
+
+</div>
+
+
+<div>
+
+${
+live.away_team?.logo_url ||
+live.away_logo
+?
+`
+<img
+class="hero-team-logo"
+src="${escapeHTML(
+live.away_team?.logo_url ||
+live.away_logo
+)}"
+alt=""
+>
+`
+:
+`
+<div
+class="hero-team-logo"
+style="
+display:grid;
+place-items:center;
+font-size:24px
+"
+>
+⚽
+</div>
+`
+}
+
+<div class="hero-team-name">
+${escapeHTML(
+live.away ||
+live.away_team?.name ||
+"Away"
+)}
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+`;
+
+}
+
+
+/* =========================================================
+   MAIN LOAD
+========================================================= */
+
+let loadingRequest =
+null;
+
 
 async function loadHomeMatches(){
 
-const normal=
-document.getElementById(
-"normalMatches"
-);
+if(loadingRequest)
+return loadingRequest;
 
-const future=
-document.getElementById(
+
+loadingRequest =
+(async()=>{
+
+try{
+
+/* ---------- LOADING UI ---------- */
+
+const ids = [
+"liveMatches",
+"normalMatches",
+"wweMatches",
 "futureMatches"
+];
+
+
+ids.forEach(
+id=>{
+
+const element =
+document.getElementById(id);
+
+if(!element)
+return;
+
+
+element.innerHTML = `
+
+<div class="loading-card">
+
+<div>
+
+<div class="spinner"></div>
+
+<p>
+Loading real sports data...
+</p>
+
+</div>
+
+</div>
+
+`;
+
+});
+
+
+/* =====================================================
+   1. DATABASE
+===================================================== */
+
+let databaseMatches = [];
+
+try{
+
+databaseMatches =
+await loadDatabaseMatches();
+
+}catch(error){
+
+console.warn(
+"Database loading:",
+error
 );
 
-
-if(normal){
-
-normal.innerHTML=`
-
-<div class="loading-card">
-
-<div>
-
-<div class="spinner"></div>
-
-<p>
-Loading real matches...
-</p>
-
-</div>
-
-</div>
-
-`;
-
 }
 
 
-if(future){
+/* =====================================================
+   2. WORKER
+   SAME AS sports.html
+===================================================== */
 
-future.innerHTML=`
-
-<div class="loading-card">
-
-<div>
-
-<div class="spinner"></div>
-
-<p>
-Loading future fixture...
-</p>
-
-</div>
-
-</div>
-
-`;
-
-}
+let workerMatches = [];
 
 
 try{
 
-const databaseMatches=
+const workerResult =
+await invokeWorkerWithTimeout();
+
+
+if(
+workerResult &&
+!workerResult.error
+){
+
+const workerData =
+workerResult.data;
+
+
+if(
+Array.isArray(
+workerData?.matches
+)
+){
+
+workerMatches =
+convertWorkerMatches(
+workerData.matches
+);
+
+}else{
+
+const workerCombined = [
+...(Array.isArray(
+workerData?.featured
+)
+?workerData.featured
+:[]),
+
+...(Array.isArray(
+workerData?.normal
+)
+?workerData.normal
+:[]),
+
+...(Array.isArray(
+workerData?.live
+)
+?workerData.live
+:[])
+];
+
+
+workerMatches =
+convertWorkerMatches(
+workerCombined
+);
+
+}
+
+}
+
+}catch(error){
+
+console.warn(
+"Worker:",
+error
+);
+
+}
+
+
+/* =====================================================
+   3. SPORT SCORE
+===================================================== */
+
+let sportScoreMatches = [];
+
+
+try{
+
+sportScoreMatches =
+await loadSportScoreMatches();
+
+}catch(error){
+
+console.warn(
+"SportScore:",
+error
+);
+
+}
+
+
+/* =====================================================
+   4. RE-READ DATABASE
+   SAME IDEA AS sports.html
+===================================================== */
+
+try{
+
+const refreshed =
 await loadDatabaseMatches();
 
-const sportScoreMatches=
-await fetchSportScoreMatches();
+
+if(
+refreshed.length
+){
+
+databaseMatches =
+refreshed;
+
+}
+
+}catch(error){
+
+console.warn(
+"Database refresh:",
+error
+);
+
+}
 
 
-/*
-NORMAL:
-All available sports.
-Only 2 cards.
-LIVE first.
-*/
+/* =====================================================
+   5. MERGE ALL SOURCES
+===================================================== */
 
-allNormalMatches=
-getNormalMatches(
+allMatches =
+mergeMatches(
 databaseMatches,
+workerMatches,
 sportScoreMatches
 );
 
-renderNormalMatches(
-allNormalMatches
+
+/* =====================================================
+   6. REMOVE OLD FINISHED
+===================================================== */
+
+allMatches =
+removeOldFinishedMatches(
+allMatches
 );
 
 
-/*
-FUTURE:
-All available sports.
-Only one genuine fixture.
-Maximum 7 days.
-*/
+/* =====================================================
+   7. BUILD SECTIONS
+===================================================== */
 
-allFutureMatches=
-await getFutureMatches(
-databaseMatches,
-sportScoreMatches
+const sections =
+buildHomeSections(
+allMatches
 );
 
-renderFutureMatches(
-allFutureMatches
+
+allLiveMatches =
+sections.live;
+
+allNormalMatches =
+sections.normal;
+
+allWweMatches =
+sections.wwe;
+
+allFutureMatches =
+sections.future;
+
+
+/* =====================================================
+   8. RENDER
+===================================================== */
+
+renderSection(
+"liveMatches",
+allLiveMatches,
+"🔴",
+"No live match",
+"There is no live match available right now."
+);
+
+
+renderSection(
+"normalMatches",
+allNormalMatches,
+"⚽",
+"No normal matches",
+"There are currently no real upcoming matches."
+);
+
+
+renderSection(
+"wweMatches",
+allWweMatches,
+"🤼",
+"No WWE event",
+"No real WWE event is currently available."
+);
+
+
+renderSection(
+"futureMatches",
+allFutureMatches,
+"📅",
+"No future fixture",
+"No genuine future fixture is currently available."
+);
+
+
+/* =====================================================
+   9. HERO
+===================================================== */
+
+renderHeroLive();
+
+
+console.log(
+"SportX Home data:",
+{
+database:databaseMatches.length,
+worker:workerMatches.length,
+sportScore:sportScoreMatches.length,
+total:allMatches.length,
+live:allLiveMatches.length,
+normal:allNormalMatches.length,
+wwe:allWweMatches.length,
+future:allFutureMatches.length
+}
 );
 
 
 }catch(error){
 
 console.error(
-"Home matches error:",
+"SportX Home error:",
 error
 );
 
-const errorHTML=`
+
+const errorHTML = `
 
 <div class="empty-card">
 
@@ -2652,6 +4777,7 @@ Sports data unavailable
 </h3>
 
 <p>
+The real sports sources could not be loaded.
 No fake matches were generated.
 </p>
 
@@ -2669,75 +4795,152 @@ Try Again
 
 `;
 
-if(normal)
-normal.innerHTML=errorHTML;
 
-if(future)
-future.innerHTML=errorHTML;
+[
+"liveMatches",
+"normalMatches",
+"wweMatches",
+"futureMatches"
+]
+.forEach(
+id=>{
+
+const element =
+document.getElementById(id);
+
+if(element)
+element.innerHTML =
+errorHTML;
+
+});
+
+
+}finally{
+
+loadingRequest =
+null;
 
 }
 
+})();
+
+
+return loadingRequest;
+
 }
 
 
-/* ================= START ================= */
+/* =========================================================
+   REMOVE OLD FINISHED EVERY 30 SEC
+========================================================= */
+
+setInterval(
+()=>{
+
+const before =
+allMatches.length;
+
+
+allMatches =
+removeOldFinishedMatches(
+allMatches
+);
+
+
+if(
+before !==
+allMatches.length
+){
+
+const sections =
+buildHomeSections(
+allMatches
+);
+
+
+allLiveMatches =
+sections.live;
+
+allNormalMatches =
+sections.normal;
+
+allWweMatches =
+sections.wwe;
+
+allFutureMatches =
+sections.future;
+
+
+renderSection(
+"liveMatches",
+allLiveMatches,
+"🔴",
+"No live match",
+"There is no live match available right now."
+);
+
+
+renderSection(
+"normalMatches",
+allNormalMatches,
+"⚽",
+"No normal matches",
+"There are currently no real upcoming matches."
+);
+
+
+renderSection(
+"wweMatches",
+allWweMatches,
+"🤼",
+"No WWE event",
+"No real WWE event is currently available."
+);
+
+
+renderSection(
+"futureMatches",
+allFutureMatches,
+"📅",
+"No future fixture",
+"No genuine future fixture is currently available."
+);
+
+
+renderHeroLive();
+
+}
+
+},
+30000
+);
+
+
+/* =========================================================
+   START
+========================================================= */
 
 async function startSportXHome(){
 
-try{
-
-await loadSupabase();
-
-}catch(error){
-
-console.warn(error);
-
-}
-
-
-/*
-Load matches.
-*/
-
 await loadHomeMatches();
 
-await loadLiveHero();
-
-
-/*
-Profile:
-Wait for auth.js/session,
-then load profile.
-*/
 
 setTimeout(
-async()=>{
-
-await loadProfileData();
-
-},
+loadProfileData,
 1000
 );
 
 
-/*
-Listen for Supabase auth changes.
-This makes profile photo appear
-when auth.js finishes later.
-*/
+/* ---------- AUTH ---------- */
 
 try{
 
-const client=
-supabaseClient||
-await loadSupabase();
+supabaseClient.auth.onAuthStateChange(
+(event,session)=>{
 
-if(client){
-
-client.auth.onAuthStateChange(
-async(event,session)=>{
-
-if(session?.user){
+if(
+session?.user
+){
 
 setTimeout(
 loadProfileData,
@@ -2746,48 +4949,33 @@ loadProfileData,
 
 }
 
-}
-);
-
-}
+});
 
 }catch(error){
 
 console.warn(
-"Auth profile listener:",
+"Auth listener:",
 error
 );
 
 }
 
 
-/*
-Every minute:
-- refresh matches
-- refresh live
-- refresh profile
-- remove old finished matches
-*/
+/* ---------- REFRESH ---------- */
 
 setInterval(
 async()=>{
 
 await loadHomeMatches();
 
-await loadLiveHero();
-
 await loadProfileData();
 
 },
-REFRESH_MS
+REFRESH_INTERVAL_MS
 );
 
 }
 
-
-/*
-Start SportX Home.
-*/
 
 startSportXHome();
 
