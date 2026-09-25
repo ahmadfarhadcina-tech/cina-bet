@@ -317,13 +317,14 @@ h1{
   text-align:center;
 }
 
-.logo{
+.team-logo{
   width:52px;
   height:52px;
   margin:0 auto 8px;
   border-radius:50%;
   object-fit:contain;
   background:#f3f4f6;
+  display:block;
 }
 
 .logo-fallback{
@@ -620,12 +621,16 @@ footer a{
     >
 
     <div id="status" class="status">
-      Loading...
+      Updating in background...
     </div>
 
   </div>
 
-  <div id="loading" class="loading">
+  <div
+    id="loading"
+    class="loading"
+    style="display:none;"
+  >
 
     <div class="spinner"></div>
 
@@ -636,7 +641,6 @@ footer a{
   <section
     id="matchesGrid"
     class="matches-grid"
-    style="display:none;"
   ></section>
 
   <section
@@ -656,7 +660,11 @@ footer a{
     Unable to load future matches right now.
   </section>
 
-  <section id="endSection" class="end-section" style="display:none;">
+  <section
+    id="endSection"
+    class="end-section"
+    style="display:none;"
+  >
 
     <h2 class="end-heading">
       Finished Matches
@@ -666,7 +674,10 @@ footer a{
       Finished Future matches remain here for 2 hours.
     </p>
 
-    <div id="endGrid" class="matches-grid"></div>
+    <div
+      id="endGrid"
+      class="matches-grid"
+    ></div>
 
   </section>
 
@@ -686,6 +697,7 @@ footer a{
 <div id="toast" class="toast"></div>
 
 <script>
+
 const SPORT_SCORE_BASE =
   "https://sportscore.com/api/widget/team/";
 
@@ -698,16 +710,40 @@ const MAX_DAYS =
 const MAX_MATCHES =
   50;
 
+
+/*
+  All-team refresh:
+  every 60 seconds.
+
+  Live refresh:
+  every 15 seconds.
+
+  UI:
+  every 1 second.
+*/
+
 const REFRESH_INTERVAL =
-  10 * 60 * 1000;
+  60 * 1000;
+
+const LIVE_REFRESH_INTERVAL =
+  15 * 1000;
 
 const COUNTDOWN_INTERVAL =
-  30 * 1000;
+  1000;
 
 const END_KEEP_TIME =
   2 * 60 * 60 * 1000;
 
+
+const MATCH_STORAGE_KEY =
+  "sportx_future_matches_v2";
+
+const VOTE_STORAGE_KEY =
+  "sportx_future_votes";
+
+
 const FEATURED_TEAMS = [
+
   "real-madrid",
   "barcelona",
   "manchester-united",
@@ -770,13 +806,20 @@ const FEATURED_TEAMS = [
   "monterrey",
 
   "celtic"
+
 ];
 
-if(FEATURED_TEAMS.length !== 50){
+
+if(
+  FEATURED_TEAMS.length !== 50
+){
+
   throw new Error(
     "FEATURED_TEAMS must contain exactly 50 teams."
   );
+
 }
+
 
 let matches = [];
 
@@ -784,44 +827,126 @@ let loading = false;
 
 let voteStore = {};
 
-let endedStore = {};
+
 
 const loadingEl =
-  document.getElementById("loading");
+  document.getElementById(
+    "loading"
+  );
 
 const matchesGrid =
-  document.getElementById("matchesGrid");
+  document.getElementById(
+    "matchesGrid"
+  );
 
 const emptyState =
-  document.getElementById("emptyState");
+  document.getElementById(
+    "emptyState"
+  );
 
 const errorState =
-  document.getElementById("errorState");
+  document.getElementById(
+    "errorState"
+  );
 
 const searchInput =
-  document.getElementById("searchInput");
+  document.getElementById(
+    "searchInput"
+  );
 
 const statusEl =
-  document.getElementById("status");
+  document.getElementById(
+    "status"
+  );
 
 const matchCountEl =
-  document.getElementById("matchCount");
+  document.getElementById(
+    "matchCount"
+  );
 
 const toastEl =
-  document.getElementById("toast");
+  document.getElementById(
+    "toast"
+  );
 
 const endSection =
-  document.getElementById("endSection");
+  document.getElementById(
+    "endSection"
+  );
 
 const endGrid =
-  document.getElementById("endGrid");
+  document.getElementById(
+    "endGrid"
+  );
+
+
+
+/* =========================
+   STORAGE
+========================= */
+
+function loadStoredMatches(){
+
+  try{
+
+    const saved =
+      JSON.parse(
+        localStorage.getItem(
+          MATCH_STORAGE_KEY
+        ) || "[]"
+      );
+
+    if(
+      Array.isArray(saved)
+    ){
+
+      matches =
+        saved.filter(Boolean);
+
+    }
+
+  }catch(error){
+
+    console.warn(
+      "Match storage read error:",
+      error
+    );
+
+    matches = [];
+
+  }
+
+}
+
+
+function saveStoredMatches(){
+
+  try{
+
+    localStorage.setItem(
+      MATCH_STORAGE_KEY,
+      JSON.stringify(matches)
+    );
+
+  }catch(error){
+
+    console.warn(
+      "Match storage write error:",
+      error
+    );
+
+  }
+
+}
+
+
 
 try{
 
   voteStore =
     JSON.parse(
       localStorage.getItem(
-        "sportx_future_votes"
+        VOTE_STORAGE_KEY
       ) || "{}"
     ) || {};
 
@@ -831,41 +956,52 @@ try{
 
 }
 
-try{
 
-  endedStore =
-    JSON.parse(
-      localStorage.getItem(
-        "sportx_future_ended"
-      ) || "{}"
-    ) || {};
 
-}catch{
-
-  endedStore = {};
-
-}
+/* =========================
+   HELPERS
+========================= */
 
 function normalize(value){
 
   return String(value || "")
     .toLowerCase()
     .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g,"")
+    .replace(
+      /[\u0300-\u036f]/g,
+      ""
+    )
     .trim();
 
 }
 
+
 function escapeHtml(value){
 
   return String(value ?? "")
-    .replaceAll("&","&amp;")
-    .replaceAll("<","&lt;")
-    .replaceAll(">","&gt;")
-    .replaceAll('"',"&quot;")
-    .replaceAll("'","&#039;");
+    .replaceAll(
+      "&",
+      "&amp;"
+    )
+    .replaceAll(
+      "<",
+      "&lt;"
+    )
+    .replaceAll(
+      ">",
+      "&gt;"
+    )
+    .replaceAll(
+      '"',
+      "&quot;"
+    )
+    .replaceAll(
+      "'",
+      "&#039;"
+    );
 
 }
+
 
 function parseDate(value){
 
@@ -874,10 +1010,15 @@ function parseDate(value){
     value === undefined ||
     value === ""
   ){
+
     return null;
+
   }
 
-  if(typeof value === "number"){
+
+  if(
+    typeof value === "number"
+  ){
 
     const ms =
       value < 100000000000
@@ -887,20 +1028,29 @@ function parseDate(value){
     const date =
       new Date(ms);
 
-    return Number.isNaN(date.getTime())
+    return Number.isNaN(
+      date.getTime()
+    )
       ? null
       : date;
 
   }
 
+
   const text =
     String(value).trim();
 
+
   if(!text){
+
     return null;
+
   }
 
-  if(/^\d+$/.test(text)){
+
+  if(
+    /^\d+$/.test(text)
+  ){
 
     const number =
       Number(text);
@@ -913,20 +1063,26 @@ function parseDate(value){
     const date =
       new Date(ms);
 
-    return Number.isNaN(date.getTime())
+    return Number.isNaN(
+      date.getTime()
+    )
       ? null
       : date;
 
   }
 
+
   const date =
     new Date(text);
 
-  return Number.isNaN(date.getTime())
+  return Number.isNaN(
+    date.getTime()
+  )
     ? null
     : date;
 
 }
+
 
 function getTime(match){
 
@@ -945,21 +1101,31 @@ function getTime(match){
 
 }
 
+
 function getTeamObject(value){
 
   if(!value){
+
     return {};
+
   }
 
-  if(typeof value === "string"){
+
+  if(
+    typeof value === "string"
+  ){
+
     return {
       name:value
     };
+
   }
+
 
   return value;
 
 }
+
 
 function getHome(match){
 
@@ -971,6 +1137,7 @@ function getHome(match){
 
 }
 
+
 function getAway(match){
 
   return getTeamObject(
@@ -981,11 +1148,17 @@ function getAway(match){
 
 }
 
+
 function getTeamName(team){
 
-  if(typeof team === "string"){
+  if(
+    typeof team === "string"
+  ){
+
     return team;
+
   }
+
 
   return (
     team?.name ||
@@ -998,11 +1171,17 @@ function getTeamName(team){
 
 }
 
+
 function getTeamLogo(team){
 
-  if(typeof team === "string"){
+  if(
+    typeof team === "string"
+  ){
+
     return "";
+
   }
+
 
   return (
     team?.logo ||
@@ -1020,12 +1199,16 @@ function getTeamLogo(team){
 
 }
 
+
 function getLeague(match){
 
   const competition =
     match.competition;
 
-  if(typeof competition === "object"){
+
+  if(
+    typeof competition === "object"
+  ){
 
     return (
       competition?.name ||
@@ -1035,10 +1218,14 @@ function getLeague(match){
 
   }
 
+
   const league =
     match.league;
 
-  if(typeof league === "object"){
+
+  if(
+    typeof league === "object"
+  ){
 
     return (
       league?.name ||
@@ -1047,6 +1234,7 @@ function getLeague(match){
     );
 
   }
+
 
   return (
     competition ||
@@ -1058,6 +1246,12 @@ function getLeague(match){
 
 }
 
+
+
+/* =========================
+   STATUS
+========================= */
+
 function getStatus(match){
 
   const raw =
@@ -1068,6 +1262,7 @@ function getStatus(match){
       match.state ||
       ""
     );
+
 
   if(
     match.is_live === true ||
@@ -1082,6 +1277,7 @@ function getStatus(match){
 
   }
 
+
   if(
     raw.includes("finished") ||
     raw.includes("ended") ||
@@ -1095,6 +1291,7 @@ function getStatus(match){
 
   }
 
+
   if(
     raw.includes("cancel") ||
     raw.includes("postpon")
@@ -1104,13 +1301,26 @@ function getStatus(match){
 
   }
 
+
   return "scheduled";
 
 }
 
-function getId(match,home,away,timestamp){
+
+
+/* =========================
+   ID
+========================= */
+
+function getId(
+  match,
+  home,
+  away,
+  timestamp
+){
 
   return String(
+
     match.id ||
     match.match_id ||
     match.matchId ||
@@ -1120,14 +1330,22 @@ function getId(match,home,away,timestamp){
     match.eventId ||
     match.slug ||
     match.url ||
+
     [
       normalize(home),
       normalize(away),
       timestamp
     ].join("-")
+
   );
 
 }
+
+
+
+/* =========================
+   SCORE
+========================= */
 
 function getNumber(value){
 
@@ -1136,11 +1354,15 @@ function getNumber(value){
     value === undefined ||
     value === ""
   ){
+
     return null;
+
   }
+
 
   const number =
     Number(value);
+
 
   return Number.isFinite(number)
     ? number
@@ -1148,7 +1370,11 @@ function getNumber(value){
 
 }
 
-function getScoreValue(match,side){
+
+function getScoreValue(
+  match,
+  side
+){
 
   const score =
     match.score;
@@ -1156,14 +1382,17 @@ function getScoreValue(match,side){
   const scores =
     match.scores;
 
+
   const directKeys =
     side === "home"
+
       ? [
           "home_score",
           "homeScore",
           "home_goals",
           "homeGoals"
         ]
+
       : [
           "away_score",
           "awayScore",
@@ -1171,32 +1400,53 @@ function getScoreValue(match,side){
           "awayGoals"
         ];
 
-  for(const key of directKeys){
+
+  for(
+    const key of directKeys
+  ){
 
     const value =
-      getNumber(match[key]);
+      getNumber(
+        match[key]
+      );
 
-    if(value !== null){
+    if(
+      value !== null
+    ){
+
       return value;
+
     }
 
   }
 
-  const objects =
-    [
-      score,
-      scores,
-      match.result
-    ];
 
-  for(const object of objects){
+  const objects = [
 
-    if(!object || typeof object !== "object"){
+    score,
+    scores,
+    match.result
+
+  ];
+
+
+  for(
+    const object of objects
+  ){
+
+    if(
+      !object ||
+      typeof object !== "object"
+    ){
+
       continue;
+
     }
+
 
     const keys =
       side === "home"
+
         ? [
             "home",
             "home_score",
@@ -1205,6 +1455,7 @@ function getScoreValue(match,side){
             "homeGoals",
             "1"
           ]
+
         : [
             "away",
             "away_score",
@@ -1214,10 +1465,14 @@ function getScoreValue(match,side){
             "2"
           ];
 
-    for(const key of keys){
+
+    for(
+      const key of keys
+    ){
 
       const value =
         object[key];
+
 
       if(
         value !== null &&
@@ -1232,110 +1487,49 @@ function getScoreValue(match,side){
             value.value
           );
 
-        if(nested !== null){
+
+        if(
+          nested !== null
+        ){
+
           return nested;
+
         }
 
       }
 
+
       const number =
         getNumber(value);
 
-      if(number !== null){
+
+      if(
+        number !== null
+      ){
+
         return number;
+
       }
 
     }
 
   }
 
+
   return null;
 
 }
 
-function getFinishedAt(match,timestamp){
 
-  const explicit =
-    match.finished_at ||
-    match.finishedAt ||
-    match.end_time ||
-    match.endTime ||
-    match.completed_at ||
-    match.completedAt ||
-    match.final_time ||
-    match.finalTime;
 
-  const explicitDate =
-    parseDate(explicit);
+/* =========================
+   NORMALIZE MATCH
+========================= */
 
-  if(explicitDate){
-    return explicitDate.getTime();
-  }
-
-  return timestamp + 2 * 60 * 60 * 1000;
-
-}
-
-function getResult(match){
-
-  const homeScore =
-    getScoreValue(
-      match,
-      "home"
-    );
-
-  const awayScore =
-    getScoreValue(
-      match,
-      "away"
-    );
-
-  if(
-    homeScore === null ||
-    awayScore === null
-  ){
-
-    return {
-      homeScore,
-      awayScore,
-      homeResult:"draw",
-      awayResult:"draw"
-    };
-
-  }
-
-  if(homeScore > awayScore){
-
-    return {
-      homeScore,
-      awayScore,
-      homeResult:"win",
-      awayResult:"loss"
-    };
-
-  }
-
-  if(awayScore > homeScore){
-
-    return {
-      homeScore,
-      awayScore,
-      homeResult:"loss",
-      awayResult:"win"
-    };
-
-  }
-
-  return {
-    homeScore,
-    awayScore,
-    homeResult:"draw",
-    awayResult:"draw"
-  };
-
-}
-
-function normalizeMatch(match,sourceTeam){
+function normalizeMatch(
+  match,
+  sourceTeam
+){
 
   const homeObject =
     getHome(match);
@@ -1343,28 +1537,38 @@ function normalizeMatch(match,sourceTeam){
   const awayObject =
     getAway(match);
 
+
   const home =
-    getTeamName(homeObject);
+    getTeamName(
+      homeObject
+    );
 
   const away =
-    getTeamName(awayObject);
+    getTeamName(
+      awayObject
+    );
+
 
   const date =
-    parseDate(getTime(match));
+    parseDate(
+      getTime(match)
+    );
+
 
   if(
     !home ||
     !away ||
     !date
   ){
+
     return null;
+
   }
 
-  const result =
-    getResult(match);
 
   const status =
     getStatus(match);
+
 
   return {
 
@@ -1381,13 +1585,19 @@ function normalizeMatch(match,sourceTeam){
     away,
 
     homeLogo:
-      getTeamLogo(homeObject),
+      getTeamLogo(
+        homeObject
+      ),
 
     awayLogo:
-      getTeamLogo(awayObject),
+      getTeamLogo(
+        awayObject
+      ),
 
     league:
-      String(getLeague(match)),
+      String(
+        getLeague(match)
+      ),
 
     timestamp:
       date.getTime(),
@@ -1395,17 +1605,20 @@ function normalizeMatch(match,sourceTeam){
     status,
 
     homeScore:
-      result.homeScore,
+      getScoreValue(
+        match,
+        "home"
+      ),
 
     awayScore:
-      result.awayScore,
+      getScoreValue(
+        match,
+        "away"
+      ),
 
-    finishedAt:
+    finishedObservedAt:
       status === "finished"
-        ? getFinishedAt(
-            match,
-            date.getTime()
-          )
+        ? Date.now()
         : null,
 
     sourceTeam
@@ -1414,41 +1627,87 @@ function normalizeMatch(match,sourceTeam){
 
 }
 
+
+
+/* =========================
+   API
+========================= */
+
 function extractMatches(json){
 
-  if(Array.isArray(json)){
+  if(
+    Array.isArray(json)
+  ){
+
     return json;
+
   }
 
-  if(Array.isArray(json?.matches)){
+
+  if(
+    Array.isArray(
+      json?.matches
+    )
+  ){
+
     return json.matches;
+
   }
 
-  if(Array.isArray(json?.data)){
+
+  if(
+    Array.isArray(
+      json?.data
+    )
+  ){
+
     return json.data;
+
   }
 
-  if(Array.isArray(json?.fixtures)){
+
+  if(
+    Array.isArray(
+      json?.fixtures
+    )
+  ){
+
     return json.fixtures;
+
   }
 
-  if(Array.isArray(json?.events)){
+
+  if(
+    Array.isArray(
+      json?.events
+    )
+  ){
+
     return json.events;
+
   }
+
 
   return [];
 
 }
 
-async function loadTeam(teamSlug){
+
+
+async function loadTeam(
+  teamSlug
+){
 
   const url =
     SPORT_SCORE_BASE +
     "?sport=" +
     SPORT +
     "&slug=" +
-    encodeURIComponent(teamSlug) +
+    encodeURIComponent(
+      teamSlug
+    ) +
     "&limit=30";
+
 
   try{
 
@@ -1464,7 +1723,10 @@ async function loadTeam(teamSlug){
         }
       );
 
-    if(!response.ok){
+
+    if(
+      !response.ok
+    ){
 
       console.warn(
         "Team request failed:",
@@ -1476,19 +1738,23 @@ async function loadTeam(teamSlug){
 
     }
 
+
     const json =
       await response.json();
 
-    const raw =
-      extractMatches(json);
 
-    return raw
-      .map(item =>
-        normalizeMatch(
-          item,
-          teamSlug
-        )
+    return extractMatches(
+      json
+    )
+
+      .map(
+        item =>
+          normalizeMatch(
+            item,
+            teamSlug
+          )
       )
+
       .filter(Boolean);
 
   }catch(error){
@@ -1505,120 +1771,172 @@ async function loadTeam(teamSlug){
 
 }
 
-function isWithinFutureWindow(match){
 
-  const now =
-    Date.now();
 
-  const max =
-    now +
-    MAX_DAYS *
-    24 *
-    60 *
-    60 *
-    1000;
-
-  if(!Number.isFinite(match.timestamp)){
-    return false;
-  }
-
-  if(match.status === "live"){
-    return false;
-  }
-
-  if(match.status === "finished"){
-    return false;
-  }
-
-  if(match.status === "excluded"){
-    return false;
-  }
-
-  return (
-    match.timestamp > now &&
-    match.timestamp <= max
-  );
-
-}
+/* =========================
+   MATCH KEY
+========================= */
 
 function matchKey(match){
 
   return [
+
     normalize(match.home),
+
     normalize(match.away),
+
     Math.floor(
-      match.timestamp / 60000
+      Number(
+        match.timestamp
+      ) / 60000
     )
+
   ].join("|");
 
 }
 
-function deduplicate(list){
+
+
+/* =========================
+   MERGE
+========================= */
+
+function mergeMatches(
+  oldList,
+  freshList
+){
 
   const map =
     new Map();
 
-  for(const match of list){
+
+  /*
+    Keep everything already saved.
+  */
+
+  for(
+    const oldMatch of oldList
+  ){
+
+    if(!oldMatch){
+      continue;
+    }
+
+
+    map.set(
+      matchKey(oldMatch),
+      oldMatch
+    );
+
+  }
+
+
+  /*
+    Merge fresh API results.
+  */
+
+  for(
+    const fresh of freshList
+  ){
+
+    if(!fresh){
+      continue;
+    }
+
 
     const key =
-      matchKey(match);
+      matchKey(fresh);
+
 
     const old =
       map.get(key);
+
 
     if(!old){
 
       map.set(
         key,
-        match
+        fresh
       );
 
       continue;
 
     }
 
+
+    const merged = {
+
+      ...old,
+      ...fresh
+
+    };
+
+
+    /*
+      Never lose an already
+      loaded logo.
+    */
+
     if(
-      !old.homeLogo &&
-      match.homeLogo
+      !fresh.homeLogo &&
+      old.homeLogo
     ){
 
-      old.homeLogo =
-        match.homeLogo;
+      merged.homeLogo =
+        old.homeLogo;
 
     }
 
+
     if(
-      !old.awayLogo &&
-      match.awayLogo
+      !fresh.awayLogo &&
+      old.awayLogo
     ){
 
-      old.awayLogo =
-        match.awayLogo;
+      merged.awayLogo =
+        old.awayLogo;
 
     }
 
+
+    /*
+      Keep the original
+      finished observation time.
+    */
+
     if(
-      old.league === "Football" &&
-      match.league !== "Football"
+      old.finishedObservedAt &&
+      fresh.status === "finished"
     ){
 
-      old.league =
-        match.league;
+      merged.finishedObservedAt =
+        old.finishedObservedAt;
 
     }
 
+
+    /*
+      New finish event.
+    */
+
     if(
-      match.status === "finished"
+      fresh.status === "finished" &&
+      !old.finishedObservedAt
     ){
 
-      map.set(
-        key,
-        match
-      );
+      merged.finishedObservedAt =
+        Date.now();
 
     }
+
+
+    map.set(
+      key,
+      merged
+    );
 
   }
+
 
   return Array.from(
     map.values()
@@ -1626,268 +1944,224 @@ function deduplicate(list){
 
 }
 
-function cleanupEnded(){
+
+
+/* =========================
+   CLEANUP
+========================= */
+
+function cleanupMatches(){
 
   const now =
     Date.now();
 
-  let changed =
-    false;
 
-  for(const id of Object.keys(endedStore)){
+  const before =
+    matches.length;
 
-    const item =
-      endedStore[id];
 
-    if(
-      !item ||
-      !item.savedAt ||
-      now - item.savedAt >= END_KEEP_TIME
-    ){
+  matches =
+    matches.filter(
+      match => {
 
-      delete endedStore[id];
+        if(!match){
 
-      changed = true;
+          return false;
 
-    }
+        }
 
-  }
 
-  if(changed){
+        if(
+          match.status ===
+          "excluded"
+        ){
 
-    try{
+          return false;
 
-      localStorage.setItem(
-        "sportx_future_ended",
-        JSON.stringify(
-          endedStore
-        )
-      );
+        }
 
-    }catch(error){
 
-      console.warn(
-        "End storage error:",
-        error
-      );
+        /*
+          Finished matches remain
+          for 2 hours.
+        */
 
-    }
+        if(
+          match.status ===
+          "finished"
+        ){
+
+          const finishedAt =
+            Number(
+              match.finishedObservedAt
+            );
+
+
+          if(
+            Number.isFinite(
+              finishedAt
+            ) &&
+            now - finishedAt >=
+              END_KEEP_TIME
+          ){
+
+            return false;
+
+          }
+
+        }
+
+
+        /*
+          Live matches remain visible
+          even though they are no longer
+          "future".
+        */
+
+        return true;
+
+      }
+    );
+
+
+  if(
+    before !== matches.length
+  ){
+
+    saveStoredMatches();
 
   }
 
 }
 
-function saveEnded(match){
 
-  const key =
-    match.id;
 
-  const existing =
-    endedStore[key];
+/* =========================
+   LOAD ALL 50
+========================= */
 
-  const now =
-    Date.now();
-
-  if(existing){
-
-    endedStore[key] = {
-      ...existing,
-      ...match,
-      savedAt:
-        existing.savedAt
-    };
-
-  }else{
-
-    endedStore[key] = {
-      ...match,
-      savedAt:now
-    };
-
-  }
-
-  try{
-
-    localStorage.setItem(
-      "sportx_future_ended",
-      JSON.stringify(
-        endedStore
-      )
-    );
-
-  }catch(error){
-
-    console.warn(
-      "End storage error:",
-      error
-    );
-
-  }
-
-}
-
-function getEndedMatches(){
-
-  cleanupEnded();
-
-  return Object.values(
-    endedStore
-  )
-  .filter(item =>
-    item &&
-    item.savedAt &&
-    Date.now() - item.savedAt < END_KEEP_TIME
-  )
-  .sort(
-    (a,b) =>
-      b.savedAt -
-      a.savedAt
-  );
-
-}
-
-function processFinishedMatches(collected){
-
-  const now =
-    Date.now();
-
-  for(const match of collected){
-
-    if(match.status !== "finished"){
-      continue;
-    }
-
-    const key =
-      match.id;
-
-    const existing =
-      endedStore[key];
-
-    if(existing){
-
-      endedStore[key] = {
-        ...existing,
-        ...match,
-        savedAt:
-          existing.savedAt
-      };
-
-      continue;
-
-    }
-
-    const finishedAt =
-      match.finishedAt ||
-      (
-        match.timestamp +
-        2 * 60 * 60 * 1000
-      );
-
-    if(
-      finishedAt <= now &&
-      now - finishedAt < END_KEEP_TIME
-    ){
-
-      saveEnded(match);
-
-    }
-
-  }
-
-  try{
-
-    localStorage.setItem(
-      "sportx_future_ended",
-      JSON.stringify(
-        endedStore
-      )
-    );
-
-  }catch(error){
-
-    console.warn(
-      "End storage error:",
-      error
-    );
-
-  }
-
-}
-
-async function loadAllTeams(){
+async function loadAllTeams(
+  silent = false
+){
 
   if(loading){
+
     return;
+
   }
+
 
   loading = true;
 
-  errorState.style.display =
-    "none";
 
-  statusEl.textContent =
-    "Updating...";
+  if(!silent){
+
+    errorState.style.display =
+      "none";
+
+    statusEl.textContent =
+      "Updating...";
+
+  }
+
 
   try{
 
-    const requests =
-      FEATURED_TEAMS.map(
-        slug => loadTeam(slug)
-      );
-
     const results =
       await Promise.all(
-        requests
+
+        FEATURED_TEAMS.map(
+          slug =>
+            loadTeam(slug)
+        )
+
       );
+
 
     const collected =
       results.flat();
 
-    processFinishedMatches(
-      collected
-    );
 
-    const filtered =
-      collected.filter(
-        isWithinFutureWindow
-      );
-
-    const unique =
-      deduplicate(
-        filtered
-      );
-
-    unique.sort(
-      (a,b) =>
-        a.timestamp -
-        b.timestamp
-    );
+    /*
+      IMPORTANT:
+      We merge.
+      We DO NOT replace matches.
+    */
 
     matches =
-      unique.slice(
-        0,
-        MAX_MATCHES
+      mergeMatches(
+        matches,
+        collected
       );
+
+
+    cleanupMatches();
+
+    saveStoredMatches();
+
 
     render();
 
     renderEnded();
 
-    statusEl.textContent =
-      `${matches.length} matches`;
+
+    const liveCount =
+      matches.filter(
+        match =>
+          match.status === "live"
+      ).length;
+
+
+    if(
+      liveCount > 0
+    ){
+
+      statusEl.textContent =
+        `${liveCount} LIVE · ${matches.length} saved`;
+
+    }else{
+
+      statusEl.textContent =
+        `${matches.filter(
+          m =>
+            m.status !==
+            "finished"
+        ).length} matches`;
+
+    }
 
   }catch(error){
 
     console.error(
-      "Future loading error:",
+      "Future update error:",
       error
     );
 
-    errorState.style.display =
-      "block";
 
-    statusEl.textContent =
-      "Update failed";
+    /*
+      Existing matches remain visible
+      even when API fails.
+    */
+
+    if(
+      !matches.length
+    ){
+
+      errorState.style.display =
+        "block";
+
+      statusEl.textContent =
+        "Update failed";
+
+    }else{
+
+      statusEl.textContent =
+        "Using saved matches";
+
+    }
+
+
+    render();
 
     renderEnded();
 
@@ -1895,32 +2169,53 @@ async function loadAllTeams(){
 
     loading = false;
 
+    /*
+      No visible loading screen.
+    */
+
     loadingEl.style.display =
       "none";
-
-    matchesGrid.style.display =
-      "grid";
 
   }
 
 }
 
-function getCountdown(timestamp){
+
+
+/* =========================
+   COUNTDOWN
+========================= */
+
+function getCountdown(
+  timestamp
+){
 
   const difference =
     timestamp -
     Date.now();
 
-  if(difference <= 0){
+
+  if(
+    difference <= 0
+  ){
+
     return "Starting";
+
   }
+
 
   const totalHours =
     difference / 3600000;
 
-  if(totalHours < 24){
+
+  if(
+    totalHours < 24
+  ){
+
     return "Today";
+
   }
+
 
   const days =
     Math.ceil(
@@ -1928,18 +2223,29 @@ function getCountdown(timestamp){
       86400000
     );
 
-  if(days === 1){
+
+  if(
+    days === 1
+  ){
+
     return "1 Day";
+
   }
+
 
   return `${days} Days`;
 
 }
 
-function formatDate(timestamp){
+
+
+function formatDate(
+  timestamp
+){
 
   const date =
     new Date(timestamp);
+
 
   return date.toLocaleString(
     undefined,
@@ -1954,48 +2260,116 @@ function formatDate(timestamp){
 
 }
 
-function logoHtml(url,name){
+
+
+/* =========================
+   TEAM LOGO
+========================= */
+
+function logoHtml(
+  url,
+  name
+){
 
   if(url){
 
     return `
+
       <img
-        class="logo"
+        class="team-logo"
         src="${escapeHtml(url)}"
         alt="${escapeHtml(name)}"
         loading="lazy"
-        onerror="this.outerHTML='<div class=&quot;logo logo-fallback&quot;>${escapeHtml(name.charAt(0).toUpperCase())}</div>'"
+
+        onerror="
+          this.outerHTML =
+          '<div class=&quot;team-logo logo-fallback&quot;>' +
+          '${escapeHtml(
+            name
+              .charAt(0)
+              .toUpperCase()
+          )}' +
+          '</div>'
+        "
       >
+
     `;
 
   }
 
+
   return `
-    <div class="logo logo-fallback">
+
+    <div
+      class="team-logo logo-fallback"
+    >
       ${escapeHtml(
-        name.charAt(0).toUpperCase()
+        name
+          .charAt(0)
+          .toUpperCase()
       )}
     </div>
+
   `;
 
 }
 
-function createCard(match){
+
+
+/* =========================
+   FUTURE / LIVE CARD
+========================= */
+
+function createCard(
+  match
+){
 
   const selected =
-    voteStore[match.id] || "";
+    voteStore[match.id] ||
+    "";
+
 
   const locked =
     Boolean(selected);
 
-  return `
-    <article class="match-card">
 
-      <div class="match-top">
+  const isLive =
+    match.status ===
+    "live";
 
-        <div class="league">
-          ${escapeHtml(match.league)}
+
+  const homeScore =
+    match.homeScore === null ||
+    match.homeScore === undefined
+      ? "-"
+      : match.homeScore;
+
+
+  const awayScore =
+    match.awayScore === null ||
+    match.awayScore === undefined
+      ? "-"
+      : match.awayScore;
+
+
+  const topBadge =
+    isLive
+
+      ? `
+
+        <div
+          class="countdown"
+          style="
+            background:#fee2e2;
+            color:#dc2626;
+          "
+        >
+          ● LIVE
         </div>
+
+      `
+
+      : `
 
         <div
           class="countdown"
@@ -2003,17 +2377,78 @@ function createCard(match){
           data-time="${match.timestamp}"
         >
           ${escapeHtml(
-            getCountdown(match.timestamp)
+            getCountdown(
+              match.timestamp
+            )
           )}
         </div>
 
+      `;
+
+
+  const center =
+    isLive
+
+      ? `
+
+        <div
+          class="vs"
+          style="
+            font-size:22px;
+            color:#dc2626;
+          "
+        >
+
+          ${escapeHtml(
+            String(homeScore)
+          )}
+
+          -
+
+          ${escapeHtml(
+            String(awayScore)
+          )}
+
+        </div>
+
+      `
+
+      : `
+
+        <div class="vs">
+          VS
+        </div>
+
+      `;
+
+
+  return `
+
+    <article class="match-card">
+
+      <div class="match-top">
+
+        <div class="league">
+          ${escapeHtml(
+            match.league
+          )}
+        </div>
+
+        ${topBadge}
+
       </div>
 
+
       <div class="date">
+
         ${escapeHtml(
-          formatDate(match.timestamp)
+          formatDate(
+            match.timestamp
+          )
         )}
+
       </div>
+
 
       <div class="teams">
 
@@ -2025,14 +2460,16 @@ function createCard(match){
           )}
 
           <div class="team-name">
-            ${escapeHtml(match.home)}
+            ${escapeHtml(
+              match.home
+            )}
           </div>
 
         </div>
 
-        <div class="vs">
-          VS
-        </div>
+
+        ${center}
+
 
         <div class="team">
 
@@ -2042,77 +2479,194 @@ function createCard(match){
           )}
 
           <div class="team-name">
-            ${escapeHtml(match.away)}
+            ${escapeHtml(
+              match.away
+            )}
           </div>
 
         </div>
 
       </div>
 
-      <div class="vote-label">
-        ${locked
-          ? "Prediction locked"
-          : "Predict the winner"}
-      </div>
 
-      <div class="vote-buttons">
+      ${
+        isLive
 
-        <button
-          class="vote-btn ${selected === "1" ? "selected" : ""} ${locked ? "locked" : ""}"
-          data-match="${escapeHtml(match.id)}"
-          data-vote="1"
-          ${locked ? "disabled" : ""}
-        >
-          1
-        </button>
+          ? `
 
-        <button
-          class="vote-btn ${selected === "X" ? "selected" : ""} ${locked ? "locked" : ""}"
-          data-match="${escapeHtml(match.id)}"
-          data-vote="X"
-          ${locked ? "disabled" : ""}
-        >
-          X
-        </button>
+            <div
+              style="
+                margin-top:15px;
+                padding:10px;
+                border-radius:12px;
+                background:#fef2f2;
+                color:#991b1b;
+                text-align:center;
+                font-size:12px;
+                font-weight:900;
+              "
+            >
+              LIVE SCORE · Updates automatically
+            </div>
 
-        <button
-          class="vote-btn ${selected === "2" ? "selected" : ""} ${locked ? "locked" : ""}"
-          data-match="${escapeHtml(match.id)}"
-          data-vote="2"
-          ${locked ? "disabled" : ""}
-        >
-          2
-        </button>
+          `
 
-      </div>
+          : `
+
+            <div class="vote-label">
+
+              ${
+                locked
+                  ? "Prediction locked"
+                  : "Predict the winner"
+              }
+
+            </div>
+
+
+            <div class="vote-buttons">
+
+              <button
+                class="vote-btn ${
+                  selected === "1"
+                    ? "selected"
+                    : ""
+                } ${
+                  locked
+                    ? "locked"
+                    : ""
+                }"
+                data-match="${escapeHtml(match.id)}"
+                data-vote="1"
+                ${locked ? "disabled" : ""}
+              >
+                1
+              </button>
+
+
+              <button
+                class="vote-btn ${
+                  selected === "X"
+                    ? "selected"
+                    : ""
+                } ${
+                  locked
+                    ? "locked"
+                    : ""
+                }"
+                data-match="${escapeHtml(match.id)}"
+                data-vote="X"
+                ${locked ? "disabled" : ""}
+              >
+                X
+              </button>
+
+
+              <button
+                class="vote-btn ${
+                  selected === "2"
+                    ? "selected"
+                    : ""
+                } ${
+                  locked
+                    ? "locked"
+                    : ""
+                }"
+                data-match="${escapeHtml(match.id)}"
+                data-vote="2"
+                ${locked ? "disabled" : ""}
+              >
+                2
+              </button>
+
+            </div>
+
+          `
+      }
 
     </article>
+
   `;
 
 }
 
-function createEndedCard(match){
 
-  const result =
-    getResult(match);
+
+/* =========================
+   FINISHED CARD
+========================= */
+
+function createEndedCard(
+  match
+){
 
   const homeScore =
-    result.homeScore === null
+    match.homeScore === null ||
+    match.homeScore === undefined
       ? "-"
-      : result.homeScore;
+      : match.homeScore;
+
 
   const awayScore =
-    result.awayScore === null
+    match.awayScore === null ||
+    match.awayScore === undefined
       ? "-"
-      : result.awayScore;
+      : match.awayScore;
+
+
+  let homeResult =
+    "draw";
+
+  let awayResult =
+    "draw";
+
+
+  if(
+    Number.isFinite(
+      Number(homeScore)
+    ) &&
+    Number.isFinite(
+      Number(awayScore)
+    )
+  ){
+
+    if(
+      Number(homeScore) >
+      Number(awayScore)
+    ){
+
+      homeResult =
+        "win";
+
+      awayResult =
+        "loss";
+
+    }else if(
+      Number(awayScore) >
+      Number(homeScore)
+    ){
+
+      homeResult =
+        "loss";
+
+      awayResult =
+        "win";
+
+    }
+
+  }
+
 
   return `
+
     <article class="match-card">
 
       <div class="match-top">
 
         <div class="league">
-          ${escapeHtml(match.league)}
+          ${escapeHtml(
+            match.league
+          )}
         </div>
 
         <div class="end-badge">
@@ -2121,11 +2675,17 @@ function createEndedCard(match){
 
       </div>
 
+
       <div class="date">
+
         ${escapeHtml(
-          formatDate(match.timestamp)
+          formatDate(
+            match.timestamp
+          )
         )}
+
       </div>
+
 
       <div class="teams">
 
@@ -2137,14 +2697,33 @@ function createEndedCard(match){
           )}
 
           <div class="team-name">
-            ${escapeHtml(match.home)}
+            ${escapeHtml(
+              match.home
+            )}
           </div>
 
         </div>
 
-        <div class="vs">
-          FINAL
+
+        <div
+          class="vs"
+          style="
+            font-size:20px;
+          "
+        >
+
+          ${escapeHtml(
+            String(homeScore)
+          )}
+
+          -
+
+          ${escapeHtml(
+            String(awayScore)
+          )}
+
         </div>
+
 
         <div class="team">
 
@@ -2154,12 +2733,15 @@ function createEndedCard(match){
           )}
 
           <div class="team-name">
-            ${escapeHtml(match.away)}
+            ${escapeHtml(
+              match.away
+            )}
           </div>
 
         </div>
 
       </div>
+
 
       <div class="result-box">
 
@@ -2167,44 +2749,63 @@ function createEndedCard(match){
           Final Result
         </div>
 
+
         <div class="result-score">
+
           ${escapeHtml(
             String(homeScore)
           )}
+
           -
+
           ${escapeHtml(
             String(awayScore)
           )}
+
         </div>
+
 
         <div class="result-teams">
 
           <div
-            class="result-team ${result.homeResult}"
+            class="result-team ${homeResult}"
           >
+
             ${escapeHtml(
               match.home
             )}
+
             <br>
-            ${result.homeResult === "win"
-              ? "WIN"
-              : result.homeResult === "loss"
-                ? "LOSS"
-                : "DRAW"}
+
+            ${
+              homeResult === "win"
+                ? "WIN"
+                : homeResult === "loss"
+                  ? "LOSS"
+                  : "DRAW"
+            }
+
           </div>
 
+
           <div
-            class="result-team ${result.awayResult}"
+            class="result-team ${awayResult}"
           >
+
             ${escapeHtml(
               match.away
             )}
+
             <br>
-            ${result.awayResult === "win"
-              ? "WIN"
-              : result.awayResult === "loss"
-                ? "LOSS"
-                : "DRAW"}
+
+            ${
+              awayResult === "win"
+                ? "WIN"
+                : awayResult === "loss"
+                  ? "LOSS"
+                  : "DRAW"
+            }
+
           </div>
 
         </div>
@@ -2212,16 +2813,42 @@ function createEndedCard(match){
       </div>
 
     </article>
+
   `;
 
 }
 
+
+
+/* =========================
+   RENDER ENDED
+========================= */
+
 function renderEnded(){
 
   const ended =
-    getEndedMatches();
+    matches
+      .filter(
+        match =>
+          match.status ===
+          "finished"
+      )
+      .sort(
+        (a,b) =>
+          (
+            b.finishedObservedAt ||
+            0
+          ) -
+          (
+            a.finishedObservedAt ||
+            0
+          )
+      );
 
-  if(!ended.length){
+
+  if(
+    !ended.length
+  ){
 
     endSection.style.display =
       "none";
@@ -2233,15 +2860,25 @@ function renderEnded(){
 
   }
 
+
   endSection.style.display =
     "block";
 
+
   endGrid.innerHTML =
     ended
-      .map(createEndedCard)
+      .map(
+        createEndedCard
+      )
       .join("");
 
 }
+
+
+
+/* =========================
+   RENDER
+========================= */
 
 function render(){
 
@@ -2250,45 +2887,117 @@ function render(){
       searchInput.value
     );
 
+
   const now =
     Date.now();
+
 
   const max =
     now +
     MAX_DAYS *
     86400000;
 
+
+  /*
+    Scheduled:
+    next 7 days.
+
+    Live:
+    always visible.
+
+    Finished:
+    separate section.
+  */
+
   let visible =
-    matches.filter(match =>
-      match.timestamp > now &&
-      match.timestamp <= max
+    matches.filter(
+      match => {
+
+        if(
+          match.status ===
+          "live"
+        ){
+
+          return true;
+
+        }
+
+
+        if(
+          match.status !==
+          "scheduled"
+        ){
+
+          return false;
+
+        }
+
+
+        return (
+          match.timestamp > now &&
+          match.timestamp <= max
+        );
+
+      }
     );
+
 
   if(query){
 
     visible =
-      visible.filter(match => {
+      visible.filter(
+        match => {
 
-        const text =
-          normalize(
-            [
-              match.home,
-              match.away,
-              match.league
-            ].join(" ")
+          const text =
+            normalize(
+              [
+                match.home,
+                match.away,
+                match.league
+              ].join(" ")
+            );
+
+          return text.includes(
+            query
           );
 
-        return text.includes(query);
-
-      });
+        }
+      );
 
   }
 
+
   visible.sort(
-    (a,b) =>
-      a.timestamp -
-      b.timestamp
+    (a,b) => {
+
+      if(
+        a.status === "live" &&
+        b.status !== "live"
+      ){
+
+        return -1;
+
+      }
+
+
+      if(
+        a.status !== "live" &&
+        b.status === "live"
+      ){
+
+        return 1;
+
+      }
+
+
+      return (
+        a.timestamp -
+        b.timestamp
+      );
+
+    }
   );
+
 
   visible =
     visible.slice(
@@ -2296,10 +3005,14 @@ function render(){
       MAX_MATCHES
     );
 
+
   matchCountEl.textContent =
     visible.length;
 
-  if(!visible.length){
+
+  if(
+    !visible.length
+  ){
 
     matchesGrid.innerHTML =
       "";
@@ -2314,77 +3027,231 @@ function render(){
 
   }
 
+
   emptyState.style.display =
     "none";
+
 
   matchesGrid.style.display =
     "grid";
 
+
   matchesGrid.innerHTML =
     visible
-      .map(createCard)
+      .map(
+        createCard
+      )
       .join("");
 
 }
 
-function updateCountdowns(){
 
-  cleanupEnded();
 
-  renderEnded();
+/* =========================
+   LIVE REFRESH
+========================= */
 
-  const now =
-    Date.now();
+async function refreshLiveMatches(){
 
-  const max =
-    now +
-    MAX_DAYS *
-    86400000;
-
-  const expired =
-    matches.some(match =>
-      match.timestamp <= now
+  const liveMatches =
+    matches.filter(
+      match =>
+        match.status ===
+        "live"
     );
 
-  if(expired){
 
-    matches =
-      matches.filter(match =>
-        match.timestamp > now &&
-        match.timestamp <= max
-      );
-
-    render();
+  if(
+    !liveMatches.length
+  ){
 
     return;
 
   }
 
-  document
-    .querySelectorAll(
-      "[data-countdown]"
-    )
-    .forEach(element => {
 
-      const timestamp =
-        Number(
-          element.dataset.time
-        );
+  const teamSlugs =
+    [
+      ...new Set(
+        liveMatches
+          .map(
+            match =>
+              match.sourceTeam
+          )
+          .filter(Boolean)
+      )
+    ];
+
+
+  if(
+    !teamSlugs.length
+  ){
+
+    return;
+
+  }
+
+
+  try{
+
+    const results =
+      await Promise.all(
+        teamSlugs.map(
+          slug =>
+            loadTeam(slug)
+        )
+      );
+
+
+    const fresh =
+      results.flat();
+
+
+    for(
+      const oldMatch of matches
+    ){
 
       if(
-        Number.isFinite(timestamp)
+        oldMatch.status !==
+        "live"
       ){
 
-        element.textContent =
-          getCountdown(
-            timestamp
-          );
+        continue;
 
       }
 
-    });
+
+      const freshMatch =
+        fresh.find(
+          item =>
+            matchKey(item) ===
+            matchKey(oldMatch)
+        );
+
+
+      if(
+        !freshMatch
+      ){
+
+        /*
+          IMPORTANT:
+          Do NOT remove the live match
+          just because API did not return
+          it this time.
+        */
+
+        continue;
+
+      }
+
+
+      oldMatch.status =
+        freshMatch.status;
+
+
+      if(
+        freshMatch.homeLogo
+      ){
+
+        oldMatch.homeLogo =
+          freshMatch.homeLogo;
+
+      }
+
+
+      if(
+        freshMatch.awayLogo
+      ){
+
+        oldMatch.awayLogo =
+          freshMatch.awayLogo;
+
+      }
+
+
+      if(
+        freshMatch.homeScore !== null
+      ){
+
+        oldMatch.homeScore =
+          freshMatch.homeScore;
+
+      }
+
+
+      if(
+        freshMatch.awayScore !== null
+      ){
+
+        oldMatch.awayScore =
+          freshMatch.awayScore;
+
+      }
+
+
+      if(
+        freshMatch.league
+      ){
+
+        oldMatch.league =
+          freshMatch.league;
+
+      }
+
+
+      if(
+        freshMatch.status ===
+        "finished"
+      ){
+
+        oldMatch.finishedObservedAt =
+          oldMatch.finishedObservedAt ||
+          Date.now();
+
+      }
+
+    }
+
+
+    cleanupMatches();
+
+    saveStoredMatches();
+
+    render();
+
+    renderEnded();
+
+
+    const liveCount =
+      matches.filter(
+        m =>
+          m.status ===
+          "live"
+      ).length;
+
+
+    statusEl.textContent =
+      liveCount > 0
+        ? `${liveCount} LIVE · ${matches.length} saved`
+        : `${matches.length} saved`;
+
+
+  }catch(error){
+
+    console.warn(
+      "Live refresh error:",
+      error
+    );
+
+  }
 
 }
+
+
+
+/* =========================
+   VOTES
+========================= */
 
 function saveVote(
   matchId,
@@ -2403,13 +3270,15 @@ function saveVote(
 
   }
 
+
   voteStore[matchId] =
     value;
+
 
   try{
 
     localStorage.setItem(
-      "sportx_future_votes",
+      VOTE_STORAGE_KEY,
       JSON.stringify(
         voteStore
       )
@@ -2424,13 +3293,17 @@ function saveVote(
 
   }
 
+
   const match =
     matches.find(
       item =>
-        item.id === matchId
+        item.id ===
+        matchId
     );
 
+
   render();
+
 
   if(match){
 
@@ -2442,6 +3315,12 @@ function saveVote(
 
 }
 
+
+
+/* =========================
+   EVENTS
+========================= */
+
 matchesGrid.addEventListener(
   "click",
   event => {
@@ -2451,9 +3330,13 @@ matchesGrid.addEventListener(
         ".vote-btn"
       );
 
+
     if(!button){
+
       return;
+
     }
+
 
     saveVote(
       button.dataset.match,
@@ -2463,50 +3346,170 @@ matchesGrid.addEventListener(
   }
 );
 
-function showToast(message){
+
+
+function showToast(
+  message
+){
 
   toastEl.textContent =
     message;
+
 
   toastEl.classList.add(
     "show"
   );
 
+
   clearTimeout(
     showToast.timer
   );
 
+
   showToast.timer =
-    setTimeout(() => {
+    setTimeout(
+      () => {
 
-      toastEl.classList.remove(
-        "show"
-      );
+        toastEl.classList.remove(
+          "show"
+        );
 
-    },2200);
+      },
+      2200
+    );
 
 }
+
+
 
 searchInput.addEventListener(
   "input",
   render
 );
 
-cleanupEnded();
+
+
+/* =========================
+   UI MAINTENANCE
+========================= */
+
+function updateCountdowns(){
+
+  cleanupMatches();
+
+  render();
+
+  renderEnded();
+
+}
+
+
+
+/* =========================
+   START
+========================= */
+
+/*
+  First load saved matches.
+*/
+
+loadStoredMatches();
+
+
+/*
+  Clean only matches whose
+  2-hour finished period is over.
+*/
+
+cleanupMatches();
+
+
+/*
+  Show saved matches immediately.
+*/
+
+render();
 
 renderEnded();
 
-loadAllTeams();
+
+/*
+  Never block the page with
+  a loading screen.
+*/
+
+loadingEl.style.display =
+  "none";
+
+
+/*
+  First API request happens
+  in the background.
+*/
+
+loadAllTeams(true);
+
+
+/*
+  All 50 teams:
+  every 60 seconds.
+*/
 
 setInterval(
-  loadAllTeams,
+  () => {
+
+    loadAllTeams(true);
+
+  },
   REFRESH_INTERVAL
 );
+
+
+/*
+  Live matches:
+  every 15 seconds.
+*/
+
+setInterval(
+  refreshLiveMatches,
+  LIVE_REFRESH_INTERVAL
+);
+
+
+/*
+  UI:
+  every second.
+*/
 
 setInterval(
   updateCountdowns,
   COUNTDOWN_INTERVAL
 );
+
+
+/*
+  When user returns to the page,
+  refresh silently.
+*/
+
+document.addEventListener(
+  "visibilitychange",
+  () => {
+
+    if(
+      document.visibilityState ===
+      "visible"
+    ){
+
+      loadAllTeams(true);
+
+      refreshLiveMatches();
+
+    }
+
+  }
+);
+
 </script>
 
 </body>
