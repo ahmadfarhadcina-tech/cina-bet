@@ -2,4469 +2,2362 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Profile | SportX</title>
 
 <style>
 :root{
-    --bg:#ffffff;
-    --panel:#ffffff;
-    --panel-2:#f6f8f7;
-    --green:#16d98b;
-    --green-dark:#0e9d65;
-    --text:#12201b;
-    --muted:#66736e;
-    --border:rgba(15,23,42,.13);
-    --danger:#e54855;
-    --gold:#b98500;
-    --blue:#3b82f6;
-    --shadow:0 12px 35px rgba(15,23,42,.07);
+ --bg:#fff;
+ --panel:#fff;
+ --panel2:#f6f8f7;
+ --green:#16d98b;
+ --green-dark:#0e9d65;
+ --text:#12201b;
+ --muted:#66736e;
+ --border:rgba(15,23,42,.13);
+ --danger:#e54855;
+ --shadow:0 12px 35px rgba(15,23,42,.07)
 }
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
+*{box-sizing:border-box;margin:0;padding:0}
 
-html{
-    scroll-behavior:smooth;
-}
+html{scroll-behavior:smooth}
 
 body{
-    font-family:Inter,Arial,Helvetica,sans-serif;
-    background:
-        radial-gradient(circle at 15% 10%,rgba(22,217,139,.08),transparent 30%),
-        radial-gradient(circle at 85% 20%,rgba(22,217,139,.05),transparent 25%),
-        var(--bg);
-    color:var(--text);
-    min-height:100vh;
+ font-family:Inter,Arial,Helvetica,sans-serif;
+ background:
+ radial-gradient(circle at 15% 10%,rgba(22,217,139,.08),transparent 30%),
+ radial-gradient(circle at 85% 20%,rgba(22,217,139,.05),transparent 25%),
+ var(--bg);
+ color:var(--text);
+ min-height:100vh
 }
 
-body.modal-open{
-    overflow:hidden;
-}
+body.modal-open{overflow:hidden}
 
-a{
-    color:inherit;
-    text-decoration:none;
-}
+button,input{font:inherit}
 
-button,
-input,
-select{
-    font:inherit;
-}
+button{border:0;cursor:pointer}
 
-button{
-    border:0;
-    cursor:pointer;
-}
+button:active{transform:scale(.97)}
 
-button:active{
-    transform:scale(.97);
-}
+a{text-decoration:none;color:inherit}
 
 .container{
-    width:min(1180px,calc(100% - 32px));
-    margin:auto;
+ width:min(1180px,calc(100% - 32px));
+ margin:auto
 }
 
-/* =========================
-   HEADER
-========================= */
+/* HEADER */
 
 header{
-    position:sticky;
-    top:0;
-    z-index:100;
-    background:rgba(255,255,255,.90);
-    backdrop-filter:blur(18px);
-    border-bottom:1px solid var(--border);
+ position:sticky;
+ top:0;
+ z-index:100;
+ background:rgba(255,255,255,.9);
+ backdrop-filter:blur(18px);
+ border-bottom:1px solid var(--border)
 }
 
 .navbar{
-    min-height:72px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:20px;
+ min-height:72px;
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ gap:20px
 }
 
 .logo{
-    font-size:24px;
-    font-weight:900;
-    letter-spacing:-1px;
+ font-size:24px;
+ font-weight:900;
+ letter-spacing:-1px
 }
 
-.logo span{
-    color:var(--green-dark);
-}
+.logo span{color:var(--green-dark)}
 
 .nav-links{
-    display:flex;
-    align-items:center;
-    gap:26px;
+ display:flex;
+ align-items:center;
+ gap:26px
 }
 
 .nav-links a{
-    color:var(--muted);
-    font-size:14px;
-    font-weight:700;
-    transition:.25s ease;
+ color:var(--muted);
+ font-size:14px;
+ font-weight:700;
+ transition:.25s
 }
 
 .nav-links a:hover,
-.nav-links a.active{
-    color:var(--green-dark);
-}
+.nav-links a.active{color:var(--green-dark)}
 
-.header-right{
-    display:flex;
-    align-items:center;
-}
+.header-right{display:flex;align-items:center}
 
 .login-btn{
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
-    padding:10px 18px;
-    border-radius:10px;
-    background:var(--green);
-    color:#04110c;
-    font-size:14px;
-    font-weight:900;
-    transition:.25s ease;
-}
-
-.login-btn:hover{
-    transform:translateY(-2px);
-    background:#29e99c;
-    box-shadow:0 10px 30px rgba(22,217,139,.18);
+ padding:10px 18px;
+ border-radius:10px;
+ background:var(--green);
+ color:#04110c;
+ font-size:14px;
+ font-weight:900
 }
 
 .user-account{
-    display:flex;
-    align-items:center;
-    gap:10px;
+ display:flex;
+ align-items:center;
+ gap:10px
 }
 
 .user-avatar{
-    width:38px;
-    height:38px;
-    border-radius:50%;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    background:linear-gradient(135deg,var(--green),var(--green-dark));
-    color:#04110c;
-    font-weight:900;
-    font-size:13px;
-    overflow:hidden;
+ width:38px;
+ height:38px;
+ border-radius:50%;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ background:linear-gradient(135deg,var(--green),var(--green-dark));
+ color:#04110c;
+ font-weight:900;
+ overflow:hidden
 }
 
 .user-avatar img{
-    width:100%;
-    height:100%;
-    object-fit:cover;
+ width:100%;
+ height:100%;
+ object-fit:cover
 }
 
 .user-info{
-    display:flex;
-    flex-direction:column;
-    line-height:1.2;
+ display:flex;
+ flex-direction:column;
+ line-height:1.2
 }
 
-.user-info strong{
-    font-size:13px;
-}
+.user-info strong{font-size:13px}
 
 .user-info span{
-    color:var(--green-dark);
-    font-size:12px;
-    margin-top:3px;
+ color:var(--green-dark);
+ font-size:12px;
+ margin-top:3px
 }
 
 .logout-btn{
-    margin-left:5px;
-    padding:8px 12px;
-    border-radius:8px;
-    background:rgba(229,72,85,.08);
-    color:var(--danger);
-    font-size:12px;
-    font-weight:800;
-    transition:.25s ease;
+ padding:8px 12px;
+ border-radius:8px;
+ background:rgba(229,72,85,.08);
+ color:var(--danger);
+ font-size:12px;
+ font-weight:800
 }
 
-.logout-btn:hover{
-    background:rgba(229,72,85,.14);
-}
+/* MAIN */
 
-/* =========================
-   MAIN
-========================= */
-
-main{
-    padding:45px 0 70px;
-}
+main{padding:45px 0 70px}
 
 .page-head{
-    margin-bottom:28px;
-    animation:rise .5s ease both;
+ margin-bottom:28px;
+ animation:rise .5s ease
 }
 
 .page-head h1{
-    font-size:34px;
-    margin-bottom:8px;
+ font-size:34px;
+ margin-bottom:8px
 }
 
 .page-head p{
-    color:var(--muted);
-    font-size:14px;
+ color:var(--muted);
+ font-size:14px
 }
 
-/* =========================
-   PROFILE HERO
-========================= */
+/* HERO */
 
 .profile-hero{
-    display:flex;
-    align-items:center;
-    gap:22px;
-    padding:25px;
-    background:
-        linear-gradient(135deg,rgba(22,217,139,.12),rgba(246,248,247,.95));
-    border:1px solid rgba(22,217,139,.20);
-    border-radius:20px;
-    margin-bottom:22px;
-    box-shadow:var(--shadow);
-    animation:rise .55s ease both;
+ display:flex;
+ align-items:center;
+ gap:22px;
+ padding:25px;
+ background:linear-gradient(135deg,rgba(22,217,139,.12),rgba(246,248,247,.95));
+ border:1px solid rgba(22,217,139,.2);
+ border-radius:20px;
+ margin-bottom:22px;
+ box-shadow:var(--shadow);
+ animation:rise .55s ease
 }
 
 .profile-avatar-wrap{
-    position:relative;
-    width:92px;
-    height:92px;
-    flex-shrink:0;
+ position:relative;
+ width:92px;
+ height:92px;
+ flex-shrink:0
 }
 
 .profile-avatar{
-    width:92px;
-    height:92px;
-    border-radius:50%;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    background:linear-gradient(135deg,var(--green),var(--green-dark));
-    color:#04110c;
-    font-size:29px;
-    font-weight:900;
-    border:4px solid rgba(255,255,255,.8);
-    box-shadow:0 10px 25px rgba(22,217,139,.18);
-    overflow:hidden;
+ width:92px;
+ height:92px;
+ border-radius:50%;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ background:linear-gradient(135deg,var(--green),var(--green-dark));
+ color:#04110c;
+ font-size:29px;
+ font-weight:900;
+ border:4px solid #fff;
+ overflow:hidden
 }
 
 .profile-avatar img{
-    width:100%;
-    height:100%;
-    object-fit:cover;
+ width:100%;
+ height:100%;
+ object-fit:cover
 }
 
 .avatar-camera{
-    position:absolute;
-    right:-3px;
-    bottom:-3px;
-    width:31px;
-    height:31px;
-    border-radius:50%;
-    background:var(--text);
-    color:#fff;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:14px;
-    border:3px solid #fff;
-    transition:.25s ease;
+ position:absolute;
+ right:-3px;
+ bottom:-3px;
+ width:31px;
+ height:31px;
+ border-radius:50%;
+ background:var(--text);
+ color:#fff;
+ border:3px solid #fff
 }
 
-.avatar-camera:hover{
-    background:var(--green-dark);
-    transform:scale(1.08);
-}
-
-.profile-main{
-    flex:1;
-    min-width:0;
-}
+.profile-main{flex:1;min-width:0}
 
 .profile-main h2{
-    font-size:24px;
-    margin-bottom:5px;
-    word-break:break-word;
+ font-size:24px;
+ margin-bottom:5px;
+ word-break:break-word
 }
 
 .profile-main p{
-    color:var(--muted);
-    font-size:13px;
-    word-break:break-word;
+ color:var(--muted);
+ font-size:13px;
+ word-break:break-word
 }
 
 .profile-status{
-    display:inline-flex;
-    align-items:center;
-    gap:7px;
-    margin-top:10px;
-    padding:6px 10px;
-    border-radius:20px;
-    background:rgba(22,217,139,.09);
-    color:var(--green-dark);
-    font-size:11px;
-    font-weight:800;
+ display:inline-flex;
+ align-items:center;
+ gap:7px;
+ margin-top:10px;
+ padding:6px 10px;
+ border-radius:20px;
+ background:rgba(22,217,139,.09);
+ color:var(--green-dark);
+ font-size:11px;
+ font-weight:800
 }
 
 .status-dot{
-    width:6px;
-    height:6px;
-    border-radius:50%;
-    background:var(--green-dark);
-    box-shadow:0 0 0 4px rgba(22,217,139,.12);
+ width:6px;
+ height:6px;
+ border-radius:50%;
+ background:var(--green-dark)
 }
 
 .edit-profile-btn{
-    padding:11px 17px;
-    border-radius:10px;
-    background:#fff;
-    border:1px solid var(--border);
-    color:var(--text);
-    font-weight:800;
-    font-size:13px;
-    transition:.25s ease;
+ padding:11px 17px;
+ border-radius:10px;
+ background:#fff;
+ border:1px solid var(--border);
+ color:var(--text);
+ font-weight:800;
+ font-size:13px
 }
 
-.edit-profile-btn:hover{
-    background:rgba(22,217,139,.08);
-    border-color:rgba(22,217,139,.35);
-    transform:translateY(-2px);
-}
-
-/* =========================
-   GRID
-========================= */
+/* GRID */
 
 .profile-grid{
-    display:grid;
-    grid-template-columns:1.25fr .75fr;
-    gap:20px;
+ display:grid;
+ grid-template-columns:1.25fr .75fr;
+ gap:20px
 }
 
 .panel{
-    background:var(--panel);
-    border:1px solid var(--border);
-    border-radius:18px;
-    overflow:hidden;
-    box-shadow:var(--shadow);
-    animation:rise .6s ease both;
+ background:#fff;
+ border:1px solid var(--border);
+ border-radius:18px;
+ overflow:hidden;
+ box-shadow:var(--shadow);
+ animation:rise .6s ease
 }
 
 .panel-header{
-    padding:19px 20px;
-    border-bottom:1px solid var(--border);
-    background:linear-gradient(180deg,#fff,#fbfcfc);
+ padding:19px 20px;
+ border-bottom:1px solid var(--border);
+ background:linear-gradient(180deg,#fff,#fbfcfc)
 }
 
-.panel-header h3{
-    font-size:17px;
-}
+.panel-header h3{font-size:17px}
 
 .panel-header p{
-    color:var(--muted);
-    font-size:11px;
-    margin-top:5px;
+ color:var(--muted);
+ font-size:11px;
+ margin-top:5px
 }
 
-.panel-body{
-    padding:20px;
-}
+.panel-body{padding:20px}
 
-/* =========================
-   INFORMATION
-========================= */
+/* INFO */
 
 .info-grid{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:15px;
+ display:grid;
+ grid-template-columns:1fr 1fr;
+ gap:15px
 }
 
 .info-item{
-    padding:15px;
-    border-radius:12px;
-    background:var(--panel-2);
-    border:1px solid var(--border);
-    transition:.25s ease;
-}
-
-.info-item:hover{
-    transform:translateY(-2px);
-    border-color:rgba(22,217,139,.25);
+ padding:15px;
+ border-radius:12px;
+ background:var(--panel2);
+ border:1px solid var(--border)
 }
 
 .info-label{
-    color:var(--muted);
-    font-size:10px;
-    font-weight:700;
-    text-transform:uppercase;
-    margin-bottom:7px;
+ color:var(--muted);
+ font-size:10px;
+ font-weight:700;
+ margin-bottom:7px
 }
 
 .info-value{
-    font-size:13px;
-    font-weight:800;
-    word-break:break-word;
+ font-size:13px;
+ font-weight:800;
+ word-break:break-word
 }
 
-/* =========================
-   SETTINGS
-========================= */
-
-.setting-list{
-    display:flex;
-    flex-direction:column;
-}
+/* SETTINGS */
 
 .setting{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:15px;
-    padding:15px 0;
-    border-bottom:1px solid var(--border);
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ gap:15px;
+ padding:15px 0;
+ border-bottom:1px solid var(--border)
 }
 
-.setting:last-child{
-    border-bottom:0;
-}
+.setting:last-child{border-bottom:0}
 
 .setting-info strong{
-    display:block;
-    font-size:13px;
-    margin-bottom:4px;
+ display:block;
+ font-size:13px;
+ margin-bottom:4px
 }
 
 .setting-info span{
-    color:var(--muted);
-    font-size:11px;
-    line-height:1.5;
+ color:var(--muted);
+ font-size:11px;
+ line-height:1.5
 }
 
-/* Toggle */
+/* TOGGLE */
 
 .toggle{
-    position:relative;
-    width:44px;
-    height:24px;
-    flex-shrink:0;
+ position:relative;
+ width:44px;
+ height:24px;
+ flex-shrink:0
 }
 
-.toggle input{
-    display:none;
-}
+.toggle input{display:none}
 
 .slider{
-    position:absolute;
-    inset:0;
-    background:#dce3e0;
-    border-radius:20px;
-    cursor:pointer;
-    transition:.25s ease;
+ position:absolute;
+ inset:0;
+ background:#dce3e0;
+ border-radius:20px;
+ transition:.25s
 }
 
-.slider::before{
-    content:"";
-    position:absolute;
-    width:18px;
-    height:18px;
-    left:3px;
-    top:3px;
-    border-radius:50%;
-    background:#8b9893;
-    transition:.25s ease;
-    box-shadow:0 2px 5px rgba(0,0,0,.12);
+.slider:before{
+ content:"";
+ position:absolute;
+ width:18px;
+ height:18px;
+ left:3px;
+ top:3px;
+ border-radius:50%;
+ background:#8b9893;
+ transition:.25s
 }
 
-.toggle input:checked + .slider{
-    background:rgba(22,217,139,.30);
+.toggle input:checked+.slider{
+ background:rgba(22,217,139,.3)
 }
 
-.toggle input:checked + .slider::before{
-    transform:translateX(20px);
-    background:var(--green-dark);
+.toggle input:checked+.slider:before{
+ transform:translateX(20px);
+ background:var(--green-dark)
 }
 
-/* =========================
-   ACCOUNT ACTIONS
-========================= */
+/* ACTIONS */
 
-.account-actions{
-    margin-top:20px;
-}
+.account-actions{margin-top:20px}
 
 .account-action{
-    width:100%;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:15px;
-    padding:15px;
-    margin-bottom:10px;
-    border-radius:12px;
-    background:var(--panel-2);
-    border:1px solid var(--border);
-    color:var(--text);
-    text-align:left;
-    transition:.25s ease;
-}
-
-.account-action:last-child{
-    margin-bottom:0;
-}
-
-.account-action:hover{
-    transform:translateY(-2px);
-    background:#fff;
-    border-color:rgba(22,217,139,.25);
-    box-shadow:0 8px 20px rgba(15,23,42,.05);
+ width:100%;
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ gap:15px;
+ padding:15px;
+ margin-bottom:10px;
+ border-radius:12px;
+ background:var(--panel2);
+ border:1px solid var(--border);
+ color:var(--text);
+ text-align:left
 }
 
 .action-left{
-    display:flex;
-    align-items:center;
-    gap:12px;
+ display:flex;
+ align-items:center;
+ gap:12px
 }
 
 .action-icon{
-    width:38px;
-    height:38px;
-    border-radius:10px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    background:rgba(22,217,139,.08);
-    color:var(--green-dark);
-    font-size:17px;
+ width:38px;
+ height:38px;
+ border-radius:10px;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ background:rgba(22,217,139,.08);
+ color:var(--green-dark)
 }
 
 .action-text strong{
-    display:block;
-    font-size:13px;
-    margin-bottom:3px;
+ display:block;
+ font-size:13px;
+ margin-bottom:3px
 }
 
 .action-text span{
-    color:var(--muted);
-    font-size:10px;
+ color:var(--muted);
+ font-size:10px
 }
 
 .action-arrow{
-    color:var(--muted);
-    font-size:18px;
+ color:var(--muted);
+ font-size:18px
 }
 
-.account-action.danger{
-    color:var(--danger);
-}
+.account-action.danger{color:var(--danger)}
 
 .account-action.danger .action-icon{
-    background:rgba(229,72,85,.08);
-    color:var(--danger);
+ background:rgba(229,72,85,.08);
+ color:var(--danger)
 }
 
-/* =========================
-   STATS
-========================= */
+/* STATS */
 
 .stats{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:12px;
-    margin-top:20px;
+ display:grid;
+ grid-template-columns:repeat(3,1fr);
+ gap:12px;
+ margin-top:20px
 }
 
 .stat{
-    padding:15px;
-    background:var(--panel-2);
-    border:1px solid var(--border);
-    border-radius:12px;
+ padding:15px;
+ background:var(--panel2);
+ border:1px solid var(--border);
+ border-radius:12px
 }
 
 .stat-label{
-    color:var(--muted);
-    font-size:10px;
-    margin-bottom:7px;
+ color:var(--muted);
+ font-size:10px;
+ margin-bottom:7px
 }
 
 .stat-value{
-    font-size:18px;
-    font-weight:900;
+ font-size:18px;
+ font-weight:900
 }
 
-/* =========================
-   MODAL
-========================= */
+/* MODAL */
 
 .modal-overlay{
-    position:fixed;
-    inset:0;
-    z-index:500;
-    display:none;
-    align-items:center;
-    justify-content:center;
-    padding:20px;
-    background:rgba(15,23,42,.42);
-    backdrop-filter:blur(10px);
+ position:fixed;
+ inset:0;
+ z-index:500;
+ display:none;
+ align-items:center;
+ justify-content:center;
+ padding:20px;
+ background:rgba(15,23,42,.42);
+ backdrop-filter:blur(10px)
 }
 
 .modal-overlay.show{
-    display:flex;
-    animation:fadeIn .2s ease;
+ display:flex;
+ animation:fadeIn .2s ease
 }
 
 .modal{
-    width:min(500px,100%);
-    max-height:min(90vh,760px);
-    overflow:auto;
-    background:#fff;
-    border:1px solid var(--border);
-    border-radius:20px;
-    box-shadow:0 30px 80px rgba(15,23,42,.20);
-    animation:modalIn .28s cubic-bezier(.2,.8,.2,1);
-}
-
-.modal::-webkit-scrollbar{
-    width:6px;
-}
-
-.modal::-webkit-scrollbar-thumb{
-    background:#d7dfdc;
-    border-radius:10px;
+ width:min(520px,100%);
+ max-height:90vh;
+ overflow:auto;
+ background:#fff;
+ border:1px solid var(--border);
+ border-radius:20px;
+ box-shadow:0 30px 80px rgba(15,23,42,.2);
+ animation:modalIn .28s ease
 }
 
 .modal-header{
-    padding:20px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    border-bottom:1px solid var(--border);
-    background:linear-gradient(180deg,#fff,#fbfcfc);
+ padding:20px;
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ border-bottom:1px solid var(--border)
 }
 
-.modal-header h3{
-    font-size:17px;
-}
+.modal-header h3{font-size:17px}
 
 .close-modal{
-    width:34px;
-    height:34px;
-    border-radius:9px;
-    background:var(--panel-2);
-    color:var(--muted);
-    font-size:18px;
-    transition:.2s ease;
+ width:34px;
+ height:34px;
+ border-radius:9px;
+ background:var(--panel2);
+ color:var(--muted);
+ font-size:18px
 }
 
-.close-modal:hover{
-    color:var(--text);
-    background:#e9efec;
-    transform:rotate(90deg);
-}
+.modal-body{padding:20px}
 
-.modal-body{
-    padding:20px;
-}
+/* FORM */
 
-.form-grid{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:14px;
-}
-
-.form-group{
-    margin-bottom:15px;
-}
-
-.form-group.full{
-    grid-column:1 / -1;
-}
+.form-group{margin-bottom:15px}
 
 .form-group label{
-    display:block;
-    font-size:11px;
-    font-weight:800;
-    margin-bottom:7px;
+ display:block;
+ font-size:11px;
+ font-weight:800;
+ margin-bottom:7px
 }
 
-.form-group input,
-.form-group select{
-    width:100%;
-    background:#fff;
-    border:1px solid var(--border);
-    color:var(--text);
-    padding:12px 13px;
-    border-radius:10px;
-    outline:none;
-    transition:.2s ease;
+.form-group input{
+ width:100%;
+ background:#fff;
+ border:1px solid var(--border);
+ color:var(--text);
+ padding:12px 13px;
+ border-radius:10px;
+ outline:none
 }
 
-.form-group input:focus,
-.form-group select:focus{
-    border-color:rgba(22,217,139,.55);
-    box-shadow:0 0 0 3px rgba(22,217,139,.09);
+.form-group input:focus{
+ border-color:rgba(22,217,139,.55);
+ box-shadow:0 0 0 3px rgba(22,217,139,.09)
 }
 
 .form-group input:disabled{
-    background:#f1f4f3;
-    color:#7a8782;
-    cursor:not-allowed;
+ background:#f1f4f3;
+ color:#7a8782;
+ cursor:not-allowed
 }
 
 .input-note{
-    display:block;
-    color:var(--muted);
-    font-size:10px;
-    margin-top:6px;
-    line-height:1.5;
+ display:block;
+ color:var(--muted);
+ font-size:10px;
+ margin-top:6px
 }
 
-/* =========================
-   PHOTO UPLOAD
-========================= */
+/* PHOTO */
 
 .photo-upload{
-    display:flex;
-    align-items:center;
-    gap:15px;
-    padding:14px;
-    margin-bottom:18px;
-    border:1px dashed rgba(22,217,139,.38);
-    background:rgba(22,217,139,.045);
-    border-radius:14px;
+ display:flex;
+ align-items:center;
+ gap:15px;
+ padding:14px;
+ margin-bottom:18px;
+ border:1px dashed rgba(22,217,139,.38);
+ background:rgba(22,217,139,.045);
+ border-radius:14px
 }
 
 .photo-preview{
-    width:58px;
-    height:58px;
-    flex-shrink:0;
-    border-radius:50%;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    overflow:hidden;
-    background:linear-gradient(135deg,var(--green),var(--green-dark));
-    color:#04110c;
-    font-weight:900;
+ width:58px;
+ height:58px;
+ flex-shrink:0;
+ border-radius:50%;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ overflow:hidden;
+ background:linear-gradient(135deg,var(--green),var(--green-dark));
+ font-weight:900
 }
 
 .photo-preview img{
-    width:100%;
-    height:100%;
-    object-fit:cover;
+ width:100%;
+ height:100%;
+ object-fit:cover
 }
 
-.photo-upload-text{
-    flex:1;
-}
+.photo-upload-text{flex:1}
 
 .photo-upload-text strong{
-    display:block;
-    font-size:12px;
-    margin-bottom:3px;
+ display:block;
+ font-size:12px;
+ margin-bottom:3px
 }
 
 .photo-upload-text span{
-    display:block;
-    color:var(--muted);
-    font-size:10px;
-    line-height:1.5;
+ color:var(--muted);
+ font-size:10px
 }
 
 .photo-btn{
-    padding:9px 12px;
-    border-radius:9px;
-    background:#fff;
-    border:1px solid var(--border);
-    color:var(--text);
-    font-size:11px;
-    font-weight:800;
-    transition:.2s ease;
+ padding:9px 12px;
+ border-radius:9px;
+ background:#fff;
+ border:1px solid var(--border);
+ font-size:11px;
+ font-weight:800
 }
 
-.photo-btn:hover{
-    border-color:rgba(22,217,139,.35);
-    color:var(--green-dark);
+/* CHOICE BUTTON */
+
+.choice{
+ width:100%;
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ padding:14px;
+ margin-bottom:12px;
+ background:var(--panel2);
+ border:1px solid var(--border);
+ border-radius:12px;
+ transition:.2s
 }
 
-/* =========================
-   READONLY EMAIL
-========================= */
-
-.email-locked{
-    position:relative;
+.choice:hover{
+ border-color:rgba(22,217,139,.4);
+ transform:translateY(-1px)
 }
 
-.email-lock{
-    position:absolute;
-    right:11px;
-    bottom:11px;
-    font-size:13px;
-    color:var(--muted);
-    pointer-events:none;
+.choice-left{
+ display:flex;
+ align-items:center;
+ gap:12px
 }
 
-/* =========================
-   MODAL ACTIONS
-========================= */
+.choice-icon{
+ width:38px;
+ height:38px;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ border-radius:10px;
+ background:rgba(22,217,139,.09);
+ font-size:18px
+}
+
+.choice-text{
+ text-align:left
+}
+
+.choice-text strong{
+ display:block;
+ font-size:13px
+}
+
+.choice-text span{
+ display:block;
+ color:var(--muted);
+ font-size:10px;
+ margin-top:3px
+}
+
+.choice-arrow{
+ color:var(--muted);
+ font-size:18px
+}
+
+/* BUTTONS */
 
 .modal-actions{
-    display:flex;
-    gap:10px;
-    margin-top:5px;
+ display:flex;
+ gap:10px;
+ margin-top:8px
 }
 
 .primary-btn,
 .secondary-btn{
-    flex:1;
-    padding:12px 18px;
-    border-radius:10px;
-    font-weight:800;
-    font-size:13px;
-    transition:.25s ease;
+ flex:1;
+ padding:12px 18px;
+ border-radius:10px;
+ font-weight:800;
+ font-size:13px
 }
 
 .primary-btn{
-    background:var(--green);
-    color:#04110c;
-}
-
-.primary-btn:hover{
-    transform:translateY(-2px);
-    box-shadow:0 10px 25px rgba(22,217,139,.18);
-    background:#29e99c;
-}
-
-.primary-btn.loading{
-    opacity:.65;
-    pointer-events:none;
+ background:var(--green);
+ color:#04110c
 }
 
 .secondary-btn{
-    background:#f3f6f5;
-    color:var(--text);
-    border:1px solid var(--border);
+ background:#f3f6f5;
+ color:var(--text);
+ border:1px solid var(--border)
 }
 
-.secondary-btn:hover{
-    background:#e9efec;
+.primary-btn.loading{
+ opacity:.6;
+ pointer-events:none
 }
 
-/* =========================
-   TOAST
-========================= */
+/* SEARCH */
+
+.search-box{
+ position:relative;
+ margin-bottom:12px
+}
+
+.search-box input{
+ width:100%;
+ padding:13px 14px 13px 40px;
+ border:1px solid var(--border);
+ border-radius:12px;
+ outline:none;
+ background:#fff
+}
+
+.search-icon{
+ position:absolute;
+ left:13px;
+ top:12px;
+ color:var(--muted)
+}
+
+/* LIST */
+
+.choice-list{
+ max-height:430px;
+ overflow:auto;
+ padding-right:2px
+}
+
+.country-row,
+.language-row{
+ width:100%;
+ display:flex;
+ align-items:center;
+ gap:12px;
+ padding:12px;
+ border:0;
+ background:#fff;
+ border-bottom:1px solid rgba(15,23,42,.07);
+ text-align:left;
+ transition:.18s
+}
+
+.country-row:hover,
+.language-row:hover{
+ background:rgba(22,217,139,.07)
+}
+
+.country-row.selected,
+.language-row.selected{
+ background:rgba(22,217,139,.12);
+ color:var(--green-dark);
+ font-weight:800
+}
+
+.country-flag{
+ width:34px;
+ height:34px;
+ border-radius:9px;
+ background:var(--panel2);
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ font-size:18px
+}
+
+/* TOAST */
 
 .toast{
-    position:fixed;
-    left:50%;
-    bottom:25px;
-    z-index:700;
-    transform:translate(-50%,20px) scale(.96);
-    background:#12201b;
-    border:1px solid rgba(22,217,139,.28);
-    color:#fff;
-    padding:13px 18px;
-    border-radius:11px;
-    font-size:12px;
-    font-weight:700;
-    opacity:0;
-    pointer-events:none;
-    transition:.3s ease;
-    box-shadow:0 15px 40px rgba(15,23,42,.20);
-    max-width:calc(100% - 30px);
-    text-align:center;
+ position:fixed;
+ left:50%;
+ bottom:25px;
+ z-index:700;
+ transform:translate(-50%,20px) scale(.96);
+ background:#12201b;
+ color:#fff;
+ padding:13px 18px;
+ border-radius:11px;
+ font-size:12px;
+ font-weight:700;
+ opacity:0;
+ pointer-events:none;
+ transition:.3s;
+ max-width:calc(100% - 30px);
+ text-align:center
 }
 
 .toast.show{
-    opacity:1;
-    transform:translate(-50%,0) scale(1);
+ opacity:1;
+ transform:translate(-50%,0) scale(1)
 }
 
-/* =========================
-   LOADING
-========================= */
+/* LOADING */
 
 .profile-loading{
-    position:fixed;
-    inset:0;
-    z-index:1000;
-    background:#fff;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    transition:.35s ease;
+ position:fixed;
+ inset:0;
+ z-index:1000;
+ background:#fff;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ transition:.35s
 }
 
 .profile-loading.hide{
-    opacity:0;
-    pointer-events:none;
+ opacity:0;
+ pointer-events:none
 }
 
-.loading-box{
-    text-align:center;
-}
+.loading-box{text-align:center}
 
 .loading-logo{
-    font-size:30px;
-    font-weight:900;
-    margin-bottom:14px;
+ font-size:30px;
+ font-weight:900;
+ margin-bottom:14px
 }
 
-.loading-logo span{
-    color:var(--green-dark);
-}
+.loading-logo span{color:var(--green-dark)}
 
 .loading-spinner{
-    width:28px;
-    height:28px;
-    margin:auto;
-    border:3px solid #e1e8e5;
-    border-top-color:var(--green-dark);
-    border-radius:50%;
-    animation:spin .8s linear infinite;
+ width:28px;
+ height:28px;
+ margin:auto;
+ border:3px solid #e1e8e5;
+ border-top-color:var(--green-dark);
+ border-radius:50%;
+ animation:spin .8s linear infinite
 }
-
-/* =========================
-   FOOTER
-========================= */
 
 footer{
-    border-top:1px solid var(--border);
-    padding:25px 0;
-    color:var(--muted);
-    font-size:12px;
-    text-align:center;
+ border-top:1px solid var(--border);
+ padding:25px 0;
+ color:var(--muted);
+ font-size:12px;
+ text-align:center
 }
 
-/* =========================
-   ANIMATIONS
-========================= */
-
 @keyframes rise{
-    from{
-        opacity:0;
-        transform:translateY(18px);
-    }
-    to{
-        opacity:1;
-        transform:translateY(0);
-    }
+ from{opacity:0;transform:translateY(18px)}
+ to{opacity:1;transform:translateY(0)}
 }
 
 @keyframes fadeIn{
-    from{opacity:0;}
-    to{opacity:1;}
+ from{opacity:0}
+ to{opacity:1}
 }
 
 @keyframes modalIn{
-    from{
-        opacity:0;
-        transform:translateY(18px) scale(.96);
-    }
-    to{
-        opacity:1;
-        transform:translateY(0) scale(1);
-    }
+ from{opacity:0;transform:translateY(18px) scale(.96)}
+ to{opacity:1;transform:translateY(0) scale(1)}
 }
 
 @keyframes spin{
-    to{
-        transform:rotate(360deg);
-    }
+ to{transform:rotate(360deg)}
 }
 
-/* =========================
-   RESPONSIVE
-========================= */
-
 @media(max-width:900px){
-
-    .profile-grid{
-        grid-template-columns:1fr;
-    }
-
-    .nav-links{
-        gap:15px;
-    }
+ .profile-grid{grid-template-columns:1fr}
+ .nav-links{gap:15px}
 }
 
 @media(max-width:700px){
-
-    .container{
-        width:min(100% - 22px,1180px);
-    }
-
-    .navbar{
-        min-height:64px;
-    }
-
-    .nav-links{
-        display:none;
-    }
-
-    .page-head h1{
-        font-size:28px;
-    }
-
-    .profile-hero{
-        align-items:flex-start;
-        flex-wrap:wrap;
-    }
-
-    .profile-avatar-wrap{
-        width:76px;
-        height:76px;
-    }
-
-    .profile-avatar{
-        width:76px;
-        height:76px;
-        font-size:24px;
-    }
-
-    .profile-main{
-        min-width:calc(100% - 100px);
-    }
-
-    .edit-profile-btn{
-        width:100%;
-    }
-
-    .user-info{
-        display:none;
-    }
-
-    .logout-btn{
-        padding:8px 10px;
-    }
+ .container{width:calc(100% - 22px)}
+ .nav-links{display:none}
+ .page-head h1{font-size:28px}
+ .profile-hero{align-items:flex-start;flex-wrap:wrap}
+ .profile-avatar-wrap,
+ .profile-avatar{width:76px;height:76px}
+ .profile-avatar{font-size:24px}
+ .profile-main{min-width:calc(100% - 100px)}
+ .edit-profile-btn{width:100%}
+ .user-info{display:none}
 }
 
 @media(max-width:520px){
-
-    main{
-        padding-top:30px;
-    }
-
-    .info-grid{
-        grid-template-columns:1fr;
-    }
-
-    .stats{
-        grid-template-columns:1fr;
-    }
-
-    .form-grid{
-        grid-template-columns:1fr;
-    }
-
-    .form-group.full{
-        grid-column:auto;
-    }
-
-    .modal-actions{
-        flex-direction:column;
-    }
-
-    .photo-upload{
-        align-items:flex-start;
-        flex-wrap:wrap;
-    }
-
-    .photo-upload-text{
-        min-width:calc(100% - 80px);
-    }
-
-    .photo-btn{
-        width:100%;
-    }
+ main{padding-top:30px}
+ .info-grid,
+ .stats{grid-template-columns:1fr}
+ .modal-actions{flex-direction:column}
+ .photo-upload{align-items:flex-start;flex-wrap:wrap}
+ .photo-upload-text{min-width:calc(100% - 80px)}
+ .photo-btn{width:100%}
 }
 </style>
 </head>
 
 <body>
 
-<!-- =========================
-     REAL LOADING SCREEN
-========================= -->
-
 <div class="profile-loading" id="profileLoading">
-
-    <div class="loading-box">
-
-        <div class="loading-logo">
-            Sport<span>X</span>
-        </div>
-
-        <div class="loading-spinner"></div>
-
-    </div>
-
+ <div class="loading-box">
+  <div class="loading-logo">Sport<span>X</span></div>
+  <div class="loading-spinner"></div>
+ </div>
 </div>
-
-
-<!-- =========================
-     HEADER
-========================= -->
 
 <header>
-
 <div class="container navbar">
 
-    <a href="index.html" class="logo">
-        Sport<span>X</span>
-    </a>
+<a href="index.html" class="logo">Sport<span>X</span></a>
 
-    <nav class="nav-links">
+<nav class="nav-links">
+<a href="index.html">Home</a>
+<a href="sports.html">Sports</a>
+<a href="live.html">Live</a>
+<a href="bets.html">My Bets</a>
+<a href="wallet.html">Wallet</a>
+<a href="profile.html" class="active">Profile</a>
+</nav>
 
-        <a href="index.html">
-            Home
-        </a>
+<div class="header-right">
 
-        <a href="sports.html">
-            Sports
-        </a>
+<div data-auth-guest>
+<a href="login.html" class="login-btn">Login</a>
+</div>
 
-        <a href="live.html">
-            Live
-        </a>
+<div data-auth-user class="user-account" style="display:none">
 
-        <a href="bets.html">
-            My Bets
-        </a>
+<div class="user-avatar" id="headerAvatar">
+<span data-user-initials>US</span>
+</div>
 
-        <a href="wallet.html">
-            Wallet
-        </a>
+<div class="user-info">
+<strong data-user-name>User</strong>
+<span data-user-balance>--</span>
+</div>
 
-        <a href="profile.html" class="active">
-            Profile
-        </a>
-
-    </nav>
-
-    <div class="header-right">
-
-        <div data-auth-guest>
-
-            <a href="login.html" class="login-btn">
-                Login
-            </a>
-
-        </div>
-
-        <div
-            data-auth-user
-            class="user-account"
-            style="display:none;"
-        >
-
-            <div class="user-avatar" id="headerAvatar">
-
-                <span data-user-initials>
-                    US
-                </span>
-
-            </div>
-
-            <div class="user-info">
-
-                <strong data-user-name>
-                    User
-                </strong>
-
-                <span data-user-balance>
-                    --
-                </span>
-
-            </div>
-
-            <button
-                type="button"
-                class="logout-btn"
-                data-auth-logout
-            >
-                Logout
-            </button>
-
-        </div>
-
-    </div>
+<button class="logout-btn" data-auth-logout>
+Logout
+</button>
 
 </div>
 
+</div>
+</div>
 </header>
 
-
-<!-- =========================
-     MAIN
-========================= -->
-
 <main>
-
 <div class="container">
 
-    <section class="page-head">
-
-        <h1>
-            My Profile
-        </h1>
-
-        <p>
-            Manage your SportX account and personal preferences.
-        </p>
-
-    </section>
-
-
-    <!-- =========================
-         PROFILE HERO
-    ========================= -->
-
-    <section class="profile-hero">
-
-        <div class="profile-avatar-wrap">
-
-            <div
-                class="profile-avatar"
-                id="profileAvatar"
-            >
-                US
-            </div>
-
-            <button
-                type="button"
-                class="avatar-camera"
-                onclick="openEditProfile(true)"
-                aria-label="Change profile photo"
-            >
-                📷
-            </button>
-
-        </div>
-
-
-        <div class="profile-main">
-
-            <h2 id="profileName">
-                Loading...
-            </h2>
-
-            <p id="profileEmail">
-                Loading...
-            </p>
-
-            <div class="profile-status">
-
-                <span class="status-dot"></span>
-
-                Active Account
-
-            </div>
-
-        </div>
-
-
-        <button
-            type="button"
-            class="edit-profile-btn"
-            onclick="openEditProfile(false)"
-        >
-            Edit Profile
-        </button>
-
-    </section>
-
-
-    <!-- =========================
-         MAIN GRID
-    ========================= -->
-
-    <section class="profile-grid">
-
-
-        <!-- =========================
-             PERSONAL INFORMATION
-        ========================= -->
-
-        <div class="panel">
-
-            <div class="panel-header">
-
-                <h3>
-                    Personal Information
-                </h3>
-
-                <p>
-                    Your real account information
-                </p>
-
-            </div>
-
-
-            <div class="panel-body">
-
-                <div class="info-grid">
-
-                    <div class="info-item">
-
-                        <div class="info-label">
-                            First Name
-                        </div>
-
-                        <div
-                            class="info-value"
-                            id="firstNameValue"
-                        >
-                            —
-                        </div>
-
-                    </div>
-
-
-                    <div class="info-item">
-
-                        <div class="info-label">
-                            Last Name
-                        </div>
-
-                        <div
-                            class="info-value"
-                            id="lastNameValue"
-                        >
-                            —
-                        </div>
-
-                    </div>
-
-
-                    <div class="info-item">
-
-                        <div class="info-label">
-                            Email Address
-                        </div>
-
-                        <div
-                            class="info-value"
-                            id="emailValue"
-                        >
-                            —
-                        </div>
-
-                    </div>
-
-
-                    <div class="info-item">
-
-                        <div class="info-label">
-                            Country
-                        </div>
-
-                        <div
-                            class="info-value"
-                            id="countryValue"
-                        >
-                            —
-                        </div>
-
-                    </div>
-
-
-                    <div class="info-item">
-
-                        <div class="info-label">
-                            Language
-                        </div>
-
-                        <div
-                            class="info-value"
-                            id="languageValue"
-                        >
-                            —
-                        </div>
-
-                    </div>
-
-
-                    <div class="info-item">
-
-                        <div class="info-label">
-                            Member Since
-                        </div>
-
-                        <div
-                            class="info-value"
-                            id="memberSinceValue"
-                        >
-                            —
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-                <!-- REAL ACCOUNT STATS -->
-
-                <div class="stats">
-
-                    <div class="stat">
-
-                        <div class="stat-label">
-                            ACCOUNT STATUS
-                        </div>
-
-                        <div
-                            class="stat-value"
-                            id="accountStatusValue"
-                        >
-                            Active
-                        </div>
-
-                    </div>
-
-
-                    <div class="stat">
-
-                        <div class="stat-label">
-                            EMAIL STATUS
-                        </div>
-
-                        <div
-                            class="stat-value"
-                            id="emailStatusValue"
-                        >
-                            —
-                        </div>
-
-                    </div>
-
-
-                    <div class="stat">
-
-                        <div class="stat-label">
-                            USER ID
-                        </div>
-
-                        <div
-                            class="stat-value"
-                            id="userIdValue"
-                            style="font-size:11px;"
-                        >
-                            —
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-
-        <!-- =========================
-             PREFERENCES
-        ========================= -->
-
-        <div class="panel">
-
-            <div class="panel-header">
-
-                <h3>
-                    Preferences
-                </h3>
-
-                <p>
-                    Saved to your SportX account
-                </p>
-
-            </div>
-
-
-            <div class="panel-body">
-
-                <div class="setting-list">
-
-
-                    <div class="setting">
-
-                        <div class="setting-info">
-
-                            <strong>
-                                Email Notifications
-                            </strong>
-
-                            <span>
-                                Save your notification preference.
-                            </span>
-
-                        </div>
-
-                        <label class="toggle">
-
-                            <input
-                                type="checkbox"
-                                id="emailNotifications"
-                            >
-
-                            <span class="slider"></span>
-
-                        </label>
-
-                    </div>
-
-
-                    <div class="setting">
-
-                        <div class="setting-info">
-
-                            <strong>
-                                Prediction Alerts
-                            </strong>
-
-                            <span>
-                                Save prediction alert preferences.
-                            </span>
-
-                        </div>
-
-                        <label class="toggle">
-
-                            <input
-                                type="checkbox"
-                                id="predictionAlerts"
-                            >
-
-                            <span class="slider"></span>
-
-                        </label>
-
-                    </div>
-
-
-                    <div class="setting">
-
-                        <div class="setting-info">
-
-                            <strong>
-                                Live Match Updates
-                            </strong>
-
-                            <span>
-                                Save live match notification preferences.
-                            </span>
-
-                        </div>
-
-                        <label class="toggle">
-
-                            <input
-                                type="checkbox"
-                                id="liveUpdates"
-                            >
-
-                            <span class="slider"></span>
-
-                        </label>
-
-                    </div>
-
-                </div>
-
-
-                <div class="account-actions">
-
-
-                    <button
-                        type="button"
-                        class="account-action"
-                        onclick="openChangePassword()"
-                    >
-
-                        <div class="action-left">
-
-                            <div class="action-icon">
-                                🔐
-                            </div>
-
-                            <div class="action-text">
-
-                                <strong>
-                                    Change Password
-                                </strong>
-
-                                <span>
-                                    Update your real account password
-                                </span>
-
-                            </div>
-
-                        </div>
-
-                        <div class="action-arrow">
-                            ›
-                        </div>
-
-                    </button>
-
-
-                    <button
-                        type="button"
-                        class="account-action"
-                        onclick="openEditProfile(false)"
-                    >
-
-                        <div class="action-left">
-
-                            <div class="action-icon">
-                                🌍
-                            </div>
-
-                            <div class="action-text">
-
-                                <strong>
-                                    Country & Language
-                                </strong>
-
-                                <span>
-                                    Change your real profile preferences
-                                </span>
-
-                            </div>
-
-                        </div>
-
-                        <div class="action-arrow">
-                            ›
-                        </div>
-
-                    </button>
-
-
-                    <button
-                        type="button"
-                        class="account-action danger"
-                        data-auth-logout
-                    >
-
-                        <div class="action-left">
-
-                            <div class="action-icon">
-                                ⇥
-                            </div>
-
-                            <div class="action-text">
-
-                                <strong>
-                                    Log Out
-                                </strong>
-
-                                <span>
-                                    Sign out of this account
-                                </span>
-
-                            </div>
-
-                        </div>
-
-                        <div class="action-arrow">
-                            ›
-                        </div>
-
-                    </button>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </section>
+<section class="page-head">
+<h1>My Profile</h1>
+<p>Manage your SportX account and personal preferences.</p>
+</section>
+
+<section class="profile-hero">
+
+<div class="profile-avatar-wrap">
+<div class="profile-avatar" id="profileAvatar">US</div>
+
+<button
+ type="button"
+ class="avatar-camera"
+ onclick="openEditProfile(true)"
+>
+📷
+</button>
+</div>
+
+<div class="profile-main">
+<h2 id="profileName">Loading...</h2>
+<p id="profileEmail">Loading...</p>
+
+<div class="profile-status">
+<span class="status-dot"></span>
+Active Account
+</div>
+</div>
+
+<button
+ class="edit-profile-btn"
+ onclick="openEditProfile(false)"
+>
+Edit Profile
+</button>
+
+</section>
+
+<section class="profile-grid">
+
+<div class="panel">
+
+<div class="panel-header">
+<h3>Personal Information</h3>
+<p>Your real account information</p>
+</div>
+
+<div class="panel-body">
+
+<div class="info-grid">
+
+<div class="info-item">
+<div class="info-label">Name</div>
+<div class="info-value" id="nameValue">—</div>
+</div>
+
+<div class="info-item">
+<div class="info-label">Email Address</div>
+<div class="info-value" id="emailValue">—</div>
+</div>
+
+<div class="info-item">
+<div class="info-label">Country</div>
+<div class="info-value" id="countryValue">—</div>
+</div>
+
+<div class="info-item">
+<div class="info-label">Language</div>
+<div class="info-value" id="languageValue">—</div>
+</div>
+
+<div class="info-item">
+<div class="info-label">Member Since</div>
+<div class="info-value" id="memberSinceValue">—</div>
+</div>
+
+<div class="info-item">
+<div class="info-label">Account Type</div>
+<div class="info-value" id="accountTypeValue">—</div>
+</div>
 
 </div>
 
+<div class="stats">
+
+<div class="stat">
+<div class="stat-label">ACCOUNT STATUS</div>
+<div class="stat-value" id="accountStatusValue">Active</div>
+</div>
+
+<div class="stat">
+<div class="stat-label">EMAIL STATUS</div>
+<div class="stat-value" id="emailStatusValue">—</div>
+</div>
+
+<div class="stat">
+<div class="stat-label">USER ID</div>
+<div class="stat-value" id="userIdValue" style="font-size:11px">—</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+<div class="panel">
+
+<div class="panel-header">
+<h3>Preferences</h3>
+<p>Saved directly to your SportX account</p>
+</div>
+
+<div class="panel-body">
+
+<div class="setting">
+
+<div class="setting-info">
+<strong>Email Notifications</strong>
+<span>Receive account notifications.</span>
+</div>
+
+<label class="toggle">
+<input type="checkbox" id="emailNotifications">
+<span class="slider"></span>
+</label>
+
+</div>
+
+<div class="setting">
+
+<div class="setting-info">
+<strong>Prediction Alerts</strong>
+<span>Receive prediction alerts.</span>
+</div>
+
+<label class="toggle">
+<input type="checkbox" id="predictionAlerts">
+<span class="slider"></span>
+</label>
+
+</div>
+
+<div class="setting">
+
+<div class="setting-info">
+<strong>Live Match Updates</strong>
+<span>Receive live match updates.</span>
+</div>
+
+<label class="toggle">
+<input type="checkbox" id="liveUpdates">
+<span class="slider"></span>
+</label>
+
+</div>
+
+<div class="account-actions">
+
+<button class="account-action" onclick="openChangePassword()">
+
+<div class="action-left">
+<div class="action-icon">🔐</div>
+<div class="action-text">
+<strong>Change Password</strong>
+<span>Update your real account password</span>
+</div>
+</div>
+
+<div class="action-arrow">›</div>
+</button>
+
+<button class="account-action" onclick="openEditProfile(false)">
+
+<div class="action-left">
+<div class="action-icon">🌍</div>
+<div class="action-text">
+<strong>Country & Language</strong>
+<span>Change your profile settings</span>
+</div>
+</div>
+
+<div class="action-arrow">›</div>
+</button>
+
+<button class="account-action danger" data-auth-logout>
+
+<div class="action-left">
+<div class="action-icon">⇥</div>
+<div class="action-text">
+<strong>Log Out</strong>
+<span>Sign out of this account</span>
+</div>
+</div>
+
+<div class="action-arrow">›</div>
+</button>
+
+</div>
+
+</div>
+</div>
+
+</section>
+
+</div>
 </main>
 
-
 <footer>
-
 <div class="container">
-
-    © 2026 SportX. Real account data powered by Supabase.
-
+© 2026 SportX. Real account data powered by Supabase.
 </div>
-
 </footer>
 
 
-<!-- =========================
-     EDIT PROFILE MODAL
-========================= -->
+<!-- EDIT PROFILE -->
 
-<div
-    class="modal-overlay"
-    id="editProfileModal"
-    onclick="closeOverlay(event,'editProfileModal')"
+<div class="modal-overlay" id="editProfileModal"
+onclick="closeOverlay(event,'editProfileModal')">
+
+<div class="modal">
+
+<div class="modal-header">
+<h3>Edit Profile</h3>
+
+<button
+ class="close-modal"
+ onclick="closeModal('editProfileModal')"
+>×</button>
+</div>
+
+<div class="modal-body">
+
+<div class="photo-upload">
+
+<div class="photo-preview" id="photoPreview">US</div>
+
+<div class="photo-upload-text">
+<strong>Profile Photo</strong>
+<span>Choose a photo from your device.</span>
+</div>
+
+<button
+ class="photo-btn"
+ onclick="document.getElementById('avatarFile').click()"
 >
-
-    <div class="modal">
-
-        <div class="modal-header">
-
-            <h3>
-                Edit Profile
-            </h3>
-
-            <button
-                type="button"
-                class="close-modal"
-                onclick="closeModal('editProfileModal')"
-            >
-                ×
-            </button>
-
-        </div>
-
-
-        <div class="modal-body">
-
-
-            <!-- PHOTO -->
-
-            <div class="photo-upload">
-
-                <div
-                    class="photo-preview"
-                    id="photoPreview"
-                >
-                    US
-                </div>
-
-
-                <div class="photo-upload-text">
-
-                    <strong>
-                        Profile Photo
-                    </strong>
-
-                    <span>
-                        Choose a real photo from your device.
-                    </span>
-
-                </div>
-
-
-                <button
-                    type="button"
-                    class="photo-btn"
-                    onclick="document.getElementById('avatarFile').click()"
-                >
-                    Change Photo
-                </button>
-
-                <input
-                    type="file"
-                    id="avatarFile"
-                    accept="image/jpeg,image/png,image/webp"
-                    hidden
-                >
-
-            </div>
-
-
-            <div class="form-grid">
-
-
-                <!-- FIRST NAME -->
-
-                <div class="form-group">
-
-                    <label for="editFirstName">
-                        First Name
-                    </label>
-
-                    <input
-                        type="text"
-                        id="editFirstName"
-                        placeholder="First name"
-                        autocomplete="given-name"
-                    >
-
-                </div>
-
-
-                <!-- LAST NAME -->
-
-                <div class="form-group">
-
-                    <label for="editLastName">
-                        Last Name
-                    </label>
-
-                    <input
-                        type="text"
-                        id="editLastName"
-                        placeholder="Last name"
-                        autocomplete="family-name"
-                    >
-
-                </div>
-
-
-                <!-- EMAIL -->
-
-                <div class="form-group full">
-
-                    <label for="editEmail">
-                        Email Address
-                    </label>
-
-                    <div class="email-locked">
-
-                        <input
-                            type="email"
-                            id="editEmail"
-                            placeholder="Email address"
-                            disabled
-                        >
-
-                        <span class="email-lock">
-                            🔒
-                        </span>
-
-                    </div>
-
-                    <span class="input-note">
-                        Your login email is shown for information only and cannot be changed here.
-                    </span>
-
-                </div>
-
-
-                <!-- COUNTRY -->
-
-                <div class="form-group full">
-
-                    <label for="editCountry">
-                        Country
-                    </label>
-
-                    <select id="editCountry">
-
-                        <option value="">Select country</option>
-
-                    </select>
-
-                </div>
-
-
-                <!-- LANGUAGE -->
-
-                <div class="form-group full">
-
-                    <label for="editLanguage">
-                        Language
-                    </label>
-
-                    <select id="editLanguage">
-
-                        <option value="en">
-                            English
-                        </option>
-
-                        <option value="fa">
-                            فارسی
-                        </option>
-
-                        <option value="ps">
-                            پښتو
-                        </option>
-
-                        <option value="tr">
-                            Türkçe
-                        </option>
-
-                        <option value="ar">
-                            العربية
-                        </option>
-
-                    </select>
-
-                </div>
-
-            </div>
-
-
-            <div class="modal-actions">
-
-                <button
-                    type="button"
-                    class="secondary-btn"
-                    onclick="closeModal('editProfileModal')"
-                >
-                    Cancel
-                </button>
-
-                <button
-                    type="button"
-                    class="primary-btn"
-                    id="saveProfileButton"
-                    onclick="saveProfile()"
-                >
-                    Save Changes
-                </button>
-
-            </div>
-
-        </div>
-
-    </div>
+Change Photo
+</button>
+
+<input
+ type="file"
+ id="avatarFile"
+ accept="image/jpeg,image/png,image/webp"
+ hidden
+>
 
 </div>
 
+<div class="form-group">
 
-<!-- =========================
-     CHANGE PASSWORD MODAL
-========================= -->
+<label>Name</label>
 
-<div
-    class="modal-overlay"
-    id="passwordModal"
-    onclick="closeOverlay(event,'passwordModal')"
+<input
+ type="text"
+ id="editFullName"
+ placeholder="Your full name"
+ autocomplete="name"
 >
 
-    <div class="modal">
+</div>
 
-        <div class="modal-header">
+<div class="form-group">
 
-            <h3>
-                Change Password
-            </h3>
+<label>Email Address</label>
 
-            <button
-                type="button"
-                class="close-modal"
-                onclick="closeModal('passwordModal')"
-            >
-                ×
-            </button>
+<input
+ type="email"
+ id="editEmail"
+ disabled
+>
 
-        </div>
+<span class="input-note">
+Your login email cannot be changed from this page.
+</span>
+
+</div>
+
+<div class="form-group">
+
+<label>Country</label>
+
+<button
+ type="button"
+ class="choice"
+ onclick="openCountryModal()"
+>
+
+<div class="choice-left">
+<div class="choice-icon">🌍</div>
+
+<div class="choice-text">
+<strong id="selectedCountryText">Select country</strong>
+<span>Choose your country</span>
+</div>
+</div>
+
+<div class="choice-arrow">›</div>
+
+</button>
+
+</div>
+
+<div class="form-group">
+
+<label>Language</label>
+
+<button
+ type="button"
+ class="choice"
+ onclick="openLanguageModal()"
+>
+
+<div class="choice-left">
+<div class="choice-icon">🌐</div>
+
+<div class="choice-text">
+<strong id="selectedLanguageText">English</strong>
+<span>Google Translate</span>
+</div>
+</div>
+
+<div class="choice-arrow">›</div>
+
+</button>
+
+</div>
+
+<div class="modal-actions">
+
+<button
+ class="secondary-btn"
+ onclick="closeModal('editProfileModal')"
+>
+Cancel
+</button>
+
+<button
+ class="primary-btn"
+ id="saveProfileButton"
+ onclick="saveProfile()"
+>
+Save Changes
+</button>
+
+</div>
+
+</div>
+</div>
+</div>
 
 
-        <div class="modal-body">
+<!-- COUNTRY MODAL -->
+
+<div class="modal-overlay" id="countryModal"
+onclick="closeOverlay(event,'countryModal')">
+
+<div class="modal">
+
+<div class="modal-header">
+
+<h3>Select Country</h3>
+
+<button
+ class="close-modal"
+ onclick="closeModal('countryModal')"
+>×</button>
+
+</div>
+
+<div class="modal-body">
+
+<div class="search-box">
+
+<span class="search-icon">⌕</span>
+
+<input
+ id="countrySearch"
+ type="text"
+ placeholder="Search country..."
+ oninput="filterCountries()"
+>
+
+</div>
+
+<div class="choice-list" id="countryList"></div>
+
+</div>
+
+</div>
+</div>
 
 
-            <div class="form-group">
+<!-- LANGUAGE MODAL -->
 
-                <label for="currentPassword">
-                    Current Password
-                </label>
+<div class="modal-overlay" id="languageModal"
+onclick="closeOverlay(event,'languageModal')">
 
-                <input
-                    type="password"
-                    id="currentPassword"
-                    placeholder="Enter current password"
-                    autocomplete="current-password"
-                >
+<div class="modal">
 
-            </div>
+<div class="modal-header">
+
+<h3>Select Language</h3>
+
+<button
+ class="close-modal"
+ onclick="closeModal('languageModal')"
+>×</button>
+
+</div>
+
+<div class="modal-body">
+
+<div class="choice-list">
+
+<button class="language-row" data-lang="en" onclick="selectLanguage('en')">
+<div class="country-flag">🇺🇸</div>
+<div>English</div>
+</button>
+
+<button class="language-row" data-lang="fa" onclick="selectLanguage('fa')">
+<div class="country-flag">🇮🇷</div>
+<div>فارسی</div>
+</button>
+
+<button class="language-row" data-lang="ps" onclick="selectLanguage('ps')">
+<div class="country-flag">🇦🇫</div>
+<div>پښتو</div>
+</button>
+
+<button class="language-row" data-lang="tr" onclick="selectLanguage('tr')">
+<div class="country-flag">🇹🇷</div>
+<div>Türkçe</div>
+</button>
+
+<button class="language-row" data-lang="ar" onclick="selectLanguage('ar')">
+<div class="country-flag">🇸🇦</div>
+<div>العربية</div>
+</button>
+
+</div>
+
+</div>
+</div>
+</div>
 
 
-            <div class="form-group">
+<!-- PASSWORD -->
 
-                <label for="newPassword">
-                    New Password
-                </label>
+<div class="modal-overlay" id="passwordModal"
+onclick="closeOverlay(event,'passwordModal')">
 
-                <input
-                    type="password"
-                    id="newPassword"
-                    placeholder="Enter new password"
-                    autocomplete="new-password"
-                >
+<div class="modal">
 
-            </div>
+<div class="modal-header">
 
+<h3>Change Password</h3>
 
-            <div class="form-group">
+<button
+ class="close-modal"
+ onclick="closeModal('passwordModal')"
+>×</button>
 
-                <label for="confirmPassword">
-                    Confirm New Password
-                </label>
+</div>
 
-                <input
-                    type="password"
-                    id="confirmPassword"
-                    placeholder="Confirm new password"
-                    autocomplete="new-password"
-                >
+<div class="modal-body">
 
-            </div>
+<div class="form-group">
+<label>Current Password</label>
+<input
+ type="password"
+ id="currentPassword"
+ autocomplete="current-password"
+>
+</div>
 
+<div class="form-group">
+<label>New Password</label>
+<input
+ type="password"
+ id="newPassword"
+ autocomplete="new-password"
+>
+</div>
 
-            <div class="modal-actions">
+<div class="form-group">
+<label>Confirm New Password</label>
+<input
+ type="password"
+ id="confirmPassword"
+ autocomplete="new-password"
+>
+</div>
 
-                <button
-                    type="button"
-                    class="secondary-btn"
-                    onclick="closeModal('passwordModal')"
-                >
-                    Cancel
-                </button>
+<div class="modal-actions">
 
-                <button
-                    type="button"
-                    class="primary-btn"
-                    id="changePasswordButton"
-                    onclick="changePassword()"
-                >
-                    Update Password
-                </button>
+<button
+ class="secondary-btn"
+ onclick="closeModal('passwordModal')"
+>
+Cancel
+</button>
 
-            </div>
+<button
+ class="primary-btn"
+ id="changePasswordButton"
+ onclick="changePassword()"
+>
+Update Password
+</button>
 
-        </div>
+</div>
 
-    </div>
-
+</div>
+</div>
 </div>
 
 
 <div class="toast" id="toast"></div>
 
+<!-- GOOGLE TRANSLATE -->
 
-<!-- SHARED AUTH -->
+<div id="google_translate_element"
+style="position:fixed;left:-9999px;top:-9999px">
+</div>
+
+<script>
+function googleTranslateElementInit(){
+ new google.translate.TranslateElement({
+  pageLanguage:"en",
+  includedLanguages:"en,fa,ps,tr,ar",
+  autoDisplay:false
+ },"google_translate_element");
+}
+</script>
+
+<script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
 <script src="auth.js"></script>
 
-
 <script>
+const SUPABASE_URL="https://zchtcosljkkkiykhforj.supabase.co";
+const SUPABASE_KEY="sb_publishable_aGLckKZjNaVbpdxZUFhCqA_VzHppjrW";
 
-/* =========================================================
-   SPORTX PROFILE
-   REAL SUPABASE CONNECTION
-========================================================= */
+let supabaseClient=null;
+let currentUser=null;
+let currentProfile={};
+let selectedAvatarData=null;
+let selectedCountry="";
+let selectedLanguage="en";
 
-const SUPABASE_URL =
-    "https://zchtcosljkkkiykhforj.supabase.co";
-
-const SUPABASE_KEY =
-    "sb_publishable_aGLckKZjNaVbpdxZUFhCqA_VzHppjrW";
-
-
-let supabaseClient = null;
-let currentUser = null;
-let currentProfile = {};
-let selectedAvatarData = null;
-let profileColumns = new Set();
-
-
-/* =========================================================
-   COUNTRY LIST
-========================================================= */
-
-const COUNTRIES = [
-    "Afghanistan",
-    "Albania",
-    "Algeria",
-    "Andorra",
-    "Angola",
-    "Antigua and Barbuda",
-    "Argentina",
-    "Armenia",
-    "Australia",
-    "Austria",
-    "Azerbaijan",
-    "Bahamas",
-    "Bahrain",
-    "Bangladesh",
-    "Barbados",
-    "Belarus",
-    "Belgium",
-    "Belize",
-    "Benin",
-    "Bhutan",
-    "Bolivia",
-    "Bosnia and Herzegovina",
-    "Botswana",
-    "Brazil",
-    "Brunei",
-    "Bulgaria",
-    "Burkina Faso",
-    "Burundi",
-    "Cambodia",
-    "Cameroon",
-    "Canada",
-    "Cape Verde",
-    "Central African Republic",
-    "Chad",
-    "Chile",
-    "China",
-    "Colombia",
-    "Comoros",
-    "Congo",
-    "Costa Rica",
-    "Croatia",
-    "Cuba",
-    "Cyprus",
-    "Czech Republic",
-    "Denmark",
-    "Djibouti",
-    "Dominica",
-    "Dominican Republic",
-    "Ecuador",
-    "Egypt",
-    "El Salvador",
-    "Equatorial Guinea",
-    "Eritrea",
-    "Estonia",
-    "Eswatini",
-    "Ethiopia",
-    "Fiji",
-    "Finland",
-    "France",
-    "Gabon",
-    "Gambia",
-    "Georgia",
-    "Germany",
-    "Ghana",
-    "Greece",
-    "Grenada",
-    "Guatemala",
-    "Guinea",
-    "Guinea-Bissau",
-    "Guyana",
-    "Haiti",
-    "Honduras",
-    "Hungary",
-    "Iceland",
-    "India",
-    "Indonesia",
-    "Iraq",
-    "Ireland",
-    "Italy",
-    "Ivory Coast",
-    "Jamaica",
-    "Japan",
-    "Jordan",
-    "Kazakhstan",
-    "Kenya",
-    "Kiribati",
-    "Kuwait",
-    "Kyrgyzstan",
-    "Laos",
-    "Latvia",
-    "Lebanon",
-    "Lesotho",
-    "Liberia",
-    "Libya",
-    "Liechtenstein",
-    "Lithuania",
-    "Luxembourg",
-    "Madagascar",
-    "Malawi",
-    "Malaysia",
-    "Maldives",
-    "Mali",
-    "Malta",
-    "Marshall Islands",
-    "Mauritania",
-    "Mauritius",
-    "Mexico",
-    "Micronesia",
-    "Moldova",
-    "Monaco",
-    "Mongolia",
-    "Montenegro",
-    "Morocco",
-    "Mozambique",
-    "Myanmar",
-    "Namibia",
-    "Nauru",
-    "Nepal",
-    "Netherlands",
-    "New Zealand",
-    "Nicaragua",
-    "Niger",
-    "Nigeria",
-    "North Korea",
-    "North Macedonia",
-    "Norway",
-    "Oman",
-    "Pakistan",
-    "Palau",
-    "Palestine",
-    "Panama",
-    "Papua New Guinea",
-    "Paraguay",
-    "Peru",
-    "Philippines",
-    "Poland",
-    "Portugal",
-    "Qatar",
-    "Romania",
-    "Russia",
-    "Rwanda",
-    "Saint Kitts and Nevis",
-    "Saint Lucia",
-    "Saint Vincent and the Grenadines",
-    "Samoa",
-    "San Marino",
-    "Sao Tome and Principe",
-    "Saudi Arabia",
-    "Senegal",
-    "Serbia",
-    "Seychelles",
-    "Sierra Leone",
-    "Singapore",
-    "Slovakia",
-    "Slovenia",
-    "Solomon Islands",
-    "Somalia",
-    "South Africa",
-    "South Korea",
-    "South Sudan",
-    "Spain",
-    "Sri Lanka",
-    "Sudan",
-    "Suriname",
-    "Sweden",
-    "Switzerland",
-    "Syria",
-    "Taiwan",
-    "Tajikistan",
-    "Tanzania",
-    "Thailand",
-    "Timor-Leste",
-    "Togo",
-    "Tonga",
-    "Trinidad and Tobago",
-    "Tunisia",
-    "Turkey",
-    "Turkmenistan",
-    "Tuvalu",
-    "Uganda",
-    "Ukraine",
-    "United Arab Emirates",
-    "United Kingdom",
-    "United States",
-    "Uruguay",
-    "Uzbekistan",
-    "Vanuatu",
-    "Vatican City",
-    "Venezuela",
-    "Vietnam",
-    "Yemen",
-    "Zambia",
-    "Zimbabwe"
+const COUNTRIES=[
+"Afghanistan","Albania","Algeria","Andorra","Angola",
+"Antigua and Barbuda","Argentina","Armenia","Australia","Austria",
+"Azerbaijan","Bahamas","Bahrain","Bangladesh","Barbados","Belarus",
+"Belgium","Belize","Benin","Bhutan","Bolivia","Bosnia and Herzegovina",
+"Botswana","Brazil","Brunei","Bulgaria","Burkina Faso","Burundi",
+"Cambodia","Cameroon","Canada","Cape Verde","Central African Republic",
+"Chad","Chile","China","Colombia","Comoros","Congo","Costa Rica",
+"Croatia","Cuba","Cyprus","Czech Republic","Denmark","Djibouti",
+"Dominica","Dominican Republic","Ecuador","Egypt","El Salvador",
+"Equatorial Guinea","Eritrea","Estonia","Eswatini","Ethiopia","Fiji",
+"Finland","France","Gabon","Gambia","Georgia","Germany","Ghana",
+"Greece","Grenada","Guatemala","Guinea","Guinea-Bissau","Guyana",
+"Haiti","Honduras","Hungary","Iceland","India","Indonesia","Iraq",
+"Ireland","Italy","Ivory Coast","Jamaica","Japan","Jordan","Kazakhstan",
+"Kenya","Kiribati","Kuwait","Kyrgyzstan","Laos","Latvia","Lebanon",
+"Lesotho","Liberia","Libya","Liechtenstein","Lithuania","Luxembourg",
+"Madagascar","Malawi","Malaysia","Maldives","Mali","Malta",
+"Marshall Islands","Mauritania","Mauritius","Mexico","Micronesia",
+"Moldova","Monaco","Mongolia","Montenegro","Morocco","Mozambique",
+"Myanmar","Namibia","Nauru","Nepal","Netherlands","New Zealand",
+"Nicaragua","Niger","Nigeria","North Korea","North Macedonia","Norway",
+"Oman","Pakistan","Palau","Palestine","Panama","Papua New Guinea",
+"Paraguay","Peru","Philippines","Poland","Portugal","Qatar","Romania",
+"Russia","Rwanda","Saint Kitts and Nevis","Saint Lucia",
+"Saint Vincent and the Grenadines","Samoa","San Marino","Sao Tome and Principe",
+"Saudi Arabia","Senegal","Serbia","Seychelles","Sierra Leone","Singapore",
+"Slovakia","Slovenia","Solomon Islands","Somalia","South Africa",
+"South Korea","South Sudan","Spain","Sri Lanka","Sudan","Suriname",
+"Sweden","Switzerland","Syria","Taiwan","Tajikistan","Tanzania",
+"Thailand","Timor-Leste","Togo","Tonga","Trinidad and Tobago","Tunisia",
+"Turkey","Turkmenistan","Tuvalu","Uganda","Ukraine","United Arab Emirates",
+"United Kingdom","United States","Uruguay","Uzbekistan","Vanuatu",
+"Vatican City","Venezuela","Vietnam","Yemen","Zambia","Zimbabwe"
 ];
 
-
-/* =========================================================
-   LANGUAGE NAMES
-========================================================= */
-
-const LANGUAGE_NAMES = {
-    en:"English",
-    fa:"فارسی",
-    ps:"پښتو",
-    tr:"Türkçe",
-    ar:"العربية"
+const LANGUAGES={
+ en:"English",
+ fa:"فارسی",
+ ps:"پښتو",
+ tr:"Türkçe",
+ ar:"العربية"
 };
-
-
-/* =========================================================
-   SUPABASE
-========================================================= */
 
 async function initSupabase(){
 
-    if(window.SportXSupabase){
+ if(window.SportXSupabase){
+  supabaseClient=window.SportXSupabase;
+  return;
+ }
 
-        supabaseClient =
-            window.SportXSupabase;
+ if(!window.supabase){
 
-        return supabaseClient;
+  await new Promise((resolve,reject)=>{
 
-    }
+   const s=document.createElement("script");
 
-    if(window.supabase){
+   s.src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2";
 
-        supabaseClient =
-            window.supabase.createClient(
-                SUPABASE_URL,
-                SUPABASE_KEY
-            );
+   s.onload=resolve;
+   s.onerror=reject;
 
-        window.SportXSupabase =
-            supabaseClient;
+   document.head.appendChild(s);
 
-        return supabaseClient;
+  });
+ }
 
-    }
+ supabaseClient=window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+ );
 
-    const existing =
-        document.querySelector(
-            'script[src*="supabase-js"]'
-        );
-
-    if(!existing){
-
-        await new Promise((resolve,reject)=>{
-
-            const script =
-                document.createElement("script");
-
-            script.src =
-                "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2";
-
-            script.onload = resolve;
-
-            script.onerror = reject;
-
-            document.head.appendChild(script);
-
-        });
-
-    }
-
-    supabaseClient =
-        window.supabase.createClient(
-            SUPABASE_URL,
-            SUPABASE_KEY
-        );
-
-    window.SportXSupabase =
-        supabaseClient;
-
-    return supabaseClient;
-
+ window.SportXSupabase=supabaseClient;
 }
 
+async function getUser(){
 
-/* =========================================================
-   COUNTRIES
-========================================================= */
+ const {data,error}=await supabaseClient.auth.getUser();
 
-function buildCountryList(){
+ if(error)throw error;
 
-    const select =
-        document.getElementById(
-            "editCountry"
-        );
-
-    if(!select){
-        return;
-    }
-
-    select.innerHTML =
-        '<option value="">Select country</option>';
-
-    COUNTRIES.forEach(country=>{
-
-        const option =
-            document.createElement("option");
-
-        option.value = country;
-
-        option.textContent = country;
-
-        select.appendChild(option);
-
-    });
-
+ return data.user;
 }
 
+async function loadProfile(){
 
-/* =========================================================
-   AUTH SESSION
-========================================================= */
+ const {data,error}=await supabaseClient
+ .from("profiles")
+ .select("*")
+ .eq("id",currentUser.id)
+ .maybeSingle();
 
-async function getRealUser(){
+ if(error)throw error;
 
-    await initSupabase();
-
-    const {
-        data,
-        error
-    } =
-    await supabaseClient.auth.getUser();
-
-    if(error){
-
-        console.error(
-            "Auth error:",
-            error
-        );
-
-        return null;
-
-    }
-
-    return data?.user || null;
-
+ return data||{};
 }
 
+function profileName(){
 
-/* =========================================================
-   PROFILE QUERY
-========================================================= */
-
-async function loadDatabaseProfile(){
-
-    if(!currentUser){
-        return {};
-    }
-
-    const {
-        data,
-        error
-    } =
-    await supabaseClient
-        .from("profiles")
-        .select("*")
-        .eq("id",currentUser.id)
-        .maybeSingle();
-
-    if(error){
-
-        console.error(
-            "Profile load error:",
-            error
-        );
-
-        /*
-         * Some projects use user_id instead of id.
-         * Try that before giving up.
-         */
-
-        const retry =
-        await supabaseClient
-            .from("profiles")
-            .select("*")
-            .eq("user_id",currentUser.id)
-            .maybeSingle();
-
-        if(!retry.error && retry.data){
-
-            return retry.data;
-
-        }
-
-        return {};
-
-    }
-
-    return data || {};
-
+ return currentProfile.full_name ||
+ currentUser?.user_metadata?.full_name ||
+ currentUser?.email?.split("@")[0] ||
+ "User";
 }
 
+function profileCountry(){
 
-/* =========================================================
-   PROFILE COLUMN DETECTION
-========================================================= */
-
-function rememberProfileColumns(profile){
-
-    profileColumns =
-        new Set(
-            Object.keys(profile || {})
-        );
-
+ return currentProfile.country ||
+ currentUser?.user_metadata?.country ||
+ "";
 }
 
+function profileLanguage(){
 
-/* =========================================================
-   PROFILE VALUE HELPER
-========================================================= */
-
-function firstExistingValue(
-    object,
-    keys,
-    fallback=""
-){
-
-    for(const key of keys){
-
-        if(
-            object &&
-            object[key] !== undefined &&
-            object[key] !== null &&
-            String(object[key]).trim() !== ""
-        ){
-
-            return object[key];
-
-        }
-
-    }
-
-    return fallback;
-
+ return currentProfile.language ||
+ currentUser?.user_metadata?.language ||
+ "en";
 }
 
+function profileAvatar(){
 
-/* =========================================================
-   REAL PROFILE VALUES
-========================================================= */
-
-function getFirstName(){
-
-    return firstExistingValue(
-        currentProfile,
-        [
-            "first_name",
-            "firstname",
-            "firstName"
-        ],
-        firstExistingValue(
-            currentUser?.user_metadata,
-            [
-                "first_name",
-                "firstName"
-            ],
-            ""
-        )
-    );
-
+ return currentProfile.avatar_url ||
+ currentUser?.user_metadata?.avatar_url ||
+ "";
 }
 
+function initials(){
 
-function getLastName(){
-
-    return firstExistingValue(
-        currentProfile,
-        [
-            "last_name",
-            "lastname",
-            "lastName"
-        ],
-        firstExistingValue(
-            currentUser?.user_metadata,
-            [
-                "last_name",
-                "lastName"
-            ],
-            ""
-        )
-    );
-
+ return profileName()
+ .split(/\s+/)
+ .filter(Boolean)
+ .slice(0,2)
+ .map(x=>x[0])
+ .join("")
+ .toUpperCase()||"US";
 }
 
+function renderAvatar(id){
 
-function getFullName(){
+ const el=document.getElementById(id);
 
-    const profileName =
-        firstExistingValue(
-            currentProfile,
-            [
-                "full_name",
-                "name",
-                "display_name",
-                "displayName"
-            ],
-            ""
-        );
+ if(!el)return;
 
-    if(profileName){
-        return profileName;
-    }
+ const avatar=profileAvatar();
 
-    const first =
-        getFirstName();
+ el.innerHTML="";
 
-    const last =
-        getLastName();
+ if(avatar){
 
-    return `${first} ${last}`.trim();
+  const img=document.createElement("img");
 
+  img.src=avatar;
+  img.alt="Profile";
+
+  img.onerror=()=>{
+   el.textContent=initials();
+  };
+
+  el.appendChild(img);
+
+ }else{
+
+  el.textContent=initials();
+
+ }
 }
-
-
-function getCountry(){
-
-    return firstExistingValue(
-        currentProfile,
-        [
-            "country",
-            "country_name"
-        ],
-        firstExistingValue(
-            currentUser?.user_metadata,
-            [
-                "country",
-                "country_name"
-            ],
-            "Afghanistan"
-        )
-    );
-
-}
-
-
-function getLanguage(){
-
-    return firstExistingValue(
-        currentProfile,
-        [
-            "language",
-            "lang",
-            "locale"
-        ],
-        firstExistingValue(
-            currentUser?.user_metadata,
-            [
-                "language",
-                "lang",
-                "locale"
-            ],
-            "en"
-        )
-    );
-
-}
-
-
-function getAvatar(){
-
-    return firstExistingValue(
-        currentProfile,
-        [
-            "avatar_url",
-            "avatar",
-            "photo_url",
-            "image_url",
-            "profile_image"
-        ],
-        firstExistingValue(
-            currentUser?.user_metadata,
-            [
-                "avatar_url",
-                "avatar",
-                "photo_url"
-            ],
-            ""
-        )
-    );
-
-}
-
-
-/* =========================================================
-   INITIALS
-========================================================= */
-
-function makeInitials(){
-
-    const first =
-        getFirstName();
-
-    const last =
-        getLastName();
-
-    const full =
-        getFullName();
-
-    if(first || last){
-
-        return (
-            `${first.charAt(0)}${last.charAt(0)}`
-        ).toUpperCase();
-
-    }
-
-    const parts =
-        full
-            .split(/\s+/)
-            .filter(Boolean);
-
-    if(parts.length >= 2){
-
-        return (
-            `${parts[0].charAt(0)}${parts[1].charAt(0)}`
-        ).toUpperCase();
-
-    }
-
-    return (
-        full.slice(0,2) ||
-        "US"
-    ).toUpperCase();
-
-}
-
-
-/* =========================================================
-   RENDER AVATAR
-========================================================= */
-
-function renderAvatar(elementId){
-
-    const element =
-        document.getElementById(
-            elementId
-        );
-
-    if(!element){
-        return;
-    }
-
-    const avatar =
-        getAvatar();
-
-    const initials =
-        makeInitials();
-
-    element.innerHTML = "";
-
-    if(avatar){
-
-        const image =
-            document.createElement("img");
-
-        image.src = avatar;
-
-        image.alt = "Profile photo";
-
-        image.onerror = ()=>{
-
-            element.innerHTML =
-                "";
-
-            element.textContent =
-                initials;
-
-        };
-
-        element.appendChild(image);
-
-    }else{
-
-        element.textContent =
-            initials;
-
-    }
-
-}
-
-
-/* =========================================================
-   RENDER PROFILE
-========================================================= */
 
 function renderProfile(){
 
-    const first =
-        getFirstName() ||
-        "User";
+ const name=profileName();
+ const email=currentUser?.email||"—";
+ const country=profileCountry();
+ const language=profileLanguage();
 
-    const last =
-        getLastName();
+ document.getElementById("profileName").textContent=name;
+ document.getElementById("profileEmail").textContent=email;
 
-    const full =
-        getFullName() ||
-        `${first} ${last}`.trim() ||
-        "User";
+ document.getElementById("nameValue").textContent=name;
+ document.getElementById("emailValue").textContent=email;
+ document.getElementById("countryValue").textContent=country||"—";
 
-    const email =
-        currentUser?.email ||
-        "—";
+ document.getElementById("languageValue").textContent=
+ LANGUAGES[language]||language;
 
-    const country =
-        getCountry();
+ document.getElementById("accountTypeValue").textContent=
+ currentProfile.account_type||"Standard";
 
-    const language =
-        getLanguage();
+ document.getElementById("memberSinceValue").textContent=
+ currentUser?.created_at
+ ?new Date(currentUser.created_at).toLocaleDateString("en-US",{
+  year:"numeric",
+  month:"long"
+ })
+ :"—";
 
-    document.getElementById(
-        "profileName"
-    ).textContent = full;
+ document.getElementById("emailStatusValue").textContent=
+ currentUser?.email_confirmed_at
+ ?"Verified"
+ :"Not verified";
 
-    document.getElementById(
-        "profileEmail"
-    ).textContent = email;
+ document.getElementById("userIdValue").textContent=
+ currentUser?.id
+ ?currentUser.id.slice(0,8)+"..."
+ :"—";
 
-    document.getElementById(
-        "firstNameValue"
-    ).textContent =
-        first;
+ renderAvatar("profileAvatar");
+ renderAvatar("headerAvatar");
 
-    document.getElementById(
-        "lastNameValue"
-    ).textContent =
-        last || "—";
+ const nameEl=document.querySelector("[data-user-name]");
+ if(nameEl)nameEl.textContent=name;
 
-    document.getElementById(
-        "emailValue"
-    ).textContent =
-        email;
+ const initialsEl=document.querySelector("[data-user-initials]");
+ if(initialsEl)initialsEl.textContent=initials();
 
-    document.getElementById(
-        "countryValue"
-    ).textContent =
-        country || "—";
-
-    document.getElementById(
-        "languageValue"
-    ).textContent =
-        LANGUAGE_NAMES[language] ||
-        language ||
-        "English";
-
-
-    const created =
-        currentUser?.created_at;
-
-    document.getElementById(
-        "memberSinceValue"
-    ).textContent =
-        created
-        ?
-        new Date(created)
-            .toLocaleDateString(
-                "en-US",
-                {
-                    year:"numeric",
-                    month:"long"
-                }
-            )
-        :
-        "—";
-
-
-    document.getElementById(
-        "accountStatusValue"
-    ).textContent =
-        currentUser
-        ?
-        "Active"
-        :
-        "—";
-
-
-    document.getElementById(
-        "emailStatusValue"
-    ).textContent =
-        currentUser?.email_confirmed_at
-        ?
-        "Verified"
-        :
-        "Not verified";
-
-
-    document.getElementById(
-        "userIdValue"
-    ).textContent =
-        currentUser?.id
-        ?
-        `${currentUser.id.slice(0,8)}...`
-        :
-        "—";
-
-
-    renderAvatar(
-        "profileAvatar"
-    );
-
-    renderAvatar(
-        "headerAvatar"
-    );
-
-    updateAuthHeader();
+ loadPreferences();
 }
-
-
-/* =========================================================
-   HEADER
-========================================================= */
-
-function updateAuthHeader(){
-
-    const full =
-        getFullName() ||
-        "User";
-
-    const balance =
-        document.querySelector(
-            "[data-user-balance]"
-        );
-
-    const name =
-        document.querySelector(
-            "[data-user-name]"
-        );
-
-    const initials =
-        document.querySelector(
-            "[data-user-initials]"
-        );
-
-    if(name){
-
-        name.textContent =
-            full;
-
-    }
-
-    if(initials){
-
-        initials.textContent =
-            makeInitials();
-
-    }
-
-    /*
-     * Do not invent a wallet balance.
-     * auth.js remains responsible for the
-     * real balance value.
-     */
-
-    if(balance && !balance.textContent.trim()){
-
-        balance.textContent =
-            "—";
-
-    }
-
-}
-
-
-/* =========================================================
-   OPEN EDIT PROFILE
-========================================================= */
-
-function openEditProfile(focusPhoto=false){
-
-    const first =
-        getFirstName();
-
-    const last =
-        getLastName();
-
-    const country =
-        getCountry();
-
-    const language =
-        getLanguage();
-
-    document.getElementById(
-        "editFirstName"
-    ).value =
-        first;
-
-    document.getElementById(
-        "editLastName"
-    ).value =
-        last;
-
-    document.getElementById(
-        "editEmail"
-    ).value =
-        currentUser?.email || "";
-
-    document.getElementById(
-        "editCountry"
-    ).value =
-        country;
-
-    document.getElementById(
-        "editLanguage"
-    ).value =
-        language in LANGUAGE_NAMES
-        ?
-        language
-        :
-        "en";
-
-
-    selectedAvatarData =
-        null;
-
-    renderPhotoPreview();
-
-
-    const modal =
-        document.getElementById(
-            "editProfileModal"
-        );
-
-    modal.classList.add("show");
-
-    document.body.classList.add(
-        "modal-open"
-    );
-
-
-    if(focusPhoto){
-
-        setTimeout(()=>{
-
-            document
-                .getElementById("avatarFile")
-                .click();
-
-        },180);
-
-    }
-
-}
-
-
-/* =========================================================
-   PHOTO PREVIEW
-========================================================= */
-
-function renderPhotoPreview(){
-
-    const preview =
-        document.getElementById(
-            "photoPreview"
-        );
-
-    if(!preview){
-        return;
-    }
-
-    preview.innerHTML = "";
-
-    const source =
-        selectedAvatarData ||
-        getAvatar();
-
-    if(source){
-
-        const image =
-            document.createElement("img");
-
-        image.src =
-            source;
-
-        image.alt =
-            "Profile preview";
-
-        image.onerror = ()=>{
-
-            preview.innerHTML = "";
-
-            preview.textContent =
-                makeInitials();
-
-        };
-
-        preview.appendChild(
-            image
-        );
-
-    }else{
-
-        preview.textContent =
-            makeInitials();
-
-    }
-
-}
-
-
-/* =========================================================
-   IMAGE FILE
-========================================================= */
-
-document
-    .getElementById("avatarFile")
-    .addEventListener(
-        "change",
-        async function(){
-
-            const file =
-                this.files?.[0];
-
-            if(!file){
-                return;
-            }
-
-            if(
-                ![
-                    "image/jpeg",
-                    "image/png",
-                    "image/webp"
-                ].includes(file.type)
-            ){
-
-                showToast(
-                    "Please select a JPG, PNG, or WebP image."
-                );
-
-                this.value = "";
-
-                return;
-
-            }
-
-            if(file.size > 2 * 1024 * 1024){
-
-                showToast(
-                    "Image must be smaller than 2 MB."
-                );
-
-                this.value = "";
-
-                return;
-
-            }
-
-            try{
-
-                selectedAvatarData =
-                    await compressImage(file);
-
-                renderPhotoPreview();
-
-                showToast(
-                    "Photo selected. Save your profile to apply it."
-                );
-
-            }catch(error){
-
-                console.error(error);
-
-                showToast(
-                    "Could not process the image."
-                );
-
-            }
-
-        }
-    );
-
-
-/* =========================================================
-   IMAGE COMPRESSION
-========================================================= */
-
-function compressImage(file){
-
-    return new Promise(
-        (resolve,reject)=>{
-
-            const reader =
-                new FileReader();
-
-            reader.onload =
-                function(){
-
-                    const image =
-                        new Image();
-
-                    image.onload =
-                        function(){
-
-                            const max =
-                                700;
-
-                            let width =
-                                image.width;
-
-                            let height =
-                                image.height;
-
-                            if(width > height){
-
-                                if(width > max){
-
-                                    height =
-                                        Math.round(
-                                            height *
-                                            max /
-                                            width
-                                        );
-
-                                    width =
-                                        max;
-
-                                }
-
-                            }else{
-
-                                if(height > max){
-
-                                    width =
-                                        Math.round(
-                                            width *
-                                            max /
-                                            height
-                                        );
-
-                                    height =
-                                        max;
-
-                                }
-
-                            }
-
-                            const canvas =
-                                document.createElement(
-                                    "canvas"
-                                );
-
-                            canvas.width =
-                                width;
-
-                            canvas.height =
-                                height;
-
-                            const ctx =
-                                canvas.getContext(
-                                    "2d"
-                                );
-
-                            ctx.drawImage(
-                                image,
-                                0,
-                                0,
-                                width,
-                                height
-                            );
-
-                            resolve(
-                                canvas.toDataURL(
-                                    "image/webp",
-                                    .82
-                                )
-                            );
-
-                        };
-
-                    image.onerror =
-                        reject;
-
-                    image.src =
-                        reader.result;
-
-                };
-
-            reader.onerror =
-                reject;
-
-            reader.readAsDataURL(
-                file
-            );
-
-        }
-    );
-
-}
-
-
-/* =========================================================
-   BUILD REAL UPDATE OBJECT
-========================================================= */
-
-function buildProfileUpdate(){
-
-    const firstName =
-        document
-            .getElementById(
-                "editFirstName"
-            )
-            .value
-            .trim();
-
-    const lastName =
-        document
-            .getElementById(
-                "editLastName"
-            )
-            .value
-            .trim();
-
-    const country =
-        document
-            .getElementById(
-                "editCountry"
-            )
-            .value;
-
-    const language =
-        document
-            .getElementById(
-                "editLanguage"
-            )
-            .value;
-
-
-    const fullName =
-        `${firstName} ${lastName}`.trim();
-
-
-    const update = {};
-
-
-    /*
-     * Only send columns that actually exist
-     * in the user's profiles row.
-     */
-
-    if(profileColumns.has("first_name")){
-
-        update.first_name =
-            firstName;
-
-    }
-
-    if(profileColumns.has("last_name")){
-
-        update.last_name =
-            lastName;
-
-    }
-
-    if(profileColumns.has("firstname")){
-
-        update.firstname =
-            firstName;
-
-    }
-
-    if(profileColumns.has("lastname")){
-
-        update.lastname =
-            lastName;
-
-    }
-
-    if(profileColumns.has("firstName")){
-
-        update.firstName =
-            firstName;
-
-    }
-
-    if(profileColumns.has("lastName")){
-
-        update.lastName =
-            lastName;
-
-    }
-
-    if(profileColumns.has("full_name")){
-
-        update.full_name =
-            fullName;
-
-    }
-
-    if(profileColumns.has("name")){
-
-        update.name =
-            fullName;
-
-    }
-
-    if(profileColumns.has("display_name")){
-
-        update.display_name =
-            fullName;
-
-    }
-
-    if(profileColumns.has("displayName")){
-
-        update.displayName =
-            fullName;
-
-    }
-
-    if(profileColumns.has("country")){
-
-        update.country =
-            country;
-
-    }
-
-    if(profileColumns.has("country_name")){
-
-        update.country_name =
-            country;
-
-    }
-
-    if(profileColumns.has("language")){
-
-        update.language =
-            language;
-
-    }
-
-    if(profileColumns.has("lang")){
-
-        update.lang =
-            language;
-
-    }
-
-    if(profileColumns.has("locale")){
-
-        update.locale =
-            language;
-
-    }
-
-    if(
-        selectedAvatarData &&
-        profileColumns.has("avatar_url")
-    ){
-
-        update.avatar_url =
-            selectedAvatarData;
-
-    }
-
-    if(
-        selectedAvatarData &&
-        profileColumns.has("avatar")
-    ){
-
-        update.avatar =
-            selectedAvatarData;
-
-    }
-
-    if(
-        selectedAvatarData &&
-        profileColumns.has("photo_url")
-    ){
-
-        update.photo_url =
-            selectedAvatarData;
-
-    }
-
-    if(
-        selectedAvatarData &&
-        profileColumns.has("image_url")
-    ){
-
-        update.image_url =
-            selectedAvatarData;
-
-    }
-
-    if(
-        selectedAvatarData &&
-        profileColumns.has("profile_image")
-    ){
-
-        update.profile_image =
-            selectedAvatarData;
-
-    }
-
-
-    return update;
-
-}
-
-
-/* =========================================================
-   SAVE PROFILE
-========================================================= */
-
-async function saveProfile(){
-
-    if(!currentUser){
-
-        showToast(
-            "Please log in first."
-        );
-
-        return;
-
-    }
-
-
-    const firstName =
-        document
-            .getElementById(
-                "editFirstName"
-            )
-            .value
-            .trim();
-
-    const country =
-        document
-            .getElementById(
-                "editCountry"
-            )
-            .value;
-
-    const language =
-        document
-            .getElementById(
-                "editLanguage"
-            )
-            .value;
-
-
-    if(!firstName){
-
-        showToast(
-            "Please enter your first name."
-        );
-
-        return;
-
-    }
-
-
-    if(!country){
-
-        showToast(
-            "Please select your country."
-        );
-
-        return;
-
-    }
-
-
-    if(
-        !LANGUAGE_NAMES[language]
-    ){
-
-        showToast(
-            "Please select a valid language."
-        );
-
-        return;
-
-    }
-
-
-    const button =
-        document.getElementById(
-            "saveProfileButton"
-        );
-
-    button.classList.add(
-        "loading"
-    );
-
-    button.textContent =
-        "Saving...";
-
-
-    try{
-
-        const update =
-            buildProfileUpdate();
-
-
-        /*
-         * If no known profile fields were found,
-         * stop instead of pretending the save worked.
-         */
-
-        if(
-            Object.keys(update).length === 0
-        ){
-
-            throw new Error(
-                "No compatible editable profile columns were found."
-            );
-
-        }
-
-
-        /*
-         * Determine the correct profile row.
-         */
-
-        let query =
-            supabaseClient
-                .from("profiles")
-                .update(update)
-                .eq("id",currentUser.id);
-
-
-        let result =
-            await query
-                .select("*")
-                .maybeSingle();
-
-
-        /*
-         * Retry with user_id when the project
-         * uses user_id instead of id.
-         */
-
-        if(
-            result.error &&
-            String(result.error.message || "")
-                .toLowerCase()
-                .includes("id")
-        ){
-
-            result =
-                await supabaseClient
-                    .from("profiles")
-                    .update(update)
-                    .eq("user_id",currentUser.id)
-                    .select("*")
-                    .maybeSingle();
-
-        }
-
-
-        if(result.error){
-
-            throw result.error;
-
-        }
-
-
-        if(result.data){
-
-            currentProfile =
-                result.data;
-
-            rememberProfileColumns(
-                currentProfile
-            );
-
-        }else{
-
-            /*
-             * If RLS returns no row after update,
-             * reload it and verify the actual value.
-             */
-
-            currentProfile =
-                await loadDatabaseProfile();
-
-            rememberProfileColumns(
-                currentProfile
-            );
-
-        }
-
-
-        /*
-         * Update Auth metadata too when those fields
-         * exist there. Email is deliberately excluded.
-         */
-
-        const metadata = {};
-
-        metadata.first_name =
-            firstName;
-
-        metadata.last_name =
-            document
-                .getElementById(
-                    "editLastName"
-                )
-                .value
-                .trim();
-
-        metadata.country =
-            country;
-
-        metadata.language =
-            language;
-
-        if(selectedAvatarData){
-
-            metadata.avatar_url =
-                selectedAvatarData;
-
-        }
-
-
-        const authResult =
-            await supabaseClient.auth.updateUser({
-                data:metadata
-            });
-
-
-        if(authResult.error){
-
-            console.warn(
-                "Auth metadata update:",
-                authResult.error
-            );
-
-        }
-
-
-        currentUser =
-            authResult.data?.user ||
-            currentUser;
-
-
-        /*
-         * Reload the actual database row.
-         */
-
-        currentProfile =
-            await loadDatabaseProfile();
-
-        rememberProfileColumns(
-            currentProfile
-        );
-
-
-        renderProfile();
-
-        closeModal(
-            "editProfileModal"
-        );
-
-
-        showToast(
-            "Profile updated successfully."
-        );
-
-
-        selectedAvatarData =
-            null;
-
-
-    }catch(error){
-
-        console.error(
-            "Save profile error:",
-            error
-        );
-
-        showToast(
-            error.message ||
-            "Could not save your profile."
-        );
-
-    }finally{
-
-        button.classList.remove(
-            "loading"
-        );
-
-        button.textContent =
-            "Save Changes";
-
-    }
-
-}
-
-
-/* =========================================================
-   LOAD PREFERENCES
-========================================================= */
 
 function loadPreferences(){
 
-    const preferences =
-        firstExistingValue(
-            currentProfile,
-            [
-                "preferences",
-                "settings"
-            ],
-            null
-        );
+ document.getElementById("emailNotifications").checked=
+ currentProfile.email_notification!==false;
 
+ document.getElementById("predictionAlerts").checked=
+ currentProfile.prediction_alerts!==false;
 
-    if(
-        !preferences ||
-        typeof preferences !== "object"
-    ){
+ document.getElementById("liveUpdates").checked=
+ currentProfile.live_match!==false;
+}
 
-        return;
+async function savePreference(column,value){
 
-    }
+ const update={};
+ update[column]=value;
 
+ const {error}=await supabaseClient
+ .from("profiles")
+ .update(update)
+ .eq("id",currentUser.id);
 
-    const email =
-        document.getElementById(
-            "emailNotifications"
-        );
+ if(error){
+  console.error(error);
+  showToast("Could not save setting.");
+  return false;
+ }
 
-    const prediction =
-        document.getElementById(
-            "predictionAlerts"
-        );
+ currentProfile[column]=value;
+ return true;
+}
 
-    const live =
-        document.getElementById(
-            "liveUpdates"
-        );
+document.querySelectorAll(".toggle input").forEach(input=>{
 
+ input.addEventListener("change",async()=>{
 
-    if(
-        preferences.email_notifications !==
-        undefined
-    ){
+  let column="";
 
-        email.checked =
-            !!preferences.email_notifications;
+  if(input.id==="emailNotifications")
+   column="email_notification";
 
-    }
+  if(input.id==="predictionAlerts")
+   column="prediction_alerts";
 
+  if(input.id==="liveUpdates")
+   column="live_match";
 
-    if(
-        preferences.prediction_alerts !==
-        undefined
-    ){
+  const success=await savePreference(
+   column,
+   input.checked
+  );
 
-        prediction.checked =
-            !!preferences.prediction_alerts;
+  if(success)showToast("Setting saved.");
 
-    }
+ });
+});
 
+function openEditProfile(focusPhoto=false){
 
-    if(
-        preferences.live_updates !==
-        undefined
-    ){
+ selectedCountry=profileCountry();
+ selectedLanguage=profileLanguage();
 
-        live.checked =
-            !!preferences.live_updates;
+ document.getElementById("editFullName").value=profileName();
+ document.getElementById("editEmail").value=currentUser.email||"";
 
-    }
+ updateChoiceLabels();
+ renderPhotoPreview();
+
+ document.getElementById("editProfileModal")
+ .classList.add("show");
+
+ document.body.classList.add("modal-open");
+
+ if(focusPhoto){
+
+  setTimeout(()=>{
+   document.getElementById("avatarFile").click();
+  },180);
+
+ }
+}
+
+function updateChoiceLabels(){
+
+ document.getElementById("selectedCountryText").textContent=
+ selectedCountry||"Select country";
+
+ document.getElementById("selectedLanguageText").textContent=
+ LANGUAGES[selectedLanguage]||"English";
+}
+
+function openCountryModal(){
+
+ document.getElementById("countrySearch").value="";
+
+ renderCountries(COUNTRIES);
+
+ document.getElementById("countryModal")
+ .classList.add("show");
+}
+
+function renderCountries(list){
+
+ const box=document.getElementById("countryList");
+
+ box.innerHTML="";
+
+ list.forEach(country=>{
+
+  const button=document.createElement("button");
+
+  button.className="country-row";
+
+  if(country===selectedCountry)
+   button.classList.add("selected");
+
+  button.innerHTML=`
+   <div class="country-flag">🌍</div>
+   <div>${escapeHTML(country)}</div>
+  `;
+
+  button.onclick=()=>{
+
+   selectedCountry=country;
+
+   updateChoiceLabels();
+
+   closeModal("countryModal");
+
+  };
+
+  box.appendChild(button);
+
+ });
+}
+
+function filterCountries(){
+
+ const q=document.getElementById("countrySearch")
+ .value
+ .toLowerCase()
+ .trim();
+
+ renderCountries(
+  COUNTRIES.filter(x=>x.toLowerCase().includes(q))
+ );
+}
+
+function openLanguageModal(){
+
+ document.getElementById("languageModal")
+ .classList.add("show");
+
+ document.querySelectorAll(".language-row")
+ .forEach(row=>{
+
+  row.classList.toggle(
+   "selected",
+   row.dataset.lang===selectedLanguage
+  );
+
+ });
 
 }
 
+function selectLanguage(lang){
 
-/* =========================================================
-   SAVE PREFERENCES
-========================================================= */
+ selectedLanguage=lang;
 
-async function savePreferences(){
+ updateChoiceLabels();
 
-    if(!currentUser){
-        return;
-    }
-
-
-    /*
-     * Only save if the profiles table already
-     * exposes a JSON preferences/settings column.
-     */
-
-    let column = null;
-
-    if(profileColumns.has("preferences")){
-
-        column =
-            "preferences";
-
-    }else if(
-        profileColumns.has("settings")
-    ){
-
-        column =
-            "settings";
-
-    }
-
-
-    if(!column){
-
-        return;
-
-    }
-
-
-    const current =
-        currentProfile[column];
-
-    const preferences =
-        (
-            current &&
-            typeof current === "object"
-        )
-        ?
-        {...current}
-        :
-        {};
-
-
-    preferences.email_notifications =
-        document.getElementById(
-            "emailNotifications"
-        ).checked;
-
-    preferences.prediction_alerts =
-        document.getElementById(
-            "predictionAlerts"
-        ).checked;
-
-    preferences.live_updates =
-        document.getElementById(
-            "liveUpdates"
-        ).checked;
-
-
-    const update = {};
-
-    update[column] =
-        preferences;
-
-
-    const result =
-        await supabaseClient
-            .from("profiles")
-            .update(update)
-            .eq("id",currentUser.id);
-
-
-    if(result.error){
-
-        /*
-         * Retry using user_id if needed.
-         */
-
-        const retry =
-            await supabaseClient
-                .from("profiles")
-                .update(update)
-                .eq("user_id",currentUser.id);
-
-        if(retry.error){
-
-            console.error(
-                "Preference save error:",
-                retry.error
-            );
-
-            return;
-
-        }
-
-    }
-
-
-    currentProfile[column] =
-        preferences;
-
+ closeModal("languageModal");
 }
 
+function renderPhotoPreview(){
 
-/* =========================================================
-   PREFERENCE EVENTS
-========================================================= */
+ const box=document.getElementById("photoPreview");
 
-document
-    .querySelectorAll(
-        ".toggle input"
-    )
-    .forEach(toggle=>{
+ box.innerHTML="";
 
-        toggle.addEventListener(
-            "change",
-            async function(){
+ const source=selectedAvatarData||profileAvatar();
 
-                const label =
-                    this
-                        .closest(".setting")
-                        .querySelector(
-                            ".setting-info strong"
-                        )
-                        .textContent;
+ if(source){
 
+  const img=document.createElement("img");
 
-                await savePreferences();
+  img.src=source;
 
+  img.alt="Preview";
 
-                showToast(
-                    `${label} ${
-                        this.checked
-                        ?
-                        "enabled"
-                        :
-                        "disabled"
-                    }.`
-                );
+  img.onerror=()=>{
+   box.textContent=initials();
+  };
 
-            }
-        );
+  box.appendChild(img);
 
-    });
+ }else{
 
+  box.textContent=initials();
 
-/* =========================================================
-   CHANGE PASSWORD
-========================================================= */
+ }
+}
+
+document.getElementById("avatarFile")
+.addEventListener("change",async function(){
+
+ const file=this.files?.[0];
+
+ if(!file)return;
+
+ if(file.size>2*1024*1024){
+
+  showToast("Image must be smaller than 2 MB.");
+  this.value="";
+  return;
+
+ }
+
+ try{
+
+  selectedAvatarData=await compressImage(file);
+
+  renderPhotoPreview();
+
+  showToast("Photo selected.");
+
+ }catch(error){
+
+  console.error(error);
+
+  showToast("Could not process image.");
+
+ }
+
+});
+
+function compressImage(file){
+
+ return new Promise((resolve,reject)=>{
+
+  const reader=new FileReader();
+
+  reader.onload=()=>{
+
+   const img=new Image();
+
+   img.onload=()=>{
+
+    const max=700;
+
+    let w=img.width;
+    let h=img.height;
+
+    if(w>max){
+
+     h=Math.round(h*max/w);
+     w=max;
+
+    }
+
+    if(h>max){
+
+     w=Math.round(w*max/h);
+     h=max;
+
+    }
+
+    const canvas=document.createElement("canvas");
+
+    canvas.width=w;
+    canvas.height=h;
+
+    canvas.getContext("2d")
+    .drawImage(img,0,0,w,h);
+
+    resolve(
+     canvas.toDataURL("image/webp",.82)
+    );
+
+   };
+
+   img.onerror=reject;
+   img.src=reader.result;
+
+  };
+
+  reader.onerror=reject;
+  reader.readAsDataURL(file);
+
+ });
+}
+
+async function saveProfile(){
+
+ const name=document.getElementById("editFullName")
+ .value.trim();
+
+ if(!name){
+
+  showToast("Enter your name.");
+  return;
+
+ }
+
+ if(!selectedCountry){
+
+  showToast("Select your country.");
+  return;
+
+ }
+
+ const button=document.getElementById("saveProfileButton");
+
+ button.classList.add("loading");
+ button.textContent="Saving...";
+
+ try{
+
+  const update={
+   full_name:name,
+   country:selectedCountry,
+   language:selectedLanguage
+  };
+
+  if(selectedAvatarData)
+   update.avatar_url=selectedAvatarData;
+
+  const {data,error}=await supabaseClient
+  .from("profiles")
+  .update(update)
+  .eq("id",currentUser.id)
+  .select("*")
+  .single();
+
+  if(error)throw error;
+
+  currentProfile=data;
+
+  /*
+   * Keep Auth metadata synchronized.
+   * Email is deliberately NOT changed.
+   */
+
+  const metadata={
+   full_name:name,
+   country:selectedCountry,
+   language:selectedLanguage
+  };
+
+  if(selectedAvatarData)
+   metadata.avatar_url=selectedAvatarData;
+
+  const authUpdate=
+   await supabaseClient.auth.updateUser({
+    data:metadata
+   });
+
+  if(authUpdate.error)
+   console.warn(authUpdate.error);
+
+  if(authUpdate.data?.user)
+   currentUser=authUpdate.data.user;
+
+  renderProfile();
+
+  closeModal("editProfileModal");
+
+  selectedAvatarData=null;
+
+  showToast("Profile saved successfully.");
+
+  applyGoogleLanguage(selectedLanguage);
+
+ }catch(error){
+
+  console.error(error);
+
+  showToast(
+   error.message||"Could not save profile."
+  );
+
+ }finally{
+
+  button.classList.remove("loading");
+  button.textContent="Save Changes";
+
+ }
+}
+
+function applyGoogleLanguage(lang){
+
+ if(lang==="en"){
+
+  location.reload();
+  return;
+
+ }
+
+ const select=document.querySelector(".goog-te-combo");
+
+ if(select){
+
+  select.value=lang;
+
+  select.dispatchEvent(
+   new Event("change")
+  );
+
+ }
+}
 
 function openChangePassword(){
 
-    document
-        .getElementById(
-            "passwordModal"
-        )
-        .classList.add("show");
+ document.getElementById("passwordModal")
+ .classList.add("show");
 
-    document.body.classList.add(
-        "modal-open"
-    );
-
+ document.body.classList.add("modal-open");
 }
-
 
 async function changePassword(){
 
-    if(!currentUser){
+ const current=document.getElementById("currentPassword").value;
+ const newPassword=document.getElementById("newPassword").value;
+ const confirm=document.getElementById("confirmPassword").value;
 
-        showToast(
-            "Please log in first."
-        );
+ if(!current){
 
-        return;
+  showToast("Enter your current password.");
+  return;
 
-    }
+ }
 
+ if(newPassword.length<8){
 
-    const current =
-        document
-            .getElementById(
-                "currentPassword"
-            )
-            .value;
+  showToast("New password must contain at least 8 characters.");
+  return;
 
-    const newPassword =
-        document
-            .getElementById(
-                "newPassword"
-            )
-            .value;
+ }
 
-    const confirm =
-        document
-            .getElementById(
-                "confirmPassword"
-            )
-            .value;
+ if(newPassword!==confirm){
 
+  showToast("Passwords do not match.");
+  return;
 
-    if(!current){
+ }
 
-        showToast(
-            "Enter your current password."
-        );
+ const button=document.getElementById("changePasswordButton");
 
-        return;
+ button.classList.add("loading");
+ button.textContent="Updating...";
 
-    }
+ try{
 
+  const login=
+   await supabaseClient.auth.signInWithPassword({
+    email:currentUser.email,
+    password:current
+   });
 
-    if(newPassword.length < 8){
+  if(login.error)
+   throw new Error("Current password is incorrect.");
 
-        showToast(
-            "New password must contain at least 8 characters."
-        );
+  const update=
+   await supabaseClient.auth.updateUser({
+    password:newPassword
+   });
 
-        return;
+  if(update.error)throw update.error;
 
-    }
+  closeModal("passwordModal");
 
+  document.getElementById("currentPassword").value="";
+  document.getElementById("newPassword").value="";
+  document.getElementById("confirmPassword").value="";
 
-    if(newPassword !== confirm){
+  showToast("Password changed successfully.");
 
-        showToast(
-            "New passwords do not match."
-        );
+ }catch(error){
 
-        return;
+  console.error(error);
 
-    }
+  showToast(
+   error.message||"Could not change password."
+  );
 
+ }finally{
 
-    if(!currentUser.email){
+  button.classList.remove("loading");
+  button.textContent="Update Password";
 
-        showToast(
-            "Your account email is not available."
-        );
-
-        return;
-
-    }
-
-
-    const button =
-        document.getElementById(
-            "changePasswordButton"
-        );
-
-    button.classList.add(
-        "loading"
-    );
-
-    button.textContent =
-        "Updating...";
-
-
-    try{
-
-        /*
-         * Re-authenticate with the REAL current password.
-         */
-
-        const login =
-            await supabaseClient.auth.signInWithPassword({
-                email:currentUser.email,
-                password:current
-            });
-
-
-        if(login.error){
-
-            throw new Error(
-                "Current password is incorrect."
-            );
-
-        }
-
-
-        /*
-         * Change the REAL Supabase Auth password.
-         */
-
-        const update =
-            await supabaseClient.auth.updateUser({
-                password:newPassword
-            });
-
-
-        if(update.error){
-
-            throw update.error;
-
-        }
-
-
-        closeModal(
-            "passwordModal"
-        );
-
-
-        document.getElementById(
-            "currentPassword"
-        ).value = "";
-
-        document.getElementById(
-            "newPassword"
-        ).value = "";
-
-        document.getElementById(
-            "confirmPassword"
-        ).value = "";
-
-
-        showToast(
-            "Password changed successfully."
-        );
-
-
-    }catch(error){
-
-        console.error(
-            "Password change error:",
-            error
-        );
-
-        showToast(
-            error.message ||
-            "Could not change password."
-        );
-
-    }finally{
-
-        button.classList.remove(
-            "loading"
-        );
-
-        button.textContent =
-            "Update Password";
-
-    }
-
+ }
 }
-
-
-/* =========================================================
-   MODALS
-========================================================= */
 
 function closeModal(id){
 
-    const modal =
-        document.getElementById(id);
+ const modal=document.getElementById(id);
 
-    if(!modal){
-        return;
-    }
+ if(!modal)return;
 
-    modal.classList.remove(
-        "show"
-    );
+ modal.classList.remove("show");
 
-    if(
-        !document.querySelector(
-            ".modal-overlay.show"
-        )
-    ){
-
-        document.body.classList.remove(
-            "modal-open"
-        );
-
-    }
-
+ if(!document.querySelector(".modal-overlay.show"))
+  document.body.classList.remove("modal-open");
 }
-
 
 function closeOverlay(event,id){
 
-    if(
-        event.target.id === id
-    ){
-
-        closeModal(id);
-
-    }
-
+ if(event.target.id===id)
+  closeModal(id);
 }
-
-
-/* =========================================================
-   TOAST
-========================================================= */
 
 let toastTimer;
 
-
 function showToast(message){
 
-    const toast =
-        document.getElementById(
-            "toast"
-        );
+ const toast=document.getElementById("toast");
 
-    toast.textContent =
-        message;
+ toast.textContent=message;
+ toast.classList.add("show");
 
-    toast.classList.add(
-        "show"
-    );
+ clearTimeout(toastTimer);
 
-
-    clearTimeout(
-        toastTimer
-    );
-
-
-    toastTimer =
-        setTimeout(()=>{
-
-            toast.classList.remove(
-                "show"
-            );
-
-        },3200);
-
+ toastTimer=setTimeout(()=>{
+  toast.classList.remove("show");
+ },3000);
 }
 
+function escapeHTML(value){
 
-/* =========================================================
-   ESC KEY
-========================================================= */
-
-document.addEventListener(
-    "keydown",
-    function(event){
-
-        if(event.key !== "Escape"){
-            return;
-        }
-
-        closeModal(
-            "editProfileModal"
-        );
-
-        closeModal(
-            "passwordModal"
-        );
-
-    }
-);
-
-
-/* =========================================================
-   AUTH STATE
-========================================================= */
-
-async function waitForAuth(){
-
-    await initSupabase();
-
-
-    /*
-     * First check current authenticated user.
-     */
-
-    currentUser =
-        await getRealUser();
-
-
-    /*
-     * No authenticated user:
-     * do not show fake profile data.
-     */
-
-    if(!currentUser){
-
-        window.location.href =
-            "login.html";
-
-        return;
-
-    }
-
-
-    /*
-     * Load actual profile.
-     */
-
-    currentProfile =
-        await loadDatabaseProfile();
-
-
-    rememberProfileColumns(
-        currentProfile
-    );
-
-
-    renderProfile();
-
-    loadPreferences();
-
-
-    /*
-     * Auth changes are real-time.
-     */
-
-    supabaseClient.auth.onAuthStateChange(
-        async function(event,session){
-
-            if(
-                event === "SIGNED_OUT" ||
-                !session?.user
-            ){
-
-                window.location.href =
-                    "login.html";
-
-                return;
-
-            }
-
-
-            currentUser =
-                session.user;
-
-            currentProfile =
-                await loadDatabaseProfile();
-
-            rememberProfileColumns(
-                currentProfile
-            );
-
-            renderProfile();
-
-            loadPreferences();
-
-        }
-    );
-
-
-    /*
-     * Hide loading screen only after
-     * the real account data is ready.
-     */
-
-    requestAnimationFrame(()=>{
-
-        document
-            .getElementById(
-                "profileLoading"
-            )
-            .classList.add(
-                "hide"
-            );
-
-    });
-
+ return String(value)
+ .replaceAll("&","&amp;")
+ .replaceAll("<","&lt;")
+ .replaceAll(">","&gt;")
+ .replaceAll('"',"&quot;")
+ .replaceAll("'","&#039;");
 }
 
+document.addEventListener("keydown",e=>{
 
-/* =========================================================
-   INIT
-========================================================= */
+ if(e.key==="Escape"){
+
+  closeModal("editProfileModal");
+  closeModal("countryModal");
+  closeModal("languageModal");
+  closeModal("passwordModal");
+
+ }
+
+});
 
 async function startProfile(){
 
-    buildCountryList();
+ try{
 
-    try{
+  await initSupabase();
 
-        await waitForAuth();
+  currentUser=await getUser();
 
-    }catch(error){
+  if(!currentUser){
 
-        console.error(
-            "Profile initialization error:",
-            error
-        );
+   location.href="login.html";
+   return;
 
-        showToast(
-            "Could not load your real account."
-        );
+  }
 
-        setTimeout(()=>{
+  currentProfile=await loadProfile();
 
-            document
-                .getElementById(
-                    "profileLoading"
-                )
-                .classList.add(
-                    "hide"
-                );
+  selectedCountry=profileCountry();
+  selectedLanguage=profileLanguage();
 
-        },500);
+  renderProfile();
+
+  updateChoiceLabels();
+
+  renderPhotoPreview();
+
+  renderCountries(COUNTRIES);
+
+  requestAnimationFrame(()=>{
+
+   document.getElementById("profileLoading")
+   .classList.add("hide");
+
+  });
+
+  supabaseClient.auth.onAuthStateChange(
+   async(event,session)=>{
+
+    if(event==="SIGNED_OUT"){
+
+     location.href="login.html";
+     return;
 
     }
 
+    if(session?.user){
+
+     currentUser=session.user;
+
+     currentProfile=await loadProfile();
+
+     selectedCountry=profileCountry();
+     selectedLanguage=profileLanguage();
+
+     renderProfile();
+     updateChoiceLabels();
+
+    }
+
+   }
+  );
+
+ }catch(error){
+
+  console.error(error);
+
+  showToast("Could not load your profile.");
+
+  document.getElementById("profileLoading")
+  .classList.add("hide");
+
+ }
 }
 
-
 startProfile();
-
 </script>
 
 </body>
