@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-
 <title>Profile | SportX</title>
 
 <style>
@@ -19,17 +18,8 @@
  --danger:#e54855;
  --shadow:0 12px 35px rgba(15,23,42,.07)
 }
-
-*{
- box-sizing:border-box;
- margin:0;
- padding:0
-}
-
-html{
- scroll-behavior:smooth
-}
-
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
 body{
  font-family:Inter,Arial,Helvetica,sans-serif;
  background:
@@ -40,14 +30,7 @@ body{
  min-height:100vh;
  top:0!important
 }
-
-body.modal-open{
- overflow:hidden
-}
-
-/* =========================================================
-   GOOGLE TRANSLATE - COMPLETELY HIDDEN
-   ========================================================= */
+body.modal-open{overflow:hidden}
 
 .goog-te-banner-frame,
 iframe.goog-te-banner-frame,
@@ -56,54 +39,25 @@ iframe.goog-te-banner-frame,
 .goog-te-spinner-pos,
 .goog-te-menu-frame,
 #goog-gt-tt,
-.goog-text-highlight{
+.goog-text-highlight,
+.goog-te-gadget,
+.goog-te-gadget-simple{
  display:none!important;
  visibility:hidden!important;
  opacity:0!important
 }
-
-body > .skiptranslate{
+body> .skiptranslate{
  display:none!important;
  visibility:hidden!important;
  height:0!important;
  width:0!important;
  overflow:hidden!important
 }
-
-.goog-te-gadget,
-.goog-te-gadget-simple{
- display:none!important
-}
-
-body{
- top:0!important
-}
-
-button,
-input{
- font:inherit
-}
-
-button{
- border:0;
- cursor:pointer
-}
-
-button:active{
- transform:scale(.97)
-}
-
-a{
- text-decoration:none;
- color:inherit
-}
-
-.container{
- width:min(1180px,calc(100% - 32px));
- margin:auto
-}
-
-/* HEADER */
+button,input{font:inherit}
+button{border:0;cursor:pointer}
+button:active{transform:scale(.97)}
+a{text-decoration:none;color:inherit}
+.container{width:min(1180px,calc(100% - 32px));margin:auto}
 
 header{
  position:sticky;
@@ -113,7 +67,6 @@ header{
  backdrop-filter:blur(18px);
  border-bottom:1px solid var(--border)
 }
-
 .navbar{
  min-height:72px;
  display:flex;
@@ -121,40 +74,17 @@ header{
  justify-content:space-between;
  gap:20px
 }
-
-.logo{
- font-size:24px;
- font-weight:900;
- letter-spacing:-1px
-}
-
-.logo span{
- color:var(--green-dark)
-}
-
-.nav-links{
- display:flex;
- align-items:center;
- gap:26px
-}
-
+.logo{font-size:24px;font-weight:900;letter-spacing:-1px}
+.logo span{color:var(--green-dark)}
+.nav-links{display:flex;align-items:center;gap:26px}
 .nav-links a{
  color:var(--muted);
  font-size:14px;
  font-weight:700;
  transition:.25s
 }
-
-.nav-links a:hover,
-.nav-links a.active{
- color:var(--green-dark)
-}
-
-.header-right{
- display:flex;
- align-items:center
-}
-
+.nav-links a:hover,.nav-links a.active{color:var(--green-dark)}
+.header-right{display:flex;align-items:center}
 .login-btn{
  padding:10px 18px;
  border-radius:10px;
@@ -163,938 +93,334 @@ header{
  font-size:14px;
  font-weight:900
 }
-
-.user-account{
- display:flex;
- align-items:center;
- gap:10px
-}
-
+.user-account{display:flex;align-items:center;gap:10px}
 .user-avatar{
- width:38px;
- height:38px;
- border-radius:50%;
- display:flex;
- align-items:center;
- justify-content:center;
+ width:38px;height:38px;border-radius:50%;
+ display:flex;align-items:center;justify-content:center;
  background:linear-gradient(135deg,var(--green),var(--green-dark));
- color:#04110c;
- font-weight:900;
- overflow:hidden
+ color:#04110c;font-weight:900;overflow:hidden
 }
-
-.user-avatar img{
- width:100%;
- height:100%;
- object-fit:cover
-}
-
-.user-info{
- display:flex;
- flex-direction:column;
- line-height:1.2
-}
-
-.user-info strong{
- font-size:13px
-}
-
-.user-info span{
- color:var(--green-dark);
- font-size:12px;
- margin-top:3px
-}
-
+.user-avatar img{width:100%;height:100%;object-fit:cover}
+.user-info{display:flex;flex-direction:column;line-height:1.2}
+.user-info strong{font-size:13px}
+.user-info span{color:var(--green-dark);font-size:12px;margin-top:3px}
 .logout-btn{
- padding:8px 12px;
- border-radius:8px;
+ padding:8px 12px;border-radius:8px;
  background:rgba(229,72,85,.08);
  color:var(--danger);
- font-size:12px;
- font-weight:800
+ font-size:12px;font-weight:800
 }
 
-/* MAIN */
-
-main{
- padding:45px 0 70px
-}
-
-.page-head{
- margin-bottom:28px;
- animation:rise .5s ease
-}
-
-.page-head h1{
- font-size:34px;
- margin-bottom:8px
-}
-
-.page-head p{
- color:var(--muted);
- font-size:14px
-}
-
-/* HERO */
+main{padding:45px 0 70px}
+.page-head{margin-bottom:28px;animation:rise .5s ease}
+.page-head h1{font-size:34px;margin-bottom:8px}
+.page-head p{color:var(--muted);font-size:14px}
 
 .profile-hero{
  display:flex;
  align-items:center;
  gap:22px;
  padding:25px;
- background:linear-gradient(
-  135deg,
-  rgba(22,217,139,.12),
-  rgba(246,248,247,.95)
- );
+ background:linear-gradient(135deg,rgba(22,217,139,.12),rgba(246,248,247,.95));
  border:1px solid rgba(22,217,139,.2);
  border-radius:20px;
  margin-bottom:22px;
  box-shadow:var(--shadow);
  animation:rise .55s ease
 }
-
-.profile-avatar-wrap{
- position:relative;
- width:92px;
- height:92px;
- flex-shrink:0
-}
-
+.profile-avatar-wrap{position:relative;width:92px;height:92px;flex-shrink:0}
 .profile-avatar{
- width:92px;
- height:92px;
- border-radius:50%;
- display:flex;
- align-items:center;
- justify-content:center;
+ width:92px;height:92px;border-radius:50%;
+ display:flex;align-items:center;justify-content:center;
  background:linear-gradient(135deg,var(--green),var(--green-dark));
- color:#04110c;
- font-size:29px;
- font-weight:900;
- border:4px solid #fff;
- overflow:hidden
+ color:#04110c;font-size:29px;font-weight:900;
+ border:4px solid #fff;overflow:hidden
 }
-
-.profile-avatar img{
- width:100%;
- height:100%;
- object-fit:cover
-}
-
+.profile-avatar img{width:100%;height:100%;object-fit:cover}
 .avatar-camera{
- position:absolute;
- right:-3px;
- bottom:-3px;
- width:31px;
- height:31px;
- border-radius:50%;
- background:var(--text);
- color:#fff;
- border:3px solid #fff
+ position:absolute;right:-3px;bottom:-3px;
+ width:31px;height:31px;border-radius:50%;
+ background:var(--text);color:#fff;border:3px solid #fff
 }
-
-.profile-main{
- flex:1;
- min-width:0
-}
-
-.profile-main h2{
- font-size:24px;
- margin-bottom:5px;
- word-break:break-word
-}
-
-.profile-main p{
- color:var(--muted);
- font-size:13px;
- word-break:break-word
-}
-
+.profile-main{flex:1;min-width:0}
+.profile-main h2{font-size:24px;margin-bottom:5px;word-break:break-word}
+.profile-main p{color:var(--muted);font-size:13px;word-break:break-word}
 .profile-status{
- display:inline-flex;
- align-items:center;
- gap:7px;
- margin-top:10px;
- padding:6px 10px;
- border-radius:20px;
+ display:inline-flex;align-items:center;gap:7px;
+ margin-top:10px;padding:6px 10px;border-radius:20px;
  background:rgba(22,217,139,.09);
- color:var(--green-dark);
- font-size:11px;
- font-weight:800
+ color:var(--green-dark);font-size:11px;font-weight:800
 }
-
-.status-dot{
- width:6px;
- height:6px;
- border-radius:50%;
- background:var(--green-dark)
-}
-
+.status-dot{width:6px;height:6px;border-radius:50%;background:var(--green-dark)}
 .edit-profile-btn{
- padding:11px 17px;
- border-radius:10px;
- background:#fff;
- border:1px solid var(--border);
- color:var(--text);
- font-weight:800;
- font-size:13px
+ padding:11px 17px;border-radius:10px;background:#fff;
+ border:1px solid var(--border);color:var(--text);
+ font-weight:800;font-size:13px
 }
 
-/* GRID */
-
-.profile-grid{
- display:grid;
- grid-template-columns:1.25fr .75fr;
- gap:20px
-}
-
+.profile-grid{display:grid;grid-template-columns:1.25fr .75fr;gap:20px}
 .panel{
- background:#fff;
- border:1px solid var(--border);
- border-radius:18px;
- overflow:hidden;
- box-shadow:var(--shadow);
+ background:#fff;border:1px solid var(--border);
+ border-radius:18px;overflow:hidden;box-shadow:var(--shadow);
  animation:rise .6s ease
 }
-
 .panel-header{
- padding:19px 20px;
- border-bottom:1px solid var(--border);
+ padding:19px 20px;border-bottom:1px solid var(--border);
  background:linear-gradient(180deg,#fff,#fbfcfc)
 }
+.panel-header h3{font-size:17px}
+.panel-header p{color:var(--muted);font-size:11px;margin-top:5px}
+.panel-body{padding:20px}
 
-.panel-header h3{
- font-size:17px
-}
-
-.panel-header p{
- color:var(--muted);
- font-size:11px;
- margin-top:5px
-}
-
-.panel-body{
- padding:20px
-}
-
-/* INFO */
-
-.info-grid{
- display:grid;
- grid-template-columns:1fr 1fr;
- gap:15px
-}
-
+.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:15px}
 .info-item{
- padding:15px;
- border-radius:12px;
- background:var(--panel2);
- border:1px solid var(--border)
+ padding:15px;border-radius:12px;
+ background:var(--panel2);border:1px solid var(--border)
 }
-
-.info-label{
- color:var(--muted);
- font-size:10px;
- font-weight:700;
- margin-bottom:7px
-}
-
-.info-value{
- font-size:13px;
- font-weight:800;
- word-break:break-word
-}
-
-/* SETTINGS */
+.info-label{color:var(--muted);font-size:10px;font-weight:700;margin-bottom:7px}
+.info-value{font-size:13px;font-weight:800;word-break:break-word}
 
 .setting{
- display:flex;
- align-items:center;
- justify-content:space-between;
- gap:15px;
- padding:15px 0;
- border-bottom:1px solid var(--border)
+ display:flex;align-items:center;justify-content:space-between;
+ gap:15px;padding:15px 0;border-bottom:1px solid var(--border)
 }
+.setting:last-child{border-bottom:0}
+.setting-info strong{display:block;font-size:13px;margin-bottom:4px}
+.setting-info span{color:var(--muted);font-size:11px;line-height:1.5}
 
-.setting:last-child{
- border-bottom:0
-}
-
-.setting-info strong{
- display:block;
- font-size:13px;
- margin-bottom:4px
-}
-
-.setting-info span{
- color:var(--muted);
- font-size:11px;
- line-height:1.5
-}
-
-/* TOGGLE */
-
-.toggle{
- position:relative;
- width:44px;
- height:24px;
- flex-shrink:0
-}
-
-.toggle input{
- display:none
-}
-
+.toggle{position:relative;width:44px;height:24px;flex-shrink:0}
+.toggle input{display:none}
 .slider{
- position:absolute;
- inset:0;
- background:#dce3e0;
- border-radius:20px;
- transition:.25s
+ position:absolute;inset:0;background:#dce3e0;
+ border-radius:20px;transition:.25s
 }
-
 .slider:before{
- content:"";
- position:absolute;
- width:18px;
- height:18px;
- left:3px;
- top:3px;
- border-radius:50%;
- background:#8b9893;
- transition:.25s
+ content:"";position:absolute;width:18px;height:18px;
+ left:3px;top:3px;border-radius:50%;
+ background:#8b9893;transition:.25s
 }
-
-.toggle input:checked+.slider{
- background:rgba(22,217,139,.3)
-}
-
+.toggle input:checked+.slider{background:rgba(22,217,139,.3)}
 .toggle input:checked+.slider:before{
- transform:translateX(20px);
- background:var(--green-dark)
+ transform:translateX(20px);background:var(--green-dark)
 }
 
-/* ACTIONS */
-
-.account-actions{
- margin-top:20px
-}
-
+.account-actions{margin-top:20px}
 .account-action{
- width:100%;
- display:flex;
- align-items:center;
- justify-content:space-between;
- gap:15px;
- padding:15px;
- margin-bottom:10px;
- border-radius:12px;
- background:var(--panel2);
- border:1px solid var(--border);
- color:var(--text);
- text-align:left
+ width:100%;display:flex;align-items:center;
+ justify-content:space-between;gap:15px;
+ padding:15px;margin-bottom:10px;border-radius:12px;
+ background:var(--panel2);border:1px solid var(--border);
+ color:var(--text);text-align:left
 }
-
-.action-left{
- display:flex;
- align-items:center;
- gap:12px
-}
-
+.action-left{display:flex;align-items:center;gap:12px}
 .action-icon{
- width:38px;
- height:38px;
- border-radius:10px;
- display:flex;
- align-items:center;
- justify-content:center;
- background:rgba(22,217,139,.08);
- color:var(--green-dark)
+ width:38px;height:38px;border-radius:10px;
+ display:flex;align-items:center;justify-content:center;
+ background:rgba(22,217,139,.08);color:var(--green-dark)
 }
-
-.action-text strong{
- display:block;
- font-size:13px;
- margin-bottom:3px
-}
-
-.action-text span{
- color:var(--muted);
- font-size:10px
-}
-
-.action-arrow{
- color:var(--muted);
- font-size:18px
-}
-
-.account-action.danger{
- color:var(--danger)
-}
-
+.action-text strong{display:block;font-size:13px;margin-bottom:3px}
+.action-text span{color:var(--muted);font-size:10px}
+.action-arrow{color:var(--muted);font-size:18px}
+.account-action.danger{color:var(--danger)}
 .account-action.danger .action-icon{
- background:rgba(229,72,85,.08);
- color:var(--danger)
+ background:rgba(229,72,85,.08);color:var(--danger)
 }
 
-/* STATS */
-
-.stats{
- display:grid;
- grid-template-columns:repeat(3,1fr);
- gap:12px;
- margin-top:20px
-}
-
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:20px}
 .stat{
- padding:15px;
- background:var(--panel2);
- border:1px solid var(--border);
- border-radius:12px
+ padding:15px;background:var(--panel2);
+ border:1px solid var(--border);border-radius:12px
 }
-
-.stat-label{
- color:var(--muted);
- font-size:10px;
- margin-bottom:7px
-}
-
-.stat-value{
- font-size:18px;
- font-weight:900
-}
-
-/* MODAL */
+.stat-label{color:var(--muted);font-size:10px;margin-bottom:7px}
+.stat-value{font-size:18px;font-weight:900}
 
 .modal-overlay{
- position:fixed;
- inset:0;
- z-index:500;
- display:none;
- align-items:center;
- justify-content:center;
- padding:20px;
- background:rgba(15,23,42,.42);
+ position:fixed;inset:0;z-index:500;
+ display:none;align-items:center;justify-content:center;
+ padding:20px;background:rgba(15,23,42,.42);
  backdrop-filter:blur(10px)
 }
-
-.modal-overlay.show{
- display:flex;
- animation:fadeIn .2s ease
-}
-
+.modal-overlay.show{display:flex;animation:fadeIn .2s ease}
 .modal{
- width:min(520px,100%);
- max-height:90vh;
- overflow:auto;
- background:#fff;
- border:1px solid var(--border);
- border-radius:20px;
- box-shadow:0 30px 80px rgba(15,23,42,.2);
+ width:min(520px,100%);max-height:90vh;overflow:auto;
+ background:#fff;border:1px solid var(--border);
+ border-radius:20px;box-shadow:0 30px 80px rgba(15,23,42,.2);
  animation:modalIn .28s ease
 }
-
 .modal-header{
- padding:20px;
- display:flex;
- align-items:center;
- justify-content:space-between;
- border-bottom:1px solid var(--border)
+ padding:20px;display:flex;align-items:center;
+ justify-content:space-between;border-bottom:1px solid var(--border)
 }
-
-.modal-header h3{
- font-size:17px
-}
-
+.modal-header h3{font-size:17px}
 .close-modal{
- width:34px;
- height:34px;
- border-radius:9px;
- background:var(--panel2);
- color:var(--muted);
- font-size:18px
+ width:34px;height:34px;border-radius:9px;
+ background:var(--panel2);color:var(--muted);font-size:18px
 }
+.modal-body{padding:20px}
 
-.modal-body{
- padding:20px
-}
-
-/* FORM */
-
-.form-group{
- margin-bottom:15px
-}
-
+.form-group{margin-bottom:15px}
 .form-group label{
- display:block;
- font-size:11px;
- font-weight:800;
- margin-bottom:7px
+ display:block;font-size:11px;font-weight:800;margin-bottom:7px
 }
-
 .form-group input{
- width:100%;
- background:#fff;
- border:1px solid var(--border);
- color:var(--text);
- padding:12px 13px;
- border-radius:10px;
- outline:none
+ width:100%;background:#fff;border:1px solid var(--border);
+ color:var(--text);padding:12px 13px;border-radius:10px;outline:none
 }
-
 .form-group input:focus{
  border-color:rgba(22,217,139,.55);
  box-shadow:0 0 0 3px rgba(22,217,139,.09)
 }
-
-.form-group input:disabled{
- background:#f1f4f3;
- color:#7a8782;
- cursor:not-allowed
-}
-
-.input-note{
- display:block;
- color:var(--muted);
- font-size:10px;
- margin-top:6px
-}
-
-/* PHOTO */
+.form-group input:disabled{background:#f1f4f3;color:#7a8782;cursor:not-allowed}
+.input-note{display:block;color:var(--muted);font-size:10px;margin-top:6px}
 
 .photo-upload{
- display:flex;
- align-items:center;
- gap:15px;
- padding:14px;
- margin-bottom:18px;
+ display:flex;align-items:center;gap:15px;padding:14px;margin-bottom:18px;
  border:1px dashed rgba(22,217,139,.38);
- background:rgba(22,217,139,.045);
- border-radius:14px
+ background:rgba(22,217,139,.045);border-radius:14px
 }
-
 .photo-preview{
- width:58px;
- height:58px;
- flex-shrink:0;
- border-radius:50%;
- display:flex;
- align-items:center;
- justify-content:center;
- overflow:hidden;
- background:linear-gradient(135deg,var(--green),var(--green-dark));
+ width:58px;height:58px;flex-shrink:0;border-radius:50%;
+ display:flex;align-items:center;justify-content:center;
+ overflow:hidden;background:linear-gradient(135deg,var(--green),var(--green-dark));
  font-weight:900
 }
-
-.photo-preview img{
- width:100%;
- height:100%;
- object-fit:cover
-}
-
-.photo-upload-text{
- flex:1
-}
-
-.photo-upload-text strong{
- display:block;
- font-size:12px;
- margin-bottom:3px
-}
-
-.photo-upload-text span{
- color:var(--muted);
- font-size:10px
-}
-
+.photo-preview img{width:100%;height:100%;object-fit:cover}
+.photo-upload-text{flex:1}
+.photo-upload-text strong{display:block;font-size:12px;margin-bottom:3px}
+.photo-upload-text span{color:var(--muted);font-size:10px}
 .photo-btn{
- padding:9px 12px;
- border-radius:9px;
- background:#fff;
- border:1px solid var(--border);
- font-size:11px;
- font-weight:800
+ padding:9px 12px;border-radius:9px;background:#fff;
+ border:1px solid var(--border);font-size:11px;font-weight:800
 }
-
-/* CHOICE */
 
 .choice{
- width:100%;
- display:flex;
- align-items:center;
- justify-content:space-between;
- padding:14px;
- margin-bottom:12px;
- background:var(--panel2);
- border:1px solid var(--border);
- border-radius:12px;
- transition:.2s
+ width:100%;display:flex;align-items:center;justify-content:space-between;
+ padding:14px;margin-bottom:12px;background:var(--panel2);
+ border:1px solid var(--border);border-radius:12px;transition:.2s
 }
-
-.choice:hover{
- border-color:rgba(22,217,139,.4);
- transform:translateY(-1px)
-}
-
-.choice-left{
- display:flex;
- align-items:center;
- gap:12px
-}
-
+.choice:hover{border-color:rgba(22,217,139,.4);transform:translateY(-1px)}
+.choice-left{display:flex;align-items:center;gap:12px}
 .choice-icon{
- width:38px;
- height:38px;
- display:flex;
- align-items:center;
- justify-content:center;
- border-radius:10px;
- background:rgba(22,217,139,.09);
+ width:38px;height:38px;display:flex;align-items:center;
+ justify-content:center;border-radius:10px;background:rgba(22,217,139,.09);
  font-size:18px
 }
+.choice-text{text-align:left}
+.choice-text strong{display:block;font-size:13px}
+.choice-text span{display:block;color:var(--muted);font-size:10px;margin-top:3px}
+.choice-arrow{color:var(--muted);font-size:18px}
 
-.choice-text{
- text-align:left
+.modal-actions{display:flex;gap:10px;margin-top:8px}
+.primary-btn,.secondary-btn{
+ flex:1;padding:12px 18px;border-radius:10px;font-weight:800;font-size:13px
 }
+.primary-btn{background:var(--green);color:#04110c}
+.secondary-btn{background:#f3f6f5;color:var(--text);border:1px solid var(--border)}
+.primary-btn.loading{opacity:.6;pointer-events:none}
 
-.choice-text strong{
- display:block;
- font-size:13px
-}
-
-.choice-text span{
- display:block;
- color:var(--muted);
- font-size:10px;
- margin-top:3px
-}
-
-.choice-arrow{
- color:var(--muted);
- font-size:18px
-}
-
-/* BUTTONS */
-
-.modal-actions{
- display:flex;
- gap:10px;
- margin-top:8px
-}
-
-.primary-btn,
-.secondary-btn{
- flex:1;
- padding:12px 18px;
- border-radius:10px;
- font-weight:800;
- font-size:13px
-}
-
-.primary-btn{
- background:var(--green);
- color:#04110c
-}
-
-.secondary-btn{
- background:#f3f6f5;
- color:var(--text);
- border:1px solid var(--border)
-}
-
-.primary-btn.loading{
- opacity:.6;
- pointer-events:none
-}
-
-/* SEARCH */
-
-.search-box{
- position:relative;
- margin-bottom:12px
-}
-
+.search-box{position:relative;margin-bottom:12px}
 .search-box input{
- width:100%;
- padding:13px 14px 13px 40px;
- border:1px solid var(--border);
- border-radius:12px;
- outline:none;
- background:#fff
+ width:100%;padding:13px 14px 13px 40px;
+ border:1px solid var(--border);border-radius:12px;
+ outline:none;background:#fff
 }
-
-.search-icon{
- position:absolute;
- left:13px;
- top:12px;
- color:var(--muted)
+.search-icon{position:absolute;left:13px;top:12px;color:var(--muted)}
+.choice-list{max-height:430px;overflow:auto;padding-right:2px}
+.country-row,.language-row{
+ width:100%;display:flex;align-items:center;gap:12px;padding:12px;
+ border:0;background:#fff;border-bottom:1px solid rgba(15,23,42,.07);
+ text-align:left;transition:.18s
 }
-
-/* LIST */
-
-.choice-list{
- max-height:430px;
- overflow:auto;
- padding-right:2px
+.country-row:hover,.language-row:hover{background:rgba(22,217,139,.07)}
+.country-row.selected,.language-row.selected{
+ background:rgba(22,217,139,.12);color:var(--green-dark);font-weight:800
 }
-
-.country-row,
-.language-row{
- width:100%;
- display:flex;
- align-items:center;
- gap:12px;
- padding:12px;
- border:0;
- background:#fff;
- border-bottom:1px solid rgba(15,23,42,.07);
- text-align:left;
- transition:.18s
-}
-
-.country-row:hover,
-.language-row:hover{
- background:rgba(22,217,139,.07)
-}
-
-.country-row.selected,
-.language-row.selected{
- background:rgba(22,217,139,.12);
- color:var(--green-dark);
- font-weight:800
-}
-
 .country-flag{
- width:34px;
- height:34px;
- border-radius:9px;
- background:var(--panel2);
- display:flex;
- align-items:center;
- justify-content:center;
- font-size:18px
+ width:34px;height:34px;border-radius:9px;background:var(--panel2);
+ display:flex;align-items:center;justify-content:center;font-size:18px
 }
-
-/* TOAST */
 
 .toast{
- position:fixed;
- left:50%;
- bottom:25px;
- z-index:700;
+ position:fixed;left:50%;bottom:25px;z-index:700;
  transform:translate(-50%,20px) scale(.96);
- background:#12201b;
- color:#fff;
- padding:13px 18px;
- border-radius:11px;
- font-size:12px;
- font-weight:700;
- opacity:0;
- pointer-events:none;
- transition:.3s;
- max-width:calc(100% - 30px);
- text-align:center
+ background:#12201b;color:#fff;padding:13px 18px;
+ border-radius:11px;font-size:12px;font-weight:700;
+ opacity:0;pointer-events:none;transition:.3s;
+ max-width:calc(100% - 30px);text-align:center
 }
-
-.toast.show{
- opacity:1;
- transform:translate(-50%,0) scale(1)
-}
-
-/* LOADING */
+.toast.show{opacity:1;transform:translate(-50%,0) scale(1)}
 
 .profile-loading{
- position:fixed;
- inset:0;
- z-index:1000;
- background:#fff;
- display:flex;
- align-items:center;
- justify-content:center;
+ position:fixed;inset:0;z-index:1000;background:#fff;
+ display:flex;align-items:center;justify-content:center;
  transition:.35s
 }
-
-.profile-loading.hide{
- opacity:0;
- pointer-events:none
-}
-
-.loading-box{
- text-align:center
-}
-
-.loading-logo{
- font-size:30px;
- font-weight:900;
- margin-bottom:14px
-}
-
-.loading-logo span{
- color:var(--green-dark)
-}
-
+.profile-loading.hide{opacity:0;pointer-events:none}
+.loading-box{text-align:center}
+.loading-logo{font-size:30px;font-weight:900;margin-bottom:14px}
+.loading-logo span{color:var(--green-dark)}
 .loading-spinner{
- width:28px;
- height:28px;
- margin:auto;
- border:3px solid #e1e8e5;
- border-top-color:var(--green-dark);
- border-radius:50%;
+ width:28px;height:28px;margin:auto;border:3px solid #e1e8e5;
+ border-top-color:var(--green-dark);border-radius:50%;
  animation:spin .8s linear infinite
 }
 
 footer{
- border-top:1px solid var(--border);
- padding:25px 0;
- color:var(--muted);
- font-size:12px;
- text-align:center
+ border-top:1px solid var(--border);padding:25px 0;
+ color:var(--muted);font-size:12px;text-align:center
 }
 
 @keyframes rise{
- from{
-  opacity:0;
-  transform:translateY(18px)
- }
- to{
-  opacity:1;
-  transform:translateY(0)
- }
+ from{opacity:0;transform:translateY(18px)}
+ to{opacity:1;transform:translateY(0)}
 }
-
-@keyframes fadeIn{
- from{opacity:0}
- to{opacity:1}
-}
-
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
 @keyframes modalIn{
- from{
-  opacity:0;
-  transform:translateY(18px) scale(.96)
- }
- to{
-  opacity:1;
-  transform:translateY(0) scale(1)
- }
+ from{opacity:0;transform:translateY(18px) scale(.96)}
+ to{opacity:1;transform:translateY(0) scale(1)}
 }
-
-@keyframes spin{
- to{
-  transform:rotate(360deg)
- }
-}
+@keyframes spin{to{transform:rotate(360deg)}}
 
 @media(max-width:900px){
-
- .profile-grid{
-  grid-template-columns:1fr
- }
-
- .nav-links{
-  gap:15px
- }
+ .profile-grid{grid-template-columns:1fr}
+ .nav-links{gap:15px}
 }
-
 @media(max-width:700px){
-
- .container{
-  width:calc(100% - 22px)
- }
-
- .nav-links{
-  display:none
- }
-
- .page-head h1{
-  font-size:28px
- }
-
- .profile-hero{
-  align-items:flex-start;
-  flex-wrap:wrap
- }
-
- .profile-avatar-wrap,
- .profile-avatar{
-  width:76px;
-  height:76px
- }
-
- .profile-avatar{
-  font-size:24px
- }
-
- .profile-main{
-  min-width:calc(100% - 100px)
- }
-
- .edit-profile-btn{
-  width:100%
- }
-
- .user-info{
-  display:none
- }
+ .container{width:calc(100% - 22px)}
+ .nav-links{display:none}
+ .page-head h1{font-size:28px}
+ .profile-hero{align-items:flex-start;flex-wrap:wrap}
+ .profile-avatar-wrap,.profile-avatar{width:76px;height:76px}
+ .profile-avatar{font-size:24px}
+ .profile-main{min-width:calc(100% - 100px)}
+ .edit-profile-btn{width:100%}
+ .user-info{display:none}
 }
-
 @media(max-width:520px){
-
- main{
-  padding-top:30px
- }
-
- .info-grid,
- .stats{
-  grid-template-columns:1fr
- }
-
- .modal-actions{
-  flex-direction:column
- }
-
- .photo-upload{
-  align-items:flex-start;
-  flex-wrap:wrap
- }
-
- .photo-upload-text{
-  min-width:calc(100% - 80px)
- }
-
- .photo-btn{
-  width:100%
- }
+ main{padding-top:30px}
+ .info-grid,.stats{grid-template-columns:1fr}
+ .modal-actions{flex-direction:column}
+ .photo-upload{align-items:flex-start;flex-wrap:wrap}
+ .photo-upload-text{min-width:calc(100% - 80px)}
+ .photo-btn{width:100%}
 }
 </style>
 
-<!-- =========================================================
-     LANGUAGE COOKIE MUST BE SET BEFORE GOOGLE TRANSLATE LOADS
-     ========================================================= -->
-
+<!-- Language cookie BEFORE auth.js / Google Translate -->
 <script>
 (function(){
+    try{
+        const lang =
+            localStorage.getItem("sportx_language") || "en";
 
- const KEY="sportx_language";
- const lang=localStorage.getItem(KEY)||"en";
-
- function setCookie(value){
-
-  if(lang==="en"){
-
-   document.cookie=
-    "googtrans=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/";
-
-   return;
-  }
-
-  document.cookie=
-   "googtrans=/en/"+lang+";path=/";
-
- }
-
- setCookie();
-
+        if(lang !== "en"){
+            document.cookie =
+                "googtrans=/en/" + lang + ";path=/";
+        }else{
+            document.cookie =
+                "googtrans=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/";
+        }
+    }catch(e){}
 })();
 </script>
 
@@ -1103,10 +429,10 @@ footer{
 <body>
 
 <div class="profile-loading" id="profileLoading">
- <div class="loading-box">
-  <div class="loading-logo">Sport<span>X</span></div>
-  <div class="loading-spinner"></div>
- </div>
+    <div class="loading-box">
+        <div class="loading-logo">Sport<span>X</span></div>
+        <div class="loading-spinner"></div>
+    </div>
 </div>
 
 <header>
@@ -1170,9 +496,7 @@ US
  type="button"
  class="avatar-camera"
  onclick="openEditProfile(true)"
->
-📷
-</button>
+>📷</button>
 
 </div>
 
@@ -1192,9 +516,7 @@ Active Account
 <button
  class="edit-profile-btn"
  onclick="openEditProfile(false)"
->
-Edit Profile
-</button>
+>Edit Profile</button>
 
 </section>
 
@@ -1275,107 +597,71 @@ Edit Profile
 <div class="panel-body">
 
 <div class="setting">
-
 <div class="setting-info">
 <strong>Email Notifications</strong>
 <span>Receive account notifications.</span>
 </div>
-
 <label class="toggle">
 <input type="checkbox" id="emailNotifications">
 <span class="slider"></span>
 </label>
-
 </div>
 
 <div class="setting">
-
 <div class="setting-info">
 <strong>Prediction Alerts</strong>
 <span>Receive prediction alerts.</span>
 </div>
-
 <label class="toggle">
 <input type="checkbox" id="predictionAlerts">
 <span class="slider"></span>
 </label>
-
 </div>
 
 <div class="setting">
-
 <div class="setting-info">
 <strong>Live Match Updates</strong>
 <span>Receive live match updates.</span>
 </div>
-
 <label class="toggle">
 <input type="checkbox" id="liveUpdates">
 <span class="slider"></span>
 </label>
-
 </div>
 
 <div class="account-actions">
 
-<button
- class="account-action"
- onclick="openChangePassword()"
->
-
+<button class="account-action" onclick="openChangePassword()">
 <div class="action-left">
-
 <div class="action-icon">🔐</div>
-
 <div class="action-text">
 <strong>Change Password</strong>
 <span>Update your real account password</span>
 </div>
-
 </div>
-
 <div class="action-arrow">›</div>
-
 </button>
 
-<button
- class="account-action"
- onclick="openEditProfile(false)"
->
-
+<button class="account-action" onclick="openEditProfile(false)">
 <div class="action-left">
-
 <div class="action-icon">🌍</div>
-
 <div class="action-text">
 <strong>Country & Language</strong>
 <span>Change your profile settings</span>
 </div>
-
 </div>
-
 <div class="action-arrow">›</div>
-
 </button>
 
-<button
- class="account-action danger"
- data-auth-logout
->
-
+<button class="account-action danger" data-auth-logout>
 <div class="action-left">
-
 <div class="action-icon">⇥</div>
-
 <div class="action-text">
 <strong>Log Out</strong>
 <span>Sign out of this account</span>
 </div>
-
 </div>
-
 <div class="action-arrow">›</div>
-
 </button>
 
 </div>
@@ -1396,176 +682,105 @@ Edit Profile
 
 <!-- EDIT PROFILE -->
 
-<div
- class="modal-overlay"
- id="editProfileModal"
- onclick="closeOverlay(event,'editProfileModal')"
->
+<div class="modal-overlay" id="editProfileModal"
+ onclick="closeOverlay(event,'editProfileModal')">
 
 <div class="modal">
 
 <div class="modal-header">
-
 <h3>Edit Profile</h3>
-
-<button
- class="close-modal"
- onclick="closeModal('editProfileModal')"
->
-×
-</button>
-
+<button class="close-modal"
+ onclick="closeModal('editProfileModal')">×</button>
 </div>
 
 <div class="modal-body">
 
 <div class="photo-upload">
 
-<div class="photo-preview" id="photoPreview">
-US
-</div>
+<div class="photo-preview" id="photoPreview">US</div>
 
 <div class="photo-upload-text">
-
 <strong>Profile Photo</strong>
-
-<span>
-Choose a photo from your device.
-</span>
-
+<span>Choose a photo from your device.</span>
 </div>
 
-<button
- class="photo-btn"
- onclick="document.getElementById('avatarFile').click()"
->
+<button class="photo-btn"
+ onclick="document.getElementById('avatarFile').click()">
 Change Photo
 </button>
 
-<input
- type="file"
+<input type="file"
  id="avatarFile"
  accept="image/jpeg,image/png,image/webp"
- hidden
->
+ hidden>
 
 </div>
 
 <div class="form-group">
-
 <label>Name</label>
-
-<input
- type="text"
- id="editFullName"
+<input type="text" id="editFullName"
  placeholder="Your full name"
- autocomplete="name"
->
-
+ autocomplete="name">
 </div>
 
 <div class="form-group">
-
 <label>Email Address</label>
-
-<input
- type="email"
- id="editEmail"
- disabled
->
-
+<input type="email" id="editEmail" disabled>
 <span class="input-note">
 Your login email cannot be changed from this page.
 </span>
-
 </div>
 
 <div class="form-group">
-
 <label>Country</label>
 
-<button
- type="button"
- class="choice"
- onclick="openCountryModal()"
->
+<button type="button" class="choice"
+ onclick="openCountryModal()">
 
 <div class="choice-left">
-
-<div class="choice-icon">
-🌍
-</div>
+<div class="choice-icon">🌍</div>
 
 <div class="choice-text">
-
-<strong id="selectedCountryText">
-Select country
-</strong>
-
-<span>
-Choose your country
-</span>
-
+<strong id="selectedCountryText">Select country</strong>
+<span>Choose your country</span>
 </div>
-
 </div>
 
 <div class="choice-arrow">›</div>
 
 </button>
-
 </div>
 
 <div class="form-group">
-
 <label>Language</label>
 
-<button
- type="button"
- class="choice"
- onclick="openLanguageModal()"
->
+<button type="button" class="choice"
+ onclick="openLanguageModal()">
 
 <div class="choice-left">
-
-<div class="choice-icon">
-🌐
-</div>
+<div class="choice-icon">🌐</div>
 
 <div class="choice-text">
-
-<strong id="selectedLanguageText">
-English
-</strong>
-
-<span>
-SportX language
-</span>
-
+<strong id="selectedLanguageText">English</strong>
+<span>SportX language</span>
 </div>
-
 </div>
 
 <div class="choice-arrow">›</div>
 
 </button>
-
 </div>
 
 <div class="modal-actions">
 
-<button
- class="secondary-btn"
- onclick="closeModal('editProfileModal')"
->
+<button class="secondary-btn"
+ onclick="closeModal('editProfileModal')">
 Cancel
 </button>
 
-<button
- class="primary-btn"
+<button class="primary-btn"
  id="saveProfileButton"
- onclick="saveProfile()"
->
+ onclick="saveProfile()">
 Save Changes
 </button>
 
@@ -1577,120 +792,77 @@ Save Changes
 
 <!-- COUNTRY -->
 
-<div
- class="modal-overlay"
- id="countryModal"
- onclick="closeOverlay(event,'countryModal')"
->
+<div class="modal-overlay" id="countryModal"
+ onclick="closeOverlay(event,'countryModal')">
 
 <div class="modal">
 
 <div class="modal-header">
-
 <h3>Select Country</h3>
-
-<button
- class="close-modal"
- onclick="closeModal('countryModal')"
->
-×
-</button>
-
+<button class="close-modal"
+ onclick="closeModal('countryModal')">×</button>
 </div>
 
 <div class="modal-body">
 
 <div class="search-box">
-
 <span class="search-icon">⌕</span>
 
-<input
- id="countrySearch"
+<input id="countrySearch"
  type="text"
  placeholder="Search country..."
- oninput="filterCountries()"
->
-
+ oninput="filterCountries">
 </div>
 
-<div
- class="choice-list"
- id="countryList"
-></div>
+<div class="choice-list" id="countryList"></div>
 
 </div>
-
 </div>
 </div>
 
 <!-- LANGUAGE -->
 
-<div
- class="modal-overlay"
- id="languageModal"
- onclick="closeOverlay(event,'languageModal')"
->
+<div class="modal-overlay" id="languageModal"
+ onclick="closeOverlay(event,'languageModal')">
 
 <div class="modal">
 
 <div class="modal-header">
-
 <h3>Select Language</h3>
-
-<button
- class="close-modal"
- onclick="closeModal('languageModal')"
->
-×
-</button>
-
+<button class="close-modal"
+ onclick="closeModal('languageModal')">×</button>
 </div>
 
 <div class="modal-body">
 
 <div class="choice-list">
 
-<button
- class="language-row"
- data-lang="en"
- onclick="selectLanguage('en')"
->
+<button class="language-row" data-lang="en"
+ onclick="selectLanguage('en')">
 <div class="country-flag">🇺🇸</div>
 <div>English</div>
 </button>
 
-<button
- class="language-row"
- data-lang="fa"
- onclick="selectLanguage('fa')"
->
+<button class="language-row" data-lang="fa"
+ onclick="selectLanguage('fa')">
 <div class="country-flag">🇮🇷</div>
 <div>فارسی</div>
 </button>
 
-<button
- class="language-row"
- data-lang="ps"
- onclick="selectLanguage('ps')"
->
+<button class="language-row" data-lang="ps"
+ onclick="selectLanguage('ps')">
 <div class="country-flag">🇦🇫</div>
 <div>پښتو</div>
 </button>
 
-<button
- class="language-row"
- data-lang="tr"
- onclick="selectLanguage('tr')"
->
+<button class="language-row" data-lang="tr"
+ onclick="selectLanguage('tr')">
 <div class="country-flag">🇹🇷</div>
 <div>Türkçe</div>
 </button>
 
-<button
- class="language-row"
- data-lang="ar"
- onclick="selectLanguage('ar')"
->
+<button class="language-row" data-lang="ar"
+ onclick="selectLanguage('ar')">
 <div class="country-flag">🇸🇦</div>
 <div>العربية</div>
 </button>
@@ -1703,79 +875,47 @@ Save Changes
 
 <!-- PASSWORD -->
 
-<div
- class="modal-overlay"
- id="passwordModal"
- onclick="closeOverlay(event,'passwordModal')"
->
+<div class="modal-overlay" id="passwordModal"
+ onclick="closeOverlay(event,'passwordModal')">
 
 <div class="modal">
 
 <div class="modal-header">
-
 <h3>Change Password</h3>
-
-<button
- class="close-modal"
- onclick="closeModal('passwordModal')"
->
-×
-</button>
-
+<button class="close-modal"
+ onclick="closeModal('passwordModal')">×</button>
 </div>
 
 <div class="modal-body">
 
 <div class="form-group">
-
 <label>Current Password</label>
-
-<input
- type="password"
- id="currentPassword"
- autocomplete="current-password"
->
-
+<input type="password" id="currentPassword"
+ autocomplete="current-password">
 </div>
 
 <div class="form-group">
-
 <label>New Password</label>
-
-<input
- type="password"
- id="newPassword"
- autocomplete="new-password"
->
-
+<input type="password" id="newPassword"
+ autocomplete="new-password">
 </div>
 
 <div class="form-group">
-
 <label>Confirm New Password</label>
-
-<input
- type="password"
- id="confirmPassword"
- autocomplete="new-password"
->
-
+<input type="password" id="confirmPassword"
+ autocomplete="new-password">
 </div>
 
 <div class="modal-actions">
 
-<button
- class="secondary-btn"
- onclick="closeModal('passwordModal')"
->
+<button class="secondary-btn"
+ onclick="closeModal('passwordModal')">
 Cancel
 </button>
 
-<button
- class="primary-btn"
+<button class="primary-btn"
  id="changePasswordButton"
- onclick="changePassword()"
->
+ onclick="changePassword()">
 Update Password
 </button>
 
@@ -1787,194 +927,78 @@ Update Password
 
 <div class="toast" id="toast"></div>
 
-<!-- HIDDEN GOOGLE TRANSLATE ELEMENT -->
+<!-- GOOGLE TRANSLATE CONTAINER ONLY -->
+<div id="google_translate_element"
+ style="display:none!important"></div>
 
-<div
- id="google_translate_element"
- style="display:none!important"
-></div>
-
-<!-- GOOGLE TRANSLATE -->
-
-<script>
-
-const SPORTX_LANGUAGE_KEY="sportx_language";
-
-function getSportXLanguage(){
-
- return localStorage.getItem(
-  SPORTX_LANGUAGE_KEY
- ) || "en";
-
-}
-
-function setGoogleTranslateCookie(lang){
-
- const value=
-  lang==="en"
-   ? ""
-   : "/en/"+lang;
-
- if(value){
-
-  document.cookie=
-   "googtrans="+value+
-   ";path=/";
-
- }else{
-
-  document.cookie=
-   "googtrans=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/";
-
- }
-
-}
-
-function googleTranslateElementInit(){
-
- if(window.__sportXGoogleTranslateInitialized)
-  return;
-
- window.__sportXGoogleTranslateInitialized=true;
-
- try{
-
-  new google.translate.TranslateElement({
-
-   pageLanguage:"en",
-
-   includedLanguages:"en,fa,ps,tr,ar",
-
-   autoDisplay:false,
-
-   multilanguagePage:true
-
-  },"google_translate_element");
-
- }catch(error){
-
-  console.warn(
-   "Google Translate initialization:",
-   error
-  );
-
- }
-
-}
-
-function hideGoogleTranslateUI(){
-
- document.querySelectorAll(
-  ".goog-te-banner-frame,"+
-  ".goog-te-balloon-frame,"+
-  ".goog-tooltip,"+
-  ".goog-te-spinner-pos,"+
-  ".goog-te-menu-frame,"+
-  "#goog-gt-tt"
- ).forEach(element=>{
-
-  element.style.display="none";
-  element.style.visibility="hidden";
-  element.style.opacity="0";
-
- });
-
- const topSkip=
-  document.querySelectorAll(
-   "body > .skiptranslate"
-  );
-
- topSkip.forEach(element=>{
-
-  element.style.display="none";
-  element.style.visibility="hidden";
-  element.style.height="0";
-  element.style.width="0";
-
- });
-
- document.body.style.top="0px";
-
-}
-
-setGoogleTranslateCookie(
- getSportXLanguage()
-);
-
-const googleTranslateObserver=
- new MutationObserver(()=>{
-
-  hideGoogleTranslateUI();
-
- });
-
-googleTranslateObserver.observe(
- document.documentElement,
- {
-  childList:true,
-  subtree:true
- }
-);
-
-window.addEventListener(
- "load",
- ()=>{
-
-  hideGoogleTranslateUI();
-
-  setTimeout(
-   hideGoogleTranslateUI,
-   500
-  );
-
-  setTimeout(
-   hideGoogleTranslateUI,
-   1500
-  );
-
- }
-);
-
-</script>
-
-<script
- src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"
-></script>
-
-<!-- AUTH -->
-
+<!-- AUTH MUST LOAD ONCE -->
 <script src="auth.js"></script>
 
-<!-- PROFILE SCRIPT -->
-
 <script>
+"use strict";
 
-const SUPABASE_URL=
+/* =========================================================
+   CONFIG
+   ========================================================= */
+
+const SUPABASE_URL =
  "https://zchtcosljkkkiykhforj.supabase.co";
 
-const SUPABASE_KEY=
+const SUPABASE_KEY =
  "sb_publishable_aGLckKZjNaVbpdxZUFhCqA_VzHppjrW";
 
-let supabaseClient=null;
+const SPORTX_LANGUAGE_KEY =
+ "sportx_language";
 
-let currentUser=null;
+let supabaseClient = null;
+let currentUser = null;
+let currentProfile = {};
+let selectedAvatarData = null;
+let selectedCountry = "";
+let selectedLanguage = "en";
+let profileKeyColumn = "id";
+let profileStarted = false;
 
-let currentProfile={};
 
-let selectedAvatarData=null;
+/* =========================================================
+   TIMEOUT
+   ========================================================= */
 
-let selectedCountry="";
+function withTimeout(
+ promise,
+ milliseconds,
+ fallbackMessage
+){
 
-let selectedLanguage="en";
+ return Promise.race([
 
-let profileKeyColumn="id";
+  promise,
+
+  new Promise((resolve,reject)=>{
+
+   setTimeout(()=>{
+
+    reject(
+     new Error(
+      fallbackMessage ||
+      "Request timed out."
+     )
+    );
+
+   },milliseconds);
+
+  })
+
+ ]);
+
+}
 
 
 /* =========================================================
    COUNTRIES
    ========================================================= */
 
-const COUNTRIES=[
+const COUNTRIES = [
 
 "Afghanistan","Albania","Algeria","Andorra","Angola",
 "Antigua and Barbuda","Argentina","Armenia","Australia","Austria",
@@ -2014,13 +1038,59 @@ const COUNTRIES=[
 
 ];
 
-const LANGUAGES={
+const LANGUAGES = {
  en:"English",
  fa:"فارسی",
  ps:"پښتو",
  tr:"Türkçe",
  ar:"العربية"
 };
+
+
+/* =========================================================
+   LANGUAGE
+   ========================================================= */
+
+function getSportXLanguage(){
+
+ try{
+
+  const language =
+   localStorage.getItem(
+    SPORTX_LANGUAGE_KEY
+   );
+
+  if(LANGUAGES[language])
+   return language;
+
+ }catch(error){}
+
+ return "en";
+}
+
+
+function setSportXLanguage(language){
+
+ if(!LANGUAGES[language])
+  language="en";
+
+ try{
+
+  localStorage.setItem(
+   SPORTX_LANGUAGE_KEY,
+   language
+  );
+
+ }catch(error){
+
+  console.warn(
+   "Language storage error:",
+   error
+  );
+
+ }
+
+}
 
 
 /* =========================================================
@@ -2031,45 +1101,96 @@ async function initSupabase(){
 
  if(window.SportXSupabase){
 
-  supabaseClient=
+  supabaseClient =
    window.SportXSupabase;
 
   return;
+
  }
 
- if(!window.supabase){
+ if(
+  window.supabase &&
+  typeof window.supabase.createClient ===
+  "function"
+ ){
 
-  await new Promise(
-   (resolve,reject)=>{
+  supabaseClient =
+   window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+   );
 
-    const script=
-     document.createElement(
-      "script"
-     );
+  window.SportXSupabase =
+   supabaseClient;
 
-    script.src=
-     "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2";
+  return;
 
-    script.onload=resolve;
+ }
 
-    script.onerror=reject;
+ await withTimeout(
+  new Promise((resolve,reject)=>{
 
-    document.head.appendChild(
-     script
+   const existing =
+    document.querySelector(
+     'script[src*="supabase-js"]'
     );
 
+   if(existing){
+
+    existing.addEventListener(
+     "load",
+     resolve,
+     {once:true}
+    );
+
+    existing.addEventListener(
+     "error",
+     reject,
+     {once:true}
+    );
+
+    return;
+
    }
+
+   const script =
+    document.createElement("script");
+
+   script.src =
+    "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2";
+
+   script.async=true;
+
+   script.onload=resolve;
+
+   script.onerror=reject;
+
+   document.head.appendChild(script);
+
+  }),
+  8000,
+  "Supabase loading timed out."
+ );
+
+ if(
+  !window.supabase ||
+  typeof window.supabase.createClient !==
+  "function"
+ ){
+
+  throw new Error(
+   "Supabase is unavailable."
   );
 
  }
 
- supabaseClient=
+ supabaseClient =
   window.supabase.createClient(
    SUPABASE_URL,
    SUPABASE_KEY
   );
 
- window.SportXSupabase=
+ window.SportXSupabase =
   supabaseClient;
 
 }
@@ -2081,183 +1202,95 @@ async function initSupabase(){
 
 async function getUser(){
 
- const result=
-  await supabaseClient.auth.getUser();
+ const result =
+  await withTimeout(
+   supabaseClient.auth.getUser(),
+   8000,
+   "Authentication request timed out."
+  );
 
  if(result.error)
   throw result.error;
 
- return result.data.user;
+ return result.data.user || null;
+
+}
+
+
+/* =========================================================
+   SAFE PROFILE QUERY
+   ========================================================= */
+
+async function queryProfileBy(
+ column
+){
+
+ try{
+
+  const result =
+   await withTimeout(
+    supabaseClient
+     .from("profiles")
+     .select("*")
+     .eq(column,currentUser.id)
+     .maybeSingle(),
+    6000,
+    "Profile request timed out."
+   );
+
+  return result;
+
+ }catch(error){
+
+  return {
+   data:null,
+   error
+  };
+
+ }
 
 }
 
 
 /* =========================================================
    PROFILE LOADER
-   Supports both:
-   id
-   user_id
    ========================================================= */
 
 async function loadProfile(){
 
- profileKeyColumn="id";
-
- /*
-  First: profiles.id
- */
-
- let result=
-  await supabaseClient
-   .from("profiles")
-   .select("*")
-   .eq("id",currentUser.id)
-   .maybeSingle();
-
- if(!result.error && result.data){
-
-  profileKeyColumn="id";
-
-  return result.data;
-
- }
-
- /*
-  Second: profiles.user_id
- */
-
- let userIdResult=
-  await supabaseClient
-   .from("profiles")
-   .select("*")
-   .eq("user_id",currentUser.id)
-   .maybeSingle();
-
- if(!userIdResult.error && userIdResult.data){
-
-  profileKeyColumn="user_id";
-
-  return userIdResult.data;
-
- }
-
- /*
-  If the first query had a real schema error,
-  remember it but don't fail immediately.
- */
-
- const firstError=result.error;
-
- /*
-  Profile does not exist.
-  Try to create it using the id structure.
- */
-
- const name=
+ const fallbackName =
   currentUser.user_metadata?.full_name ||
   currentUser.user_metadata?.name ||
   currentUser.email?.split("@")[0] ||
   "User";
 
- const country=
+ const fallbackCountry =
   currentUser.user_metadata?.country ||
   "Afghanistan";
 
- const language=
+ const fallbackLanguage =
   currentUser.user_metadata?.language ||
   getSportXLanguage() ||
   "en";
 
- const avatar=
+ const fallbackAvatar =
   currentUser.user_metadata?.avatar_url ||
-  null;
+  "";
 
- const baseData={
-
-  full_name:name,
-
-  country:country,
-
-  language:language,
-
-  avatar_url:avatar,
-
-  updated_at:
-   new Date().toISOString()
-
- };
-
- /*
-  Try id first.
- */
-
- const insertById=
-  await supabaseClient
-   .from("profiles")
-   .insert({
-    id:currentUser.id,
-    ...baseData
-   })
-   .select("*")
-   .single();
-
- if(!insertById.error){
-
-  profileKeyColumn="id";
-
-  return insertById.data;
-
- }
-
- /*
-  If id structure isn't available,
-  try user_id structure.
- */
-
- const insertByUserId=
-  await supabaseClient
-   .from("profiles")
-   .insert({
-    user_id:currentUser.id,
-    ...baseData
-   })
-   .select("*")
-   .single();
-
- if(!insertByUserId.error){
-
-  profileKeyColumn="user_id";
-
-  return insertByUserId.data;
-
- }
-
- /*
-  If profile creation is blocked by RLS,
-  don't crash the whole page.
-  Render from Auth data instead.
- */
-
- console.warn(
-  "Profile row could not be loaded/created:",
-  firstError ||
-  insertById.error ||
-  insertByUserId.error
- );
-
- profileKeyColumn="id";
-
- return {
+ const fallbackProfile = {
 
   id:currentUser.id,
 
-  full_name:name,
+  full_name:fallbackName,
 
-  country:country,
+  country:fallbackCountry,
 
-  language:language,
+  language:
+   LANGUAGES[fallbackLanguage]
+    ? fallbackLanguage
+    : "en",
 
-  avatar_url:avatar,
+  avatar_url:fallbackAvatar,
 
   email_notifications:true,
 
@@ -2266,6 +1299,64 @@ async function loadProfile(){
   live_updates:true
 
  };
+
+
+ /*
+  First try id.
+ */
+
+ const byId =
+  await queryProfileBy("id");
+
+ if(
+  !byId.error &&
+  byId.data
+ ){
+
+  profileKeyColumn="id";
+
+  return byId.data;
+
+ }
+
+
+ /*
+  Then try user_id.
+ */
+
+ const byUserId =
+  await queryProfileBy("user_id");
+
+ if(
+  !byUserId.error &&
+  byUserId.data
+ ){
+
+  profileKeyColumn="user_id";
+
+  return byUserId.data;
+
+ }
+
+
+ /*
+  Don't block the page trying to create
+  a profile. The page can work from Auth data.
+ */
+
+ console.warn(
+  "SportX profile row unavailable.",
+  byId.error ||
+  byUserId.error
+ );
+
+ profileKeyColumn =
+  byUserId.error &&
+  !byId.error
+   ? "id"
+   : "user_id";
+
+ return fallbackProfile;
 
 }
 
@@ -2277,25 +1368,25 @@ async function loadProfile(){
 function profileName(){
 
  return currentProfile.full_name ||
- currentProfile.name ||
- currentUser?.user_metadata?.full_name ||
- currentUser?.user_metadata?.name ||
- currentUser?.email?.split("@")[0] ||
- "User";
+  currentProfile.name ||
+  currentUser?.user_metadata?.full_name ||
+  currentUser?.user_metadata?.name ||
+  currentUser?.email?.split("@")[0] ||
+  "User";
 
 }
 
 function profileCountry(){
 
  return currentProfile.country ||
- currentUser?.user_metadata?.country ||
- "Afghanistan";
+  currentUser?.user_metadata?.country ||
+  "Afghanistan";
 
 }
 
 function profileLanguage(){
 
- const language=
+ const language =
   currentProfile.language ||
   currentUser?.user_metadata?.language ||
   getSportXLanguage() ||
@@ -2310,8 +1401,8 @@ function profileLanguage(){
 function profileAvatar(){
 
  return currentProfile.avatar_url ||
- currentUser?.user_metadata?.avatar_url ||
- "";
+  currentUser?.user_metadata?.avatar_url ||
+  "";
 
 }
 
@@ -2340,40 +1431,35 @@ function initials(){
 
 function renderAvatar(id){
 
- const element=
+ const element =
   document.getElementById(id);
 
  if(!element)
   return;
 
- const avatar=
+ const avatar =
   profileAvatar();
 
  element.innerHTML="";
 
  if(avatar){
 
-  const image=
+  const image =
    document.createElement("img");
 
   image.src=avatar;
-
   image.alt="Profile";
 
   image.onerror=()=>{
-
-   element.textContent=
+   element.textContent =
     initials();
-
   };
 
-  element.appendChild(
-   image
-  );
+  element.appendChild(image);
 
  }else{
 
-  element.textContent=
+  element.textContent =
    initials();
 
  }
@@ -2387,190 +1473,138 @@ function renderAvatar(id){
 
 function renderProfile(){
 
- const name=
+ const name =
   profileName();
 
- const email=
+ const email =
   currentUser?.email ||
   "—";
 
- const country=
+ const country =
   profileCountry();
 
- const language=
+ const language =
   profileLanguage();
 
- const profileLanguageName=
+ const languageName =
   LANGUAGES[language] ||
-  language ||
   "English";
 
- const profileNameElement=
-  document.getElementById(
-   "profileName"
-  );
+ const setText =
+  (id,value)=>{
+   const element =
+    document.getElementById(id);
 
- if(profileNameElement)
-  profileNameElement.textContent=
-   name;
+   if(element)
+    element.textContent =
+     value;
+  };
 
- const profileEmailElement=
-  document.getElementById(
-   "profileEmail"
-  );
+ setText(
+  "profileName",
+  name
+ );
 
- if(profileEmailElement)
-  profileEmailElement.textContent=
-   email;
+ setText(
+  "profileEmail",
+  email
+ );
 
- const nameValue=
-  document.getElementById(
-   "nameValue"
-  );
+ setText(
+  "nameValue",
+  name
+ );
 
- if(nameValue)
-  nameValue.textContent=
-   name;
+ setText(
+  "emailValue",
+  email
+ );
 
- const emailValue=
-  document.getElementById(
-   "emailValue"
-  );
+ setText(
+  "countryValue",
+  country
+ );
 
- if(emailValue)
-  emailValue.textContent=
-   email;
+ setText(
+  "languageValue",
+  languageName
+ );
 
- const countryValue=
-  document.getElementById(
-   "countryValue"
-  );
-
- if(countryValue)
-  countryValue.textContent=
-   country || "—";
-
- const languageValue=
-  document.getElementById(
-   "languageValue"
-  );
-
- if(languageValue)
-  languageValue.textContent=
-   profileLanguageName;
-
- const accountType=
+ setText(
+  "accountTypeValue",
   currentProfile.account_type ||
   currentProfile.accountType ||
-  "Standard";
-
- const accountTypeValue=
-  document.getElementById(
-   "accountTypeValue"
-  );
-
- if(accountTypeValue)
-  accountTypeValue.textContent=
-   accountType;
-
- const memberSinceValue=
-  document.getElementById(
-   "memberSinceValue"
-  );
-
- if(memberSinceValue){
-
-  memberSinceValue.textContent=
-   currentUser?.created_at
-    ? new Date(
-       currentUser.created_at
-      ).toLocaleDateString(
-       "en-US",
-       {
-        year:"numeric",
-        month:"long"
-       }
-      )
-    : "—";
-
- }
-
- const emailStatusValue=
-  document.getElementById(
-   "emailStatusValue"
-  );
-
- if(emailStatusValue){
-
-  emailStatusValue.textContent=
-   currentUser?.email_confirmed_at
-    ? "Verified"
-    : "Not verified";
-
- }
-
- const userIdValue=
-  document.getElementById(
-   "userIdValue"
-  );
-
- if(userIdValue){
-
-  userIdValue.textContent=
-   currentUser?.id
-    ? currentUser.id.slice(0,8)+"..."
-    : "—";
-
- }
-
- renderAvatar(
-  "profileAvatar"
+  "Standard"
  );
 
- renderAvatar(
-  "headerAvatar"
+ setText(
+  "memberSinceValue",
+  currentUser?.created_at
+   ? new Date(
+      currentUser.created_at
+     ).toLocaleDateString(
+      "en-US",
+      {
+       year:"numeric",
+       month:"long"
+      }
+     )
+   : "—"
  );
 
- const nameEl=
+ setText(
+  "emailStatusValue",
+  currentUser?.email_confirmed_at
+   ? "Verified"
+   : "Not verified"
+ );
+
+ setText(
+  "userIdValue",
+  currentUser?.id
+   ? currentUser.id.slice(0,8)+"..."
+   : "—"
+ );
+
+ renderAvatar("profileAvatar");
+ renderAvatar("headerAvatar");
+
+ const nameEl =
   document.querySelector(
    "[data-user-name]"
   );
 
  if(nameEl)
-  nameEl.textContent=
-   name;
+  nameEl.textContent=name;
 
- const initialsEl=
+ const initialsEl =
   document.querySelector(
    "[data-user-initials]"
   );
 
  if(initialsEl)
-  initialsEl.textContent=
+  initialsEl.textContent =
    initials();
 
- loadPreferences();
-
- selectedCountry=
+ selectedCountry =
   country;
 
- selectedLanguage=
+ selectedLanguage =
   language;
 
+ loadPreferences();
  updateChoiceLabels();
 
 }
 
 
 /* =========================================================
-   PREFERENCE COLUMN DETECTION
+   PREFERENCES
    ========================================================= */
 
-function getPreferenceColumn(
- type
-){
+function getPreferenceColumn(type){
 
- const keys=
+ const keys =
   Object.keys(
    currentProfile || {}
   );
@@ -2587,6 +1621,8 @@ function getPreferenceColumn(
   ))
    return "email_notification";
 
+  return "email_notifications";
+
  }
 
  if(type==="prediction"){
@@ -2601,51 +1637,33 @@ function getPreferenceColumn(
   ))
    return "prediction_alert";
 
- }
-
- if(type==="live"){
-
-  if(keys.includes(
-   "live_updates"
-  ))
-   return "live_updates";
-
-  if(keys.includes(
-   "live_match"
-  ))
-   return "live_match";
-
-  if(keys.includes(
-   "live_match_updates"
-  ))
-   return "live_match_updates";
-
- }
-
- /*
-  Defaults for a newly-created profile.
- */
-
- if(type==="email")
-  return "email_notifications";
-
- if(type==="prediction")
   return "prediction_alerts";
+
+ }
+
+ if(keys.includes(
+  "live_updates"
+ ))
+  return "live_updates";
+
+ if(keys.includes(
+  "live_match"
+ ))
+  return "live_match";
+
+ if(keys.includes(
+  "live_match_updates"
+ ))
+  return "live_match_updates";
 
  return "live_updates";
 
 }
 
 
-/* =========================================================
-   PREFERENCES
-   ========================================================= */
+function getPreferenceValue(type){
 
-function getPreferenceValue(
- type
-){
-
- const column=
+ const column =
   getPreferenceColumn(type);
 
  if(
@@ -2655,7 +1673,7 @@ function getPreferenceValue(
   )
  ){
 
-  return currentProfile[column]!==false;
+  return currentProfile[column] !== false;
 
  }
 
@@ -2666,38 +1684,32 @@ function getPreferenceValue(
 
 function loadPreferences(){
 
- const email=
+ const email =
   document.getElementById(
    "emailNotifications"
   );
 
- const prediction=
+ const prediction =
   document.getElementById(
    "predictionAlerts"
   );
 
- const live=
+ const live =
   document.getElementById(
    "liveUpdates"
   );
 
  if(email)
-  email.checked=
-   getPreferenceValue(
-    "email"
-   );
+  email.checked =
+   getPreferenceValue("email");
 
  if(prediction)
-  prediction.checked=
-   getPreferenceValue(
-    "prediction"
-   );
+  prediction.checked =
+   getPreferenceValue("prediction");
 
  if(live)
-  live.checked=
-   getPreferenceValue(
-    "live"
-   );
+  live.checked =
+   getPreferenceValue("live");
 
 }
 
@@ -2711,54 +1723,77 @@ async function savePreference(
  value
 ){
 
- const column=
+ const column =
   getPreferenceColumn(type);
 
- const update={};
+ const update = {};
 
  update[column]=value;
-
- update.updated_at=
+ update.updated_at =
   new Date().toISOString();
 
- let result;
+ try{
 
- if(profileKeyColumn==="user_id"){
+  let result;
 
-  result=
-   await supabaseClient
-    .from("profiles")
-    .update(update)
-    .eq(
-     "user_id",
-     currentUser.id
+  if(
+   profileKeyColumn ===
+   "user_id"
+  ){
+
+   result =
+    await withTimeout(
+     supabaseClient
+      .from("profiles")
+      .update(update)
+      .eq(
+       "user_id",
+       currentUser.id
+      ),
+     6000,
+     "Saving setting timed out."
     );
 
- }else{
+  }else{
 
-  result=
-   await supabaseClient
-    .from("profiles")
-    .update(update)
-    .eq(
-     "id",
-     currentUser.id
+   result =
+    await withTimeout(
+     supabaseClient
+      .from("profiles")
+      .update(update)
+      .eq(
+       "id",
+       currentUser.id
+      ),
+     6000,
+     "Saving setting timed out."
     );
 
- }
+  }
 
- /*
-  If no row was updated, try creating
-  the profile row.
- */
+  if(result.error){
 
- if(
-  result.error
- ){
+   showToast(
+    "Could not save setting."
+   );
+
+   console.error(
+    "Preference error:",
+    result.error
+   );
+
+   return false;
+
+  }
+
+  currentProfile[column]=value;
+
+  return true;
+
+ }catch(error){
 
   console.error(
-   "Preference error:",
-   result.error
+   error
   );
 
   showToast(
@@ -2769,68 +1804,59 @@ async function savePreference(
 
  }
 
- currentProfile[column]=value;
-
- return true;
-
 }
 
 
 /* =========================================================
-   TOGGLE EVENTS
+   TOGGLES
    ========================================================= */
 
 document
- .querySelectorAll(
-  ".toggle input"
- )
- .forEach(input=>{
+.querySelectorAll(".toggle input")
+.forEach(input=>{
 
-  input.addEventListener(
-   "change",
-   async()=>{
+ input.addEventListener(
+  "change",
+  async()=>{
 
-    let type="";
+   let type="";
 
-    if(
-     input.id===
-     "emailNotifications"
-    )
-     type="email";
+   if(
+    input.id ===
+    "emailNotifications"
+   )
+    type="email";
 
-    if(
-     input.id===
-     "predictionAlerts"
-    )
-     type="prediction";
+   if(
+    input.id ===
+    "predictionAlerts"
+   )
+    type="prediction";
 
-    if(
-     input.id===
-     "liveUpdates"
-    )
-     type="live";
+   if(
+    input.id ===
+    "liveUpdates"
+   )
+    type="live";
 
-    if(!type)
-     return;
+   if(!type)
+    return;
 
-    const success=
-     await savePreference(
-      type,
-      input.checked
-     );
+   const success =
+    await savePreference(
+     type,
+     input.checked
+    );
 
-    if(success){
+   if(success)
+    showToast(
+     "Setting saved."
+    );
 
-     showToast(
-      "Setting saved."
-     );
+  }
+ );
 
-    }
-
-   }
-  );
-
- });
+});
 
 
 /* =========================================================
@@ -2841,43 +1867,39 @@ function openEditProfile(
  focusPhoto=false
 ){
 
- selectedCountry=
+ selectedCountry =
   profileCountry();
 
- selectedLanguage=
+ selectedLanguage =
   profileLanguage();
 
- selectedAvatarData=
-  null;
+ selectedAvatarData=null;
 
- const nameInput=
+ const nameInput =
   document.getElementById(
    "editFullName"
   );
 
  if(nameInput)
-  nameInput.value=
+  nameInput.value =
    profileName();
 
- const emailInput=
+ const emailInput =
   document.getElementById(
    "editEmail"
   );
 
  if(emailInput)
-  emailInput.value=
+  emailInput.value =
    currentUser?.email ||
    "";
 
  updateChoiceLabels();
-
  renderPhotoPreview();
 
  document.getElementById(
   "editProfileModal"
- ).classList.add(
-  "show"
- );
+ ).classList.add("show");
 
  document.body.classList.add(
   "modal-open"
@@ -2885,16 +1907,11 @@ function openEditProfile(
 
  if(focusPhoto){
 
-  setTimeout(
-   ()=>{
-
-    document.getElementById(
-     "avatarFile"
-    ).click();
-
-   },
-   180
-  );
+  setTimeout(()=>{
+   document.getElementById(
+    "avatarFile"
+   )?.click();
+  },180);
 
  }
 
@@ -2903,23 +1920,23 @@ function openEditProfile(
 
 function updateChoiceLabels(){
 
- const country=
+ const country =
   document.getElementById(
    "selectedCountryText"
   );
 
  if(country)
-  country.textContent=
+  country.textContent =
    selectedCountry ||
    "Select country";
 
- const language=
+ const language =
   document.getElementById(
    "selectedLanguageText"
   );
 
  if(language)
-  language.textContent=
+  language.textContent =
    LANGUAGES[
     selectedLanguage
    ] ||
@@ -2944,87 +1961,100 @@ function openCountryModal(){
 
  document.getElementById(
   "countryModal"
- ).classList.add(
-  "show"
- );
+ ).classList.add("show");
 
 }
 
 
-function renderCountries(
- list
-){
+function renderCountries(list){
 
- const box=
+ const box =
   document.getElementById(
    "countryList"
   );
 
+ if(!box)
+  return;
+
  box.innerHTML="";
 
- list.forEach(
-  country=>{
+ list.forEach(country=>{
 
-   const button=
-    document.createElement(
-     "button"
-    );
-
-   button.className=
-    "country-row";
-
-   if(
-    country===
-    selectedCountry
-   ){
-
-    button.classList.add(
-     "selected"
-    );
-
-   }
-
-   button.innerHTML=`
-    <div class="country-flag">🌍</div>
-    <div>${escapeHTML(country)}</div>
-   `;
-
-   button.onclick=()=>{
-
-    selectedCountry=
-     country;
-
-    updateChoiceLabels();
-
-    closeModal(
-     "countryModal"
-    );
-
-   };
-
-   box.appendChild(
-    button
+  const button =
+   document.createElement(
+    "button"
    );
 
-  }
- );
+  button.className =
+   "country-row";
+
+  if(
+   country ===
+   selectedCountry
+  )
+   button.classList.add(
+    "selected"
+   );
+
+  const flag =
+   document.createElement(
+    "div"
+   );
+
+  flag.className =
+   "country-flag";
+
+  flag.textContent="🌍";
+
+  const text =
+   document.createElement(
+    "div"
+   );
+
+  text.textContent =
+   country;
+
+  button.appendChild(flag);
+  button.appendChild(text);
+
+  button.onclick=()=>{
+
+   selectedCountry =
+    country;
+
+   updateChoiceLabels();
+
+   closeModal(
+    "countryModal"
+   );
+
+  };
+
+  box.appendChild(
+   button
+  );
+
+ });
 
 }
 
 
 function filterCountries(){
 
- const q=
+ const input =
   document.getElementById(
    "countrySearch"
-  )
-  .value
-  .toLowerCase()
-  .trim();
+  );
+
+ const q =
+  input?.value
+   ?.toLowerCase()
+   .trim() ||
+  "";
 
  renderCountries(
   COUNTRIES.filter(
-   country=>
+   country =>
     country
      .toLowerCase()
      .includes(q)
@@ -3042,52 +2072,44 @@ function openLanguageModal(){
 
  document.getElementById(
   "languageModal"
- ).classList.add(
-  "show"
- );
+ ).classList.add("show");
 
  document.querySelectorAll(
   ".language-row"
- ).forEach(
-  row=>{
+ ).forEach(row=>{
 
-   row.classList.toggle(
-    "selected",
-    row.dataset.lang===
-     selectedLanguage
-   );
+  row.classList.toggle(
+   "selected",
+   row.dataset.lang ===
+   selectedLanguage
+  );
 
-  }
- );
+ });
 
 }
 
 
-function selectLanguage(
- lang
-){
+function selectLanguage(lang){
 
  if(!LANGUAGES[lang])
   return;
 
- selectedLanguage=
+ selectedLanguage =
   lang;
 
  updateChoiceLabels();
 
  document.querySelectorAll(
   ".language-row"
- ).forEach(
-  row=>{
+ ).forEach(row=>{
 
-   row.classList.toggle(
-    "selected",
-    row.dataset.lang===
-     selectedLanguage
-   );
+  row.classList.toggle(
+   "selected",
+   row.dataset.lang ===
+   selectedLanguage
+  );
 
-  }
- );
+ });
 
  closeModal(
   "languageModal"
@@ -3102,7 +2124,7 @@ function selectLanguage(
 
 function renderPhotoPreview(){
 
- const box=
+ const box =
   document.getElementById(
    "photoPreview"
   );
@@ -3112,35 +2134,30 @@ function renderPhotoPreview(){
 
  box.innerHTML="";
 
- const source=
+ const source =
   selectedAvatarData ||
   profileAvatar();
 
  if(source){
 
-  const img=
+  const img =
    document.createElement(
     "img"
    );
 
   img.src=source;
-
   img.alt="Preview";
 
   img.onerror=()=>{
-
-   box.textContent=
+   box.textContent =
     initials();
-
   };
 
-  box.appendChild(
-   img
-  );
+  box.appendChild(img);
 
  }else{
 
-  box.textContent=
+  box.textContent =
    initials();
 
  }
@@ -3149,111 +2166,98 @@ function renderPhotoPreview(){
 
 
 document
- .getElementById(
-  "avatarFile"
- )
- .addEventListener(
-  "change",
-  async function(){
+.getElementById("avatarFile")
+.addEventListener(
+ "change",
+ async function(){
 
-   const file=
-    this.files?.[0];
+  const file =
+   this.files?.[0];
 
-   if(!file)
-    return;
+  if(!file)
+   return;
 
-   if(
-    file.size>
-    2*1024*1024
-   ){
+  if(
+   file.size >
+   2*1024*1024
+  ){
 
-    showToast(
-     "Image must be smaller than 2 MB."
-    );
+   showToast(
+    "Image must be smaller than 2 MB."
+   );
 
-    this.value="";
-
-    return;
-
-   }
-
-   if(
-    ![
-     "image/jpeg",
-     "image/png",
-     "image/webp"
-    ].includes(
-     file.type
-    )
-   ){
-
-    showToast(
-     "Only JPG, PNG or WEBP images are allowed."
-    );
-
-    this.value="";
-
-    return;
-
-   }
-
-   try{
-
-    selectedAvatarData=
-     await compressImage(
-      file
-     );
-
-    renderPhotoPreview();
-
-    showToast(
-     "Photo selected."
-    );
-
-   }catch(error){
-
-    console.error(
-     error
-    );
-
-    showToast(
-     "Could not process image."
-    );
-
-   }
+   this.value="";
+   return;
 
   }
- );
+
+  if(
+   ![
+    "image/jpeg",
+    "image/png",
+    "image/webp"
+   ].includes(file.type)
+  ){
+
+   showToast(
+    "Only JPG, PNG or WEBP images are allowed."
+   );
+
+   this.value="";
+   return;
+
+  }
+
+  try{
+
+   selectedAvatarData =
+    await compressImage(file);
+
+   renderPhotoPreview();
+
+   showToast(
+    "Photo selected."
+   );
+
+  }catch(error){
+
+   console.error(error);
+
+   showToast(
+    "Could not process image."
+   );
+
+  }
+
+ });
 
 
-function compressImage(
- file
-){
+function compressImage(file){
 
  return new Promise(
   (resolve,reject)=>{
 
-   const reader=
+   const reader =
     new FileReader();
 
    reader.onload=()=>{
 
-    const image=
+    const image =
      new Image();
 
     image.onload=()=>{
 
      const max=700;
 
-     let width=
+     let width =
       image.width;
 
-     let height=
+     let height =
       image.height;
 
      if(width>max){
 
-      height=
+      height =
        Math.round(
         height*max/width
        );
@@ -3264,7 +2268,7 @@ function compressImage(
 
      if(height>max){
 
-      width=
+      width =
        Math.round(
         width*max/height
        );
@@ -3273,21 +2277,16 @@ function compressImage(
 
      }
 
-     const canvas=
+     const canvas =
       document.createElement(
        "canvas"
       );
 
-     canvas.width=
-      width;
+     canvas.width=width;
+     canvas.height=height;
 
-     canvas.height=
-      height;
-
-     const context=
-      canvas.getContext(
-       "2d"
-      );
+     const context =
+      canvas.getContext("2d");
 
      context.drawImage(
       image,
@@ -3306,20 +2305,18 @@ function compressImage(
 
     };
 
-    image.onerror=
+    image.onerror =
      reject;
 
-    image.src=
+    image.src =
      reader.result;
 
    };
 
-   reader.onerror=
+   reader.onerror =
     reject;
 
-   reader.readAsDataURL(
-    file
-   );
+   reader.readAsDataURL(file);
 
   }
  );
@@ -3333,7 +2330,7 @@ function compressImage(
 
 async function saveProfile(){
 
- const name=
+ const name =
   document.getElementById(
    "editFullName"
   )
@@ -3370,7 +2367,7 @@ async function saveProfile(){
 
  }
 
- const button=
+ const button =
   document.getElementById(
    "saveProfileButton"
   );
@@ -3379,12 +2376,12 @@ async function saveProfile(){
   "loading"
  );
 
- button.textContent=
+ button.textContent =
   "Saving...";
 
  try{
 
-  const update={
+  const update = {
 
    full_name:name,
 
@@ -3397,52 +2394,60 @@ async function saveProfile(){
 
   };
 
-  if(selectedAvatarData){
-
-   update.avatar_url=
+  if(selectedAvatarData)
+   update.avatar_url =
     selectedAvatarData;
 
-  }
 
   let result;
 
+
   /*
-   * Update existing row.
+   * Update current row.
    */
 
   if(
-   profileKeyColumn===
+   profileKeyColumn ===
    "user_id"
   ){
 
-   result=
-    await supabaseClient
-     .from("profiles")
-     .update(update)
-     .eq(
-      "user_id",
-      currentUser.id
-     )
-     .select("*")
-     .maybeSingle();
+   result =
+    await withTimeout(
+     supabaseClient
+      .from("profiles")
+      .update(update)
+      .eq(
+       "user_id",
+       currentUser.id
+      )
+      .select("*")
+      .maybeSingle(),
+     7000,
+     "Profile save timed out."
+    );
 
   }else{
 
-   result=
-    await supabaseClient
-     .from("profiles")
-     .update(update)
-     .eq(
-      "id",
-      currentUser.id
-     )
-     .select("*")
-     .maybeSingle();
+   result =
+    await withTimeout(
+     supabaseClient
+      .from("profiles")
+      .update(update)
+      .eq(
+       "id",
+       currentUser.id
+      )
+      .select("*")
+      .maybeSingle(),
+     7000,
+     "Profile save timed out."
+    );
 
   }
 
+
   /*
-   * If there was no row, create one.
+   * If no row exists, try insert.
    */
 
   if(
@@ -3451,120 +2456,143 @@ async function saveProfile(){
   ){
 
    if(
-    profileKeyColumn===
+    profileKeyColumn ===
     "user_id"
    ){
 
-    result=
-     await supabaseClient
-      .from("profiles")
-      .insert({
-       user_id:currentUser.id,
-       ...update
-      })
-      .select("*")
-      .single();
+    result =
+     await withTimeout(
+      supabaseClient
+       .from("profiles")
+       .insert({
+        user_id:
+         currentUser.id,
+        ...update
+       })
+       .select("*")
+       .single(),
+      7000,
+      "Profile creation timed out."
+     );
 
    }else{
 
-    result=
-     await supabaseClient
-      .from("profiles")
-      .insert({
-       id:currentUser.id,
-       ...update
-      })
-      .select("*")
-      .single();
+    result =
+     await withTimeout(
+      supabaseClient
+       .from("profiles")
+       .insert({
+        id:
+         currentUser.id,
+        ...update
+       })
+       .select("*")
+       .single(),
+      7000,
+      "Profile creation timed out."
+     );
 
    }
 
   }
 
+
   /*
-   * If id structure failed because
-   * the real table uses user_id, retry.
+   * If id failed, retry user_id.
    */
 
   if(
    result.error &&
-   profileKeyColumn==="id"
+   profileKeyColumn ===
+   "id"
   ){
 
-   const retry=
-    await supabaseClient
-     .from("profiles")
-     .update(update)
-     .eq(
-      "user_id",
-      currentUser.id
-     )
-     .select("*")
-     .maybeSingle();
+   const retry =
+    await withTimeout(
+     supabaseClient
+      .from("profiles")
+      .update(update)
+      .eq(
+       "user_id",
+       currentUser.id
+      )
+      .select("*")
+      .maybeSingle(),
+     7000,
+     "Profile retry timed out."
+    );
 
    if(
     !retry.error &&
     retry.data
    ){
 
-    profileKeyColumn=
+    profileKeyColumn =
      "user_id";
 
-    result=
+    result =
      retry;
 
    }
 
   }
 
+
   /*
-   * If still failed, try user_id insert.
+   * Try user_id insertion as final fallback.
    */
 
   if(
    result.error &&
-   profileKeyColumn==="id"
+   profileKeyColumn ===
+   "id"
   ){
 
-   const retryInsert=
-    await supabaseClient
-     .from("profiles")
-     .insert({
-      user_id:currentUser.id,
-      ...update
-     })
-     .select("*")
-     .single();
+   const retryInsert =
+    await withTimeout(
+     supabaseClient
+      .from("profiles")
+      .insert({
+       user_id:
+        currentUser.id,
+       ...update
+      })
+      .select("*")
+      .single(),
+     7000,
+     "Profile creation timed out."
+    );
 
    if(!retryInsert.error){
 
-    profileKeyColumn=
+    profileKeyColumn =
      "user_id";
 
-    result=
+    result =
      retryInsert;
 
    }
 
   }
 
+
   if(result.error)
    throw result.error;
 
-  if(result.data)
-   currentProfile=
-    result.data;
-  else
-   currentProfile={
+
+  currentProfile =
+   result.data ||
+   {
     ...currentProfile,
     ...update
    };
 
+
   /*
-   * Keep Supabase Auth metadata synchronized.
+   * Keep Auth metadata synchronized.
    */
 
-  const metadata={
+  const metadata = {
 
    full_name:name,
 
@@ -3574,76 +2602,100 @@ async function saveProfile(){
 
   };
 
-  if(selectedAvatarData){
-
-   metadata.avatar_url=
+  if(selectedAvatarData)
+   metadata.avatar_url =
     selectedAvatarData;
 
-  }
 
-  const authResult=
-   await supabaseClient
-    .auth.updateUser({
-     data:metadata
-    });
+  try{
 
-  if(authResult.error){
+   const authResult =
+    await withTimeout(
+     supabaseClient.auth.updateUser({
+      data:metadata
+     }),
+     7000,
+     "Account metadata update timed out."
+    );
+
+   if(
+    !authResult.error &&
+    authResult.data?.user
+   ){
+
+    currentUser =
+     authResult.data.user;
+
+   }
+
+  }catch(error){
 
    console.warn(
     "Auth metadata update:",
-    authResult.error
+    error
    );
 
   }
 
-  if(
-   authResult.data?.user
-  ){
-
-   currentUser=
-    authResult.data.user;
-
-  }
 
   /*
-   * Save language globally for SportX.
+   * Global language.
    */
 
-  localStorage.setItem(
-   SPORTX_LANGUAGE_KEY,
+  setSportXLanguage(
    selectedLanguage
   );
 
-  setGoogleTranslateCookie(
-   selectedLanguage
-  );
+
+  /*
+   * Google Translate cookie.
+   */
+
+  try{
+
+   if(selectedLanguage === "en"){
+
+    document.cookie =
+     "googtrans=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/";
+
+   }else{
+
+    document.cookie =
+     "googtrans=/en/" +
+     selectedLanguage +
+     ";path=/";
+
+   }
+
+  }catch(error){}
+
 
   renderProfile();
-
   renderPhotoPreview();
 
   closeModal(
    "editProfileModal"
   );
 
-  selectedAvatarData=
+  selectedAvatarData =
    null;
 
   showToast(
    "Profile saved successfully."
   );
 
+
   /*
-   * Reload so Google Translate
-   * starts with the saved language.
+   * Reload once to apply language globally.
    */
 
   setTimeout(
    ()=>{
-    location.reload();
+    window.location.reload();
    },
    700
   );
+
 
  }catch(error){
 
@@ -3663,7 +2715,7 @@ async function saveProfile(){
    "loading"
   );
 
-  button.textContent=
+  button.textContent =
    "Save Changes";
 
  }
@@ -3679,9 +2731,7 @@ function openChangePassword(){
 
  document.getElementById(
   "passwordModal"
- ).classList.add(
-  "show"
- );
+ ).classList.add("show");
 
  document.body.classList.add(
   "modal-open"
@@ -3692,17 +2742,17 @@ function openChangePassword(){
 
 async function changePassword(){
 
- const current=
+ const current =
   document.getElementById(
    "currentPassword"
   ).value;
 
- const newPassword=
+ const newPassword =
   document.getElementById(
    "newPassword"
   ).value;
 
- const confirm=
+ const confirm =
   document.getElementById(
    "confirmPassword"
   ).value;
@@ -3727,7 +2777,7 @@ async function changePassword(){
 
  }
 
- if(newPassword!==confirm){
+ if(newPassword !== confirm){
 
   showToast(
    "Passwords do not match."
@@ -3737,7 +2787,7 @@ async function changePassword(){
 
  }
 
- const button=
+ const button =
   document.getElementById(
    "changePasswordButton"
   );
@@ -3746,23 +2796,27 @@ async function changePassword(){
   "loading"
  );
 
- button.textContent=
+ button.textContent =
   "Updating...";
 
  try{
 
-  const login=
-   await supabaseClient
-    .auth
-    .signInWithPassword({
+  const login =
+   await withTimeout(
+    supabaseClient
+     .auth
+     .signInWithPassword({
 
-     email:
-      currentUser.email,
+      email:
+       currentUser.email,
 
-     password:
-      current
+      password:
+       current
 
-    });
+     }),
+    8000,
+    "Password verification timed out."
+   );
 
   if(login.error){
 
@@ -3772,15 +2826,16 @@ async function changePassword(){
 
   }
 
-  const update=
-   await supabaseClient
-    .auth
-    .updateUser({
-
-     password:
-      newPassword
-
-    });
+  const update =
+   await withTimeout(
+    supabaseClient
+     .auth
+     .updateUser({
+      password:newPassword
+     }),
+    8000,
+    "Password update timed out."
+   );
 
   if(update.error)
    throw update.error;
@@ -3807,9 +2862,7 @@ async function changePassword(){
 
  }catch(error){
 
-  console.error(
-   error
-  );
+  console.error(error);
 
   showToast(
    error?.message ||
@@ -3822,7 +2875,7 @@ async function changePassword(){
    "loading"
   );
 
-  button.textContent=
+  button.textContent =
    "Update Password";
 
  }
@@ -3836,10 +2889,8 @@ async function changePassword(){
 
 function closeModal(id){
 
- const modal=
-  document.getElementById(
-   id
-  );
+ const modal =
+  document.getElementById(id);
 
  if(!modal)
   return;
@@ -3863,13 +2914,10 @@ function closeModal(id){
 }
 
 
-function closeOverlay(
- event,
- id
-){
+function closeOverlay(event,id){
 
  if(
-  event.target.id===
+  event.target.id ===
   id
  ){
 
@@ -3884,13 +2932,11 @@ function closeOverlay(
    TOAST
    ========================================================= */
 
-let toastTimer=null;
+let toastTimer = null;
 
-function showToast(
- message
-){
+function showToast(message){
 
- const toast=
+ const toast =
   document.getElementById(
    "toast"
   );
@@ -3898,7 +2944,7 @@ function showToast(
  if(!toast)
   return;
 
- toast.textContent=
+ toast.textContent =
   message;
 
  toast.classList.add(
@@ -3909,49 +2955,14 @@ function showToast(
   toastTimer
  );
 
- toastTimer=
+ toastTimer =
   setTimeout(
    ()=>{
-
     toast.classList.remove(
      "show"
     );
-
    },
    3000
-  );
-
-}
-
-
-/* =========================================================
-   HTML SAFETY
-   ========================================================= */
-
-function escapeHTML(
- value
-){
-
- return String(value)
-  .replaceAll(
-   "&",
-   "&amp;"
-  )
-  .replaceAll(
-   "<",
-   "&lt;"
-  )
-  .replaceAll(
-   ">",
-   "&gt;"
-  )
-  .replaceAll(
-   '"',
-   "&quot;"
-  )
-  .replaceAll(
-   "'",
-   "&#039;"
   );
 
 }
@@ -3966,7 +2977,7 @@ document.addEventListener(
  event=>{
 
   if(
-   event.key===
+   event.key ===
    "Escape"
   ){
 
@@ -3988,8 +2999,71 @@ document.addEventListener(
 
   }
 
- }
-);
+ });
+
+
+/* =========================================================
+   HIDE LOADING — ALWAYS
+   ========================================================= */
+
+function hideProfileLoading(){
+
+ const loading =
+  document.getElementById(
+   "profileLoading"
+  );
+
+ if(!loading)
+  return;
+
+ loading.classList.add(
+  "hide"
+ );
+
+}
+
+
+/* =========================================================
+   FALLBACK PROFILE
+   ========================================================= */
+
+function buildFallbackProfile(){
+
+ return {
+
+  id:
+   currentUser.id,
+
+  full_name:
+   currentUser.user_metadata?.full_name ||
+   currentUser.user_metadata?.name ||
+   currentUser.email?.split("@")[0] ||
+   "User",
+
+  country:
+   currentUser.user_metadata?.country ||
+   "Afghanistan",
+
+  language:
+   LANGUAGES[
+    currentUser.user_metadata?.language
+   ]
+    ? currentUser.user_metadata.language
+    : getSportXLanguage(),
+
+  avatar_url:
+   currentUser.user_metadata?.avatar_url ||
+   "",
+
+  email_notifications:true,
+
+  prediction_alerts:true,
+
+  live_updates:true
+
+ };
+
+}
 
 
 /* =========================================================
@@ -3998,51 +3072,121 @@ document.addEventListener(
 
 async function startProfile(){
 
+ if(profileStarted)
+  return;
+
+ profileStarted=true;
+
+
+ /*
+  * Safety timer:
+  * NEVER leave user stuck on loading.
+  */
+
+ const loadingSafety =
+  setTimeout(
+   ()=>{
+    hideProfileLoading();
+   },
+   10000
+  );
+
+
  try{
+
+  /*
+   * Supabase
+   */
 
   await initSupabase();
 
-  currentUser=
-   await getUser();
 
   /*
-   * No authenticated user.
+   * Current authenticated user
+   */
+
+  currentUser =
+   await getUser();
+
+
+  /*
+   * No session.
    */
 
   if(!currentUser){
 
-   location.href=
-    "login.html";
+   clearTimeout(
+    loadingSafety
+   );
+
+   hideProfileLoading();
+
+   window.location.replace(
+    "login.html"
+   );
 
    return;
 
   }
 
+
   /*
-   * Load or create profile.
+   * Load profile.
+   *
+   * IMPORTANT:
+   * If database profile is unavailable,
+   * fallback Auth data is used.
    */
 
-  currentProfile=
-   await loadProfile();
+  try{
 
-  selectedCountry=
+   currentProfile =
+    await loadProfile();
+
+  }catch(error){
+
+   console.warn(
+    "Profile database unavailable:",
+    error
+   );
+
+   currentProfile =
+    buildFallbackProfile();
+
+  }
+
+
+  if(
+   !currentProfile ||
+   typeof currentProfile !==
+   "object"
+  ){
+
+   currentProfile =
+    buildFallbackProfile();
+
+  }
+
+
+  selectedCountry =
    profileCountry();
 
-  selectedLanguage=
+  selectedLanguage =
    profileLanguage();
 
+
   /*
-   * Keep language synchronized.
+   * Synchronize language.
    */
 
-  localStorage.setItem(
-   SPORTX_LANGUAGE_KEY,
+  setSportXLanguage(
    selectedLanguage
   );
 
-  setGoogleTranslateCookie(
-   selectedLanguage
-  );
+
+  /*
+   * Render immediately.
+   */
 
   renderProfile();
 
@@ -4054,76 +3198,90 @@ async function startProfile(){
    COUNTRIES
   );
 
+
   /*
-   * Hide loading screen.
+   * IMPORTANT:
+   * Hide loading BEFORE anything else.
    */
 
-  requestAnimationFrame(
-   ()=>{
-
-    const loading=
-     document.getElementById(
-      "profileLoading"
-     );
-
-    if(loading){
-
-     loading.classList.add(
-      "hide"
-     );
-
-    }
-
-   }
+  clearTimeout(
+   loadingSafety
   );
 
+  hideProfileLoading();
+
+
   /*
-   * Auth listener.
+   * Auth state listener.
+   *
+   * We do NOT reload the page or block UI here.
    */
 
-  supabaseClient.auth
-   .onAuthStateChange(
-    async(
-     event,
-     session
-    )=>{
+  if(
+   !window.SportXProfileAuthListener
+  ){
 
-     if(
-      event===
-      "SIGNED_OUT"
-     ){
+   window.SportXProfileAuthListener =
+    true;
 
-      location.href=
-       "login.html";
+   supabaseClient.auth
+    .onAuthStateChange(
+     async(
+      event,
+      session
+     )=>{
 
-      return;
+      console.log(
+       "SportX Profile Auth:",
+       event
+      );
 
-     }
 
-     if(
-      session?.user
-     ){
+      if(
+       event ===
+       "SIGNED_OUT"
+      ){
 
-      try{
-
-       currentUser=
-        session.user;
-
-       currentProfile=
-        await loadProfile();
-
-       selectedCountry=
-        profileCountry();
-
-       selectedLanguage=
-        profileLanguage();
-
-       localStorage.setItem(
-        SPORTX_LANGUAGE_KEY,
-        selectedLanguage
+       window.location.replace(
+        "login.html"
        );
 
-       setGoogleTranslateCookie(
+       return;
+
+      }
+
+
+      if(
+       session?.user
+      ){
+
+       currentUser =
+        session.user;
+
+       /*
+        * Update visible account data
+        * without putting page back into loading.
+        */
+
+       try{
+
+        currentProfile =
+         await loadProfile();
+
+       }catch(error){
+
+        currentProfile =
+         buildFallbackProfile();
+
+       }
+
+       selectedCountry =
+        profileCountry();
+
+       selectedLanguage =
+        profileLanguage();
+
+       setSportXLanguage(
         selectedLanguage
        );
 
@@ -4133,81 +3291,51 @@ async function startProfile(){
 
        renderPhotoPreview();
 
-      }catch(error){
-
-       console.error(
-        "AUTH PROFILE ERROR:",
-        error
-       );
-
       }
 
      }
+    );
 
-    }
-   );
+  }
+
 
  }catch(error){
 
   console.error(
-   "PROFILE LOAD ERROR:",
+   "PROFILE START ERROR:",
    error
   );
 
-  const loading=
-   document.getElementById(
-    "profileLoading"
-   );
 
-  if(loading)
-   loading.classList.add(
-    "hide"
-   );
+  clearTimeout(
+   loadingSafety
+  );
+
 
   /*
-   * Do not immediately destroy the page
-   * when profile row is missing.
+   * Even if something fails,
+   * don't leave the user staring
+   * at an infinite spinner.
    */
 
-  if(
-   currentUser
-  ){
+  if(currentUser){
 
-   currentProfile={
-    full_name:
-     currentUser.user_metadata?.full_name ||
-     currentUser.user_metadata?.name ||
-     currentUser.email?.split("@")[0] ||
-     "User",
+   currentProfile =
+    buildFallbackProfile();
 
-    country:
-     currentUser.user_metadata?.country ||
-     "Afghanistan",
-
-    language:
-     currentUser.user_metadata?.language ||
-     "en",
-
-    avatar_url:
-     currentUser.user_metadata?.avatar_url ||
-     "",
-
-    email_notifications:true,
-
-    prediction_alerts:true,
-
-    live_updates:true
-   };
-
-   selectedCountry=
+   selectedCountry =
     profileCountry();
 
-   selectedLanguage=
+   selectedLanguage =
     profileLanguage();
 
    renderProfile();
 
+   updateChoiceLabels();
+
    renderPhotoPreview();
+
+   hideProfileLoading();
 
    showToast(
     "Profile loaded from your account."
@@ -4217,9 +3345,21 @@ async function startProfile(){
 
   }
 
+
+  hideProfileLoading();
+
   showToast(
-   error?.message ||
-   "Could not load your profile."
+   "Could not load your account."
+  );
+
+
+  setTimeout(
+   ()=>{
+    window.location.replace(
+     "login.html"
+    );
+   },
+   1800
   );
 
  }
@@ -4231,7 +3371,24 @@ async function startProfile(){
    START
    ========================================================= */
 
-startProfile();
+if(
+ document.readyState ===
+ "loading"
+){
+
+ document.addEventListener(
+  "DOMContentLoaded",
+  startProfile,
+  {
+   once:true
+  }
+ );
+
+}else{
+
+ startProfile();
+
+}
 
 </script>
 
