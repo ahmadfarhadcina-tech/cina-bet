@@ -395,25 +395,19 @@ in one modern sports platform.
 <div class="account-actions">
 
 <a href="bets.html" class="account-action">
-
 <div class="account-action-icon">🎯</div>
-
 <div class="account-action-text">
 <strong>My Bets</strong>
 <span>View predictions</span>
 </div>
-
 </a>
 
 <a href="wallet.html" class="account-action">
-
 <div class="account-action-icon">💰</div>
-
 <div class="account-action-text">
 <strong>Wallet</strong>
 <span>Balance & transactions</span>
 </div>
-
 </a>
 
 </div>
@@ -484,8 +478,6 @@ in one modern sports platform.
 </section>
 
 
-<!-- ONLY 2 NORMAL MATCHES -->
-
 <section class="section">
 
 <div class="section-heading">
@@ -513,8 +505,6 @@ in one modern sports platform.
 </section>
 
 
-<!-- ONLY 1 FUTURE MATCH -->
-
 <section class="section">
 
 <div class="section-heading">
@@ -531,12 +521,10 @@ in one modern sports platform.
 <div id="futureMatches" class="matches">
 
 <div class="loading-card">
-
 <div>
 <div class="spinner"></div>
 <p>Loading future fixture...</p>
 </div>
-
 </div>
 
 </div>
@@ -551,17 +539,13 @@ in one modern sports platform.
 <div class="modal-box">
 
 <div class="modal-header">
-
 <h3>Match Details</h3>
-
 <button type="button" class="modal-close" id="closeModal">×</button>
-
 </div>
 
 <div id="modalContent" class="modal-match"></div>
 
 </div>
-
 </div>
 
 
@@ -589,13 +573,6 @@ const SUPABASE_URL="https://zchtcosljkkkiykhforj.supabase.co";
 const SUPABASE_KEY="sb_publishable_aGLckKZjNaVbpdxZUFhCqA_VzHppjrW";
 const SPORT_SCORE="https://sportscore.com/api/widget";
 
-const FEATURED_SLUGS=[
-"real-madrid","barcelona","manchester-united","manchester-city",
-"liverpool","arsenal","chelsea","bayern-munich","psg",
-"juventus","inter-milan","ac-milan","atletico-madrid",
-"borussia-dortmund","tottenham-hotspur"
-];
-
 const MAX_NORMAL=2;
 const MAX_FUTURE=1;
 const REFRESH_MS=60000;
@@ -614,7 +591,8 @@ if(window.supabase){
 
 if(!supabaseClient){
 supabaseClient=window.supabase.createClient(
-SUPABASE_URL,SUPABASE_KEY
+SUPABASE_URL,
+SUPABASE_KEY
 );
 }
 
@@ -657,10 +635,11 @@ document.head.appendChild(script);
 
 });
 
-if(window.supabase && !supabaseClient){
+if(window.supabase&&!supabaseClient){
 
 supabaseClient=window.supabase.createClient(
-SUPABASE_URL,SUPABASE_KEY
+SUPABASE_URL,
+SUPABASE_KEY
 );
 
 }
@@ -711,11 +690,14 @@ function isLiveMatch(match){
 
 const status=String(match?.status||"").toLowerCase();
 
-return (
+return(
 status==="live"||
 status==="inplay"||
 status==="in-play"||
 status==="playing"||
+status==="1h"||
+status==="2h"||
+status==="ht"||
 match?.is_live===true
 );
 
@@ -732,7 +714,7 @@ match?.status_text||
 ""
 ).toLowerCase();
 
-return (
+return(
 status.includes("finished")||
 status.includes("complete")||
 status.includes("ended")||
@@ -783,7 +765,7 @@ if(!finishedAt){
 return false;
 }
 
-return (
+return(
 Date.now()-finishedAt.getTime()
 )<END_KEEP_MS
 );
@@ -796,7 +778,7 @@ const date=parseDate(match);
 
 if(!date)return true;
 
-return (
+return(
 date.getTime()>
 Date.now()+7*86400000
 );
@@ -847,6 +829,7 @@ else if(days===5)dayText="In 5 days";
 else if(days===6)dayText="In 6 days";
 else if(days===7)dayText="In 7 days";
 else{
+
 dayText=date.toLocaleDateString(
 "en-US",
 {
@@ -857,6 +840,7 @@ year:"numeric",
 timeZone:"UTC"
 }
 );
+
 }
 
 const time=date.toLocaleTimeString(
@@ -869,7 +853,7 @@ timeZone:"UTC"
 }
 );
 
-return `${dayText} · ${time} · UTC`;
+return`${dayText} · ${time} · UTC`;
 
 }
 
@@ -902,8 +886,12 @@ headerImage.src=cleanURL;
 headerImage.style.display="block";
 
 headerImage.onerror=()=>{
+
 headerImage.style.display="none";
-if(headerInitials)headerInitials.style.display="grid";
+
+if(headerInitials)
+headerInitials.style.display="grid";
+
 };
 
 }
@@ -914,28 +902,42 @@ homeImage.src=cleanURL;
 homeImage.style.display="block";
 
 homeImage.onerror=()=>{
+
 homeImage.style.display="none";
-if(homeInitials)homeInitials.style.display="grid";
+
+if(homeInitials)
+homeInitials.style.display="grid";
+
 };
 
 }
 
-if(headerInitials)headerInitials.style.display="none";
-if(homeInitials)homeInitials.style.display="none";
+if(headerInitials)
+headerInitials.style.display="none";
+
+if(homeInitials)
+homeInitials.style.display="none";
 
 }else{
 
-if(headerImage)headerImage.style.display="none";
-if(homeImage)homeImage.style.display="none";
+if(headerImage)
+headerImage.style.display="none";
+
+if(homeImage)
+homeImage.style.display="none";
 
 if(headerInitials){
+
 headerInitials.textContent=initials||"U";
 headerInitials.style.display="grid";
+
 }
 
 if(homeInitials){
+
 homeInitials.textContent=initials||"U";
 homeInitials.style.display="grid";
+
 }
 
 }
@@ -947,24 +949,33 @@ async function loadProfileData(){
 
 try{
 
+const client=
+supabaseClient||
 await loadSupabase();
 
-if(!supabaseClient)return;
+if(!client)return;
 
-const result=await supabaseClient.auth.getUser();
+const result=
+await client.auth.getUser();
 
 const user=result.data?.user;
 
 if(!user)return;
 
-const metadata=user.user_metadata||{};
+const metadata=
+user.user_metadata||{};
 
 let profile={};
+
+
+/*
+Try the profiles table first.
+*/
 
 try{
 
 const profileResult=
-await supabaseClient
+await client
 .from("profiles")
 .select("*")
 .eq("id",user.id)
@@ -972,10 +983,18 @@ await supabaseClient
 .maybeSingle();
 
 if(!profileResult.error){
-profile=profileResult.data||{};
+
+profile=
+profileResult.data||{};
+
 }
 
 }catch(e){}
+
+
+/*
+Support multiple existing profile field names.
+*/
 
 const avatar=
 profile.avatar_url||
@@ -983,11 +1002,15 @@ profile.avatar||
 profile.photo_url||
 profile.profile_image||
 profile.image_url||
+profile.avatarUrl||
 metadata.avatar_url||
 metadata.avatar||
 metadata.photo_url||
 metadata.profile_image||
+metadata.avatarUrl||
+user.user_metadata?.picture||
 "";
+
 
 const name=
 profile.display_name||
@@ -998,6 +1021,7 @@ metadata.name||
 user.email?.split("@")[0]||
 "User";
 
+
 const initials=
 name
 .split(/\s+/)
@@ -1007,17 +1031,43 @@ name
 .join("")
 .toUpperCase()||"U";
 
-document.querySelectorAll("[data-user-name]")
-.forEach(el=>el.textContent=name);
 
-document.querySelectorAll("[data-user-initials]")
-.forEach(el=>el.textContent=initials);
+document
+.querySelectorAll("[data-user-name]")
+.forEach(
+el=>el.textContent=name
+);
 
-renderProfilePhoto(avatar,initials);
+
+document
+.querySelectorAll("[data-user-initials]")
+.forEach(
+el=>el.textContent=initials
+);
+
+
+renderProfilePhoto(
+avatar,
+initials
+);
+
+
+console.log(
+"SportX profile:",
+{
+name,
+avatar,
+userId:user.id
+}
+);
+
 
 }catch(error){
 
-console.warn("Profile sync:",error);
+console.warn(
+"Profile sync:",
+error
+);
 
 }
 
@@ -1025,31 +1075,6 @@ console.warn("Profile sync:",error);
 
 
 /* ================= DATABASE ================= */
-
-async function getFootballSportId(){
-
-const result=
-await supabaseClient
-.from("sports")
-.select("id")
-.eq("slug","football")
-.limit(1)
-.maybeSingle();
-
-if(result.data?.id)return result.data.id;
-
-const fallback=
-await supabaseClient
-.from("sports")
-.select("id")
-.ilike("name","Football")
-.limit(1)
-.maybeSingle();
-
-return fallback.data?.id||null;
-
-}
-
 
 async function loadDatabaseMatches(){
 
@@ -1059,9 +1084,12 @@ await loadSupabase();
 
 if(!supabaseClient)return[];
 
-const footballId=await getFootballSportId();
 
-if(!footballId)return[];
+/*
+IMPORTANT:
+Home now reads ALL sports.
+It is no longer restricted to Football.
+*/
 
 const result=
 await supabaseClient
@@ -1081,16 +1109,62 @@ external_id,
 source,
 updated_at
 `)
-.eq("sport_id",footballId)
 .order("start_time",{ascending:true})
-.limit(300);
+.limit(500);
+
 
 if(result.error){
-console.warn(result.error);
+
+console.warn(
+"Matches database error:",
+result.error
+);
+
 return[];
+
 }
 
 const rows=result.data||[];
+
+if(!rows.length)return[];
+
+
+/* ================= SPORTS ================= */
+
+const sportIds=[
+...new Set(
+rows
+.map(r=>r.sport_id)
+.filter(Boolean)
+)
+];
+
+const sports={};
+
+if(sportIds.length){
+
+const r=
+await supabaseClient
+.from("sports")
+.select(
+"id,name,slug,icon,logo_url"
+)
+.in("id",sportIds);
+
+if(!r.error){
+
+(r.data||[]).forEach(
+sport=>{
+sports[sport.id]=sport;
+}
+);
+
+}
+
+}
+
+
+/* ================= TEAMS ================= */
 
 const teamIds=[
 ...new Set(
@@ -1101,89 +1175,168 @@ r.away_team_id
 )
 ];
 
-const leagueIds=[
-...new Set(
-rows.map(r=>r.league_id).filter(Boolean)
-)
-];
-
 const teams={};
-const leagues={};
 
 if(teamIds.length){
 
 const r=
 await supabaseClient
 .from("teams")
-.select("id,name,short_name,logo_url")
+.select(
+"id,name,short_name,logo_url"
+)
 .in("id",teamIds);
 
 if(!r.error){
 
-(r.data||[]).forEach(t=>{
-teams[t.id]=t;
-});
+(r.data||[]).forEach(
+team=>{
+teams[team.id]=team;
+}
+);
 
 }
 
 }
+
+
+/* ================= LEAGUES ================= */
+
+const leagueIds=[
+...new Set(
+rows
+.map(r=>r.league_id)
+.filter(Boolean)
+)
+];
+
+const leagues={};
 
 if(leagueIds.length){
 
 const r=
 await supabaseClient
 .from("leagues")
-.select("id,name,country,logo_url")
+.select(
+"id,name,country,logo_url"
+)
 .in("id",leagueIds);
 
 if(!r.error){
 
-(r.data||[]).forEach(l=>{
-leagues[l.id]=l;
-});
+(r.data||[]).forEach(
+league=>{
+leagues[league.id]=league;
+}
+);
 
 }
 
 }
+
+
+/* ================= BUILD ================= */
 
 return rows.map(row=>{
 
-const home=teams[row.home_team_id]||{};
-const away=teams[row.away_team_id]||{};
-const league=leagues[row.league_id]||{};
+const home=
+teams[row.home_team_id]||{};
+
+const away=
+teams[row.away_team_id]||{};
+
+const league=
+leagues[row.league_id]||{};
+
+const sport=
+sports[row.sport_id]||{};
+
 
 return{
 
 id:row.id,
-external_id:row.external_id||"",
-source:row.source||"database",
 
-home:home.name||"Unknown",
-away:away.name||"Unknown",
+external_id:
+row.external_id||"",
 
-home_logo:home.logo_url||"",
-away_logo:away.logo_url||"",
+source:
+row.source||"database",
 
-competition:league.name||"Football",
-competition_logo:league.logo_url||"",
+sport_id:
+row.sport_id||null,
 
-time:row.start_time,
-start_time:row.start_time,
+sport:
+sport.name||
+sport.slug||
+"Sports",
 
-status:row.status||"",
-home_score:row.home_score??0,
-away_score:row.away_score??0,
+sport_slug:
+sport.slug||
+"",
 
-is_live:row.is_live===true,
-updated_at:row.updated_at||null
+sport_icon:
+sport.icon||
+"",
+
+home:
+home.name||
+"Unknown",
+
+away:
+away.name||
+"Unknown",
+
+home_logo:
+home.logo_url||
+"",
+
+away_logo:
+away.logo_url||
+"",
+
+competition:
+league.name||
+sport.name||
+"Sports",
+
+competition_logo:
+league.logo_url||
+sport.logo_url||
+"",
+
+time:
+row.start_time,
+
+start_time:
+row.start_time,
+
+status:
+row.status||"",
+
+home_score:
+row.home_score??0,
+
+away_score:
+row.away_score??0,
+
+is_live:
+row.is_live===true,
+
+updated_at:
+row.updated_at||null
 
 };
 
 });
 
+
 }catch(error){
 
-console.warn("Database matches:",error);
+console.warn(
+"Database matches:",
+error
+);
+
 return[];
 
 }
@@ -1197,22 +1350,35 @@ async function fetchSportScoreMatches(){
 
 try{
 
-const response=await fetch(
-`${SPORT_SCORE}/matches/?sport=football&limit=50`,
-{cache:"no-store"}
+const response=
+await fetch(
+`${SPORT_SCORE}/matches/?limit=100`,
+{
+cache:"no-store"
+}
 );
 
-if(!response.ok)throw new Error("SportScore error");
+if(!response.ok)
+throw new Error(
+"SportScore error"
+);
 
-const data=await response.json();
+const data=
+await response.json();
 
 return Array.isArray(data.matches)
-?data.matches.map(normalizeSportScoreMatch)
+?data.matches.map(
+normalizeSportScoreMatch
+)
 :[];
 
 }catch(error){
 
-console.warn("SportScore:",error);
+console.warn(
+"SportScore:",
+error
+);
+
 return[];
 
 }
@@ -1233,64 +1399,87 @@ match.time||""
 ].join("-"),
 
 external_id:
-match.url?`sportscore:${match.url}`:"",
+match.url
+?`sportscore:${match.url}`
+:"",
 
 source:"sportscore",
 
-home:match.home||"Unknown",
-away:match.away||"Unknown",
+sport:
+match.sport||
+"Sports",
 
-home_logo:match.home_logo||"",
-away_logo:match.away_logo||"",
+sport_slug:
+match.sport_slug||
+"",
 
-competition:match.competition||"Football",
-competition_logo:match.competition_logo||"",
+home:
+match.home||
+"Unknown",
 
-time:match.time||null,
-start_time:match.time||null,
+away:
+match.away||
+"Unknown",
 
-status:String(match.status||"scheduled").toLowerCase(),
-status_text:match.status_text||"",
+home_logo:
+match.home_logo||
+"",
 
-home_score:match.home_score??0,
-away_score:match.away_score??0,
+away_logo:
+match.away_logo||
+"",
+
+competition:
+match.competition||
+"Sports",
+
+competition_logo:
+match.competition_logo||
+"",
+
+time:
+match.time||
+null,
+
+start_time:
+match.time||
+null,
+
+status:
+String(
+match.status||
+"scheduled"
+).toLowerCase(),
+
+status_text:
+match.status_text||
+"",
+
+home_score:
+match.home_score??0,
+
+away_score:
+match.away_score??0,
 
 is_live:
-String(match.status||"").toLowerCase()==="live",
+[
+"live",
+"inplay",
+"in-play",
+"playing"
+].includes(
+String(match.status||"").toLowerCase()
+),
 
-updated_at:match.updated_at||null,
+updated_at:
+match.updated_at||
+null,
 
-url:match.url||""
+url:
+match.url||
+""
 
 };
-
-}
-
-
-async function fetchTeamFixtures(slug){
-
-try{
-
-const response=await fetch(
-`${SPORT_SCORE}/team/?sport=football&slug=${encodeURIComponent(slug)}&limit=30`,
-{cache:"no-store"}
-);
-
-if(!response.ok)return[];
-
-const data=await response.json();
-
-if(!Array.isArray(data.matches))return[];
-
-return data.matches.map(
-normalizeSportScoreMatch
-);
-
-}catch(error){
-
-return[];
-
-}
 
 }
 
@@ -1303,6 +1492,7 @@ return String(
 match.external_id||
 match.id||
 [
+normalize(match.sport),
 normalize(match.home),
 normalize(match.away),
 match.start_time||""
@@ -1316,14 +1506,22 @@ function mergeMatches(...groups){
 
 const map=new Map();
 
-for(const group of groups){
+for(
+const group of groups
+){
 
-for(const match of group||[]){
+for(
+const match of group||[]
+){
 
-if(!parseDate(match))continue;
+if(!parseDate(match))
+continue;
 
-const key=matchKey(match);
-const old=map.get(key);
+const key=
+matchKey(match);
+
+const old=
+map.get(key);
 
 map.set(
 key,
@@ -1336,7 +1534,9 @@ old
 
 }
 
-return [...map.values()];
+return[
+...map.values()
+];
 
 }
 
@@ -1348,49 +1548,64 @@ databaseMatches,
 sportScoreMatches
 ){
 
-const all=mergeMatches(
+const all=
+mergeMatches(
 databaseMatches,
 sportScoreMatches
 );
 
 return all
+
 .filter(match=>{
 
-const date=parseDate(match);
+const date=
+parseDate(match);
 
-if(!date)return false;
+if(!date)
+return false;
 
-if(isAfterSevenDays(match))return false;
+if(isAfterSevenDays(match))
+return false;
 
-if(!shouldKeepEnded(match))return false;
-
-/*
-LIVE is intentionally included.
-When it finishes, the same card becomes LIVE END.
-*/
+if(!shouldKeepEnded(match))
+return false;
 
 return true;
 
 })
+
 .sort((a,b)=>{
 
-/*
-LIVE first
-*/
+if(
+isLiveMatch(a)&&
+!isLiveMatch(b)
+)
+return-1;
 
-if(isLiveMatch(a)&&!isLiveMatch(b))return -1;
-if(!isLiveMatch(a)&&isLiveMatch(b))return 1;
+if(
+!isLiveMatch(a)&&
+isLiveMatch(b)
+)
+return 1;
 
-const ad=parseDate(a)?.getTime()||0;
-const bd=parseDate(b)?.getTime()||0;
+const ad=
+parseDate(a)?.getTime()||0;
+
+const bd=
+parseDate(b)?.getTime()||0;
 
 return ad-bd;
 
 })
+
 .slice(0,MAX_NORMAL)
+
 .map(match=>({
+
 ...match,
+
 category:"normal"
+
 }));
 
 }
@@ -1405,63 +1620,55 @@ sportScoreMatches
 
 const now=Date.now();
 
-let candidates=mergeMatches(
+return mergeMatches(
 databaseMatches,
 sportScoreMatches
 )
+
 .filter(match=>{
 
-const date=parseDate(match);
+const date=
+parseDate(match);
 
-if(!date)return false;
+if(!date)
+return false;
 
-if(date.getTime()<=now)return false;
+if(
+date.getTime()<=now
+)
+return false;
 
-if(date.getTime()>now+7*86400000)return false;
+if(
+date.getTime()>
+now+7*86400000
+)
+return false;
 
-if(isLiveMatch(match))return false;
+if(isLiveMatch(match))
+return false;
 
-if(!shouldKeepEnded(match))return false;
+if(isFinished(match))
+return false;
 
 return true;
 
-});
-
-
-const teamResults=
-await Promise.all(
-FEATURED_SLUGS.map(fetchTeamFixtures)
-);
-
-candidates=mergeMatches(
-candidates,
-teamResults.flat()
-)
-.filter(match=>{
-
-const date=parseDate(match);
-
-if(!date)return false;
-
-return(
-date.getTime()>now&&
-date.getTime()<=now+7*86400000&&
-!isLiveMatch(match)
-);
-
 })
+
 .sort(
 (a,b)=>
 parseDate(a).getTime()-
 parseDate(b).getTime()
 )
-.slice(0,MAX_FUTURE)
-.map(match=>({
-...match,
-category:"future"
-}));
 
-return candidates;
+.slice(0,MAX_FUTURE)
+
+.map(match=>({
+
+...match,
+
+category:"future"
+
+}));
 
 }
 
@@ -1472,7 +1679,11 @@ function safeImage(url){
 
 if(!url){
 
-return `<div class="team-placeholder">⚽</div>`;
+return`
+<div class="team-placeholder">
+⚽
+</div>
+`;
 
 }
 
@@ -1489,7 +1700,12 @@ this.nextElementSibling.style.display='grid';
 "
 >
 
-<div class="team-placeholder" style="display:none;">⚽</div>
+<div
+class="team-placeholder"
+style="display:none;"
+>
+⚽
+</div>
 
 `;
 
@@ -1500,50 +1716,61 @@ this.nextElementSibling.style.display='grid';
 
 function renderMatch(match){
 
-const date=parseDate(match);
+const date=
+parseDate(match);
 
-if(!date)return"";
+if(!date)
+return"";
 
-const live=isLiveMatch(match);
-const finished=isFinished(match);
-const future=match.category==="future";
+const live=
+isLiveMatch(match);
+
+const finished=
+isFinished(match);
+
+const future=
+match.category==="future";
 
 let displayTime="";
 let statusText="";
 let statusClass="";
 
+
 if(live){
 
 displayTime="LIVE NOW";
+
 statusText="● LIVE";
+
 statusClass="status-live";
 
 }else if(finished){
 
-/*
-Finished cards remain visible for 2 hours.
-They are clearly marked LIVE END.
-*/
-
 displayTime="LIVE END";
+
 statusText="● LIVE END";
+
 statusClass="status-ended";
 
 }else{
 
-displayTime=formatDateUTC(
+displayTime=
+formatDateUTC(
 date.toISOString()
 );
 
-statusText=future
+statusText=
+future
 ?"● FUTURE"
 :"● UPCOMING";
 
-statusClass=future
+statusClass=
+future
 ?"status-future"
 :"status-upcoming";
 
 }
+
 
 return`
 
@@ -1569,7 +1796,11 @@ alt=""
 }
 
 <span class="competition-name">
-${escapeHTML(match.competition||"Football")}
+${escapeHTML(
+match.competition||
+match.sport||
+"Sports"
+)}
 </span>
 
 </div>
@@ -1586,7 +1817,13 @@ class="match-time"
 style="
 text-align:center;
 margin-bottom:15px;
-color:${finished?"var(--muted)":live?"var(--danger)":future?"#8b6500":"var(--green-dark)"};
+color:${finished
+?"var(--muted)"
+:live
+?"var(--danger)"
+:future
+?"#8b6500"
+:"var(--green-dark)"};
 "
 >
 ${escapeHTML(displayTime)}
@@ -1672,12 +1909,14 @@ Match Details →
 }
 
 
-/* ================= RENDER NORMAL ================= */
+/* ================= NORMAL ================= */
 
 function renderNormalMatches(matches){
 
 const container=
-document.getElementById("normalMatches");
+document.getElementById(
+"normalMatches"
+);
 
 if(!container)return;
 
@@ -1712,7 +1951,9 @@ Refresh Matches
 `;
 
 document
-.getElementById("retryNormalMatches")
+.getElementById(
+"retryNormalMatches"
+)
 ?.addEventListener(
 "click",
 loadHomeMatches
@@ -1723,19 +1964,23 @@ return;
 }
 
 container.innerHTML=
-matches.map(renderMatch).join("");
+matches
+.map(renderMatch)
+.join("");
 
 attachMatchEvents();
 
 }
 
 
-/* ================= RENDER FUTURE ================= */
+/* ================= FUTURE ================= */
 
 function renderFutureMatches(matches){
 
 const container=
-document.getElementById("futureMatches");
+document.getElementById(
+"futureMatches"
+);
 
 if(!container)return;
 
@@ -1770,7 +2015,9 @@ Refresh
 `;
 
 document
-.getElementById("retryFutureMatches")
+.getElementById(
+"retryFutureMatches"
+)
 ?.addEventListener(
 "click",
 loadHomeMatches
@@ -1781,7 +2028,9 @@ return;
 }
 
 container.innerHTML=
-matches.map(renderMatch).join("");
+matches
+.map(renderMatch)
+.join("");
 
 attachMatchEvents();
 
@@ -1793,24 +2042,36 @@ attachMatchEvents();
 async function loadLiveHero(){
 
 const label=
-document.getElementById("heroLiveLabel");
+document.getElementById(
+"heroLiveLabel"
+);
 
 const container=
-document.getElementById("heroLiveContainer");
+document.getElementById(
+"heroLiveContainer"
+);
 
-if(!label||!container)return;
+if(!label||!container)
+return;
 
 try{
 
 const matches=
 await fetchSportScoreMatches();
 
-const live=matches.filter(isLiveMatch);
+const live=
+matches.filter(
+isLiveMatch
+);
 
 if(!live.length){
 
-label.textContent="NO LIVE MATCH";
-label.classList.add("not-live");
+label.textContent=
+"NO LIVE MATCH";
+
+label.classList.add(
+"not-live"
+);
 
 container.innerHTML=`
 
@@ -1836,15 +2097,25 @@ return;
 
 const match=live[0];
 
-label.textContent="● LIVE NOW";
-label.classList.remove("not-live");
+label.textContent=
+"● LIVE NOW";
+
+label.classList.remove(
+"not-live"
+);
 
 container.innerHTML=`
 
 <div class="live-preview">
 
 <div class="hero-match-meta">
-${escapeHTML(match.competition||"Football")}
+
+${escapeHTML(
+match.competition||
+match.sport||
+"Sports"
+)}
+
 </div>
 
 <div class="hero-teams">
@@ -1860,11 +2131,24 @@ src="${escapeHTML(match.home_logo)}"
 alt=""
 >
 `
-:`<div class="hero-team-logo" style="display:grid;place-items:center;font-size:24px">⚽</div>`
+:`
+<div
+class="hero-team-logo"
+style="
+display:grid;
+place-items:center;
+font-size:24px
+"
+>
+⚽
+</div>
+`
 }
 
 <div class="hero-team-name">
-${escapeHTML(match.home||"Home")}
+${escapeHTML(
+match.home||"Home"
+)}
 </div>
 
 </div>
@@ -1873,10 +2157,20 @@ ${escapeHTML(match.home||"Home")}
 <div>
 
 <div class="hero-score">
-${Number(match.home_score??0)} : ${Number(match.away_score??0)}
+
+${Number(
+match.home_score??0
+)}
+:
+${Number(
+match.away_score??0
+)}
+
 </div>
 
-<div class="hero-minute">● LIVE</div>
+<div class="hero-minute">
+● LIVE
+</div>
 
 </div>
 
@@ -1892,11 +2186,24 @@ src="${escapeHTML(match.away_logo)}"
 alt=""
 >
 `
-:`<div class="hero-team-logo" style="display:grid;place-items:center;font-size:24px">⚽</div>`
+:`
+<div
+class="hero-team-logo"
+style="
+display:grid;
+place-items:center;
+font-size:24px
+"
+>
+⚽
+</div>
+`
 }
 
 <div class="hero-team-name">
-${escapeHTML(match.away||"Away")}
+${escapeHTML(
+match.away||"Away"
+)}
 </div>
 
 </div>
@@ -1909,8 +2216,12 @@ ${escapeHTML(match.away||"Away")}
 
 }catch(error){
 
-label.textContent="LIVE DATA";
-label.classList.add("not-live");
+label.textContent=
+"LIVE DATA";
+
+label.classList.add(
+"not-live"
+);
 
 container.innerHTML=`
 
@@ -1918,11 +2229,17 @@ container.innerHTML=`
 
 <div>
 
-<div class="hero-empty-icon">⚽</div>
+<div class="hero-empty-icon">
+⚽
+</div>
 
-<strong>Live data unavailable</strong>
+<strong>
+Live data unavailable
+</strong>
 
-<span>Please check again shortly.</span>
+<span>
+Please check again shortly.
+</span>
 
 </div>
 
@@ -1939,7 +2256,8 @@ container.innerHTML=`
 
 function findMatchById(id){
 
-const key=String(id);
+const key=
+String(id);
 
 return(
 allNormalMatches.find(
@@ -1958,20 +2276,27 @@ m=>String(m.id)===key
 function attachMatchEvents(){
 
 document
-.querySelectorAll("[data-details-match]")
+.querySelectorAll(
+"[data-details-match]"
+)
 .forEach(button=>{
 
-if(button.dataset.bound==="true")return;
+if(button.dataset.bound==="true")
+return;
 
 button.dataset.bound="true";
 
-button.addEventListener("click",()=>{
+button.addEventListener(
+"click",
+()=>{
 
-const match=findMatchById(
+const match=
+findMatchById(
 button.dataset.detailsMatch
 );
 
-if(match)openMatchModal(match);
+if(match)
+openMatchModal(match);
 
 });
 
@@ -1985,21 +2310,37 @@ if(match)openMatchModal(match);
 function openMatchModal(match){
 
 const modal=
-document.getElementById("matchModal");
+document.getElementById(
+"matchModal"
+);
 
 const content=
-document.getElementById("modalContent");
+document.getElementById(
+"modalContent"
+);
 
-if(!modal||!content)return;
+if(!modal||!content)
+return;
 
-const date=parseDate(match);
-const live=isLiveMatch(match);
-const finished=isFinished(match);
+const date=
+parseDate(match);
+
+const live=
+isLiveMatch(match);
+
+const finished=
+isFinished(match);
 
 content.innerHTML=`
 
 <div class="modal-competition">
-${escapeHTML(match.competition||"Football")}
+
+${escapeHTML(
+match.competition||
+match.sport||
+"Sports"
+)}
+
 </div>
 
 <div class="modal-teams">
@@ -2014,10 +2355,25 @@ src="${escapeHTML(match.home_logo)}"
 alt=""
 >
 `
-:`<div style="height:65px;display:grid;place-items:center;font-size:28px">⚽</div>`
+:`
+<div
+style="
+height:65px;
+display:grid;
+place-items:center;
+font-size:28px
+"
+>
+⚽
+</div>
+`
 }
 
-<strong>${escapeHTML(match.home||"Home")}</strong>
+<strong>
+${escapeHTML(
+match.home||"Home"
+)}
+</strong>
 
 </div>
 
@@ -2026,7 +2382,11 @@ alt=""
 
 ${
 live||finished
-?`${Number(match.home_score??0)}:${Number(match.away_score??0)}`
+?`
+${Number(match.home_score??0)}
+:
+${Number(match.away_score??0)}
+`
 :"VS"
 }
 
@@ -2043,10 +2403,25 @@ src="${escapeHTML(match.away_logo)}"
 alt=""
 >
 `
-:`<div style="height:65px;display:grid;place-items:center;font-size:28px">⚽</div>`
+:`
+<div
+style="
+height:65px;
+display:grid;
+place-items:center;
+font-size:28px
+"
+>
+⚽
+</div>
+`
 }
 
-<strong>${escapeHTML(match.away||"Away")}</strong>
+<strong>
+${escapeHTML(
+match.away||"Away"
+)}
+</strong>
 
 </div>
 
@@ -2059,7 +2434,9 @@ ${
 finished
 ?"LIVE END"
 :date
-?formatDateUTC(date.toISOString())
+?formatDateUTC(
+date.toISOString()
+)
 :"Time unavailable"
 }
 
@@ -2080,7 +2457,11 @@ live
 `;
 
 modal.classList.add("show");
-modal.setAttribute("aria-hidden","false");
+
+modal.setAttribute(
+"aria-hidden",
+"false"
+);
 
 }
 
@@ -2088,39 +2469,57 @@ modal.setAttribute("aria-hidden","false");
 function closeMatchModal(){
 
 const modal=
-document.getElementById("matchModal");
+document.getElementById(
+"matchModal"
+);
 
 if(!modal)return;
 
-modal.classList.remove("show");
-modal.setAttribute("aria-hidden","true");
+modal.classList.remove(
+"show"
+);
+
+modal.setAttribute(
+"aria-hidden",
+"true"
+);
 
 }
 
+
 document
-.getElementById("closeModal")
+.getElementById(
+"closeModal"
+)
 ?.addEventListener(
 "click",
 closeMatchModal
 );
 
+
 document
-.getElementById("matchModal")
+.getElementById(
+"matchModal"
+)
 ?.addEventListener(
 "click",
 e=>{
+
 if(e.target.id==="matchModal"){
 closeMatchModal();
 }
-}
-);
+
+});
+
 
 document.addEventListener(
 "keydown",
 e=>{
+
 if(e.key==="Escape"){
 closeMatchModal();
 }
+
 }
 );
 
@@ -2130,10 +2529,15 @@ closeMatchModal();
 async function loadHomeMatches(){
 
 const normal=
-document.getElementById("normalMatches");
+document.getElementById(
+"normalMatches"
+);
 
 const future=
-document.getElementById("futureMatches");
+document.getElementById(
+"futureMatches"
+);
+
 
 if(normal){
 
@@ -2145,7 +2549,9 @@ normal.innerHTML=`
 
 <div class="spinner"></div>
 
-<p>Loading real matches...</p>
+<p>
+Loading real matches...
+</p>
 
 </div>
 
@@ -2154,6 +2560,7 @@ normal.innerHTML=`
 `;
 
 }
+
 
 if(future){
 
@@ -2165,7 +2572,9 @@ future.innerHTML=`
 
 <div class="spinner"></div>
 
-<p>Loading future fixture...</p>
+<p>
+Loading future fixture...
+</p>
 
 </div>
 
@@ -2174,6 +2583,7 @@ future.innerHTML=`
 `;
 
 }
+
 
 try{
 
@@ -2186,10 +2596,9 @@ await fetchSportScoreMatches();
 
 /*
 NORMAL:
+All available sports.
 Only 2 cards.
-LIVE included.
-Finished cards remain for 2 hours
-and show LIVE END.
+LIVE first.
 */
 
 allNormalMatches=
@@ -2205,8 +2614,8 @@ allNormalMatches
 
 /*
 FUTURE:
-Only one card.
-Only genuine fixture.
+All available sports.
+Only one genuine fixture.
 Maximum 7 days.
 */
 
@@ -2219,6 +2628,7 @@ sportScoreMatches
 renderFutureMatches(
 allFutureMatches
 );
+
 
 }catch(error){
 
@@ -2233,9 +2643,13 @@ const errorHTML=`
 
 <div>
 
-<div class="empty-icon">⚠️</div>
+<div class="empty-icon">
+⚠️
+</div>
 
-<h3>Sports data unavailable</h3>
+<h3>
+Sports data unavailable
+</h3>
 
 <p>
 No fake matches were generated.
@@ -2255,8 +2669,11 @@ Try Again
 
 `;
 
-if(normal)normal.innerHTML=errorHTML;
-if(future)future.innerHTML=errorHTML;
+if(normal)
+normal.innerHTML=errorHTML;
+
+if(future)
+future.innerHTML=errorHTML;
 
 }
 
@@ -2277,44 +2694,107 @@ console.warn(error);
 
 }
 
+
 /*
-auth.js remains the main authentication system.
+Load matches.
 */
 
 await loadHomeMatches();
 
 await loadLiveHero();
 
+
+/*
+Profile:
+Wait for auth.js/session,
+then load profile.
+*/
+
+setTimeout(
+async()=>{
+
+await loadProfileData();
+
+},
+1000
+);
+
+
+/*
+Listen for Supabase auth changes.
+This makes profile photo appear
+when auth.js finishes later.
+*/
+
+try{
+
+const client=
+supabaseClient||
+await loadSupabase();
+
+if(client){
+
+client.auth.onAuthStateChange(
+async(event,session)=>{
+
+if(session?.user){
+
 setTimeout(
 loadProfileData,
-500
+150
 );
+
+}
+
+}
+);
+
+}
+
+}catch(error){
+
+console.warn(
+"Auth profile listener:",
+error
+);
+
+}
 
 
 /*
 Every minute:
 - refresh matches
 - refresh live
-- refresh profile photo
-- finished matches older than 2h disappear
+- refresh profile
+- remove old finished matches
 */
 
 setInterval(
 async()=>{
+
 await loadHomeMatches();
+
 await loadLiveHero();
+
 await loadProfileData();
+
 },
 REFRESH_MS
 );
 
 }
 
+
+/*
+Start SportX Home.
+*/
+
 startSportXHome();
 
 </script>
 
 
+<!-- Keep existing authentication system -->
 <script src="auth.js"></script>
 
 </body>
