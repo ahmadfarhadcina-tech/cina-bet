@@ -37,23 +37,41 @@ body{
  radial-gradient(circle at 85% 20%,rgba(22,217,139,.05),transparent 25%),
  var(--bg);
  color:var(--text);
- min-height:100vh
+ min-height:100vh;
+ top:0!important
 }
 
 body.modal-open{
  overflow:hidden
 }
 
-/* GOOGLE TRANSLATE - HIDE ALL GOOGLE UI */
+/* =========================================================
+   GOOGLE TRANSLATE - COMPLETELY HIDDEN
+   ========================================================= */
 
 .goog-te-banner-frame,
+iframe.goog-te-banner-frame,
 .goog-te-balloon-frame,
 .goog-tooltip,
 .goog-te-spinner-pos,
-.goog-te-gadget,
-.goog-te-gadget-simple,
+.goog-te-menu-frame,
 #goog-gt-tt,
-.goog-te-menu-frame{
+.goog-text-highlight{
+ display:none!important;
+ visibility:hidden!important;
+ opacity:0!important
+}
+
+body > .skiptranslate{
+ display:none!important;
+ visibility:hidden!important;
+ height:0!important;
+ width:0!important;
+ overflow:hidden!important
+}
+
+.goog-te-gadget,
+.goog-te-gadget-simple{
  display:none!important
 }
 
@@ -61,15 +79,8 @@ body{
  top:0!important
 }
 
-iframe.goog-te-banner-frame{
- display:none!important
-}
-
-.skiptranslate{
- display:none!important
-}
-
-button,input{
+button,
+input{
  font:inherit
 }
 
@@ -1056,6 +1067,37 @@ footer{
  }
 }
 </style>
+
+<!-- =========================================================
+     LANGUAGE COOKIE MUST BE SET BEFORE GOOGLE TRANSLATE LOADS
+     ========================================================= -->
+
+<script>
+(function(){
+
+ const KEY="sportx_language";
+ const lang=localStorage.getItem(KEY)||"en";
+
+ function setCookie(value){
+
+  if(lang==="en"){
+
+   document.cookie=
+    "googtrans=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/";
+
+   return;
+  }
+
+  document.cookie=
+   "googtrans=/en/"+lang+";path=/";
+
+ }
+
+ setCookie();
+
+})();
+</script>
+
 </head>
 
 <body>
@@ -1352,7 +1394,6 @@ Edit Profile
 </div>
 </footer>
 
-
 <!-- EDIT PROFILE -->
 
 <div
@@ -1498,7 +1539,7 @@ English
 </strong>
 
 <span>
-Google Translate
+SportX language
 </span>
 
 </div>
@@ -1533,7 +1574,6 @@ Save Changes
 </div>
 </div>
 </div>
-
 
 <!-- COUNTRY -->
 
@@ -1582,7 +1622,6 @@ Save Changes
 
 </div>
 </div>
-
 
 <!-- LANGUAGE -->
 
@@ -1661,7 +1700,6 @@ Save Changes
 </div>
 </div>
 </div>
-
 
 <!-- PASSWORD -->
 
@@ -1747,54 +1785,57 @@ Update Password
 </div>
 </div>
 
-
 <div class="toast" id="toast"></div>
 
-
-<!-- GOOGLE TRANSLATE HIDDEN -->
+<!-- HIDDEN GOOGLE TRANSLATE ELEMENT -->
 
 <div
  id="google_translate_element"
  style="display:none!important"
 ></div>
 
+<!-- GOOGLE TRANSLATE -->
+
 <script>
-/* ================================
-   SPORTX GOOGLE TRANSLATE
-   ================================ */
 
 const SPORTX_LANGUAGE_KEY="sportx_language";
 
 function getSportXLanguage(){
- return localStorage.getItem(SPORTX_LANGUAGE_KEY)||"en";
+
+ return localStorage.getItem(
+  SPORTX_LANGUAGE_KEY
+ ) || "en";
+
 }
 
 function setGoogleTranslateCookie(lang){
 
- const domain=location.hostname;
+ const value=
+  lang==="en"
+   ? ""
+   : "/en/"+lang;
 
- if(lang==="en"){
+ if(value){
+
+  document.cookie=
+   "googtrans="+value+
+   ";path=/";
+
+ }else{
 
   document.cookie=
    "googtrans=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/";
 
-  document.cookie=
-   "googtrans=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/;domain="+domain;
-
-  return;
  }
 
- const value="/en/"+lang;
-
- document.cookie=
-  "googtrans="+value+";path=/";
-
- document.cookie=
-  "googtrans="+value+
-  ";path=/;domain="+domain;
 }
 
 function googleTranslateElementInit(){
+
+ if(window.__sportXGoogleTranslateInitialized)
+  return;
+
+ window.__sportXGoogleTranslateInitialized=true;
 
  try{
 
@@ -1812,48 +1853,99 @@ function googleTranslateElementInit(){
 
  }catch(error){
 
-  console.warn("Google Translate:",error);
+  console.warn(
+   "Google Translate initialization:",
+   error
+  );
 
  }
+
 }
 
-function applySavedLanguage(){
+function hideGoogleTranslateUI(){
 
- const lang=getSportXLanguage();
+ document.querySelectorAll(
+  ".goog-te-banner-frame,"+
+  ".goog-te-balloon-frame,"+
+  ".goog-tooltip,"+
+  ".goog-te-spinner-pos,"+
+  ".goog-te-menu-frame,"+
+  "#goog-gt-tt"
+ ).forEach(element=>{
 
- setGoogleTranslateCookie(lang);
+  element.style.display="none";
+  element.style.visibility="hidden";
+  element.style.opacity="0";
+
+ });
+
+ const topSkip=
+  document.querySelectorAll(
+   "body > .skiptranslate"
+  );
+
+ topSkip.forEach(element=>{
+
+  element.style.display="none";
+  element.style.visibility="hidden";
+  element.style.height="0";
+  element.style.width="0";
+
+ });
+
+ document.body.style.top="0px";
+
 }
 
-applySavedLanguage();
+setGoogleTranslateCookie(
+ getSportXLanguage()
+);
 
-/*
- Load Google Translate after setting the cookie.
-*/
+const googleTranslateObserver=
+ new MutationObserver(()=>{
 
-window.addEventListener("load",()=>{
+  hideGoogleTranslateUI();
 
- setTimeout(()=>{
+ });
 
-  if(typeof googleTranslateElementInit==="function"){
-   googleTranslateElementInit();
-  }
+googleTranslateObserver.observe(
+ document.documentElement,
+ {
+  childList:true,
+  subtree:true
+ }
+);
 
- },300);
+window.addEventListener(
+ "load",
+ ()=>{
 
-});
+  hideGoogleTranslateUI();
+
+  setTimeout(
+   hideGoogleTranslateUI,
+   500
+  );
+
+  setTimeout(
+   hideGoogleTranslateUI,
+   1500
+  );
+
+ }
+);
+
 </script>
 
 <script
  src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"
 ></script>
 
-
 <!-- AUTH -->
 
 <script src="auth.js"></script>
 
-
-<!-- PROFILE -->
+<!-- PROFILE SCRIPT -->
 
 <script>
 
@@ -1864,12 +1956,23 @@ const SUPABASE_KEY=
  "sb_publishable_aGLckKZjNaVbpdxZUFhCqA_VzHppjrW";
 
 let supabaseClient=null;
+
 let currentUser=null;
+
 let currentProfile={};
+
 let selectedAvatarData=null;
+
 let selectedCountry="";
+
 let selectedLanguage="en";
 
+let profileKeyColumn="id";
+
+
+/* =========================================================
+   COUNTRIES
+   ========================================================= */
 
 const COUNTRIES=[
 
@@ -1911,7 +2014,6 @@ const COUNTRIES=[
 
 ];
 
-
 const LANGUAGES={
  en:"English",
  fa:"فارسی",
@@ -1921,34 +2023,43 @@ const LANGUAGES={
 };
 
 
-/* ================================
+/* =========================================================
    SUPABASE
-   ================================ */
+   ========================================================= */
 
 async function initSupabase(){
 
  if(window.SportXSupabase){
 
-  supabaseClient=window.SportXSupabase;
+  supabaseClient=
+   window.SportXSupabase;
 
   return;
  }
 
  if(!window.supabase){
 
-  await new Promise((resolve,reject)=>{
+  await new Promise(
+   (resolve,reject)=>{
 
-   const script=document.createElement("script");
+    const script=
+     document.createElement(
+      "script"
+     );
 
-   script.src=
-    "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2";
+    script.src=
+     "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2";
 
-   script.onload=resolve;
-   script.onerror=reject;
+    script.onload=resolve;
 
-   document.head.appendChild(script);
+    script.onerror=reject;
 
-  });
+    document.head.appendChild(
+     script
+    );
+
+   }
+  );
 
  }
 
@@ -1958,13 +2069,15 @@ async function initSupabase(){
    SUPABASE_KEY
   );
 
- window.SportXSupabase=supabaseClient;
+ window.SportXSupabase=
+  supabaseClient;
+
 }
 
 
-/* ================================
-   USER
-   ================================ */
+/* =========================================================
+   AUTH USER
+   ========================================================= */
 
 async function getUser(){
 
@@ -1975,35 +2088,69 @@ async function getUser(){
   throw result.error;
 
  return result.data.user;
+
 }
 
 
-/* ================================
-   PROFILE
-   ================================ */
+/* =========================================================
+   PROFILE LOADER
+   Supports both:
+   id
+   user_id
+   ========================================================= */
 
 async function loadProfile(){
 
+ profileKeyColumn="id";
+
  /*
-  First try the normal profile row.
+  First: profiles.id
  */
 
- const result=
+ let result=
   await supabaseClient
    .from("profiles")
    .select("*")
    .eq("id",currentUser.id)
    .maybeSingle();
 
- if(result.error)
-  throw result.error;
+ if(!result.error && result.data){
 
- if(result.data)
+  profileKeyColumn="id";
+
   return result.data;
 
+ }
 
  /*
-  If profile does not exist, create it automatically.
+  Second: profiles.user_id
+ */
+
+ let userIdResult=
+  await supabaseClient
+   .from("profiles")
+   .select("*")
+   .eq("user_id",currentUser.id)
+   .maybeSingle();
+
+ if(!userIdResult.error && userIdResult.data){
+
+  profileKeyColumn="user_id";
+
+  return userIdResult.data;
+
+ }
+
+ /*
+  If the first query had a real schema error,
+  remember it but don't fail immediately.
+ */
+
+ const firstError=result.error;
+
+ /*
+  Profile does not exist.
+  Try to create it using the id structure.
  */
 
  const name=
@@ -2021,7 +2168,86 @@ async function loadProfile(){
   getSportXLanguage() ||
   "en";
 
- const insertData={
+ const avatar=
+  currentUser.user_metadata?.avatar_url ||
+  null;
+
+ const baseData={
+
+  full_name:name,
+
+  country:country,
+
+  language:language,
+
+  avatar_url:avatar,
+
+  updated_at:
+   new Date().toISOString()
+
+ };
+
+ /*
+  Try id first.
+ */
+
+ const insertById=
+  await supabaseClient
+   .from("profiles")
+   .insert({
+    id:currentUser.id,
+    ...baseData
+   })
+   .select("*")
+   .single();
+
+ if(!insertById.error){
+
+  profileKeyColumn="id";
+
+  return insertById.data;
+
+ }
+
+ /*
+  If id structure isn't available,
+  try user_id structure.
+ */
+
+ const insertByUserId=
+  await supabaseClient
+   .from("profiles")
+   .insert({
+    user_id:currentUser.id,
+    ...baseData
+   })
+   .select("*")
+   .single();
+
+ if(!insertByUserId.error){
+
+  profileKeyColumn="user_id";
+
+  return insertByUserId.data;
+
+ }
+
+ /*
+  If profile creation is blocked by RLS,
+  don't crash the whole page.
+  Render from Auth data instead.
+ */
+
+ console.warn(
+  "Profile row could not be loaded/created:",
+  firstError ||
+  insertById.error ||
+  insertByUserId.error
+ );
+
+ profileKeyColumn="id";
+
+ return {
 
   id:currentUser.id,
 
@@ -2031,45 +2257,32 @@ async function loadProfile(){
 
   language:language,
 
-  avatar_url:
-   currentUser.user_metadata?.avatar_url ||
-   null,
+  avatar_url:avatar,
 
   email_notifications:true,
 
   prediction_alerts:true,
 
-  live_updates:true,
-
-  updated_at:new Date().toISOString()
+  live_updates:true
 
  };
 
- const inserted=
-  await supabaseClient
-   .from("profiles")
-   .insert(insertData)
-   .select("*")
-   .single();
-
- if(inserted.error)
-  throw inserted.error;
-
- return inserted.data;
 }
 
 
-/* ================================
+/* =========================================================
    PROFILE VALUES
-   ================================ */
+   ========================================================= */
 
 function profileName(){
 
  return currentProfile.full_name ||
+ currentProfile.name ||
  currentUser?.user_metadata?.full_name ||
  currentUser?.user_metadata?.name ||
  currentUser?.email?.split("@")[0] ||
  "User";
+
 }
 
 function profileCountry(){
@@ -2077,14 +2290,21 @@ function profileCountry(){
  return currentProfile.country ||
  currentUser?.user_metadata?.country ||
  "Afghanistan";
+
 }
 
 function profileLanguage(){
 
- return currentProfile.language ||
- currentUser?.user_metadata?.language ||
- getSportXLanguage() ||
- "en";
+ const language=
+  currentProfile.language ||
+  currentUser?.user_metadata?.language ||
+  getSportXLanguage() ||
+  "en";
+
+ return LANGUAGES[language]
+  ? language
+  : "en";
+
 }
 
 function profileAvatar(){
@@ -2092,12 +2312,13 @@ function profileAvatar(){
  return currentProfile.avatar_url ||
  currentUser?.user_metadata?.avatar_url ||
  "";
+
 }
 
 
-/* ================================
+/* =========================================================
    INITIALS
-   ================================ */
+   ========================================================= */
 
 function initials(){
 
@@ -2107,20 +2328,23 @@ function initials(){
   .slice(0,2)
   .map(x=>x[0])
   .join("")
-  .toUpperCase()||"US";
+  .toUpperCase() ||
+  "US";
+
 }
 
 
-/* ================================
+/* =========================================================
    AVATAR
-   ================================ */
+   ========================================================= */
 
 function renderAvatar(id){
 
  const element=
   document.getElementById(id);
 
- if(!element)return;
+ if(!element)
+  return;
 
  const avatar=
   profileAvatar();
@@ -2137,10 +2361,15 @@ function renderAvatar(id){
   image.alt="Profile";
 
   image.onerror=()=>{
-   element.textContent=initials();
+
+   element.textContent=
+    initials();
+
   };
 
-  element.appendChild(image);
+  element.appendChild(
+   image
+  );
 
  }else{
 
@@ -2148,12 +2377,13 @@ function renderAvatar(id){
    initials();
 
  }
+
 }
 
 
-/* ================================
-   RENDER
-   ================================ */
+/* =========================================================
+   RENDER PROFILE
+   ========================================================= */
 
 function renderProfile(){
 
@@ -2161,7 +2391,8 @@ function renderProfile(){
   profileName();
 
  const email=
-  currentUser?.email||"—";
+  currentUser?.email ||
+  "—";
 
  const country=
   profileCountry();
@@ -2169,69 +2400,136 @@ function renderProfile(){
  const language=
   profileLanguage();
 
- document.getElementById(
-  "profileName"
- ).textContent=name;
+ const profileLanguageName=
+  LANGUAGES[language] ||
+  language ||
+  "English";
 
- document.getElementById(
-  "profileEmail"
- ).textContent=email;
+ const profileNameElement=
+  document.getElementById(
+   "profileName"
+  );
 
- document.getElementById(
-  "nameValue"
- ).textContent=name;
+ if(profileNameElement)
+  profileNameElement.textContent=
+   name;
 
- document.getElementById(
-  "emailValue"
- ).textContent=email;
+ const profileEmailElement=
+  document.getElementById(
+   "profileEmail"
+  );
 
- document.getElementById(
-  "countryValue"
- ).textContent=
-  country||"—";
+ if(profileEmailElement)
+  profileEmailElement.textContent=
+   email;
 
- document.getElementById(
-  "languageValue"
- ).textContent=
-  LANGUAGES[language]||language;
+ const nameValue=
+  document.getElementById(
+   "nameValue"
+  );
 
- document.getElementById(
-  "accountTypeValue"
- ).textContent=
-  currentProfile.account_type||
+ if(nameValue)
+  nameValue.textContent=
+   name;
+
+ const emailValue=
+  document.getElementById(
+   "emailValue"
+  );
+
+ if(emailValue)
+  emailValue.textContent=
+   email;
+
+ const countryValue=
+  document.getElementById(
+   "countryValue"
+  );
+
+ if(countryValue)
+  countryValue.textContent=
+   country || "—";
+
+ const languageValue=
+  document.getElementById(
+   "languageValue"
+  );
+
+ if(languageValue)
+  languageValue.textContent=
+   profileLanguageName;
+
+ const accountType=
+  currentProfile.account_type ||
+  currentProfile.accountType ||
   "Standard";
 
- document.getElementById(
-  "memberSinceValue"
- ).textContent=
-  currentUser?.created_at
-   ?new Date(
-      currentUser.created_at
-    ).toLocaleDateString(
-      "en-US",
-      {
-       year:"numeric",
-       month:"long"
-      }
-    )
-   :"—";
+ const accountTypeValue=
+  document.getElementById(
+   "accountTypeValue"
+  );
 
- document.getElementById(
-  "emailStatusValue"
- ).textContent=
-  currentUser?.email_confirmed_at
-   ?"Verified"
-   :"Not verified";
+ if(accountTypeValue)
+  accountTypeValue.textContent=
+   accountType;
 
- document.getElementById(
-  "userIdValue"
- ).textContent=
-  currentUser?.id
-   ?currentUser.id.slice(0,8)+"..."
-   :"—";
+ const memberSinceValue=
+  document.getElementById(
+   "memberSinceValue"
+  );
 
- renderAvatar("profileAvatar");
- renderAvatar("headerAvatar");
+ if(memberSinceValue){
+
+  memberSinceValue.textContent=
+   currentUser?.created_at
+    ? new Date(
+       currentUser.created_at
+      ).toLocaleDateString(
+       "en-US",
+       {
+        year:"numeric",
+        month:"long"
+       }
+      )
+    : "—";
+
+ }
+
+ const emailStatusValue=
+  document.getElementById(
+   "emailStatusValue"
+  );
+
+ if(emailStatusValue){
+
+  emailStatusValue.textContent=
+   currentUser?.email_confirmed_at
+    ? "Verified"
+    : "Not verified";
+
+ }
+
+ const userIdValue=
+  document.getElementById(
+   "userIdValue"
+  );
+
+ if(userIdValue){
+
+  userIdValue.textContent=
+   currentUser?.id
+    ? currentUser.id.slice(0,8)+"..."
+    : "—";
+
+ }
+
+ renderAvatar(
+  "profileAvatar"
+ );
+
+ renderAvatar(
+  "headerAvatar"
+ );
 
  const nameEl=
   document.querySelector(
@@ -2239,7 +2537,8 @@ function renderProfile(){
   );
 
  if(nameEl)
-  nameEl.textContent=name;
+  nameEl.textContent=
+   name;
 
  const initialsEl=
   document.querySelector(
@@ -2251,37 +2550,169 @@ function renderProfile(){
    initials();
 
  loadPreferences();
+
+ selectedCountry=
+  country;
+
+ selectedLanguage=
+  language;
+
  updateChoiceLabels();
+
 }
 
 
-/* ================================
+/* =========================================================
+   PREFERENCE COLUMN DETECTION
+   ========================================================= */
+
+function getPreferenceColumn(
+ type
+){
+
+ const keys=
+  Object.keys(
+   currentProfile || {}
+  );
+
+ if(type==="email"){
+
+  if(keys.includes(
+   "email_notifications"
+  ))
+   return "email_notifications";
+
+  if(keys.includes(
+   "email_notification"
+  ))
+   return "email_notification";
+
+ }
+
+ if(type==="prediction"){
+
+  if(keys.includes(
+   "prediction_alerts"
+  ))
+   return "prediction_alerts";
+
+  if(keys.includes(
+   "prediction_alert"
+  ))
+   return "prediction_alert";
+
+ }
+
+ if(type==="live"){
+
+  if(keys.includes(
+   "live_updates"
+  ))
+   return "live_updates";
+
+  if(keys.includes(
+   "live_match"
+  ))
+   return "live_match";
+
+  if(keys.includes(
+   "live_match_updates"
+  ))
+   return "live_match_updates";
+
+ }
+
+ /*
+  Defaults for a newly-created profile.
+ */
+
+ if(type==="email")
+  return "email_notifications";
+
+ if(type==="prediction")
+  return "prediction_alerts";
+
+ return "live_updates";
+
+}
+
+
+/* =========================================================
    PREFERENCES
-   ================================ */
+   ========================================================= */
+
+function getPreferenceValue(
+ type
+){
+
+ const column=
+  getPreferenceColumn(type);
+
+ if(
+  Object.prototype.hasOwnProperty.call(
+   currentProfile,
+   column
+  )
+ ){
+
+  return currentProfile[column]!==false;
+
+ }
+
+ return true;
+
+}
+
 
 function loadPreferences(){
 
- document.getElementById(
-  "emailNotifications"
- ).checked=
-  currentProfile.email_notifications!==false;
+ const email=
+  document.getElementById(
+   "emailNotifications"
+  );
 
- document.getElementById(
-  "predictionAlerts"
- ).checked=
-  currentProfile.prediction_alerts!==false;
+ const prediction=
+  document.getElementById(
+   "predictionAlerts"
+  );
 
- document.getElementById(
-  "liveUpdates"
- ).checked=
-  currentProfile.live_updates!==false;
+ const live=
+  document.getElementById(
+   "liveUpdates"
+  );
+
+ if(email)
+  email.checked=
+   getPreferenceValue(
+    "email"
+   );
+
+ if(prediction)
+  prediction.checked=
+   getPreferenceValue(
+    "prediction"
+   );
+
+ if(live)
+  live.checked=
+   getPreferenceValue(
+    "live"
+   );
+
 }
 
 
+/* =========================================================
+   SAVE PREFERENCE
+   ========================================================= */
+
 async function savePreference(
- column,
+ type,
  value
 ){
+
+ const column=
+  getPreferenceColumn(type);
 
  const update={};
 
@@ -2290,13 +2721,40 @@ async function savePreference(
  update.updated_at=
   new Date().toISOString();
 
- const result=
-  await supabaseClient
-   .from("profiles")
-   .update(update)
-   .eq("id",currentUser.id);
+ let result;
 
- if(result.error){
+ if(profileKeyColumn==="user_id"){
+
+  result=
+   await supabaseClient
+    .from("profiles")
+    .update(update)
+    .eq(
+     "user_id",
+     currentUser.id
+    );
+
+ }else{
+
+  result=
+   await supabaseClient
+    .from("profiles")
+    .update(update)
+    .eq(
+     "id",
+     currentUser.id
+    );
+
+ }
+
+ /*
+  If no row was updated, try creating
+  the profile row.
+ */
+
+ if(
+  result.error
+ ){
 
   console.error(
    "Preference error:",
@@ -2308,49 +2766,66 @@ async function savePreference(
   );
 
   return false;
+
  }
 
  currentProfile[column]=value;
 
  return true;
+
 }
 
 
-/* ================================
+/* =========================================================
    TOGGLE EVENTS
-   ================================ */
+   ========================================================= */
 
 document
- .querySelectorAll(".toggle input")
+ .querySelectorAll(
+  ".toggle input"
+ )
  .forEach(input=>{
 
   input.addEventListener(
    "change",
    async()=>{
 
-    let column="";
+    let type="";
 
-    if(input.id==="emailNotifications")
-     column="email_notifications";
+    if(
+     input.id===
+     "emailNotifications"
+    )
+     type="email";
 
-    if(input.id==="predictionAlerts")
-     column="prediction_alerts";
+    if(
+     input.id===
+     "predictionAlerts"
+    )
+     type="prediction";
 
-    if(input.id==="liveUpdates")
-     column="live_updates";
+    if(
+     input.id===
+     "liveUpdates"
+    )
+     type="live";
 
-    if(!column)return;
+    if(!type)
+     return;
 
     const success=
      await savePreference(
-      column,
+      type,
       input.checked
      );
 
-    if(success)
+    if(success){
+
      showToast(
       "Setting saved."
      );
+
+    }
 
    }
   );
@@ -2358,9 +2833,9 @@ document
  });
 
 
-/* ================================
+/* =========================================================
    EDIT PROFILE
-   ================================ */
+   ========================================================= */
 
 function openEditProfile(
  focusPhoto=false
@@ -2372,15 +2847,27 @@ function openEditProfile(
  selectedLanguage=
   profileLanguage();
 
- document.getElementById(
-  "editFullName"
- ).value=
-  profileName();
+ selectedAvatarData=
+  null;
 
- document.getElementById(
-  "editEmail"
- ).value=
-  currentUser.email||"";
+ const nameInput=
+  document.getElementById(
+   "editFullName"
+  );
+
+ if(nameInput)
+  nameInput.value=
+   profileName();
+
+ const emailInput=
+  document.getElementById(
+   "editEmail"
+  );
+
+ if(emailInput)
+  emailInput.value=
+   currentUser?.email ||
+   "";
 
  updateChoiceLabels();
 
@@ -2388,7 +2875,9 @@ function openEditProfile(
 
  document.getElementById(
   "editProfileModal"
- ).classList.add("show");
+ ).classList.add(
+  "show"
+ );
 
  document.body.classList.add(
   "modal-open"
@@ -2396,37 +2885,52 @@ function openEditProfile(
 
  if(focusPhoto){
 
-  setTimeout(()=>{
+  setTimeout(
+   ()=>{
 
-   document.getElementById(
-    "avatarFile"
-   ).click();
+    document.getElementById(
+     "avatarFile"
+    ).click();
 
-  },180);
+   },
+   180
+  );
 
  }
+
 }
 
 
 function updateChoiceLabels(){
 
- document.getElementById(
-  "selectedCountryText"
- ).textContent=
-  selectedCountry||
-  "Select country";
+ const country=
+  document.getElementById(
+   "selectedCountryText"
+  );
 
- document.getElementById(
-  "selectedLanguageText"
- ).textContent=
-  LANGUAGES[selectedLanguage]||
-  "English";
+ if(country)
+  country.textContent=
+   selectedCountry ||
+   "Select country";
+
+ const language=
+  document.getElementById(
+   "selectedLanguageText"
+  );
+
+ if(language)
+  language.textContent=
+   LANGUAGES[
+    selectedLanguage
+   ] ||
+   "English";
+
 }
 
 
-/* ================================
+/* =========================================================
    COUNTRY
-   ================================ */
+   ========================================================= */
 
 function openCountryModal(){
 
@@ -2440,11 +2944,16 @@ function openCountryModal(){
 
  document.getElementById(
   "countryModal"
- ).classList.add("show");
+ ).classList.add(
+  "show"
+ );
+
 }
 
 
-function renderCountries(list){
+function renderCountries(
+ list
+){
 
  const box=
   document.getElementById(
@@ -2453,42 +2962,53 @@ function renderCountries(list){
 
  box.innerHTML="";
 
- list.forEach(country=>{
+ list.forEach(
+  country=>{
 
-  const button=
-   document.createElement("button");
+   const button=
+    document.createElement(
+     "button"
+    );
 
-  button.className=
-   "country-row";
+   button.className=
+    "country-row";
 
-  if(country===selectedCountry)
-   button.classList.add(
-    "selected"
+   if(
+    country===
+    selectedCountry
+   ){
+
+    button.classList.add(
+     "selected"
+    );
+
+   }
+
+   button.innerHTML=`
+    <div class="country-flag">🌍</div>
+    <div>${escapeHTML(country)}</div>
+   `;
+
+   button.onclick=()=>{
+
+    selectedCountry=
+     country;
+
+    updateChoiceLabels();
+
+    closeModal(
+     "countryModal"
+    );
+
+   };
+
+   box.appendChild(
+    button
    );
 
-  button.innerHTML=`
-   <div class="country-flag">🌍</div>
-   <div>${escapeHTML(country)}</div>
-  `;
+  }
+ );
 
-  button.onclick=()=>{
-
-   selectedCountry=
-    country;
-
-   updateChoiceLabels();
-
-   closeModal(
-    "countryModal"
-   );
-
-  };
-
-  box.appendChild(
-   button
-  );
-
- });
 }
 
 
@@ -2504,43 +3024,70 @@ function filterCountries(){
 
  renderCountries(
   COUNTRIES.filter(
-   x=>
-    x.toLowerCase()
+   country=>
+    country
+     .toLowerCase()
      .includes(q)
   )
  );
+
 }
 
 
-/* ================================
+/* =========================================================
    LANGUAGE
-   ================================ */
+   ========================================================= */
 
 function openLanguageModal(){
 
  document.getElementById(
   "languageModal"
- ).classList.add("show");
+ ).classList.add(
+  "show"
+ );
 
  document.querySelectorAll(
   ".language-row"
- ).forEach(row=>{
+ ).forEach(
+  row=>{
 
-  row.classList.toggle(
-   "selected",
-   row.dataset.lang===
-    selectedLanguage
-  );
+   row.classList.toggle(
+    "selected",
+    row.dataset.lang===
+     selectedLanguage
+   );
 
- });
+  }
+ );
+
 }
 
 
-function selectLanguage(lang){
+function selectLanguage(
+ lang
+){
 
- selectedLanguage=lang;
+ if(!LANGUAGES[lang])
+  return;
+
+ selectedLanguage=
+  lang;
 
  updateChoiceLabels();
+
+ document.querySelectorAll(
+  ".language-row"
+ ).forEach(
+  row=>{
+
+   row.classList.toggle(
+    "selected",
+    row.dataset.lang===
+     selectedLanguage
+   );
+
+  }
+ );
 
  closeModal(
   "languageModal"
@@ -2549,9 +3096,9 @@ function selectLanguage(lang){
 }
 
 
-/* ================================
+/* =========================================================
    PHOTO
-   ================================ */
+   ========================================================= */
 
 function renderPhotoPreview(){
 
@@ -2560,10 +3107,13 @@ function renderPhotoPreview(){
    "photoPreview"
   );
 
+ if(!box)
+  return;
+
  box.innerHTML="";
 
  const source=
-  selectedAvatarData||
+  selectedAvatarData ||
   profileAvatar();
 
  if(source){
@@ -2578,11 +3128,15 @@ function renderPhotoPreview(){
   img.alt="Preview";
 
   img.onerror=()=>{
+
    box.textContent=
     initials();
+
   };
 
-  box.appendChild(img);
+  box.appendChild(
+   img
+  );
 
  }else{
 
@@ -2590,11 +3144,14 @@ function renderPhotoPreview(){
    initials();
 
  }
+
 }
 
 
 document
- .getElementById("avatarFile")
+ .getElementById(
+  "avatarFile"
+ )
  .addEventListener(
   "change",
   async function(){
@@ -2602,7 +3159,8 @@ document
    const file=
     this.files?.[0];
 
-   if(!file)return;
+   if(!file)
+    return;
 
    if(
     file.size>
@@ -2616,6 +3174,27 @@ document
     this.value="";
 
     return;
+
+   }
+
+   if(
+    ![
+     "image/jpeg",
+     "image/png",
+     "image/webp"
+    ].includes(
+     file.type
+    )
+   ){
+
+    showToast(
+     "Only JPG, PNG or WEBP images are allowed."
+    );
+
+    this.value="";
+
+    return;
+
    }
 
    try{
@@ -2633,7 +3212,9 @@ document
 
    }catch(error){
 
-    console.error(error);
+    console.error(
+     error
+    );
 
     showToast(
      "Could not process image."
@@ -2645,7 +3226,9 @@ document
  );
 
 
-function compressImage(file){
+function compressImage(
+ file
+){
 
  return new Promise(
   (resolve,reject)=>{
@@ -2695,18 +3278,24 @@ function compressImage(file){
        "canvas"
       );
 
-     canvas.width=width;
-     canvas.height=height;
+     canvas.width=
+      width;
 
-     canvas
-      .getContext("2d")
-      .drawImage(
-       image,
-       0,
-       0,
-       width,
-       height
+     canvas.height=
+      height;
+
+     const context=
+      canvas.getContext(
+       "2d"
       );
+
+     context.drawImage(
+      image,
+      0,
+      0,
+      width,
+      height
+     );
 
      resolve(
       canvas.toDataURL(
@@ -2717,25 +3306,30 @@ function compressImage(file){
 
     };
 
-    image.onerror=reject;
+    image.onerror=
+     reject;
 
     image.src=
      reader.result;
 
    };
 
-   reader.onerror=reject;
+   reader.onerror=
+    reject;
 
-   reader.readAsDataURL(file);
+   reader.readAsDataURL(
+    file
+   );
 
   }
  );
+
 }
 
 
-/* ================================
+/* =========================================================
    SAVE PROFILE
-   ================================ */
+   ========================================================= */
 
 async function saveProfile(){
 
@@ -2753,6 +3347,7 @@ async function saveProfile(){
   );
 
   return;
+
  }
 
  if(!selectedCountry){
@@ -2762,6 +3357,17 @@ async function saveProfile(){
   );
 
   return;
+
+ }
+
+ if(!LANGUAGES[selectedLanguage]){
+
+  showToast(
+   "Select a valid language."
+  );
+
+  return;
+
  }
 
  const button=
@@ -2780,8 +3386,6 @@ async function saveProfile(){
 
   const update={
 
-   id:currentUser.id,
-
    full_name:name,
 
    country:selectedCountry,
@@ -2793,36 +3397,171 @@ async function saveProfile(){
 
   };
 
-  if(selectedAvatarData)
+  if(selectedAvatarData){
+
    update.avatar_url=
     selectedAvatarData;
 
+  }
+
+  let result;
+
   /*
-   * UPSERT:
-   * اگر profile موجود باشد update می‌شود.
-   * اگر نباشد ساخته می‌شود.
+   * Update existing row.
    */
 
-  const result=
-   await supabaseClient
-    .from("profiles")
-    .upsert(
-     update,
-     {
-      onConflict:"id"
-     }
-    )
-    .select("*")
-    .single();
+  if(
+   profileKeyColumn===
+   "user_id"
+  ){
+
+   result=
+    await supabaseClient
+     .from("profiles")
+     .update(update)
+     .eq(
+      "user_id",
+      currentUser.id
+     )
+     .select("*")
+     .maybeSingle();
+
+  }else{
+
+   result=
+    await supabaseClient
+     .from("profiles")
+     .update(update)
+     .eq(
+      "id",
+      currentUser.id
+     )
+     .select("*")
+     .maybeSingle();
+
+  }
+
+  /*
+   * If there was no row, create one.
+   */
+
+  if(
+   !result.error &&
+   !result.data
+  ){
+
+   if(
+    profileKeyColumn===
+    "user_id"
+   ){
+
+    result=
+     await supabaseClient
+      .from("profiles")
+      .insert({
+       user_id:currentUser.id,
+       ...update
+      })
+      .select("*")
+      .single();
+
+   }else{
+
+    result=
+     await supabaseClient
+      .from("profiles")
+      .insert({
+       id:currentUser.id,
+       ...update
+      })
+      .select("*")
+      .single();
+
+   }
+
+  }
+
+  /*
+   * If id structure failed because
+   * the real table uses user_id, retry.
+   */
+
+  if(
+   result.error &&
+   profileKeyColumn==="id"
+  ){
+
+   const retry=
+    await supabaseClient
+     .from("profiles")
+     .update(update)
+     .eq(
+      "user_id",
+      currentUser.id
+     )
+     .select("*")
+     .maybeSingle();
+
+   if(
+    !retry.error &&
+    retry.data
+   ){
+
+    profileKeyColumn=
+     "user_id";
+
+    result=
+     retry;
+
+   }
+
+  }
+
+  /*
+   * If still failed, try user_id insert.
+   */
+
+  if(
+   result.error &&
+   profileKeyColumn==="id"
+  ){
+
+   const retryInsert=
+    await supabaseClient
+     .from("profiles")
+     .insert({
+      user_id:currentUser.id,
+      ...update
+     })
+     .select("*")
+     .single();
+
+   if(!retryInsert.error){
+
+    profileKeyColumn=
+     "user_id";
+
+    result=
+     retryInsert;
+
+   }
+
+  }
 
   if(result.error)
    throw result.error;
 
-  currentProfile=
-   result.data;
+  if(result.data)
+   currentProfile=
+    result.data;
+  else
+   currentProfile={
+    ...currentProfile,
+    ...update
+   };
 
   /*
-   * Keep Auth metadata synchronized.
+   * Keep Supabase Auth metadata synchronized.
    */
 
   const metadata={
@@ -2835,39 +3574,45 @@ async function saveProfile(){
 
   };
 
-  if(selectedAvatarData)
+  if(selectedAvatarData){
+
    metadata.avatar_url=
     selectedAvatarData;
 
-  const authResult=
-   await supabaseClient.auth.updateUser({
-    data:metadata
-   });
+  }
 
-  if(authResult.error)
+  const authResult=
+   await supabaseClient
+    .auth.updateUser({
+     data:metadata
+    });
+
+  if(authResult.error){
+
    console.warn(
-    "Auth metadata:",
+    "Auth metadata update:",
     authResult.error
    );
 
-  if(authResult.data?.user)
+  }
+
+  if(
+   authResult.data?.user
+  ){
+
    currentUser=
     authResult.data.user;
 
+  }
+
   /*
-   * Save selected language locally
-   * so every SportX page can use it.
+   * Save language globally for SportX.
    */
 
   localStorage.setItem(
    SPORTX_LANGUAGE_KEY,
    selectedLanguage
   );
-
-  /*
-   * Set Google Translate language
-   * without showing Google UI.
-   */
 
   setGoogleTranslateCookie(
    selectedLanguage
@@ -2889,13 +3634,16 @@ async function saveProfile(){
   );
 
   /*
-   * Reload once so Google Translate
-   * applies cleanly.
+   * Reload so Google Translate
+   * starts with the saved language.
    */
 
-  setTimeout(()=>{
-   location.reload();
-  },700);
+  setTimeout(
+   ()=>{
+    location.reload();
+   },
+   700
+  );
 
  }catch(error){
 
@@ -2905,7 +3653,7 @@ async function saveProfile(){
   );
 
   showToast(
-   error.message||
+   error?.message ||
    "Could not save profile."
   );
 
@@ -2919,22 +3667,26 @@ async function saveProfile(){
    "Save Changes";
 
  }
+
 }
 
 
-/* ================================
+/* =========================================================
    PASSWORD
-   ================================ */
+   ========================================================= */
 
 function openChangePassword(){
 
  document.getElementById(
   "passwordModal"
- ).classList.add("show");
+ ).classList.add(
+  "show"
+ );
 
  document.body.classList.add(
   "modal-open"
  );
+
 }
 
 
@@ -2962,6 +3714,7 @@ async function changePassword(){
   );
 
   return;
+
  }
 
  if(newPassword.length<8){
@@ -2971,6 +3724,7 @@ async function changePassword(){
   );
 
   return;
+
  }
 
  if(newPassword!==confirm){
@@ -2980,6 +3734,7 @@ async function changePassword(){
   );
 
   return;
+
  }
 
  const button=
@@ -2997,24 +3752,34 @@ async function changePassword(){
  try{
 
   const login=
-   await supabaseClient.auth
+   await supabaseClient
+    .auth
     .signInWithPassword({
 
-     email:currentUser.email,
+     email:
+      currentUser.email,
 
-     password:current
+     password:
+      current
 
     });
 
-  if(login.error)
+  if(login.error){
+
    throw new Error(
     "Current password is incorrect."
    );
 
+  }
+
   const update=
-   await supabaseClient.auth
+   await supabaseClient
+    .auth
     .updateUser({
-     password:newPassword
+
+     password:
+      newPassword
+
     });
 
   if(update.error)
@@ -3042,10 +3807,12 @@ async function changePassword(){
 
  }catch(error){
 
-  console.error(error);
+  console.error(
+   error
+  );
 
   showToast(
-   error.message||
+   error?.message ||
    "Could not change password."
   );
 
@@ -3059,19 +3826,23 @@ async function changePassword(){
    "Update Password";
 
  }
+
 }
 
 
-/* ================================
+/* =========================================================
    MODALS
-   ================================ */
+   ========================================================= */
 
 function closeModal(id){
 
  const modal=
-  document.getElementById(id);
+  document.getElementById(
+   id
+  );
 
- if(!modal)return;
+ if(!modal)
+  return;
 
  modal.classList.remove(
   "show"
@@ -3088,29 +3859,44 @@ function closeModal(id){
   );
 
  }
+
 }
 
 
-function closeOverlay(event,id){
+function closeOverlay(
+ event,
+ id
+){
 
- if(event.target.id===id)
+ if(
+  event.target.id===
+  id
+ ){
+
   closeModal(id);
 
+ }
+
 }
 
 
-/* ================================
+/* =========================================================
    TOAST
-   ================================ */
+   ========================================================= */
 
-let toastTimer;
+let toastTimer=null;
 
-function showToast(message){
+function showToast(
+ message
+){
 
  const toast=
   document.getElementById(
    "toast"
   );
+
+ if(!toast)
+  return;
 
  toast.textContent=
   message;
@@ -3124,21 +3910,27 @@ function showToast(message){
  );
 
  toastTimer=
-  setTimeout(()=>{
+  setTimeout(
+   ()=>{
 
-   toast.classList.remove(
-    "show"
-   );
+    toast.classList.remove(
+     "show"
+    );
 
-  },3000);
+   },
+   3000
+  );
+
 }
 
 
-/* ================================
+/* =========================================================
    HTML SAFETY
-   ================================ */
+   ========================================================= */
 
-function escapeHTML(value){
+function escapeHTML(
+ value
+){
 
  return String(value)
   .replaceAll(
@@ -3161,18 +3953,22 @@ function escapeHTML(value){
    "'",
    "&#039;"
   );
+
 }
 
 
-/* ================================
-   ESCAPE
-   ================================ */
+/* =========================================================
+   ESCAPE KEY
+   ========================================================= */
 
 document.addEventListener(
  "keydown",
- e=>{
+ event=>{
 
-  if(e.key==="Escape"){
+  if(
+   event.key===
+   "Escape"
+  ){
 
    closeModal(
     "editProfileModal"
@@ -3196,9 +3992,9 @@ document.addEventListener(
 );
 
 
-/* ================================
-   START
-   ================================ */
+/* =========================================================
+   START PROFILE
+   ========================================================= */
 
 async function startProfile(){
 
@@ -3209,18 +4005,21 @@ async function startProfile(){
   currentUser=
    await getUser();
 
+  /*
+   * No authenticated user.
+   */
+
   if(!currentUser){
 
    location.href=
     "login.html";
 
    return;
+
   }
 
   /*
-   * This is the important fix:
-   * profile is automatically created
-   * if it doesn't exist.
+   * Load or create profile.
    */
 
   currentProfile=
@@ -3255,33 +4054,55 @@ async function startProfile(){
    COUNTRIES
   );
 
-  requestAnimationFrame(()=>{
+  /*
+   * Hide loading screen.
+   */
 
-   document.getElementById(
-    "profileLoading"
-   ).classList.add(
-    "hide"
-   );
+  requestAnimationFrame(
+   ()=>{
 
-  });
+    const loading=
+     document.getElementById(
+      "profileLoading"
+     );
+
+    if(loading){
+
+     loading.classList.add(
+      "hide"
+     );
+
+    }
+
+   }
+  );
 
   /*
-   * Auth listener
+   * Auth listener.
    */
 
   supabaseClient.auth
    .onAuthStateChange(
-    async(event,session)=>{
+    async(
+     event,
+     session
+    )=>{
 
-     if(event==="SIGNED_OUT"){
+     if(
+      event===
+      "SIGNED_OUT"
+     ){
 
       location.href=
        "login.html";
 
       return;
+
      }
 
-     if(session?.user){
+     if(
+      session?.user
+     ){
 
       try{
 
@@ -3302,9 +4123,15 @@ async function startProfile(){
         selectedLanguage
        );
 
+       setGoogleTranslateCookie(
+        selectedLanguage
+       );
+
        renderProfile();
 
        updateChoiceLabels();
+
+       renderPhotoPreview();
 
       }catch(error){
 
@@ -3327,19 +4154,82 @@ async function startProfile(){
    error
   );
 
-  document.getElementById(
-   "profileLoading"
-  ).classList.add(
-   "hide"
-  );
+  const loading=
+   document.getElementById(
+    "profileLoading"
+   );
+
+  if(loading)
+   loading.classList.add(
+    "hide"
+   );
+
+  /*
+   * Do not immediately destroy the page
+   * when profile row is missing.
+   */
+
+  if(
+   currentUser
+  ){
+
+   currentProfile={
+    full_name:
+     currentUser.user_metadata?.full_name ||
+     currentUser.user_metadata?.name ||
+     currentUser.email?.split("@")[0] ||
+     "User",
+
+    country:
+     currentUser.user_metadata?.country ||
+     "Afghanistan",
+
+    language:
+     currentUser.user_metadata?.language ||
+     "en",
+
+    avatar_url:
+     currentUser.user_metadata?.avatar_url ||
+     "",
+
+    email_notifications:true,
+
+    prediction_alerts:true,
+
+    live_updates:true
+   };
+
+   selectedCountry=
+    profileCountry();
+
+   selectedLanguage=
+    profileLanguage();
+
+   renderProfile();
+
+   renderPhotoPreview();
+
+   showToast(
+    "Profile loaded from your account."
+   );
+
+   return;
+
+  }
 
   showToast(
-   error.message||
+   error?.message ||
    "Could not load your profile."
   );
 
  }
+
 }
+
+
+/* =========================================================
+   START
+   ========================================================= */
 
 startProfile();
 
