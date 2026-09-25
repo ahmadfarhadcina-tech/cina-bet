@@ -710,18 +710,6 @@ const MAX_DAYS =
 const MAX_MATCHES =
   50;
 
-
-/*
-  All-team refresh:
-  every 60 seconds.
-
-  Live refresh:
-  every 15 seconds.
-
-  UI:
-  every 1 second.
-*/
-
 const REFRESH_INTERVAL =
   60 * 1000;
 
@@ -733,7 +721,6 @@ const COUNTDOWN_INTERVAL =
 
 const END_KEEP_TIME =
   2 * 60 * 60 * 1000;
-
 
 const MATCH_STORAGE_KEY =
   "sportx_future_matches_v2";
@@ -828,57 +815,35 @@ let loading = false;
 let voteStore = {};
 
 
-
 const loadingEl =
-  document.getElementById(
-    "loading"
-  );
+  document.getElementById("loading");
 
 const matchesGrid =
-  document.getElementById(
-    "matchesGrid"
-  );
+  document.getElementById("matchesGrid");
 
 const emptyState =
-  document.getElementById(
-    "emptyState"
-  );
+  document.getElementById("emptyState");
 
 const errorState =
-  document.getElementById(
-    "errorState"
-  );
+  document.getElementById("errorState");
 
 const searchInput =
-  document.getElementById(
-    "searchInput"
-  );
+  document.getElementById("searchInput");
 
 const statusEl =
-  document.getElementById(
-    "status"
-  );
+  document.getElementById("status");
 
 const matchCountEl =
-  document.getElementById(
-    "matchCount"
-  );
+  document.getElementById("matchCount");
 
 const toastEl =
-  document.getElementById(
-    "toast"
-  );
+  document.getElementById("toast");
 
 const endSection =
-  document.getElementById(
-    "endSection"
-  );
+  document.getElementById("endSection");
 
 const endGrid =
-  document.getElementById(
-    "endGrid"
-  );
-
+  document.getElementById("endGrid");
 
 
 /* =========================
@@ -940,7 +905,6 @@ function saveStoredMatches(){
 }
 
 
-
 try{
 
   voteStore =
@@ -955,7 +919,6 @@ try{
   voteStore = {};
 
 }
-
 
 
 /* =========================
@@ -979,26 +942,11 @@ function normalize(value){
 function escapeHtml(value){
 
   return String(value ?? "")
-    .replaceAll(
-      "&",
-      "&amp;"
-    )
-    .replaceAll(
-      "<",
-      "&lt;"
-    )
-    .replaceAll(
-      ">",
-      "&gt;"
-    )
-    .replaceAll(
-      '"',
-      "&quot;"
-    )
-    .replaceAll(
-      "'",
-      "&#039;"
-    );
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
 
 }
 
@@ -1247,7 +1195,6 @@ function getLeague(match){
 }
 
 
-
 /* =========================
    STATUS
 ========================= */
@@ -1270,7 +1217,9 @@ function getStatus(match){
     raw.includes("live") ||
     raw.includes("playing") ||
     raw.includes("inplay") ||
-    raw.includes("in play")
+    raw.includes("in play") ||
+    raw.includes("half-time") ||
+    raw.includes("extra-time")
   ){
 
     return "live";
@@ -1307,7 +1256,6 @@ function getStatus(match){
 }
 
 
-
 /* =========================
    ID
 ========================= */
@@ -1340,7 +1288,6 @@ function getId(
   );
 
 }
-
 
 
 /* =========================
@@ -1422,11 +1369,9 @@ function getScoreValue(
 
 
   const objects = [
-
     score,
     scores,
     match.result
-
   ];
 
 
@@ -1519,7 +1464,6 @@ function getScoreValue(
   return null;
 
 }
-
 
 
 /* =========================
@@ -1628,7 +1572,6 @@ function normalizeMatch(
 }
 
 
-
 /* =========================
    API
 ========================= */
@@ -1645,9 +1588,7 @@ function extractMatches(json){
 
 
   if(
-    Array.isArray(
-      json?.matches
-    )
+    Array.isArray(json?.matches)
   ){
 
     return json.matches;
@@ -1656,9 +1597,7 @@ function extractMatches(json){
 
 
   if(
-    Array.isArray(
-      json?.data
-    )
+    Array.isArray(json?.data)
   ){
 
     return json.data;
@@ -1667,9 +1606,7 @@ function extractMatches(json){
 
 
   if(
-    Array.isArray(
-      json?.fixtures
-    )
+    Array.isArray(json?.fixtures)
   ){
 
     return json.fixtures;
@@ -1678,9 +1615,7 @@ function extractMatches(json){
 
 
   if(
-    Array.isArray(
-      json?.events
-    )
+    Array.isArray(json?.events)
   ){
 
     return json.events;
@@ -1691,7 +1626,6 @@ function extractMatches(json){
   return [];
 
 }
-
 
 
 async function loadTeam(
@@ -1746,7 +1680,6 @@ async function loadTeam(
     return extractMatches(
       json
     )
-
       .map(
         item =>
           normalizeMatch(
@@ -1754,7 +1687,6 @@ async function loadTeam(
             teamSlug
           )
       )
-
       .filter(Boolean);
 
   }catch(error){
@@ -1770,7 +1702,6 @@ async function loadTeam(
   }
 
 }
-
 
 
 /* =========================
@@ -1796,7 +1727,6 @@ function matchKey(match){
 }
 
 
-
 /* =========================
    MERGE
 ========================= */
@@ -1810,16 +1740,14 @@ function mergeMatches(
     new Map();
 
 
-  /*
-    Keep everything already saved.
-  */
-
   for(
     const oldMatch of oldList
   ){
 
     if(!oldMatch){
+
       continue;
+
     }
 
 
@@ -1831,16 +1759,14 @@ function mergeMatches(
   }
 
 
-  /*
-    Merge fresh API results.
-  */
-
   for(
     const fresh of freshList
   ){
 
     if(!fresh){
+
       continue;
+
     }
 
 
@@ -1872,11 +1798,6 @@ function mergeMatches(
     };
 
 
-    /*
-      Never lose an already
-      loaded logo.
-    */
-
     if(
       !fresh.homeLogo &&
       old.homeLogo
@@ -1900,7 +1821,7 @@ function mergeMatches(
 
 
     /*
-      Keep the original
+      Never reset the original
       finished observation time.
     */
 
@@ -1914,10 +1835,6 @@ function mergeMatches(
 
     }
 
-
-    /*
-      New finish event.
-    */
 
     if(
       fresh.status === "finished" &&
@@ -1945,7 +1862,6 @@ function mergeMatches(
 }
 
 
-
 /* =========================
    CLEANUP
 ========================= */
@@ -1954,6 +1870,10 @@ function cleanupMatches(){
 
   const now =
     Date.now();
+
+  const maxFuture =
+    now +
+    MAX_DAYS * 86400000;
 
 
   const before =
@@ -1971,6 +1891,11 @@ function cleanupMatches(){
         }
 
 
+        /*
+          Cancelled / postponed:
+          remove from local storage.
+        */
+
         if(
           match.status ===
           "excluded"
@@ -1982,8 +1907,9 @@ function cleanupMatches(){
 
 
         /*
-          Finished matches remain
-          for 2 hours.
+          FINISHED:
+          keep exactly 2 hours,
+          then delete completely.
         */
 
         if(
@@ -1998,9 +1924,27 @@ function cleanupMatches(){
 
 
           if(
-            Number.isFinite(
+            !Number.isFinite(
               finishedAt
-            ) &&
+            )
+          ){
+
+            /*
+              Safety:
+              if an old finished match has
+              no observation timestamp,
+              start its 2-hour lifetime now.
+            */
+
+            match.finishedObservedAt =
+              now;
+
+            return true;
+
+          }
+
+
+          if(
             now - finishedAt >=
               END_KEEP_TIME
           ){
@@ -2009,16 +1953,54 @@ function cleanupMatches(){
 
           }
 
+
+          return true;
+
         }
 
 
         /*
-          Live matches remain visible
-          even though they are no longer
-          "future".
+          LIVE:
+          always keep while live.
         */
 
-        return true;
+        if(
+          match.status ===
+          "live"
+        ){
+
+          return true;
+
+        }
+
+
+        /*
+          SCHEDULED:
+          keep ONLY if it is still in
+          the next 7 days.
+        */
+
+        if(
+          match.status ===
+          "scheduled"
+        ){
+
+          if(
+            match.timestamp > now &&
+            match.timestamp <= maxFuture
+          ){
+
+            return true;
+
+          }
+
+
+          return false;
+
+        }
+
+
+        return false;
 
       }
     );
@@ -2033,7 +2015,6 @@ function cleanupMatches(){
   }
 
 }
-
 
 
 /* =========================
@@ -2083,9 +2064,8 @@ async function loadAllTeams(
 
 
     /*
-      IMPORTANT:
-      We merge.
-      We DO NOT replace matches.
+      Merge fresh data with saved
+      lifecycle data.
     */
 
     matches =
@@ -2094,6 +2074,15 @@ async function loadAllTeams(
         collected
       );
 
+
+    /*
+      IMPORTANT:
+      This now removes:
+      - old future matches
+      - matches > 7 days
+      - expired finished matches
+      - excluded matches
+    */
 
     cleanupMatches();
 
@@ -2112,21 +2101,35 @@ async function loadAllTeams(
       ).length;
 
 
+    const futureCount =
+      matches.filter(
+        match =>
+          match.status === "scheduled" &&
+          match.timestamp > Date.now() &&
+          match.timestamp <=
+            Date.now() +
+            MAX_DAYS * 86400000
+      ).length;
+
+
+    const finishedCount =
+      matches.filter(
+        match =>
+          match.status === "finished"
+      ).length;
+
+
     if(
       liveCount > 0
     ){
 
       statusEl.textContent =
-        `${liveCount} LIVE · ${matches.length} saved`;
+        `${liveCount} LIVE · ${futureCount} future · ${finishedCount} END`;
 
     }else{
 
       statusEl.textContent =
-        `${matches.filter(
-          m =>
-            m.status !==
-            "finished"
-        ).length} matches`;
+        `${futureCount} future · ${finishedCount} END`;
 
     }
 
@@ -2137,11 +2140,6 @@ async function loadAllTeams(
       error
     );
 
-
-    /*
-      Existing matches remain visible
-      even when API fails.
-    */
 
     if(
       !matches.length
@@ -2169,17 +2167,12 @@ async function loadAllTeams(
 
     loading = false;
 
-    /*
-      No visible loading screen.
-    */
-
     loadingEl.style.display =
       "none";
 
   }
 
 }
-
 
 
 /* =========================
@@ -2238,7 +2231,6 @@ function getCountdown(
 }
 
 
-
 function formatDate(
   timestamp
 ){
@@ -2259,7 +2251,6 @@ function formatDate(
   );
 
 }
-
 
 
 /* =========================
@@ -2313,7 +2304,6 @@ function logoHtml(
   `;
 
 }
-
 
 
 /* =========================
@@ -2591,7 +2581,6 @@ function createCard(
 }
 
 
-
 /* =========================
    FINISHED CARD
 ========================= */
@@ -2819,7 +2808,6 @@ function createEndedCard(
 }
 
 
-
 /* =========================
    RENDER ENDED
 ========================= */
@@ -2875,7 +2863,6 @@ function renderEnded(){
 }
 
 
-
 /* =========================
    RENDER
 ========================= */
@@ -2897,17 +2884,6 @@ function render(){
     MAX_DAYS *
     86400000;
 
-
-  /*
-    Scheduled:
-    next 7 days.
-
-    Live:
-    always visible.
-
-    Finished:
-    separate section.
-  */
 
   let visible =
     matches.filter(
@@ -3031,7 +3007,6 @@ function render(){
   emptyState.style.display =
     "none";
 
-
   matchesGrid.style.display =
     "grid";
 
@@ -3044,7 +3019,6 @@ function render(){
       .join("");
 
 }
-
 
 
 /* =========================
@@ -3134,10 +3108,9 @@ async function refreshLiveMatches(){
       ){
 
         /*
-          IMPORTANT:
-          Do NOT remove the live match
-          just because API did not return
-          it this time.
+          Do not remove a live match
+          because SportScore temporarily
+          omitted it.
         */
 
         continue;
@@ -3213,6 +3186,12 @@ async function refreshLiveMatches(){
     }
 
 
+    /*
+      This is important:
+      once a live match becomes finished,
+      the 2-hour cleanup timer starts.
+    */
+
     cleanupMatches();
 
     saveStoredMatches();
@@ -3230,11 +3209,28 @@ async function refreshLiveMatches(){
       ).length;
 
 
+    const futureCount =
+      matches.filter(
+        m =>
+          m.status === "scheduled" &&
+          m.timestamp > Date.now() &&
+          m.timestamp <=
+            Date.now() +
+            MAX_DAYS * 86400000
+      ).length;
+
+
+    const finishedCount =
+      matches.filter(
+        m =>
+          m.status === "finished"
+      ).length;
+
+
     statusEl.textContent =
       liveCount > 0
-        ? `${liveCount} LIVE · ${matches.length} saved`
-        : `${matches.length} saved`;
-
+        ? `${liveCount} LIVE · ${futureCount} future · ${finishedCount} END`
+        : `${futureCount} future · ${finishedCount} END`;
 
   }catch(error){
 
@@ -3246,7 +3242,6 @@ async function refreshLiveMatches(){
   }
 
 }
-
 
 
 /* =========================
@@ -3316,7 +3311,6 @@ function saveVote(
 }
 
 
-
 /* =========================
    EVENTS
 ========================= */
@@ -3345,7 +3339,6 @@ matchesGrid.addEventListener(
 
   }
 );
-
 
 
 function showToast(
@@ -3381,12 +3374,10 @@ function showToast(
 }
 
 
-
 searchInput.addEventListener(
   "input",
   render
 );
-
 
 
 /* =========================
@@ -3394,6 +3385,15 @@ searchInput.addEventListener(
 ========================= */
 
 function updateCountdowns(){
+
+  /*
+    Runs every second.
+
+    This means a finished match
+    is automatically deleted from
+    LocalStorage immediately after
+    its 2-hour lifetime expires.
+  */
 
   cleanupMatches();
 
@@ -3404,28 +3404,23 @@ function updateCountdowns(){
 }
 
 
-
 /* =========================
    START
 ========================= */
-
-/*
-  First load saved matches.
-*/
 
 loadStoredMatches();
 
 
 /*
-  Clean only matches whose
-  2-hour finished period is over.
+  Clean old LocalStorage data
+  immediately on page opening.
 */
 
 cleanupMatches();
 
 
 /*
-  Show saved matches immediately.
+  Show valid saved matches immediately.
 */
 
 render();
@@ -3433,26 +3428,19 @@ render();
 renderEnded();
 
 
-/*
-  Never block the page with
-  a loading screen.
-*/
-
 loadingEl.style.display =
   "none";
 
 
 /*
-  First API request happens
-  in the background.
+  Background API refresh.
 */
 
 loadAllTeams(true);
 
 
 /*
-  All 50 teams:
-  every 60 seconds.
+  Refresh all 50 teams every 60 seconds.
 */
 
 setInterval(
@@ -3466,8 +3454,7 @@ setInterval(
 
 
 /*
-  Live matches:
-  every 15 seconds.
+  Refresh live scores every 15 seconds.
 */
 
 setInterval(
@@ -3477,8 +3464,7 @@ setInterval(
 
 
 /*
-  UI:
-  every second.
+  Cleanup + countdown every second.
 */
 
 setInterval(
@@ -3488,8 +3474,7 @@ setInterval(
 
 
 /*
-  When user returns to the page,
-  refresh silently.
+  Refresh when returning to the page.
 */
 
 document.addEventListener(
@@ -3500,6 +3485,18 @@ document.addEventListener(
       document.visibilityState ===
       "visible"
     ){
+
+      /*
+        First cleanup anything
+        that expired while page
+        was in background.
+      */
+
+      cleanupMatches();
+
+      render();
+
+      renderEnded();
 
       loadAllTeams(true);
 
