@@ -32,27 +32,6 @@ body{
 }
 body.modal-open{overflow:hidden}
 
-.goog-te-banner-frame,
-iframe.goog-te-banner-frame,
-.goog-te-balloon-frame,
-.goog-tooltip,
-.goog-te-spinner-pos,
-.goog-te-menu-frame,
-#goog-gt-tt,
-.goog-text-highlight,
-.goog-te-gadget,
-.goog-te-gadget-simple{
- display:none!important;
- visibility:hidden!important;
- opacity:0!important
-}
-body> .skiptranslate{
- display:none!important;
- visibility:hidden!important;
- height:0!important;
- width:0!important;
- overflow:hidden!important
-}
 button,input{font:inherit}
 button{border:0;cursor:pointer}
 button:active{transform:scale(.97)}
@@ -326,13 +305,13 @@ main{padding:45px 0 70px}
 }
 .search-icon{position:absolute;left:13px;top:12px;color:var(--muted)}
 .choice-list{max-height:430px;overflow:auto;padding-right:2px}
-.country-row,.language-row{
+.country-row{
  width:100%;display:flex;align-items:center;gap:12px;padding:12px;
  border:0;background:#fff;border-bottom:1px solid rgba(15,23,42,.07);
  text-align:left;transition:.18s
 }
-.country-row:hover,.language-row:hover{background:rgba(22,217,139,.07)}
-.country-row.selected,.language-row.selected{
+.country-row:hover{background:rgba(22,217,139,.07)}
+.country-row.selected{
  background:rgba(22,217,139,.12);color:var(--green-dark);font-weight:800
 }
 .country-flag{
@@ -405,29 +384,11 @@ footer{
  .photo-btn{width:100%}
 }
 </style>
-
-<!-- Language cookie BEFORE auth.js / Google Translate -->
-<script>
-(function(){
-    try{
-        const lang =
-            localStorage.getItem("sportx_language") || "en";
-
-        if(lang !== "en"){
-            document.cookie =
-                "googtrans=/en/" + lang + ";path=/";
-        }else{
-            document.cookie =
-                "googtrans=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/";
-        }
-    }catch(e){}
-})();
-</script>
-
 </head>
 
 <body>
 
+<!-- LOADING -->
 <div class="profile-loading" id="profileLoading">
     <div class="loading-box">
         <div class="loading-logo">Sport<span>X</span></div>
@@ -549,11 +510,6 @@ Active Account
 </div>
 
 <div class="info-item">
-<div class="info-label">Language</div>
-<div class="info-value" id="languageValue">—</div>
-</div>
-
-<div class="info-item">
 <div class="info-label">Member Since</div>
 <div class="info-value" id="memberSinceValue">—</div>
 </div>
@@ -646,8 +602,8 @@ Active Account
 <div class="action-left">
 <div class="action-icon">🌍</div>
 <div class="action-text">
-<strong>Country & Language</strong>
-<span>Change your profile settings</span>
+<strong>Country</strong>
+<span>Change your country</span>
 </div>
 </div>
 <div class="action-arrow">›</div>
@@ -679,6 +635,7 @@ Active Account
 © 2026 SportX. Real account data powered by Supabase.
 </div>
 </footer>
+
 
 <!-- EDIT PROFILE -->
 
@@ -751,26 +708,6 @@ Your login email cannot be changed from this page.
 </button>
 </div>
 
-<div class="form-group">
-<label>Language</label>
-
-<button type="button" class="choice"
- onclick="openLanguageModal()">
-
-<div class="choice-left">
-<div class="choice-icon">🌐</div>
-
-<div class="choice-text">
-<strong id="selectedLanguageText">English</strong>
-<span>SportX language</span>
-</div>
-</div>
-
-<div class="choice-arrow">›</div>
-
-</button>
-</div>
-
 <div class="modal-actions">
 
 <button class="secondary-btn"
@@ -789,6 +726,7 @@ Save Changes
 </div>
 </div>
 </div>
+
 
 <!-- COUNTRY -->
 
@@ -811,7 +749,7 @@ Save Changes
 <input id="countrySearch"
  type="text"
  placeholder="Search country..."
- oninput="filterCountries">
+ oninput="filterCountries()">
 </div>
 
 <div class="choice-list" id="countryList"></div>
@@ -820,58 +758,6 @@ Save Changes
 </div>
 </div>
 
-<!-- LANGUAGE -->
-
-<div class="modal-overlay" id="languageModal"
- onclick="closeOverlay(event,'languageModal')">
-
-<div class="modal">
-
-<div class="modal-header">
-<h3>Select Language</h3>
-<button class="close-modal"
- onclick="closeModal('languageModal')">×</button>
-</div>
-
-<div class="modal-body">
-
-<div class="choice-list">
-
-<button class="language-row" data-lang="en"
- onclick="selectLanguage('en')">
-<div class="country-flag">🇺🇸</div>
-<div>English</div>
-</button>
-
-<button class="language-row" data-lang="fa"
- onclick="selectLanguage('fa')">
-<div class="country-flag">🇮🇷</div>
-<div>فارسی</div>
-</button>
-
-<button class="language-row" data-lang="ps"
- onclick="selectLanguage('ps')">
-<div class="country-flag">🇦🇫</div>
-<div>پښتو</div>
-</button>
-
-<button class="language-row" data-lang="tr"
- onclick="selectLanguage('tr')">
-<div class="country-flag">🇹🇷</div>
-<div>Türkçe</div>
-</button>
-
-<button class="language-row" data-lang="ar"
- onclick="selectLanguage('ar')">
-<div class="country-flag">🇸🇦</div>
-<div>العربية</div>
-</button>
-
-</div>
-
-</div>
-</div>
-</div>
 
 <!-- PASSWORD -->
 
@@ -927,11 +813,8 @@ Update Password
 
 <div class="toast" id="toast"></div>
 
-<!-- GOOGLE TRANSLATE CONTAINER ONLY -->
-<div id="google_translate_element"
- style="display:none!important"></div>
 
-<!-- AUTH MUST LOAD ONCE -->
+<!-- AUTH -->
 <script src="auth.js"></script>
 
 <script>
@@ -939,56 +822,37 @@ Update Password
 
 /* =========================================================
    CONFIG
-   ========================================================= */
+========================================================= */
 
 const SUPABASE_URL =
- "https://zchtcosljkkkiykhforj.supabase.co";
+"https://zchtcosljkkkiykhforj.supabase.co";
 
 const SUPABASE_KEY =
- "sb_publishable_aGLckKZjNaVbpdxZUFhCqA_VzHppjrW";
-
-const SPORTX_LANGUAGE_KEY =
- "sportx_language";
+"sb_publishable_aGLckKZjNaVbpdxZUFhCqA_VzHppjrW";
 
 let supabaseClient = null;
 let currentUser = null;
 let currentProfile = {};
 let selectedAvatarData = null;
 let selectedCountry = "";
-let selectedLanguage = "en";
 let profileKeyColumn = "id";
 let profileStarted = false;
+let authListenerStarted = false;
 
 
 /* =========================================================
    TIMEOUT
-   ========================================================= */
+========================================================= */
 
-function withTimeout(
- promise,
- milliseconds,
- fallbackMessage
-){
+function withTimeout(promise,ms,message){
 
  return Promise.race([
-
   promise,
-
   new Promise((resolve,reject)=>{
-
    setTimeout(()=>{
-
-    reject(
-     new Error(
-      fallbackMessage ||
-      "Request timed out."
-     )
-    );
-
-   },milliseconds);
-
+    reject(new Error(message || "Request timed out."));
+   },ms);
   })
-
  ]);
 
 }
@@ -996,106 +860,49 @@ function withTimeout(
 
 /* =========================================================
    COUNTRIES
-   ========================================================= */
+========================================================= */
 
 const COUNTRIES = [
-
 "Afghanistan","Albania","Algeria","Andorra","Angola",
 "Antigua and Barbuda","Argentina","Armenia","Australia","Austria",
 "Azerbaijan","Bahamas","Bahrain","Bangladesh","Barbados","Belarus",
-"Belgium","Belize","Benin","Bhutan","Bolivia","Bosnia and Herzegovina",
-"Botswana","Brazil","Brunei","Bulgaria","Burkina Faso","Burundi",
-"Cambodia","Cameroon","Canada","Cape Verde","Central African Republic",
-"Chad","Chile","China","Colombia","Comoros","Congo","Costa Rica",
-"Croatia","Cuba","Cyprus","Czech Republic","Denmark","Djibouti",
-"Dominica","Dominican Republic","Ecuador","Egypt","El Salvador",
-"Equatorial Guinea","Eritrea","Estonia","Eswatini","Ethiopia","Fiji",
-"Finland","France","Gabon","Gambia","Georgia","Germany","Ghana",
-"Greece","Grenada","Guatemala","Guinea","Guinea-Bissau","Guyana",
-"Haiti","Honduras","Hungary","Iceland","India","Indonesia","Iraq",
-"Ireland","Italy","Ivory Coast","Jamaica","Japan","Jordan","Kazakhstan",
-"Kenya","Kiribati","Kuwait","Kyrgyzstan","Laos","Latvia","Lebanon",
-"Lesotho","Liberia","Libya","Liechtenstein","Lithuania","Luxembourg",
-"Madagascar","Malawi","Malaysia","Maldives","Mali","Malta",
-"Marshall Islands","Mauritania","Mauritius","Mexico","Micronesia",
-"Moldova","Monaco","Mongolia","Montenegro","Morocco","Mozambique",
-"Myanmar","Namibia","Nauru","Nepal","Netherlands","New Zealand",
-"Nicaragua","Niger","Nigeria","North Korea","North Macedonia","Norway",
-"Oman","Pakistan","Palau","Palestine","Panama","Papua New Guinea",
-"Paraguay","Peru","Philippines","Poland","Portugal","Qatar","Romania",
-"Russia","Rwanda","Saint Kitts and Nevis","Saint Lucia",
-"Saint Vincent and the Grenadines","Samoa","San Marino",
-"Sao Tome and Principe","Saudi Arabia","Senegal","Serbia",
-"Seychelles","Sierra Leone","Singapore","Slovakia","Slovenia",
-"Solomon Islands","Somalia","South Africa","South Korea",
-"South Sudan","Spain","Sri Lanka","Sudan","Suriname","Sweden",
-"Switzerland","Syria","Taiwan","Tajikistan","Tanzania","Thailand",
-"Timor-Leste","Togo","Tonga","Trinidad and Tobago","Tunisia",
-"Turkey","Turkmenistan","Tuvalu","Uganda","Ukraine",
-"United Arab Emirates","United Kingdom","United States","Uruguay",
-"Uzbekistan","Vanuatu","Vatican City","Venezuela","Vietnam",
-"Yemen","Zambia","Zimbabwe"
-
+"Belgium","Belize","Benin","Bhutan","Bolivia",
+"Bosnia and Herzegovina","Botswana","Brazil","Brunei","Bulgaria",
+"Burkina Faso","Burundi","Cambodia","Cameroon","Canada","Cape Verde",
+"Central African Republic","Chad","Chile","China","Colombia","Comoros",
+"Congo","Costa Rica","Croatia","Cuba","Cyprus","Czech Republic",
+"Denmark","Djibouti","Dominica","Dominican Republic","Ecuador","Egypt",
+"El Salvador","Equatorial Guinea","Eritrea","Estonia","Eswatini",
+"Ethiopia","Fiji","Finland","France","Gabon","Gambia","Georgia",
+"Germany","Ghana","Greece","Grenada","Guatemala","Guinea",
+"Guinea-Bissau","Guyana","Haiti","Honduras","Hungary","Iceland",
+"India","Indonesia","Iraq","Ireland","Italy","Ivory Coast","Jamaica",
+"Japan","Jordan","Kazakhstan","Kenya","Kiribati","Kuwait","Laos",
+"Latvia","Lebanon","Lesotho","Liberia","Libya","Liechtenstein",
+"Lithuania","Luxembourg","Madagascar","Malawi","Malaysia","Maldives",
+"Mali","Malta","Marshall Islands","Mauritania","Mauritius","Mexico",
+"Micronesia","Moldova","Monaco","Mongolia","Montenegro","Morocco",
+"Mozambique","Myanmar","Namibia","Nauru","Nepal","Netherlands",
+"New Zealand","Nicaragua","Niger","Nigeria","North Korea",
+"North Macedonia","Norway","Oman","Pakistan","Palau","Palestine",
+"Panama","Papua New Guinea","Paraguay","Peru","Philippines","Poland",
+"Portugal","Qatar","Romania","Russia","Rwanda","Saint Kitts and Nevis",
+"Saint Lucia","Saint Vincent and the Grenadines","Samoa","San Marino",
+"Sao Tome and Principe","Saudi Arabia","Senegal","Serbia","Seychelles",
+"Sierra Leone","Singapore","Slovakia","Slovenia","Solomon Islands",
+"Somalia","South Africa","South Korea","South Sudan","Spain",
+"Sri Lanka","Sudan","Suriname","Sweden","Switzerland","Syria",
+"Taiwan","Tajikistan","Tanzania","Thailand","Timor-Leste","Togo",
+"Tonga","Trinidad and Tobago","Tunisia","Turkey","Turkmenistan",
+"Tuvalu","Uganda","Ukraine","United Arab Emirates","United Kingdom",
+"United States","Uruguay","Uzbekistan","Vanuatu","Vatican City",
+"Venezuela","Vietnam","Yemen","Zambia","Zimbabwe"
 ];
-
-const LANGUAGES = {
- en:"English",
- fa:"فارسی",
- ps:"پښتو",
- tr:"Türkçe",
- ar:"العربية"
-};
-
-
-/* =========================================================
-   LANGUAGE
-   ========================================================= */
-
-function getSportXLanguage(){
-
- try{
-
-  const language =
-   localStorage.getItem(
-    SPORTX_LANGUAGE_KEY
-   );
-
-  if(LANGUAGES[language])
-   return language;
-
- }catch(error){}
-
- return "en";
-}
-
-
-function setSportXLanguage(language){
-
- if(!LANGUAGES[language])
-  language="en";
-
- try{
-
-  localStorage.setItem(
-   SPORTX_LANGUAGE_KEY,
-   language
-  );
-
- }catch(error){
-
-  console.warn(
-   "Language storage error:",
-   error
-  );
-
- }
-
-}
 
 
 /* =========================================================
    SUPABASE
-   ========================================================= */
+========================================================= */
 
 async function initSupabase(){
 
@@ -1104,14 +911,12 @@ async function initSupabase(){
   supabaseClient =
    window.SportXSupabase;
 
-  return;
-
+  return supabaseClient;
  }
 
  if(
   window.supabase &&
-  typeof window.supabase.createClient ===
-  "function"
+  typeof window.supabase.createClient === "function"
  ){
 
   supabaseClient =
@@ -1123,8 +928,7 @@ async function initSupabase(){
   window.SportXSupabase =
    supabaseClient;
 
-  return;
-
+  return supabaseClient;
  }
 
  await withTimeout(
@@ -1136,6 +940,14 @@ async function initSupabase(){
     );
 
    if(existing){
+
+    if(
+     window.supabase &&
+     typeof window.supabase.createClient === "function"
+    ){
+     resolve();
+     return;
+    }
 
     existing.addEventListener(
      "load",
@@ -1150,7 +962,6 @@ async function initSupabase(){
     );
 
     return;
-
    }
 
    const script =
@@ -1159,11 +970,10 @@ async function initSupabase(){
    script.src =
     "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2";
 
-   script.async=true;
+   script.async = true;
 
-   script.onload=resolve;
-
-   script.onerror=reject;
+   script.onload = resolve;
+   script.onerror = reject;
 
    document.head.appendChild(script);
 
@@ -1174,14 +984,9 @@ async function initSupabase(){
 
  if(
   !window.supabase ||
-  typeof window.supabase.createClient !==
-  "function"
+  typeof window.supabase.createClient !== "function"
  ){
-
-  throw new Error(
-   "Supabase is unavailable."
-  );
-
+  throw new Error("Supabase is unavailable.");
  }
 
  supabaseClient =
@@ -1193,58 +998,137 @@ async function initSupabase(){
  window.SportXSupabase =
   supabaseClient;
 
+ return supabaseClient;
 }
 
 
 /* =========================================================
-   AUTH USER
-   ========================================================= */
+   AUTH SESSION
+   این بخش مشکل اصلی Loading را حل می‌کند
+========================================================= */
 
-async function getUser(){
+async function getAuthenticatedUser(){
 
- const result =
+ if(!supabaseClient)
+  throw new Error("Supabase client is not ready.");
+
+ /*
+  * اول Session را می‌گیریم.
+  * این مهم است چون بعد از Login ممکن است
+  * Auth هنوز session را restore نکرده باشد.
+  */
+
+ const sessionResult =
   await withTimeout(
-   supabaseClient.auth.getUser(),
-   8000,
-   "Authentication request timed out."
+   supabaseClient.auth.getSession(),
+   7000,
+   "Session loading timed out."
   );
 
- if(result.error)
-  throw result.error;
+ if(sessionResult.error)
+  throw sessionResult.error;
 
- return result.data.user || null;
+ const session =
+  sessionResult.data?.session;
 
-}
+ if(session?.user)
+  return session.user;
 
 
-/* =========================================================
-   SAFE PROFILE QUERY
-   ========================================================= */
-
-async function queryProfileBy(
- column
-){
+ /*
+  * اگر Session هنوز آماده نبود،
+  * getUser را هم امتحان می‌کنیم.
+  */
 
  try{
 
-  const result =
+  const userResult =
    await withTimeout(
-    supabaseClient
-     .from("profiles")
-     .select("*")
-     .eq(column,currentUser.id)
-     .maybeSingle(),
-    6000,
-    "Profile request timed out."
+    supabaseClient.auth.getUser(),
+    5000,
+    "User loading timed out."
    );
 
-  return result;
+  if(
+   !userResult.error &&
+   userResult.data?.user
+  ){
+   return userResult.data.user;
+  }
+
+ }catch(error){
+
+  console.warn(
+   "getUser fallback:",
+   error
+  );
+
+ }
+
+ return null;
+}
+
+
+/*
+ * بعد از Login ممکن است INITIAL_SESSION کمی دیر برسد.
+ * بنابراین قبل از redirect کمی منتظر می‌مانیم.
+ */
+
+async function waitForAuthenticatedUser(){
+
+ for(let attempt=0;attempt<4;attempt++){
+
+  try{
+
+   const user =
+    await getAuthenticatedUser();
+
+   if(user)
+    return user;
+
+  }catch(error){
+
+   console.warn(
+    "Auth attempt",
+    attempt + 1,
+    error
+   );
+
+  }
+
+  await new Promise(
+   resolve=>setTimeout(resolve,700)
+  );
+
+ }
+
+ return null;
+}
+
+
+/* =========================================================
+   PROFILE QUERY
+========================================================= */
+
+async function queryProfileBy(column){
+
+ try{
+
+  return await withTimeout(
+   supabaseClient
+    .from("profiles")
+    .select("*")
+    .eq(column,currentUser.id)
+    .maybeSingle(),
+   3500,
+   "Profile request timed out."
+  );
 
  }catch(error){
 
   return {
    data:null,
-   error
+   error:error
   };
 
  }
@@ -1253,76 +1137,72 @@ async function queryProfileBy(
 
 
 /* =========================================================
-   PROFILE LOADER
-   ========================================================= */
+   FALLBACK PROFILE
+========================================================= */
+
+function buildFallbackProfile(){
+
+ const metadata =
+  currentUser?.user_metadata || {};
+
+ return {
+
+  id:currentUser?.id || "",
+
+  full_name:
+   metadata.full_name ||
+   metadata.name ||
+   currentUser?.email?.split("@")[0] ||
+   "User",
+
+  country:
+   metadata.country ||
+   "Afghanistan",
+
+  avatar_url:
+   metadata.avatar_url ||
+   "",
+
+  email_notifications:true,
+  prediction_alerts:true,
+  live_updates:true
+ };
+}
+
+
+/* =========================================================
+   LOAD PROFILE
+========================================================= */
 
 async function loadProfile(){
 
- const fallbackName =
-  currentUser.user_metadata?.full_name ||
-  currentUser.user_metadata?.name ||
-  currentUser.email?.split("@")[0] ||
-  "User";
-
- const fallbackCountry =
-  currentUser.user_metadata?.country ||
-  "Afghanistan";
-
- const fallbackLanguage =
-  currentUser.user_metadata?.language ||
-  getSportXLanguage() ||
-  "en";
-
- const fallbackAvatar =
-  currentUser.user_metadata?.avatar_url ||
-  "";
-
- const fallbackProfile = {
-
-  id:currentUser.id,
-
-  full_name:fallbackName,
-
-  country:fallbackCountry,
-
-  language:
-   LANGUAGES[fallbackLanguage]
-    ? fallbackLanguage
-    : "en",
-
-  avatar_url:fallbackAvatar,
-
-  email_notifications:true,
-
-  prediction_alerts:true,
-
-  live_updates:true
-
- };
-
-
  /*
-  First try id.
- */
+  * مهم:
+  * Database نباید باعث گیر کردن صفحه شود.
+  * اگر profiles خراب یا unavailable باشد،
+  * Auth اطلاعات اصلی را نمایش می‌دهد.
+  */
+
+ const fallback =
+  buildFallbackProfile();
 
  const byId =
-  await queryProfileBy("id");
+   await queryProfileBy("id");
 
  if(
   !byId.error &&
   byId.data
  ){
 
-  profileKeyColumn="id";
+  profileKeyColumn = "id";
 
-  return byId.data;
+  return {
+   ...fallback,
+   ...byId.data
+  };
 
  }
 
-
- /*
-  Then try user_id.
- */
 
  const byUserId =
   await queryProfileBy("user_id");
@@ -1332,38 +1212,40 @@ async function loadProfile(){
   byUserId.data
  ){
 
-  profileKeyColumn="user_id";
+  profileKeyColumn = "user_id";
 
-  return byUserId.data;
+  return {
+   ...fallback,
+   ...byUserId.data
+  };
 
  }
 
 
- /*
-  Don't block the page trying to create
-  a profile. The page can work from Auth data.
- */
-
  console.warn(
-  "SportX profile row unavailable.",
-  byId.error ||
-  byUserId.error
+  "Profile row unavailable. Using Auth data."
  );
 
- profileKeyColumn =
-  byUserId.error &&
-  !byId.error
-   ? "id"
-   : "user_id";
+ /*
+  * تعیین مسیر ذخیره آینده
+  */
 
- return fallbackProfile;
+ if(
+  byId.error &&
+  !byUserId.error
+ ){
+  profileKeyColumn = "user_id";
+ }else{
+  profileKeyColumn = "id";
+ }
 
+ return fallback;
 }
 
 
 /* =========================================================
    PROFILE VALUES
-   ========================================================= */
+========================================================= */
 
 function profileName(){
 
@@ -1373,43 +1255,28 @@ function profileName(){
   currentUser?.user_metadata?.name ||
   currentUser?.email?.split("@")[0] ||
   "User";
-
 }
+
 
 function profileCountry(){
 
  return currentProfile.country ||
   currentUser?.user_metadata?.country ||
   "Afghanistan";
-
 }
 
-function profileLanguage(){
-
- const language =
-  currentProfile.language ||
-  currentUser?.user_metadata?.language ||
-  getSportXLanguage() ||
-  "en";
-
- return LANGUAGES[language]
-  ? language
-  : "en";
-
-}
 
 function profileAvatar(){
 
  return currentProfile.avatar_url ||
   currentUser?.user_metadata?.avatar_url ||
   "";
-
 }
 
 
 /* =========================================================
    INITIALS
-   ========================================================= */
+========================================================= */
 
 function initials(){
 
@@ -1419,15 +1286,13 @@ function initials(){
   .slice(0,2)
   .map(x=>x[0])
   .join("")
-  .toUpperCase() ||
-  "US";
-
+  .toUpperCase() || "US";
 }
 
 
 /* =========================================================
    AVATAR
-   ========================================================= */
+========================================================= */
 
 function renderAvatar(id){
 
@@ -1451,25 +1316,22 @@ function renderAvatar(id){
   image.alt="Profile";
 
   image.onerror=()=>{
-   element.textContent =
-    initials();
+   element.textContent=initials();
   };
 
   element.appendChild(image);
 
  }else{
 
-  element.textContent =
-   initials();
+  element.textContent=initials();
 
  }
-
 }
 
 
 /* =========================================================
    RENDER PROFILE
-   ========================================================= */
+========================================================= */
 
 function renderProfile(){
 
@@ -1477,58 +1339,28 @@ function renderProfile(){
   profileName();
 
  const email =
-  currentUser?.email ||
-  "—";
+  currentUser?.email || "—";
 
  const country =
   profileCountry();
 
- const language =
-  profileLanguage();
-
- const languageName =
-  LANGUAGES[language] ||
-  "English";
-
  const setText =
   (id,value)=>{
+
    const element =
     document.getElementById(id);
 
    if(element)
-    element.textContent =
-     value;
+    element.textContent=value;
   };
 
- setText(
-  "profileName",
-  name
- );
 
- setText(
-  "profileEmail",
-  email
- );
+ setText("profileName",name);
+ setText("profileEmail",email);
 
- setText(
-  "nameValue",
-  name
- );
-
- setText(
-  "emailValue",
-  email
- );
-
- setText(
-  "countryValue",
-  country
- );
-
- setText(
-  "languageValue",
-  languageName
- );
+ setText("nameValue",name);
+ setText("emailValue",email);
+ setText("countryValue",country);
 
  setText(
   "accountTypeValue",
@@ -1583,81 +1415,57 @@ function renderProfile(){
   );
 
  if(initialsEl)
-  initialsEl.textContent =
-   initials();
+  initialsEl.textContent=initials();
 
  selectedCountry =
   country;
 
- selectedLanguage =
-  language;
-
  loadPreferences();
  updateChoiceLabels();
-
 }
 
 
 /* =========================================================
    PREFERENCES
-   ========================================================= */
+========================================================= */
 
 function getPreferenceColumn(type){
 
  const keys =
-  Object.keys(
-   currentProfile || {}
-  );
+  Object.keys(currentProfile || {});
 
  if(type==="email"){
 
-  if(keys.includes(
-   "email_notifications"
-  ))
+  if(keys.includes("email_notifications"))
    return "email_notifications";
 
-  if(keys.includes(
-   "email_notification"
-  ))
+  if(keys.includes("email_notification"))
    return "email_notification";
 
   return "email_notifications";
-
  }
 
  if(type==="prediction"){
 
-  if(keys.includes(
-   "prediction_alerts"
-  ))
+  if(keys.includes("prediction_alerts"))
    return "prediction_alerts";
 
-  if(keys.includes(
-   "prediction_alert"
-  ))
+  if(keys.includes("prediction_alert"))
    return "prediction_alert";
 
   return "prediction_alerts";
-
  }
 
- if(keys.includes(
-  "live_updates"
- ))
+ if(keys.includes("live_updates"))
   return "live_updates";
 
- if(keys.includes(
-  "live_match"
- ))
+ if(keys.includes("live_match"))
   return "live_match";
 
- if(keys.includes(
-  "live_match_updates"
- ))
+ if(keys.includes("live_match_updates"))
   return "live_match_updates";
 
  return "live_updates";
-
 }
 
 
@@ -1672,13 +1480,10 @@ function getPreferenceValue(type){
    column
   )
  ){
-
   return currentProfile[column] !== false;
-
  }
 
  return true;
-
 }
 
 
@@ -1700,57 +1505,44 @@ function loadPreferences(){
   );
 
  if(email)
-  email.checked =
-   getPreferenceValue("email");
+  email.checked=getPreferenceValue("email");
 
  if(prediction)
-  prediction.checked =
-   getPreferenceValue("prediction");
+  prediction.checked=getPreferenceValue("prediction");
 
  if(live)
-  live.checked =
-   getPreferenceValue("live");
-
+  live.checked=getPreferenceValue("live");
 }
 
 
 /* =========================================================
    SAVE PREFERENCE
-   ========================================================= */
+========================================================= */
 
-async function savePreference(
- type,
- value
-){
+async function savePreference(type,value){
 
  const column =
   getPreferenceColumn(type);
 
- const update = {};
+ const update={};
 
  update[column]=value;
- update.updated_at =
+ update.updated_at=
   new Date().toISOString();
 
  try{
 
   let result;
 
-  if(
-   profileKeyColumn ===
-   "user_id"
-  ){
+  if(profileKeyColumn==="user_id"){
 
    result =
     await withTimeout(
      supabaseClient
       .from("profiles")
       .update(update)
-      .eq(
-       "user_id",
-       currentUser.id
-      ),
-     6000,
+      .eq("user_id",currentUser.id),
+     5000,
      "Saving setting timed out."
     );
 
@@ -1761,30 +1553,15 @@ async function savePreference(
      supabaseClient
       .from("profiles")
       .update(update)
-      .eq(
-       "id",
-       currentUser.id
-      ),
-     6000,
+      .eq("id",currentUser.id),
+     5000,
      "Saving setting timed out."
     );
 
   }
 
-  if(result.error){
-
-   showToast(
-    "Could not save setting."
-   );
-
-   console.error(
-    "Preference error:",
-    result.error
-   );
-
-   return false;
-
-  }
+  if(result.error)
+   throw result.error;
 
   currentProfile[column]=value;
 
@@ -1793,6 +1570,7 @@ async function savePreference(
  }catch(error){
 
   console.error(
+   "Preference error:",
    error
   );
 
@@ -1801,15 +1579,13 @@ async function savePreference(
   );
 
   return false;
-
  }
-
 }
 
 
 /* =========================================================
    TOGGLES
-   ========================================================= */
+========================================================= */
 
 document
 .querySelectorAll(".toggle input")
@@ -1821,22 +1597,13 @@ document
 
    let type="";
 
-   if(
-    input.id ===
-    "emailNotifications"
-   )
+   if(input.id==="emailNotifications")
     type="email";
 
-   if(
-    input.id ===
-    "predictionAlerts"
-   )
+   if(input.id==="predictionAlerts")
     type="prediction";
 
-   if(
-    input.id ===
-    "liveUpdates"
-   )
+   if(input.id==="liveUpdates")
     type="live";
 
    if(!type)
@@ -1849,10 +1616,7 @@ document
     );
 
    if(success)
-    showToast(
-     "Setting saved."
-    );
-
+    showToast("Setting saved.");
   }
  );
 
@@ -1861,17 +1625,12 @@ document
 
 /* =========================================================
    EDIT PROFILE
-   ========================================================= */
+========================================================= */
 
-function openEditProfile(
- focusPhoto=false
-){
+function openEditProfile(focusPhoto=false){
 
  selectedCountry =
   profileCountry();
-
- selectedLanguage =
-  profileLanguage();
 
  selectedAvatarData=null;
 
@@ -1881,8 +1640,7 @@ function openEditProfile(
   );
 
  if(nameInput)
-  nameInput.value =
-   profileName();
+  nameInput.value=profileName();
 
  const emailInput =
   document.getElementById(
@@ -1890,16 +1648,15 @@ function openEditProfile(
   );
 
  if(emailInput)
-  emailInput.value =
-   currentUser?.email ||
-   "";
+  emailInput.value=
+   currentUser?.email || "";
 
  updateChoiceLabels();
  renderPhotoPreview();
 
- document.getElementById(
-  "editProfileModal"
- ).classList.add("show");
+ document
+  .getElementById("editProfileModal")
+  .classList.add("show");
 
  document.body.classList.add(
   "modal-open"
@@ -1908,13 +1665,12 @@ function openEditProfile(
  if(focusPhoto){
 
   setTimeout(()=>{
-   document.getElementById(
-    "avatarFile"
-   )?.click();
+   document
+    .getElementById("avatarFile")
+    ?.click();
   },180);
 
  }
-
 }
 
 
@@ -1926,43 +1682,30 @@ function updateChoiceLabels(){
   );
 
  if(country)
-  country.textContent =
-   selectedCountry ||
-   "Select country";
-
- const language =
-  document.getElementById(
-   "selectedLanguageText"
-  );
-
- if(language)
-  language.textContent =
-   LANGUAGES[
-    selectedLanguage
-   ] ||
-   "English";
-
+  country.textContent=
+   selectedCountry || "Select country";
 }
 
 
 /* =========================================================
    COUNTRY
-   ========================================================= */
+========================================================= */
 
 function openCountryModal(){
 
- document.getElementById(
-  "countrySearch"
- ).value="";
+ const search =
+  document.getElementById(
+   "countrySearch"
+  );
 
- renderCountries(
-  COUNTRIES
- );
+ if(search)
+  search.value="";
 
- document.getElementById(
-  "countryModal"
- ).classList.add("show");
+ renderCountries(COUNTRIES);
 
+ document
+  .getElementById("countryModal")
+  .classList.add("show");
 }
 
 
@@ -1981,61 +1724,39 @@ function renderCountries(list){
  list.forEach(country=>{
 
   const button =
-   document.createElement(
-    "button"
-   );
+   document.createElement("button");
 
-  button.className =
-   "country-row";
+  button.className="country-row";
 
-  if(
-   country ===
-   selectedCountry
-  )
-   button.classList.add(
-    "selected"
-   );
+  if(country===selectedCountry)
+   button.classList.add("selected");
 
   const flag =
-   document.createElement(
-    "div"
-   );
+   document.createElement("div");
 
-  flag.className =
-   "country-flag";
-
+  flag.className="country-flag";
   flag.textContent="🌍";
 
   const text =
-   document.createElement(
-    "div"
-   );
+   document.createElement("div");
 
-  text.textContent =
-   country;
+  text.textContent=country;
 
   button.appendChild(flag);
   button.appendChild(text);
 
   button.onclick=()=>{
 
-   selectedCountry =
-    country;
+   selectedCountry=country;
 
    updateChoiceLabels();
 
-   closeModal(
-    "countryModal"
-   );
-
+   closeModal("countryModal");
   };
 
-  box.appendChild(
-   button
-  );
+  box.appendChild(button);
 
  });
-
 }
 
 
@@ -2049,78 +1770,20 @@ function filterCountries(){
  const q =
   input?.value
    ?.toLowerCase()
-   .trim() ||
-  "";
+   .trim() || "";
 
  renderCountries(
   COUNTRIES.filter(
-   country =>
-    country
-     .toLowerCase()
-     .includes(q)
+   country=>
+    country.toLowerCase().includes(q)
   )
  );
-
-}
-
-
-/* =========================================================
-   LANGUAGE
-   ========================================================= */
-
-function openLanguageModal(){
-
- document.getElementById(
-  "languageModal"
- ).classList.add("show");
-
- document.querySelectorAll(
-  ".language-row"
- ).forEach(row=>{
-
-  row.classList.toggle(
-   "selected",
-   row.dataset.lang ===
-   selectedLanguage
-  );
-
- });
-
-}
-
-
-function selectLanguage(lang){
-
- if(!LANGUAGES[lang])
-  return;
-
- selectedLanguage =
-  lang;
-
- updateChoiceLabels();
-
- document.querySelectorAll(
-  ".language-row"
- ).forEach(row=>{
-
-  row.classList.toggle(
-   "selected",
-   row.dataset.lang ===
-   selectedLanguage
-  );
-
- });
-
- closeModal(
-  "languageModal"
- );
-
 }
 
 
 /* =========================================================
    PHOTO
-   ========================================================= */
+========================================================= */
 
 function renderPhotoPreview(){
 
@@ -2141,27 +1804,22 @@ function renderPhotoPreview(){
  if(source){
 
   const img =
-   document.createElement(
-    "img"
-   );
+   document.createElement("img");
 
   img.src=source;
   img.alt="Preview";
 
   img.onerror=()=>{
-   box.textContent =
-    initials();
+   box.textContent=initials();
   };
 
   box.appendChild(img);
 
  }else{
 
-  box.textContent =
-   initials();
+  box.textContent=initials();
 
  }
-
 }
 
 
@@ -2177,10 +1835,7 @@ document
   if(!file)
    return;
 
-  if(
-   file.size >
-   2*1024*1024
-  ){
+  if(file.size>2*1024*1024){
 
    showToast(
     "Image must be smaller than 2 MB."
@@ -2188,7 +1843,6 @@ document
 
    this.value="";
    return;
-
   }
 
   if(
@@ -2205,7 +1859,6 @@ document
 
    this.value="";
    return;
-
   }
 
   try{
@@ -2215,9 +1868,7 @@ document
 
    renderPhotoPreview();
 
-   showToast(
-    "Photo selected."
-   );
+   showToast("Photo selected.");
 
   }catch(error){
 
@@ -2226,9 +1877,7 @@ document
    showToast(
     "Could not process image."
    );
-
   }
-
  });
 
 
@@ -2249,38 +1898,31 @@ function compressImage(file){
 
      const max=700;
 
-     let width =
-      image.width;
-
-     let height =
-      image.height;
+     let width=image.width;
+     let height=image.height;
 
      if(width>max){
 
-      height =
+      height=
        Math.round(
         height*max/width
        );
 
       width=max;
-
      }
 
      if(height>max){
 
-      width =
+      width=
        Math.round(
         width*max/height
        );
 
       height=max;
-
      }
 
      const canvas =
-      document.createElement(
-       "canvas"
-      );
+      document.createElement("canvas");
 
      canvas.width=width;
      canvas.height=height;
@@ -2302,69 +1944,43 @@ function compressImage(file){
        .82
       )
      );
-
     };
 
-    image.onerror =
-     reject;
-
-    image.src =
-     reader.result;
-
+    image.onerror=reject;
+    image.src=reader.result;
    };
 
-   reader.onerror =
-    reject;
-
+   reader.onerror=reject;
    reader.readAsDataURL(file);
-
   }
  );
-
 }
 
 
 /* =========================================================
    SAVE PROFILE
-   ========================================================= */
+========================================================= */
 
 async function saveProfile(){
 
- const name =
+ const input =
   document.getElementById(
    "editFullName"
-  )
-  .value
-  .trim();
+  );
+
+ const name =
+  input.value.trim();
 
  if(!name){
 
-  showToast(
-   "Enter your name."
-  );
-
+  showToast("Enter your name.");
   return;
-
  }
 
  if(!selectedCountry){
 
-  showToast(
-   "Select your country."
-  );
-
+  showToast("Select your country.");
   return;
-
- }
-
- if(!LANGUAGES[selectedLanguage]){
-
-  showToast(
-   "Select a valid language."
-  );
-
-  return;
-
  }
 
  const button =
@@ -2372,82 +1988,60 @@ async function saveProfile(){
    "saveProfileButton"
   );
 
- button.classList.add(
-  "loading"
- );
-
- button.textContent =
-  "Saving...";
+ button.classList.add("loading");
+ button.textContent="Saving...";
 
  try{
 
-  const update = {
-
+  const update={
    full_name:name,
-
    country:selectedCountry,
-
-   language:selectedLanguage,
-
    updated_at:
     new Date().toISOString()
-
   };
 
   if(selectedAvatarData)
-   update.avatar_url =
+   update.avatar_url=
     selectedAvatarData;
-
 
   let result;
 
-
   /*
-   * Update current row.
+   * UPDATE
    */
 
-  if(
-   profileKeyColumn ===
-   "user_id"
-  ){
+  if(profileKeyColumn==="user_id"){
 
-   result =
+   result=
     await withTimeout(
      supabaseClient
       .from("profiles")
       .update(update)
-      .eq(
-       "user_id",
-       currentUser.id
-      )
+      .eq("user_id",currentUser.id)
       .select("*")
       .maybeSingle(),
-     7000,
+     6000,
      "Profile save timed out."
     );
 
   }else{
 
-   result =
+   result=
     await withTimeout(
      supabaseClient
       .from("profiles")
       .update(update)
-      .eq(
-       "id",
-       currentUser.id
-      )
+      .eq("id",currentUser.id)
       .select("*")
       .maybeSingle(),
-     7000,
+     6000,
      "Profile save timed out."
     );
-
   }
 
 
   /*
-   * If no row exists, try insert.
+   * INSERT IF NO ROW
    */
 
   if(
@@ -2455,70 +2049,59 @@ async function saveProfile(){
    !result.data
   ){
 
-   if(
-    profileKeyColumn ===
-    "user_id"
-   ){
+   if(profileKeyColumn==="user_id"){
 
-    result =
+    result=
      await withTimeout(
       supabaseClient
        .from("profiles")
        .insert({
-        user_id:
-         currentUser.id,
+        user_id:currentUser.id,
         ...update
        })
        .select("*")
        .single(),
-      7000,
+      6000,
       "Profile creation timed out."
      );
 
    }else{
 
-    result =
+    result=
      await withTimeout(
       supabaseClient
        .from("profiles")
        .insert({
-        id:
-         currentUser.id,
+        id:currentUser.id,
         ...update
        })
        .select("*")
        .single(),
-      7000,
+      6000,
       "Profile creation timed out."
      );
-
    }
-
   }
 
 
   /*
-   * If id failed, retry user_id.
+   * Fallback user_id
    */
 
   if(
    result.error &&
-   profileKeyColumn ===
-   "id"
+   profileKeyColumn==="id"
   ){
 
-   const retry =
+   const retry=
     await withTimeout(
      supabaseClient
       .from("profiles")
       .update(update)
-      .eq(
-       "user_id",
-       currentUser.id
-      )
+      .eq("user_id",currentUser.id)
       .select("*")
       .maybeSingle(),
-     7000,
+     6000,
      "Profile retry timed out."
     );
 
@@ -2527,52 +2110,36 @@ async function saveProfile(){
     retry.data
    ){
 
-    profileKeyColumn =
-     "user_id";
-
-    result =
-     retry;
-
+    profileKeyColumn="user_id";
+    result=retry;
    }
-
   }
 
 
-  /*
-   * Try user_id insertion as final fallback.
-   */
-
   if(
    result.error &&
-   profileKeyColumn ===
-   "id"
+   profileKeyColumn==="id"
   ){
 
-   const retryInsert =
+   const retryInsert=
     await withTimeout(
      supabaseClient
       .from("profiles")
       .insert({
-       user_id:
-        currentUser.id,
+       user_id:currentUser.id,
        ...update
       })
       .select("*")
       .single(),
-     7000,
+     6000,
      "Profile creation timed out."
     );
 
    if(!retryInsert.error){
 
-    profileKeyColumn =
-     "user_id";
-
-    result =
-     retryInsert;
-
+    profileKeyColumn="user_id";
+    result=retryInsert;
    }
-
   }
 
 
@@ -2580,7 +2147,7 @@ async function saveProfile(){
    throw result.error;
 
 
-  currentProfile =
+  currentProfile=
    result.data ||
    {
     ...currentProfile,
@@ -2589,32 +2156,28 @@ async function saveProfile(){
 
 
   /*
-   * Keep Auth metadata synchronized.
+   * Auth metadata
+   * بدون هیچ language
    */
 
-  const metadata = {
-
+  const metadata={
    full_name:name,
-
-   country:selectedCountry,
-
-   language:selectedLanguage
-
+   country:selectedCountry
   };
 
   if(selectedAvatarData)
-   metadata.avatar_url =
+   metadata.avatar_url=
     selectedAvatarData;
 
 
   try{
 
-   const authResult =
+   const authResult=
     await withTimeout(
      supabaseClient.auth.updateUser({
       data:metadata
      }),
-     7000,
+     6000,
      "Account metadata update timed out."
     );
 
@@ -2622,10 +2185,8 @@ async function saveProfile(){
     !authResult.error &&
     authResult.data?.user
    ){
-
-    currentUser =
+    currentUser=
      authResult.data.user;
-
    }
 
   }catch(error){
@@ -2634,40 +2195,7 @@ async function saveProfile(){
     "Auth metadata update:",
     error
    );
-
   }
-
-
-  /*
-   * Global language.
-   */
-
-  setSportXLanguage(
-   selectedLanguage
-  );
-
-
-  /*
-   * Google Translate cookie.
-   */
-
-  try{
-
-   if(selectedLanguage === "en"){
-
-    document.cookie =
-     "googtrans=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/";
-
-   }else{
-
-    document.cookie =
-     "googtrans=/en/" +
-     selectedLanguage +
-     ";path=/";
-
-   }
-
-  }catch(error){}
 
 
   renderProfile();
@@ -2677,23 +2205,10 @@ async function saveProfile(){
    "editProfileModal"
   );
 
-  selectedAvatarData =
-   null;
+  selectedAvatarData=null;
 
   showToast(
    "Profile saved successfully."
-  );
-
-
-  /*
-   * Reload once to apply language globally.
-   */
-
-  setTimeout(
-   ()=>{
-    window.location.reload();
-   },
-   700
   );
 
 
@@ -2711,48 +2226,41 @@ async function saveProfile(){
 
  }finally{
 
-  button.classList.remove(
-   "loading"
-  );
-
-  button.textContent =
-   "Save Changes";
-
+  button.classList.remove("loading");
+  button.textContent="Save Changes";
  }
-
 }
 
 
 /* =========================================================
    PASSWORD
-   ========================================================= */
+========================================================= */
 
 function openChangePassword(){
 
- document.getElementById(
-  "passwordModal"
- ).classList.add("show");
+ document
+  .getElementById("passwordModal")
+  .classList.add("show");
 
  document.body.classList.add(
   "modal-open"
  );
-
 }
 
 
 async function changePassword(){
 
- const current =
+ const current=
   document.getElementById(
    "currentPassword"
   ).value;
 
- const newPassword =
+ const newPassword=
   document.getElementById(
    "newPassword"
   ).value;
 
- const confirm =
+ const confirm=
   document.getElementById(
    "confirmPassword"
   ).value;
@@ -2764,7 +2272,6 @@ async function changePassword(){
   );
 
   return;
-
  }
 
  if(newPassword.length<8){
@@ -2774,59 +2281,45 @@ async function changePassword(){
   );
 
   return;
-
  }
 
- if(newPassword !== confirm){
+ if(newPassword!==confirm){
 
   showToast(
    "Passwords do not match."
   );
 
   return;
-
  }
 
- const button =
+ const button=
   document.getElementById(
    "changePasswordButton"
   );
 
- button.classList.add(
-  "loading"
- );
-
- button.textContent =
-  "Updating...";
+ button.classList.add("loading");
+ button.textContent="Updating...";
 
  try{
 
-  const login =
+  const login=
    await withTimeout(
     supabaseClient
      .auth
      .signInWithPassword({
-
-      email:
-       currentUser.email,
-
-      password:
-       current
-
+      email:currentUser.email,
+      password:current
      }),
     8000,
     "Password verification timed out."
    );
 
-  if(login.error){
-
+  if(login.error)
    throw new Error(
     "Current password is incorrect."
    );
 
-  }
-
-  const update =
+  const update=
    await withTimeout(
     supabaseClient
      .auth
@@ -2840,9 +2333,7 @@ async function changePassword(){
   if(update.error)
    throw update.error;
 
-  closeModal(
-   "passwordModal"
-  );
+  closeModal("passwordModal");
 
   document.getElementById(
    "currentPassword"
@@ -2871,144 +2362,97 @@ async function changePassword(){
 
  }finally{
 
-  button.classList.remove(
-   "loading"
-  );
-
-  button.textContent =
-   "Update Password";
-
+  button.classList.remove("loading");
+  button.textContent="Update Password";
  }
-
 }
 
 
 /* =========================================================
    MODALS
-   ========================================================= */
+========================================================= */
 
 function closeModal(id){
 
- const modal =
+ const modal=
   document.getElementById(id);
 
  if(!modal)
   return;
 
- modal.classList.remove(
-  "show"
- );
+ modal.classList.remove("show");
 
  if(
   !document.querySelector(
    ".modal-overlay.show"
   )
  ){
-
   document.body.classList.remove(
    "modal-open"
   );
-
  }
-
 }
 
 
 function closeOverlay(event,id){
 
- if(
-  event.target.id ===
-  id
- ){
-
+ if(event.target.id===id)
   closeModal(id);
-
- }
-
 }
 
 
 /* =========================================================
    TOAST
-   ========================================================= */
+========================================================= */
 
-let toastTimer = null;
+let toastTimer=null;
 
 function showToast(message){
 
- const toast =
-  document.getElementById(
-   "toast"
-  );
+ const toast=
+  document.getElementById("toast");
 
  if(!toast)
   return;
 
- toast.textContent =
-  message;
+ toast.textContent=message;
 
- toast.classList.add(
-  "show"
- );
+ toast.classList.add("show");
 
- clearTimeout(
-  toastTimer
- );
+ clearTimeout(toastTimer);
 
- toastTimer =
-  setTimeout(
-   ()=>{
-    toast.classList.remove(
-     "show"
-    );
-   },
-   3000
-  );
-
+ toastTimer=
+  setTimeout(()=>{
+   toast.classList.remove("show");
+  },3000);
 }
 
 
 /* =========================================================
-   ESCAPE KEY
-   ========================================================= */
+   ESC
+========================================================= */
 
 document.addEventListener(
  "keydown",
  event=>{
 
-  if(
-   event.key ===
-   "Escape"
-  ){
+  if(event.key==="Escape"){
 
-   closeModal(
-    "editProfileModal"
-   );
-
-   closeModal(
-    "countryModal"
-   );
-
-   closeModal(
-    "languageModal"
-   );
-
-   closeModal(
-    "passwordModal"
-   );
+   closeModal("editProfileModal");
+   closeModal("countryModal");
+   closeModal("passwordModal");
 
   }
-
  });
 
 
 /* =========================================================
-   HIDE LOADING — ALWAYS
-   ========================================================= */
+   LOADING
+========================================================= */
 
 function hideProfileLoading(){
 
- const loading =
+ const loading=
   document.getElementById(
    "profileLoading"
   );
@@ -3016,59 +2460,95 @@ function hideProfileLoading(){
  if(!loading)
   return;
 
- loading.classList.add(
-  "hide"
- );
-
+ loading.classList.add("hide");
 }
 
 
 /* =========================================================
-   FALLBACK PROFILE
-   ========================================================= */
+   AUTH LISTENER
+   قبل از شروع Profile
+========================================================= */
 
-function buildFallbackProfile(){
+function startAuthListener(){
 
- return {
+ if(authListenerStarted)
+  return;
 
-  id:
-   currentUser.id,
+ authListenerStarted=true;
 
-  full_name:
-   currentUser.user_metadata?.full_name ||
-   currentUser.user_metadata?.name ||
-   currentUser.email?.split("@")[0] ||
-   "User",
+ if(
+  !supabaseClient ||
+  !supabaseClient.auth
+ )
+  return;
 
-  country:
-   currentUser.user_metadata?.country ||
-   "Afghanistan",
+ supabaseClient.auth.onAuthStateChange(
+  (event,session)=>{
 
-  language:
-   LANGUAGES[
-    currentUser.user_metadata?.language
-   ]
-    ? currentUser.user_metadata.language
-    : getSportXLanguage(),
+   console.log(
+    "SportX Profile Auth:",
+    event
+   );
 
-  avatar_url:
-   currentUser.user_metadata?.avatar_url ||
-   "",
+   /*
+    * هیچ عملیات سنگین داخل callback انجام نمی‌دهیم.
+    * این از گیر کردن Supabase Auth جلوگیری می‌کند.
+    */
 
-  email_notifications:true,
+   setTimeout(
+    async()=>{
 
-  prediction_alerts:true,
+     if(event==="SIGNED_OUT"){
 
-  live_updates:true
+      currentUser=null;
 
- };
+      window.location.replace(
+       "login.html"
+      );
 
+      return;
+     }
+
+     if(session?.user){
+
+      currentUser=
+       session.user;
+
+      /*
+       * فقط اطلاعات UI را تازه می‌کنیم.
+       */
+
+      try{
+
+       currentProfile=
+        await loadProfile();
+
+      }catch(error){
+
+       currentProfile=
+        buildFallbackProfile();
+      }
+
+      renderProfile();
+
+      /*
+       * Loading دیگر هرگز دوباره نمایش داده نمی‌شود.
+       */
+
+      hideProfileLoading();
+     }
+
+    },
+    0
+   );
+  }
+ );
 }
 
 
 /* =========================================================
    START PROFILE
-   ========================================================= */
+========================================================= */
 
 async function startProfile(){
 
@@ -3077,116 +2557,108 @@ async function startProfile(){
 
  profileStarted=true;
 
-
  /*
-  * Safety timer:
-  * NEVER leave user stuck on loading.
+  * حتی اگر چیزی اشتباه شود،
+  * صفحه بیش از 12 ثانیه Loading نمی‌ماند.
   */
 
- const loadingSafety =
+ const safetyTimer=
   setTimeout(
    ()=>{
     hideProfileLoading();
    },
-   10000
+   12000
   );
-
 
  try{
 
   /*
-   * Supabase
+   * 1. Supabase
    */
 
   await initSupabase();
 
 
   /*
-   * Current authenticated user
+   * 2. Auth listener را زود ثبت می‌کنیم
    */
 
-  currentUser =
-   await getUser();
+  startAuthListener();
 
 
   /*
-   * No session.
+   * 3. Session را با retry می‌گیریم
+   */
+
+  currentUser=
+   await waitForAuthenticatedUser();
+
+
+  /*
+   * 4. اگر Session واقعاً وجود ندارد
    */
 
   if(!currentUser){
 
-   clearTimeout(
-    loadingSafety
-   );
+   clearTimeout(safetyTimer);
 
    hideProfileLoading();
 
-   window.location.replace(
-    "login.html"
+   showToast(
+    "Your session was not found. Please login again."
+   );
+
+   setTimeout(
+    ()=>{
+     window.location.replace(
+      "login.html"
+     );
+    },
+    1200
    );
 
    return;
-
   }
 
 
   /*
-   * Load profile.
+   * 5. اطلاعات Profile
    *
-   * IMPORTANT:
-   * If database profile is unavailable,
-   * fallback Auth data is used.
+   * Database هیچ وقت نباید مانع نمایش صفحه شود.
    */
 
   try{
 
-   currentProfile =
+   currentProfile=
     await loadProfile();
 
   }catch(error){
 
    console.warn(
-    "Profile database unavailable:",
+    "Profile database error:",
     error
    );
 
-   currentProfile =
+   currentProfile=
     buildFallbackProfile();
-
   }
 
 
   if(
    !currentProfile ||
-   typeof currentProfile !==
-   "object"
+   typeof currentProfile!=="object"
   ){
-
-   currentProfile =
+   currentProfile=
     buildFallbackProfile();
-
   }
 
 
-  selectedCountry =
+  /*
+   * 6. Render
+   */
+
+  selectedCountry=
    profileCountry();
-
-  selectedLanguage =
-   profileLanguage();
-
-
-  /*
-   * Synchronize language.
-   */
-
-  setSportXLanguage(
-   selectedLanguage
-  );
-
-
-  /*
-   * Render immediately.
-   */
 
   renderProfile();
 
@@ -3194,109 +2666,22 @@ async function startProfile(){
 
   renderPhotoPreview();
 
-  renderCountries(
-   COUNTRIES
-  );
+  renderCountries(COUNTRIES);
 
 
   /*
-   * IMPORTANT:
-   * Hide loading BEFORE anything else.
+   * 7. بسیار مهم:
+   * Loading همین‌جا قطع می‌شود.
    */
 
-  clearTimeout(
-   loadingSafety
-  );
+  clearTimeout(safetyTimer);
 
   hideProfileLoading();
 
 
-  /*
-   * Auth state listener.
-   *
-   * We do NOT reload the page or block UI here.
-   */
-
-  if(
-   !window.SportXProfileAuthListener
-  ){
-
-   window.SportXProfileAuthListener =
-    true;
-
-   supabaseClient.auth
-    .onAuthStateChange(
-     async(
-      event,
-      session
-     )=>{
-
-      console.log(
-       "SportX Profile Auth:",
-       event
-      );
-
-
-      if(
-       event ===
-       "SIGNED_OUT"
-      ){
-
-       window.location.replace(
-        "login.html"
-       );
-
-       return;
-
-      }
-
-
-      if(
-       session?.user
-      ){
-
-       currentUser =
-        session.user;
-
-       /*
-        * Update visible account data
-        * without putting page back into loading.
-        */
-
-       try{
-
-        currentProfile =
-         await loadProfile();
-
-       }catch(error){
-
-        currentProfile =
-         buildFallbackProfile();
-
-       }
-
-       selectedCountry =
-        profileCountry();
-
-       selectedLanguage =
-        profileLanguage();
-
-       setSportXLanguage(
-        selectedLanguage
-       );
-
-       renderProfile();
-
-       updateChoiceLabels();
-
-       renderPhotoPreview();
-
-      }
-
-     }
-    );
-
-  }
+  console.log(
+   "SportX Profile loaded successfully."
+  );
 
 
  }catch(error){
@@ -3306,33 +2691,23 @@ async function startProfile(){
    error
   );
 
-
-  clearTimeout(
-   loadingSafety
-  );
-
+  clearTimeout(safetyTimer);
 
   /*
-   * Even if something fails,
-   * don't leave the user staring
-   * at an infinite spinner.
+   * اگر Auth user somehow موجود باشد،
+   * Profile را از Auth می‌سازیم.
    */
 
   if(currentUser){
 
-   currentProfile =
+   currentProfile=
     buildFallbackProfile();
 
-   selectedCountry =
+   selectedCountry=
     profileCountry();
 
-   selectedLanguage =
-    profileLanguage();
-
    renderProfile();
-
    updateChoiceLabels();
-
    renderPhotoPreview();
 
    hideProfileLoading();
@@ -3342,9 +2717,12 @@ async function startProfile(){
    );
 
    return;
-
   }
 
+
+  /*
+   * هیچ حالت بی‌نهایت Loading وجود ندارد.
+   */
 
   hideProfileLoading();
 
@@ -3352,42 +2730,34 @@ async function startProfile(){
    "Could not load your account."
   );
 
-
   setTimeout(
    ()=>{
     window.location.replace(
      "login.html"
     );
    },
-   1800
+   1500
   );
-
- }
-
 }
 
 
 /* =========================================================
    START
-   ========================================================= */
+========================================================= */
 
 if(
- document.readyState ===
- "loading"
+ document.readyState==="loading"
 ){
 
  document.addEventListener(
   "DOMContentLoaded",
   startProfile,
-  {
-   once:true
-  }
+  {once:true}
  );
 
 }else{
 
  startProfile();
-
 }
 
 </script>
