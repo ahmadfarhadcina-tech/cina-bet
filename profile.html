@@ -334,7 +334,11 @@ main{padding:45px 0 70px}
  display:flex;align-items:center;justify-content:center;
  transition:.35s
 }
-.profile-loading.hide{opacity:0;pointer-events:none}
+.profile-loading.hide{
+ opacity:0;
+ pointer-events:none;
+ visibility:hidden
+}
 .loading-box{text-align:center}
 .loading-logo{font-size:30px;font-weight:900;margin-bottom:14px}
 .loading-logo span{color:var(--green-dark)}
@@ -388,7 +392,6 @@ footer{
 
 <body>
 
-<!-- LOADING -->
 <div class="profile-loading" id="profileLoading">
     <div class="loading-box">
         <div class="loading-logo">Sport<span>X</span></div>
@@ -814,7 +817,6 @@ Update Password
 <div class="toast" id="toast"></div>
 
 
-<!-- AUTH -->
 <script src="auth.js"></script>
 
 <script>
@@ -841,20 +843,37 @@ let authListenerStarted = false;
 
 
 /* =========================================================
-   TIMEOUT
+   HELPERS
 ========================================================= */
+
+function sleep(ms){
+ return new Promise(resolve=>setTimeout(resolve,ms));
+}
+
 
 function withTimeout(promise,ms,message){
 
+ let timer;
+
+ const timeout =
+  new Promise((resolve,reject)=>{
+
+   timer=setTimeout(()=>{
+    reject(
+     new Error(
+      message || "Request timed out."
+     )
+    );
+   },ms);
+
+  });
+
  return Promise.race([
   promise,
-  new Promise((resolve,reject)=>{
-   setTimeout(()=>{
-    reject(new Error(message || "Request timed out."));
-   },ms);
-  })
- ]);
-
+  timeout
+ ]).finally(()=>{
+  clearTimeout(timer);
+ });
 }
 
 
@@ -901,22 +920,23 @@ const COUNTRIES = [
 
 
 /* =========================================================
-   SUPABASE
+   SUPABASE INIT
 ========================================================= */
 
 async function initSupabase(){
 
  if(window.SportXSupabase){
 
-  supabaseClient =
-   window.SportXSupabase;
+  supabaseClient=window.SportXSupabase;
 
-  return supabaseClient;
+  if(supabaseClient.auth)
+   return supabaseClient;
  }
+
 
  if(
   window.supabase &&
-  typeof window.supabase.createClient === "function"
+  typeof window.supabase.createClient==="function"
  ){
 
   supabaseClient =
@@ -925,16 +945,17 @@ async function initSupabase(){
     SUPABASE_KEY
    );
 
-  window.SportXSupabase =
+  window.SportXSupabase=
    supabaseClient;
 
   return supabaseClient;
  }
 
+
  await withTimeout(
   new Promise((resolve,reject)=>{
 
-   const existing =
+   const existing=
     document.querySelector(
      'script[src*="supabase-js"]'
     );
@@ -943,7 +964,7 @@ async function initSupabase(){
 
     if(
      window.supabase &&
-     typeof window.supabase.createClient === "function"
+     typeof window.supabase.createClient==="function"
     ){
      resolve();
      return;
@@ -964,16 +985,17 @@ async function initSupabase(){
     return;
    }
 
-   const script =
+
+   const script=
     document.createElement("script");
 
-   script.src =
+   script.src=
     "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2";
 
-   script.async = true;
+   script.async=true;
 
-   script.onload = resolve;
-   script.onerror = reject;
+   script.onload=resolve;
+   script.onerror=reject;
 
    document.head.appendChild(script);
 
@@ -982,20 +1004,24 @@ async function initSupabase(){
   "Supabase loading timed out."
  );
 
+
  if(
   !window.supabase ||
-  typeof window.supabase.createClient !== "function"
+  typeof window.supabase.createClient!=="function"
  ){
-  throw new Error("Supabase is unavailable.");
+  throw new Error(
+   "Supabase is unavailable."
+  );
  }
 
- supabaseClient =
+
+ supabaseClient=
   window.supabase.createClient(
    SUPABASE_URL,
    SUPABASE_KEY
   );
 
- window.SportXSupabase =
+ window.SportXSupabase=
   supabaseClient;
 
  return supabaseClient;
@@ -1003,63 +1029,63 @@ async function initSupabase(){
 
 
 /* =========================================================
-   AUTH SESSION
-   این بخش مشکل اصلی Loading را حل می‌کند
+   AUTH
+   مهم‌ترین بخش برای مشکل Loading
 ========================================================= */
 
-async function getAuthenticatedUser(){
-
- if(!supabaseClient)
-  throw new Error("Supabase client is not ready.");
-
- /*
-  * اول Session را می‌گیریم.
-  * این مهم است چون بعد از Login ممکن است
-  * Auth هنوز session را restore نکرده باشد.
-  */
-
- const sessionResult =
-  await withTimeout(
-   supabaseClient.auth.getSession(),
-   7000,
-   "Session loading timed out."
-  );
-
- if(sessionResult.error)
-  throw sessionResult.error;
-
- const session =
-  sessionResult.data?.session;
-
- if(session?.user)
-  return session.user;
-
-
- /*
-  * اگر Session هنوز آماده نبود،
-  * getUser را هم امتحان می‌کنیم.
-  */
+async function getSessionUser(){
 
  try{
 
-  const userResult =
+  const result=
    await withTimeout(
-    supabaseClient.auth.getUser(),
-    5000,
-    "User loading timed out."
+    supabaseClient.auth.getSession(),
+    4000,
+    "Session request timed out."
    );
 
   if(
-   !userResult.error &&
-   userResult.data?.user
+   !result.error &&
+   result.data?.session?.user
   ){
-   return userResult.data.user;
+   return result.data.session.user;
   }
 
  }catch(error){
 
   console.warn(
-   "getUser fallback:",
+   "getSession:",
+   error
+  );
+
+ }
+
+ return null;
+}
+
+
+async function getUserDirectly(){
+
+ try{
+
+  const result=
+   await withTimeout(
+    supabaseClient.auth.getUser(),
+    4000,
+    "User request timed out."
+   );
+
+  if(
+   !result.error &&
+   result.data?.user
+  ){
+   return result.data.user;
+  }
+
+ }catch(error){
+
+  console.warn(
+   "getUser:",
    error
   );
 
@@ -1070,44 +1096,166 @@ async function getAuthenticatedUser(){
 
 
 /*
- * بعد از Login ممکن است INITIAL_SESSION کمی دیر برسد.
- * بنابراین قبل از redirect کمی منتظر می‌مانیم.
+ * Session را چند بار بررسی می‌کنیم.
+ * این قسمت مخصوص حالتی است که کاربر:
+ *
+ * Login → Profile
+ *
+ * و Supabase هنوز session را کامل restore نکرده است.
  */
 
-async function waitForAuthenticatedUser(){
+async function resolveUserFromAuth(){
 
- for(let attempt=0;attempt<4;attempt++){
+ for(let attempt=1;attempt<=5;attempt++){
 
-  try{
+  const sessionUser=
+   await getSessionUser();
 
-   const user =
-    await getAuthenticatedUser();
+  if(sessionUser)
+   return sessionUser;
 
-   if(user)
-    return user;
+  const directUser=
+   await getUserDirectly();
 
-  }catch(error){
+  if(directUser)
+   return directUser;
 
-   console.warn(
-    "Auth attempt",
-    attempt + 1,
-    error
-   );
-
-  }
-
-  await new Promise(
-   resolve=>setTimeout(resolve,700)
-  );
-
+  await sleep(500);
  }
 
  return null;
 }
 
 
+/*
+ * وقتی Profile باز می‌شود،
+ * هم‌زمان به Auth event گوش می‌دهیم.
+ */
+
+function waitForAuthEvent(){
+
+ return new Promise(resolve=>{
+
+  let finished=false;
+  let timer=null;
+  let subscription=null;
+
+  const finish=user=>{
+
+   if(finished)
+    return;
+
+   finished=true;
+
+   if(timer)
+    clearTimeout(timer);
+
+   try{
+    subscription?.unsubscribe();
+   }catch(error){}
+
+   resolve(user || null);
+  };
+
+
+  try{
+
+   const result=
+    supabaseClient.auth.onAuthStateChange(
+     (event,session)=>{
+
+      console.log(
+       "SportX Profile Auth Event:",
+       event
+      );
+
+
+      if(session?.user){
+
+       finish(session.user);
+       return;
+      }
+
+
+      /*
+       * INITIAL_SESSION بدون user یعنی
+       * در آن لحظه session وجود ندارد.
+       *
+       * قبل از redirect یک بار دیگر getSession
+       * انجام می‌دهیم تا race condition حذف شود.
+       */
+
+      if(event==="INITIAL_SESSION"){
+
+       setTimeout(async()=>{
+
+        const user=
+         await resolveUserFromAuth();
+
+        finish(user);
+
+       },300);
+
+      }
+
+     }
+    );
+
+   subscription=
+    result?.data?.subscription || null;
+
+  }catch(error){
+
+   console.warn(
+    "Auth listener error:",
+    error
+   );
+
+  }
+
+
+  /*
+   * حداکثر 8 ثانیه برای Auth event.
+   * بعد از آن صفحه هیچ‌وقت Loading بی‌نهایت نمی‌شود.
+   */
+
+  timer=
+   setTimeout(async()=>{
+
+    const user=
+     await resolveUserFromAuth();
+
+    finish(user);
+
+   },8000);
+
+ });
+}
+
+
+/*
+ * بهترین روش:
+ * اول event listener را فعال می‌کنیم،
+ * بعد session فعلی را بررسی می‌کنیم.
+ */
+
+async function getAuthenticatedUser(){
+
+ const eventPromise=
+  waitForAuthEvent();
+
+ const immediateUser=
+  await resolveUserFromAuth();
+
+ if(immediateUser)
+  return immediateUser;
+
+ return await eventPromise;
+}
+
+
 /* =========================================================
-   PROFILE QUERY
+   PROFILE DATABASE
 ========================================================= */
 
 async function queryProfileBy(column){
@@ -1120,7 +1268,7 @@ async function queryProfileBy(column){
     .select("*")
     .eq(column,currentUser.id)
     .maybeSingle(),
-   3500,
+   2500,
    "Profile request timed out."
   );
 
@@ -1130,19 +1278,17 @@ async function queryProfileBy(column){
    data:null,
    error:error
   };
-
  }
-
 }
 
 
 /* =========================================================
-   FALLBACK PROFILE
+   FALLBACK
 ========================================================= */
 
 function buildFallbackProfile(){
 
- const metadata =
+ const metadata=
   currentUser?.user_metadata || {};
 
  return {
@@ -1176,35 +1322,37 @@ function buildFallbackProfile(){
 
 async function loadProfile(){
 
- /*
-  * مهم:
-  * Database نباید باعث گیر کردن صفحه شود.
-  * اگر profiles خراب یا unavailable باشد،
-  * Auth اطلاعات اصلی را نمایش می‌دهد.
-  */
-
- const fallback =
+ const fallback=
   buildFallbackProfile();
 
- const byId =
-   await queryProfileBy("id");
+
+ /*
+  * اول id
+  */
+
+ const byId=
+  await queryProfileBy("id");
 
  if(
   !byId.error &&
   byId.data
  ){
 
-  profileKeyColumn = "id";
+  profileKeyColumn="id";
 
   return {
    ...fallback,
    ...byId.data
   };
-
  }
 
 
- const byUserId =
+ /*
+  * اگر id جواب نداد،
+  * user_id را امتحان می‌کنیم.
+  */
+
+ const byUserId=
   await queryProfileBy("user_id");
 
  if(
@@ -1212,32 +1360,34 @@ async function loadProfile(){
   byUserId.data
  ){
 
-  profileKeyColumn = "user_id";
+  profileKeyColumn="user_id";
 
   return {
    ...fallback,
    ...byUserId.data
   };
-
  }
 
 
+ /*
+  * اگر جدول profiles مشکل داشت،
+  * Auth اطلاعات اصلی را برمی‌گرداند.
+  */
+
  console.warn(
-  "Profile row unavailable. Using Auth data."
+  "profiles row unavailable. Using Auth fallback."
  );
 
- /*
-  * تعیین مسیر ذخیره آینده
-  */
 
  if(
   byId.error &&
   !byUserId.error
  ){
-  profileKeyColumn = "user_id";
+  profileKeyColumn="user_id";
  }else{
-  profileKeyColumn = "id";
+  profileKeyColumn="id";
  }
+
 
  return fallback;
 }
@@ -1249,28 +1399,34 @@ async function loadProfile(){
 
 function profileName(){
 
- return currentProfile.full_name ||
+ return (
+  currentProfile.full_name ||
   currentProfile.name ||
   currentUser?.user_metadata?.full_name ||
   currentUser?.user_metadata?.name ||
   currentUser?.email?.split("@")[0] ||
-  "User";
+  "User"
+ );
 }
 
 
 function profileCountry(){
 
- return currentProfile.country ||
+ return (
+  currentProfile.country ||
   currentUser?.user_metadata?.country ||
-  "Afghanistan";
+  "Afghanistan"
+ );
 }
 
 
 function profileAvatar(){
 
- return currentProfile.avatar_url ||
+ return (
+  currentProfile.avatar_url ||
   currentUser?.user_metadata?.avatar_url ||
-  "";
+  ""
+ );
 }
 
 
@@ -1280,13 +1436,16 @@ function profileAvatar(){
 
 function initials(){
 
- return profileName()
-  .split(/\s+/)
-  .filter(Boolean)
-  .slice(0,2)
-  .map(x=>x[0])
-  .join("")
-  .toUpperCase() || "US";
+ const result=
+  profileName()
+   .split(/\s+/)
+   .filter(Boolean)
+   .slice(0,2)
+   .map(x=>x[0])
+   .join("")
+   .toUpperCase();
+
+ return result || "US";
 }
 
 
@@ -1296,26 +1455,28 @@ function initials(){
 
 function renderAvatar(id){
 
- const element =
+ const element=
   document.getElementById(id);
 
  if(!element)
   return;
 
- const avatar =
+ const avatar=
   profileAvatar();
 
  element.innerHTML="";
 
+
  if(avatar){
 
-  const image =
+  const image=
    document.createElement("img");
 
   image.src=avatar;
   image.alt="Profile";
 
   image.onerror=()=>{
+   image.remove();
    element.textContent=initials();
   };
 
@@ -1330,37 +1491,56 @@ function renderAvatar(id){
 
 
 /* =========================================================
-   RENDER PROFILE
+   RENDER
 ========================================================= */
 
 function renderProfile(){
 
- const name =
+ const name=
   profileName();
 
- const email =
+ const email=
   currentUser?.email || "—";
 
- const country =
+ const country=
   profileCountry();
 
- const setText =
-  (id,value)=>{
 
-   const element =
-    document.getElementById(id);
+ function setText(id,value){
 
-   if(element)
-    element.textContent=value;
-  };
+  const element=
+   document.getElementById(id);
+
+  if(element)
+   element.textContent=value;
+ }
 
 
- setText("profileName",name);
- setText("profileEmail",email);
+ setText(
+  "profileName",
+  name
+ );
 
- setText("nameValue",name);
- setText("emailValue",email);
- setText("countryValue",country);
+ setText(
+  "profileEmail",
+  email
+ );
+
+ setText(
+  "nameValue",
+  name
+ );
+
+ setText(
+  "emailValue",
+  email
+ );
+
+ setText(
+  "countryValue",
+  country
+ );
+
 
  setText(
   "accountTypeValue",
@@ -1368,6 +1548,7 @@ function renderProfile(){
   currentProfile.accountType ||
   "Standard"
  );
+
 
  setText(
   "memberSinceValue",
@@ -1384,12 +1565,14 @@ function renderProfile(){
    : "—"
  );
 
+
  setText(
   "emailStatusValue",
   currentUser?.email_confirmed_at
    ? "Verified"
    : "Not verified"
  );
+
 
  setText(
   "userIdValue",
@@ -1398,30 +1581,37 @@ function renderProfile(){
    : "—"
  );
 
+
  renderAvatar("profileAvatar");
  renderAvatar("headerAvatar");
 
- const nameEl =
+
+ const headerName=
   document.querySelector(
    "[data-user-name]"
   );
 
- if(nameEl)
-  nameEl.textContent=name;
+ if(headerName)
+  headerName.textContent=name;
 
- const initialsEl =
+
+ const headerInitials=
   document.querySelector(
    "[data-user-initials]"
   );
 
- if(initialsEl)
-  initialsEl.textContent=initials();
+ if(headerInitials)
+  headerInitials.textContent=
+   initials();
 
- selectedCountry =
+
+ selectedCountry=
   country;
+
 
  loadPreferences();
  updateChoiceLabels();
+ renderPhotoPreview();
 }
 
 
@@ -1431,8 +1621,11 @@ function renderProfile(){
 
 function getPreferenceColumn(type){
 
- const keys =
-  Object.keys(currentProfile || {});
+ const keys=
+  Object.keys(
+   currentProfile || {}
+  );
+
 
  if(type==="email"){
 
@@ -1445,6 +1638,7 @@ function getPreferenceColumn(type){
   return "email_notifications";
  }
 
+
  if(type==="prediction"){
 
   if(keys.includes("prediction_alerts"))
@@ -1455,6 +1649,7 @@ function getPreferenceColumn(type){
 
   return "prediction_alerts";
  }
+
 
  if(keys.includes("live_updates"))
   return "live_updates";
@@ -1471,7 +1666,7 @@ function getPreferenceColumn(type){
 
 function getPreferenceValue(type){
 
- const column =
+ const column=
   getPreferenceColumn(type);
 
  if(
@@ -1489,29 +1684,35 @@ function getPreferenceValue(type){
 
 function loadPreferences(){
 
- const email =
+ const email=
   document.getElementById(
    "emailNotifications"
   );
 
- const prediction =
+ const prediction=
   document.getElementById(
    "predictionAlerts"
   );
 
- const live =
+ const live=
   document.getElementById(
    "liveUpdates"
   );
 
+
  if(email)
-  email.checked=getPreferenceValue("email");
+  email.checked=
+   getPreferenceValue("email");
+
 
  if(prediction)
-  prediction.checked=getPreferenceValue("prediction");
+  prediction.checked=
+   getPreferenceValue("prediction");
+
 
  if(live)
-  live.checked=getPreferenceValue("live");
+  live.checked=
+   getPreferenceValue("live");
 }
 
 
@@ -1521,22 +1722,29 @@ function loadPreferences(){
 
 async function savePreference(type,value){
 
- const column =
+ if(!currentUser || !supabaseClient)
+  return false;
+
+
+ const column=
   getPreferenceColumn(type);
 
  const update={};
 
  update[column]=value;
+
  update.updated_at=
   new Date().toISOString();
+
 
  try{
 
   let result;
 
+
   if(profileKeyColumn==="user_id"){
 
-   result =
+   result=
     await withTimeout(
      supabaseClient
       .from("profiles")
@@ -1548,7 +1756,7 @@ async function savePreference(type,value){
 
   }else{
 
-   result =
+   result=
     await withTimeout(
      supabaseClient
       .from("profiles")
@@ -1557,15 +1765,17 @@ async function savePreference(type,value){
      5000,
      "Saving setting timed out."
     );
-
   }
+
 
   if(result.error)
    throw result.error;
 
+
   currentProfile[column]=value;
 
   return true;
+
 
  }catch(error){
 
@@ -1606,17 +1816,22 @@ document
    if(input.id==="liveUpdates")
     type="live";
 
+
    if(!type)
     return;
 
-   const success =
+
+   const success=
     await savePreference(
      type,
      input.checked
     );
 
+
    if(success)
-    showToast("Setting saved.");
+    showToast(
+     "Setting saved."
+    );
   }
  );
 
@@ -1629,20 +1844,23 @@ document
 
 function openEditProfile(focusPhoto=false){
 
- selectedCountry =
+ selectedCountry=
   profileCountry();
 
  selectedAvatarData=null;
 
- const nameInput =
+
+ const nameInput=
   document.getElementById(
    "editFullName"
   );
 
  if(nameInput)
-  nameInput.value=profileName();
+  nameInput.value=
+   profileName();
 
- const emailInput =
+
+ const emailInput=
   document.getElementById(
    "editEmail"
   );
@@ -1651,23 +1869,33 @@ function openEditProfile(focusPhoto=false){
   emailInput.value=
    currentUser?.email || "";
 
+
  updateChoiceLabels();
  renderPhotoPreview();
 
- document
-  .getElementById("editProfileModal")
-  .classList.add("show");
+
+ const modal=
+  document.getElementById(
+   "editProfileModal"
+  );
+
+ if(modal)
+  modal.classList.add("show");
+
 
  document.body.classList.add(
   "modal-open"
  );
 
+
  if(focusPhoto){
 
   setTimeout(()=>{
+
    document
     .getElementById("avatarFile")
     ?.click();
+
   },180);
 
  }
@@ -1676,14 +1904,15 @@ function openEditProfile(focusPhoto=false){
 
 function updateChoiceLabels(){
 
- const country =
+ const country=
   document.getElementById(
    "selectedCountryText"
   );
 
  if(country)
   country.textContent=
-   selectedCountry || "Select country";
+   selectedCountry ||
+   "Select country";
 }
 
 
@@ -1693,7 +1922,7 @@ function updateChoiceLabels(){
 
 function openCountryModal(){
 
- const search =
+ const search=
   document.getElementById(
    "countrySearch"
   );
@@ -1701,17 +1930,28 @@ function openCountryModal(){
  if(search)
   search.value="";
 
+
  renderCountries(COUNTRIES);
 
- document
-  .getElementById("countryModal")
-  .classList.add("show");
+
+ const modal=
+  document.getElementById(
+   "countryModal"
+  );
+
+ if(modal)
+  modal.classList.add("show");
+
+
+ document.body.classList.add(
+  "modal-open"
+);
 }
 
 
 function renderCountries(list){
 
- const box =
+ const box=
   document.getElementById(
    "countryList"
   );
@@ -1719,40 +1959,53 @@ function renderCountries(list){
  if(!box)
   return;
 
+
  box.innerHTML="";
+
 
  list.forEach(country=>{
 
-  const button =
+  const button=
    document.createElement("button");
 
+  button.type="button";
   button.className="country-row";
+
 
   if(country===selectedCountry)
    button.classList.add("selected");
 
-  const flag =
+
+  const flag=
    document.createElement("div");
 
   flag.className="country-flag";
   flag.textContent="🌍";
 
-  const text =
+
+  const text=
    document.createElement("div");
 
   text.textContent=country;
 
+
   button.appendChild(flag);
   button.appendChild(text);
 
+
   button.onclick=()=>{
 
-   selectedCountry=country;
+   selectedCountry=
+    country;
 
    updateChoiceLabels();
 
-   closeModal("countryModal");
+   closeModal(
+    "countryModal"
+   );
+
   };
+
 
   box.appendChild(button);
 
@@ -1762,20 +2015,23 @@ function renderCountries(list){
 
 function filterCountries(){
 
- const input =
+ const input=
   document.getElementById(
    "countrySearch"
   );
 
- const q =
+ const q=
   input?.value
    ?.toLowerCase()
    .trim() || "";
 
+
  renderCountries(
   COUNTRIES.filter(
    country=>
-    country.toLowerCase().includes(q)
+    country
+     .toLowerCase()
+     .includes(q)
   )
  );
 }
@@ -1787,7 +2043,7 @@ function filterCountries(){
 
 function renderPhotoPreview(){
 
- const box =
+ const box=
   document.getElementById(
    "photoPreview"
   );
@@ -1795,90 +2051,116 @@ function renderPhotoPreview(){
  if(!box)
   return;
 
+
  box.innerHTML="";
 
- const source =
+
+ const source=
   selectedAvatarData ||
   profileAvatar();
 
+
  if(source){
 
-  const img =
+  const img=
    document.createElement("img");
 
   img.src=source;
   img.alt="Preview";
 
+
   img.onerror=()=>{
-   box.textContent=initials();
+
+   img.remove();
+
+   box.textContent=
+    initials();
   };
+
 
   box.appendChild(img);
 
  }else{
 
-  box.textContent=initials();
+  box.textContent=
+   initials();
 
  }
 }
 
 
-document
-.getElementById("avatarFile")
-.addEventListener(
- "change",
- async function(){
+const avatarFile=
+ document.getElementById(
+  "avatarFile"
+ );
 
-  const file =
-   this.files?.[0];
 
-  if(!file)
-   return;
+if(avatarFile){
 
-  if(file.size>2*1024*1024){
+ avatarFile.addEventListener(
+  "change",
+  async function(){
 
-   showToast(
-    "Image must be smaller than 2 MB."
-   );
+   const file=
+    this.files?.[0];
 
-   this.value="";
-   return;
+
+   if(!file)
+    return;
+
+
+   if(file.size>2*1024*1024){
+
+    showToast(
+     "Image must be smaller than 2 MB."
+    );
+
+    this.value="";
+    return;
+   }
+
+
+   if(
+    ![
+     "image/jpeg",
+     "image/png",
+     "image/webp"
+    ].includes(file.type)
+   ){
+
+    showToast(
+     "Only JPG, PNG or WEBP images are allowed."
+    );
+
+    this.value="";
+    return;
+   }
+
+
+   try{
+
+    selectedAvatarData=
+     await compressImage(file);
+
+    renderPhotoPreview();
+
+    showToast(
+     "Photo selected."
+    );
+
+   }catch(error){
+
+    console.error(error);
+
+    showToast(
+     "Could not process image."
+    );
+   }
+
   }
+ );
 
-  if(
-   ![
-    "image/jpeg",
-    "image/png",
-    "image/webp"
-   ].includes(file.type)
-  ){
-
-   showToast(
-    "Only JPG, PNG or WEBP images are allowed."
-   );
-
-   this.value="";
-   return;
-  }
-
-  try{
-
-   selectedAvatarData =
-    await compressImage(file);
-
-   renderPhotoPreview();
-
-   showToast("Photo selected.");
-
-  }catch(error){
-
-   console.error(error);
-
-   showToast(
-    "Could not process image."
-   );
-  }
- });
+}
 
 
 function compressImage(file){
@@ -1886,20 +2168,26 @@ function compressImage(file){
  return new Promise(
   (resolve,reject)=>{
 
-   const reader =
+   const reader=
     new FileReader();
+
 
    reader.onload=()=>{
 
-    const image =
+    const image=
      new Image();
+
 
     image.onload=()=>{
 
      const max=700;
 
-     let width=image.width;
-     let height=image.height;
+     let width=
+      image.width;
+
+     let height=
+      image.height;
+
 
      if(width>max){
 
@@ -1911,6 +2199,7 @@ function compressImage(file){
       width=max;
      }
 
+
      if(height>max){
 
       width=
@@ -1921,14 +2210,31 @@ function compressImage(file){
       height=max;
      }
 
-     const canvas =
-      document.createElement("canvas");
+
+     const canvas=
+      document.createElement(
+       "canvas"
+      );
 
      canvas.width=width;
      canvas.height=height;
 
-     const context =
+
+     const context=
       canvas.getContext("2d");
+
+
+     if(!context){
+
+      reject(
+       new Error(
+        "Canvas is unavailable."
+       )
+      );
+
+      return;
+     }
+
 
      context.drawImage(
       image,
@@ -1938,19 +2244,26 @@ function compressImage(file){
       height
      );
 
+
      resolve(
       canvas.toDataURL(
        "image/webp",
        .82
       )
      );
+
     };
 
+
     image.onerror=reject;
-    image.src=reader.result;
+
+    image.src=
+     reader.result;
    };
 
+
    reader.onerror=reject;
+
    reader.readAsDataURL(file);
   }
  );
@@ -1963,33 +2276,55 @@ function compressImage(file){
 
 async function saveProfile(){
 
- const input =
+ if(!currentUser){
+
+  showToast(
+   "Your session is not ready."
+  );
+
+  return;
+ }
+
+
+ const input=
   document.getElementById(
    "editFullName"
   );
 
- const name =
-  input.value.trim();
+
+ const name=
+  input?.value.trim() || "";
+
 
  if(!name){
 
-  showToast("Enter your name.");
+  showToast(
+   "Enter your name."
+  );
+
   return;
  }
+
 
  if(!selectedCountry){
 
-  showToast("Select your country.");
+  showToast(
+   "Select your country."
+  );
+
   return;
  }
 
- const button =
+
+ const button=
   document.getElementById(
    "saveProfileButton"
   );
 
+
  button.classList.add("loading");
  button.textContent="Saving...";
+
 
  try{
 
@@ -2000,15 +2335,16 @@ async function saveProfile(){
     new Date().toISOString()
   };
 
+
   if(selectedAvatarData)
    update.avatar_url=
     selectedAvatarData;
 
+
   let result;
 
-  /*
-   * UPDATE
-   */
+
+  /* UPDATE */
 
   if(profileKeyColumn==="user_id"){
 
@@ -2040,9 +2376,7 @@ async function saveProfile(){
   }
 
 
-  /*
-   * INSERT IF NO ROW
-   */
+  /* INSERT IF NEEDED */
 
   if(
    !result.error &&
@@ -2084,9 +2418,7 @@ async function saveProfile(){
   }
 
 
-  /*
-   * Fallback user_id
-   */
+  /* RETRY user_id */
 
   if(
    result.error &&
@@ -2105,16 +2437,21 @@ async function saveProfile(){
      "Profile retry timed out."
     );
 
+
    if(
     !retry.error &&
     retry.data
    ){
 
-    profileKeyColumn="user_id";
+    profileKeyColumn=
+     "user_id";
+
     result=retry;
    }
   }
 
+
+  /* RETRY INSERT user_id */
 
   if(
    result.error &&
@@ -2135,10 +2472,14 @@ async function saveProfile(){
      "Profile creation timed out."
     );
 
+
    if(!retryInsert.error){
 
-    profileKeyColumn="user_id";
-    result=retryInsert;
+    profileKeyColumn=
+     "user_id";
+
+    result=
+     retryInsert;
    }
   }
 
@@ -2156,14 +2497,14 @@ async function saveProfile(){
 
 
   /*
-   * Auth metadata
-   * بدون هیچ language
+   * فقط اطلاعات لازم حساب.
    */
 
   const metadata={
    full_name:name,
    country:selectedCountry
   };
+
 
   if(selectedAvatarData)
    metadata.avatar_url=
@@ -2181,10 +2522,12 @@ async function saveProfile(){
      "Account metadata update timed out."
     );
 
+
    if(
     !authResult.error &&
     authResult.data?.user
    ){
+
     currentUser=
      authResult.data.user;
    }
@@ -2199,13 +2542,16 @@ async function saveProfile(){
 
 
   renderProfile();
+
   renderPhotoPreview();
 
   closeModal(
    "editProfileModal"
   );
 
+
   selectedAvatarData=null;
+
 
   showToast(
    "Profile saved successfully."
@@ -2219,15 +2565,21 @@ async function saveProfile(){
    error
   );
 
+
   showToast(
    error?.message ||
    "Could not save profile."
   );
 
+
  }finally{
 
-  button.classList.remove("loading");
-  button.textContent="Save Changes";
+  button.classList.remove(
+   "loading"
+  );
+
+  button.textContent=
+   "Save Changes";
  }
 }
 
@@ -2238,9 +2590,14 @@ async function saveProfile(){
 
 function openChangePassword(){
 
- document
-  .getElementById("passwordModal")
-  .classList.add("show");
+ const modal=
+  document.getElementById(
+   "passwordModal"
+  );
+
+ if(modal)
+  modal.classList.add("show");
+
 
  document.body.classList.add(
   "modal-open"
@@ -2250,20 +2607,33 @@ function openChangePassword(){
 
 async function changePassword(){
 
+ if(!currentUser){
+
+  showToast(
+   "Your session is not ready."
+  );
+
+  return;
+ }
+
+
  const current=
   document.getElementById(
    "currentPassword"
   ).value;
+
 
  const newPassword=
   document.getElementById(
    "newPassword"
   ).value;
 
+
  const confirm=
   document.getElementById(
    "confirmPassword"
   ).value;
+
 
  if(!current){
 
@@ -2274,6 +2644,7 @@ async function changePassword(){
   return;
  }
 
+
  if(newPassword.length<8){
 
   showToast(
@@ -2282,6 +2653,7 @@ async function changePassword(){
 
   return;
  }
+
 
  if(newPassword!==confirm){
 
@@ -2292,13 +2664,16 @@ async function changePassword(){
   return;
  }
 
+
  const button=
   document.getElementById(
    "changePasswordButton"
   );
 
+
  button.classList.add("loading");
  button.textContent="Updating...";
+
 
  try{
 
@@ -2314,10 +2689,14 @@ async function changePassword(){
     "Password verification timed out."
    );
 
-  if(login.error)
+
+  if(login.error){
+
    throw new Error(
     "Current password is incorrect."
    );
+  }
+
 
   const update=
    await withTimeout(
@@ -2330,26 +2709,35 @@ async function changePassword(){
     "Password update timed out."
    );
 
+
   if(update.error)
    throw update.error;
 
-  closeModal("passwordModal");
+
+  closeModal(
+   "passwordModal"
+  );
+
 
   document.getElementById(
    "currentPassword"
   ).value="";
 
+
   document.getElementById(
    "newPassword"
   ).value="";
+
 
   document.getElementById(
    "confirmPassword"
   ).value="";
 
+
   showToast(
    "Password changed successfully."
   );
+
 
  }catch(error){
 
@@ -2360,10 +2748,15 @@ async function changePassword(){
    "Could not change password."
   );
 
+
  }finally{
 
-  button.classList.remove("loading");
-  button.textContent="Update Password";
+  button.classList.remove(
+   "loading"
+  );
+
+  button.textContent=
+   "Update Password";
  }
 }
 
@@ -2380,13 +2773,18 @@ function closeModal(id){
  if(!modal)
   return;
 
- modal.classList.remove("show");
+
+ modal.classList.remove(
+  "show"
+ );
+
 
  if(
   !document.querySelector(
    ".modal-overlay.show"
   )
  ){
+
   document.body.classList.remove(
    "modal-open"
   );
@@ -2396,8 +2794,13 @@ function closeModal(id){
 
 function closeOverlay(event,id){
 
- if(event.target.id===id)
+ if(
+  event.target &&
+  event.target.id===id
+ ){
+
   closeModal(id);
+ }
 }
 
 
@@ -2407,23 +2810,40 @@ function closeOverlay(event,id){
 
 let toastTimer=null;
 
+
 function showToast(message){
 
  const toast=
-  document.getElementById("toast");
+  document.getElementById(
+   "toast"
+  );
+
 
  if(!toast)
   return;
 
- toast.textContent=message;
 
- toast.classList.add("show");
+ toast.textContent=
+  message;
 
- clearTimeout(toastTimer);
+
+ toast.classList.add(
+  "show"
+ );
+
+
+ clearTimeout(
+  toastTimer
+ );
+
 
  toastTimer=
   setTimeout(()=>{
-   toast.classList.remove("show");
+
+   toast.classList.remove(
+    "show"
+   );
+
   },3000);
 }
 
@@ -2438,9 +2858,17 @@ document.addEventListener(
 
   if(event.key==="Escape"){
 
-   closeModal("editProfileModal");
-   closeModal("countryModal");
-   closeModal("passwordModal");
+   closeModal(
+    "editProfileModal"
+   );
+
+   closeModal(
+    "countryModal"
+   );
+
+   closeModal(
+    "passwordModal"
+   );
 
   }
  });
@@ -2457,16 +2885,34 @@ function hideProfileLoading(){
    "profileLoading"
   );
 
+
  if(!loading)
   return;
 
- loading.classList.add("hide");
+
+ loading.classList.add(
+  "hide"
+ );
+
+
+ /*
+  * برای اطمینان از اینکه overlay
+  * دیگر صفحه را نمی‌پوشاند.
+  */
+
+ setTimeout(()=>{
+
+  if(loading.classList.contains("hide")){
+
+   loading.style.display="none";
+  }
+
+ },400);
 }
 
 
 /* =========================================================
    AUTH LISTENER
-   قبل از شروع Profile
 ========================================================= */
 
 function startAuthListener(){
@@ -2474,13 +2920,16 @@ function startAuthListener(){
  if(authListenerStarted)
   return;
 
+
  authListenerStarted=true;
+
 
  if(
   !supabaseClient ||
   !supabaseClient.auth
  )
   return;
+
 
  supabaseClient.auth.onAuthStateChange(
   (event,session)=>{
@@ -2490,57 +2939,83 @@ function startAuthListener(){
     event
    );
 
+
    /*
-    * هیچ عملیات سنگین داخل callback انجام نمی‌دهیم.
-    * این از گیر کردن Supabase Auth جلوگیری می‌کند.
+    * هیچ query سنگینی مستقیماً داخل callback
+    * اجرا نمی‌شود.
     */
 
-   setTimeout(
-    async()=>{
+   if(event==="SIGNED_OUT"){
 
-     if(event==="SIGNED_OUT"){
+    currentUser=null;
 
-      currentUser=null;
+    hideProfileLoading();
 
-      window.location.replace(
-       "login.html"
-      );
+    setTimeout(()=>{
 
-      return;
-     }
+     window.location.replace(
+      "login.html"
+     );
 
-     if(session?.user){
+    },100);
 
-      currentUser=
-       session.user;
+    return;
+   }
 
-      /*
-       * فقط اطلاعات UI را تازه می‌کنیم.
-       */
 
-      try{
+   if(session?.user){
+
+    currentUser=
+     session.user;
+
+
+    /*
+     * UI اول نمایش داده می‌شود.
+     * Database بعداً اطلاعات را تازه می‌کند.
+     */
+
+    if(
+     !currentProfile ||
+     Object.keys(currentProfile).length===0
+    ){
+
+     currentProfile=
+      buildFallbackProfile();
+
+     renderProfile();
+
+     hideProfileLoading();
+    }
+
+
+    setTimeout(async()=>{
+
+     try{
+
+      const latest=
+       await loadProfile();
+
+      if(latest){
 
        currentProfile=
-        await loadProfile();
+        latest;
 
-      }catch(error){
-
-       currentProfile=
-        buildFallbackProfile();
+       renderProfile();
       }
 
-      renderProfile();
+     }catch(error){
 
-      /*
-       * Loading دیگر هرگز دوباره نمایش داده نمی‌شود.
-       */
+      console.warn(
+       "Background profile refresh:",
+       error
+      );
 
-      hideProfileLoading();
      }
 
-    },
-    0
-   );
+    },0);
+
+   }
+
   }
  );
 }
@@ -2555,128 +3030,151 @@ async function startProfile(){
  if(profileStarted)
   return;
 
+
  profileStarted=true;
 
+
  /*
-  * حتی اگر چیزی اشتباه شود،
-  * صفحه بیش از 12 ثانیه Loading نمی‌ماند.
+  * این Timer فقط آخرین لایه امنیتی است.
+  * هیچ‌وقت Loading بی‌نهایت نمی‌شود.
   */
 
  const safetyTimer=
-  setTimeout(
-   ()=>{
-    hideProfileLoading();
-   },
-   12000
-  );
+  setTimeout(()=>{
+
+   hideProfileLoading();
+
+  },12000);
+
 
  try{
 
-  /*
-   * 1. Supabase
-   */
+  /* 1. Supabase */
 
   await initSupabase();
 
 
-  /*
-   * 2. Auth listener را زود ثبت می‌کنیم
-   */
+  /* 2. Auth listener */
 
   startAuthListener();
 
 
   /*
-   * 3. Session را با retry می‌گیریم
+   * 3. Auth
+   *
+   * ابتدا session را مستقیم می‌گیریم.
+   * اگر race condition باشد event listener
+   * آن را پوشش می‌دهد.
    */
 
   currentUser=
-   await waitForAuthenticatedUser();
+   await getAuthenticatedUser();
 
 
   /*
-   * 4. اگر Session واقعاً وجود ندارد
+   * 4. اگر کاربر پیدا نشد
    */
 
   if(!currentUser){
 
-   clearTimeout(safetyTimer);
+   clearTimeout(
+    safetyTimer
+   );
 
    hideProfileLoading();
+
 
    showToast(
     "Your session was not found. Please login again."
    );
 
-   setTimeout(
-    ()=>{
-     window.location.replace(
-      "login.html"
-     );
-    },
-    1200
-   );
+
+   setTimeout(()=>{
+
+    window.location.replace(
+     "login.html"
+    );
+
+   },1000);
+
 
    return;
   }
 
 
   /*
-   * 5. اطلاعات Profile
+   * 5. بلافاصله Profile پایه را از Auth می‌سازیم.
    *
-   * Database هیچ وقت نباید مانع نمایش صفحه شود.
+   * بنابراین حتی اگر Database جواب ندهد،
+   * صفحه کاربر را نشان می‌دهد.
    */
 
-  try{
+  currentProfile=
+   buildFallbackProfile();
 
-   currentProfile=
-    await loadProfile();
-
-  }catch(error){
-
-   console.warn(
-    "Profile database error:",
-    error
-   );
-
-   currentProfile=
-    buildFallbackProfile();
-  }
-
-
-  if(
-   !currentProfile ||
-   typeof currentProfile!=="object"
-  ){
-   currentProfile=
-    buildFallbackProfile();
-  }
-
-
-  /*
-   * 6. Render
-   */
 
   selectedCountry=
    profileCountry();
 
+
   renderProfile();
-
-  updateChoiceLabels();
-
-  renderPhotoPreview();
-
-  renderCountries(COUNTRIES);
 
 
   /*
-   * 7. بسیار مهم:
-   * Loading همین‌جا قطع می‌شود.
+   * Loading اینجا قطع می‌شود.
+   *
+   * یعنی Database دیگر دلیل گیر کردن صفحه نیست.
    */
 
-  clearTimeout(safetyTimer);
+  clearTimeout(
+   safetyTimer
+  );
 
   hideProfileLoading();
+
+
+  /*
+   * 6. حالا اطلاعات واقعی profiles را
+   * در پس‌زمینه می‌گیریم.
+   */
+
+  setTimeout(async()=>{
+
+   try{
+
+    const profile=
+     await loadProfile();
+
+
+    if(profile){
+
+     currentProfile=
+      profile;
+
+     selectedCountry=
+      profileCountry();
+
+     renderProfile();
+
+     updateChoiceLabels();
+     renderPhotoPreview();
+    }
+
+
+    console.log(
+     "SportX Profile database sync complete."
+    );
+
+   }catch(error){
+
+    console.warn(
+     "Profile background load failed:",
+     error
+    );
+
+   }
+
+  },0);
 
 
   console.log(
@@ -2691,11 +3189,15 @@ async function startProfile(){
    error
   );
 
-  clearTimeout(safetyTimer);
+
+  clearTimeout(
+   safetyTimer
+  );
+
 
   /*
-   * اگر Auth user somehow موجود باشد،
-   * Profile را از Auth می‌سازیم.
+   * اگر Auth user موجود باشد،
+   * صفحه را با Auth fallback نمایش می‌دهیم.
    */
 
   if(currentUser){
@@ -2707,8 +3209,6 @@ async function startProfile(){
     profileCountry();
 
    renderProfile();
-   updateChoiceLabels();
-   renderPhotoPreview();
 
    hideProfileLoading();
 
@@ -2721,23 +3221,25 @@ async function startProfile(){
 
 
   /*
-   * هیچ حالت بی‌نهایت Loading وجود ندارد.
+   * هیچ Loading بی‌نهایتی وجود ندارد.
    */
 
   hideProfileLoading();
+
 
   showToast(
    "Could not load your account."
   );
 
-  setTimeout(
-   ()=>{
-    window.location.replace(
-     "login.html"
-    );
-   },
-   1500
-  );
+
+  setTimeout(()=>{
+
+   window.location.replace(
+    "login.html"
+   );
+
+  },1200);
+ }
 }
 
 
