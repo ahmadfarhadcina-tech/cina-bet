@@ -8,17 +8,18 @@
 
 <style>
 :root{
-    --bg:#07100e;
-    --panel:#0d1815;
-    --panel-2:#111f1b;
+    --bg:#ffffff;
+    --panel:#ffffff;
+    --panel-2:#f6f8f7;
     --green:#16d98b;
     --green-dark:#0e9d65;
-    --text:#f3f7f5;
-    --muted:#8d9d97;
-    --border:rgba(255,255,255,.07);
-    --danger:#ff5f6d;
-    --gold:#f4c95d;
-    --blue:#5da9ff;
+    --text:#12201b;
+    --muted:#66736e;
+    --border:rgba(15,23,42,.13);
+    --danger:#e54855;
+    --gold:#b98500;
+    --blue:#3b82f6;
+    --shadow:0 12px 35px rgba(15,23,42,.07);
 }
 
 *{
@@ -41,6 +42,10 @@ body{
     min-height:100vh;
 }
 
+body.modal-open{
+    overflow:hidden;
+}
+
 a{
     color:inherit;
     text-decoration:none;
@@ -57,6 +62,10 @@ button{
     cursor:pointer;
 }
 
+button:active{
+    transform:scale(.97);
+}
+
 .container{
     width:min(1180px,calc(100% - 32px));
     margin:auto;
@@ -70,7 +79,7 @@ header{
     position:sticky;
     top:0;
     z-index:100;
-    background:rgba(7,16,14,.88);
+    background:rgba(255,255,255,.90);
     backdrop-filter:blur(18px);
     border-bottom:1px solid var(--border);
 }
@@ -90,7 +99,7 @@ header{
 }
 
 .logo span{
-    color:var(--green);
+    color:var(--green-dark);
 }
 
 .nav-links{
@@ -108,7 +117,7 @@ header{
 
 .nav-links a:hover,
 .nav-links a.active{
-    color:var(--green);
+    color:var(--green-dark);
 }
 
 .header-right{
@@ -152,6 +161,13 @@ header{
     color:#04110c;
     font-weight:900;
     font-size:13px;
+    overflow:hidden;
+}
+
+.user-avatar img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
 }
 
 .user-info{
@@ -165,7 +181,7 @@ header{
 }
 
 .user-info span{
-    color:var(--green);
+    color:var(--green-dark);
     font-size:12px;
     margin-top:3px;
 }
@@ -174,7 +190,7 @@ header{
     margin-left:5px;
     padding:8px 12px;
     border-radius:8px;
-    background:rgba(255,95,109,.08);
+    background:rgba(229,72,85,.08);
     color:var(--danger);
     font-size:12px;
     font-weight:800;
@@ -182,7 +198,7 @@ header{
 }
 
 .logout-btn:hover{
-    background:rgba(255,95,109,.16);
+    background:rgba(229,72,85,.14);
 }
 
 /* =========================
@@ -218,17 +234,24 @@ main{
     gap:22px;
     padding:25px;
     background:
-        linear-gradient(135deg,rgba(22,217,139,.12),rgba(13,24,21,.96));
-    border:1px solid rgba(22,217,139,.15);
+        linear-gradient(135deg,rgba(22,217,139,.12),rgba(246,248,247,.95));
+    border:1px solid rgba(22,217,139,.20);
     border-radius:20px;
     margin-bottom:22px;
+    box-shadow:var(--shadow);
     animation:rise .55s ease both;
+}
+
+.profile-avatar-wrap{
+    position:relative;
+    width:92px;
+    height:92px;
+    flex-shrink:0;
 }
 
 .profile-avatar{
     width:92px;
     height:92px;
-    flex-shrink:0;
     border-radius:50%;
     display:flex;
     align-items:center;
@@ -237,21 +260,54 @@ main{
     color:#04110c;
     font-size:29px;
     font-weight:900;
-    border:4px solid rgba(255,255,255,.06);
+    border:4px solid rgba(255,255,255,.8);
+    box-shadow:0 10px 25px rgba(22,217,139,.18);
+    overflow:hidden;
+}
+
+.profile-avatar img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.avatar-camera{
+    position:absolute;
+    right:-3px;
+    bottom:-3px;
+    width:31px;
+    height:31px;
+    border-radius:50%;
+    background:var(--text);
+    color:#fff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:14px;
+    border:3px solid #fff;
+    transition:.25s ease;
+}
+
+.avatar-camera:hover{
+    background:var(--green-dark);
+    transform:scale(1.08);
 }
 
 .profile-main{
     flex:1;
+    min-width:0;
 }
 
 .profile-main h2{
     font-size:24px;
     margin-bottom:5px;
+    word-break:break-word;
 }
 
 .profile-main p{
     color:var(--muted);
     font-size:13px;
+    word-break:break-word;
 }
 
 .profile-status{
@@ -261,8 +317,8 @@ main{
     margin-top:10px;
     padding:6px 10px;
     border-radius:20px;
-    background:rgba(22,217,139,.08);
-    color:var(--green);
+    background:rgba(22,217,139,.09);
+    color:var(--green-dark);
     font-size:11px;
     font-weight:800;
 }
@@ -271,13 +327,14 @@ main{
     width:6px;
     height:6px;
     border-radius:50%;
-    background:var(--green);
+    background:var(--green-dark);
+    box-shadow:0 0 0 4px rgba(22,217,139,.12);
 }
 
 .edit-profile-btn{
     padding:11px 17px;
     border-radius:10px;
-    background:rgba(255,255,255,.06);
+    background:#fff;
     border:1px solid var(--border);
     color:var(--text);
     font-weight:800;
@@ -287,7 +344,7 @@ main{
 
 .edit-profile-btn:hover{
     background:rgba(22,217,139,.08);
-    border-color:rgba(22,217,139,.2);
+    border-color:rgba(22,217,139,.35);
     transform:translateY(-2px);
 }
 
@@ -306,12 +363,14 @@ main{
     border:1px solid var(--border);
     border-radius:18px;
     overflow:hidden;
+    box-shadow:var(--shadow);
     animation:rise .6s ease both;
 }
 
 .panel-header{
     padding:19px 20px;
     border-bottom:1px solid var(--border);
+    background:linear-gradient(180deg,#fff,#fbfcfc);
 }
 
 .panel-header h3{
@@ -341,8 +400,14 @@ main{
 .info-item{
     padding:15px;
     border-radius:12px;
-    background:rgba(255,255,255,.025);
+    background:var(--panel-2);
     border:1px solid var(--border);
+    transition:.25s ease;
+}
+
+.info-item:hover{
+    transform:translateY(-2px);
+    border-color:rgba(22,217,139,.25);
 }
 
 .info-label{
@@ -409,7 +474,7 @@ main{
 .slider{
     position:absolute;
     inset:0;
-    background:#23312c;
+    background:#dce3e0;
     border-radius:20px;
     cursor:pointer;
     transition:.25s ease;
@@ -423,17 +488,18 @@ main{
     left:3px;
     top:3px;
     border-radius:50%;
-    background:#87948f;
+    background:#8b9893;
     transition:.25s ease;
+    box-shadow:0 2px 5px rgba(0,0,0,.12);
 }
 
 .toggle input:checked + .slider{
-    background:rgba(22,217,139,.3);
+    background:rgba(22,217,139,.30);
 }
 
 .toggle input:checked + .slider::before{
     transform:translateX(20px);
-    background:var(--green);
+    background:var(--green-dark);
 }
 
 /* =========================
@@ -453,7 +519,7 @@ main{
     padding:15px;
     margin-bottom:10px;
     border-radius:12px;
-    background:rgba(255,255,255,.025);
+    background:var(--panel-2);
     border:1px solid var(--border);
     color:var(--text);
     text-align:left;
@@ -466,8 +532,9 @@ main{
 
 .account-action:hover{
     transform:translateY(-2px);
-    background:rgba(255,255,255,.045);
-    border-color:rgba(22,217,139,.16);
+    background:#fff;
+    border-color:rgba(22,217,139,.25);
+    box-shadow:0 8px 20px rgba(15,23,42,.05);
 }
 
 .action-left{
@@ -484,7 +551,7 @@ main{
     align-items:center;
     justify-content:center;
     background:rgba(22,217,139,.08);
-    color:var(--green);
+    color:var(--green-dark);
     font-size:17px;
 }
 
@@ -509,7 +576,7 @@ main{
 }
 
 .account-action.danger .action-icon{
-    background:rgba(255,95,109,.08);
+    background:rgba(229,72,85,.08);
     color:var(--danger);
 }
 
@@ -526,7 +593,7 @@ main{
 
 .stat{
     padding:15px;
-    background:rgba(255,255,255,.025);
+    background:var(--panel-2);
     border:1px solid var(--border);
     border-radius:12px;
 }
@@ -554,8 +621,8 @@ main{
     align-items:center;
     justify-content:center;
     padding:20px;
-    background:rgba(0,0,0,.72);
-    backdrop-filter:blur(8px);
+    background:rgba(15,23,42,.42);
+    backdrop-filter:blur(10px);
 }
 
 .modal-overlay.show{
@@ -564,13 +631,23 @@ main{
 }
 
 .modal{
-    width:min(470px,100%);
-    background:#0b1714;
+    width:min(500px,100%);
+    max-height:min(90vh,760px);
+    overflow:auto;
+    background:#fff;
     border:1px solid var(--border);
     border-radius:20px;
-    box-shadow:0 30px 80px rgba(0,0,0,.5);
-    overflow:hidden;
-    animation:modalIn .25s ease;
+    box-shadow:0 30px 80px rgba(15,23,42,.20);
+    animation:modalIn .28s cubic-bezier(.2,.8,.2,1);
+}
+
+.modal::-webkit-scrollbar{
+    width:6px;
+}
+
+.modal::-webkit-scrollbar-thumb{
+    background:#d7dfdc;
+    border-radius:10px;
 }
 
 .modal-header{
@@ -579,6 +656,7 @@ main{
     align-items:center;
     justify-content:space-between;
     border-bottom:1px solid var(--border);
+    background:linear-gradient(180deg,#fff,#fbfcfc);
 }
 
 .modal-header h3{
@@ -589,14 +667,16 @@ main{
     width:34px;
     height:34px;
     border-radius:9px;
-    background:rgba(255,255,255,.05);
+    background:var(--panel-2);
     color:var(--muted);
     font-size:18px;
+    transition:.2s ease;
 }
 
 .close-modal:hover{
     color:var(--text);
-    background:rgba(255,255,255,.09);
+    background:#e9efec;
+    transform:rotate(90deg);
 }
 
 .modal-body{
@@ -627,7 +707,7 @@ main{
 .form-group input,
 .form-group select{
     width:100%;
-    background:#08120f;
+    background:#fff;
     border:1px solid var(--border);
     color:var(--text);
     padding:12px 13px;
@@ -638,9 +718,112 @@ main{
 
 .form-group input:focus,
 .form-group select:focus{
-    border-color:rgba(22,217,139,.5);
-    box-shadow:0 0 0 3px rgba(22,217,139,.07);
+    border-color:rgba(22,217,139,.55);
+    box-shadow:0 0 0 3px rgba(22,217,139,.09);
 }
+
+.form-group input:disabled{
+    background:#f1f4f3;
+    color:#7a8782;
+    cursor:not-allowed;
+}
+
+.input-note{
+    display:block;
+    color:var(--muted);
+    font-size:10px;
+    margin-top:6px;
+    line-height:1.5;
+}
+
+/* =========================
+   PHOTO UPLOAD
+========================= */
+
+.photo-upload{
+    display:flex;
+    align-items:center;
+    gap:15px;
+    padding:14px;
+    margin-bottom:18px;
+    border:1px dashed rgba(22,217,139,.38);
+    background:rgba(22,217,139,.045);
+    border-radius:14px;
+}
+
+.photo-preview{
+    width:58px;
+    height:58px;
+    flex-shrink:0;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+    background:linear-gradient(135deg,var(--green),var(--green-dark));
+    color:#04110c;
+    font-weight:900;
+}
+
+.photo-preview img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.photo-upload-text{
+    flex:1;
+}
+
+.photo-upload-text strong{
+    display:block;
+    font-size:12px;
+    margin-bottom:3px;
+}
+
+.photo-upload-text span{
+    display:block;
+    color:var(--muted);
+    font-size:10px;
+    line-height:1.5;
+}
+
+.photo-btn{
+    padding:9px 12px;
+    border-radius:9px;
+    background:#fff;
+    border:1px solid var(--border);
+    color:var(--text);
+    font-size:11px;
+    font-weight:800;
+    transition:.2s ease;
+}
+
+.photo-btn:hover{
+    border-color:rgba(22,217,139,.35);
+    color:var(--green-dark);
+}
+
+/* =========================
+   READONLY EMAIL
+========================= */
+
+.email-locked{
+    position:relative;
+}
+
+.email-lock{
+    position:absolute;
+    right:11px;
+    bottom:11px;
+    font-size:13px;
+    color:var(--muted);
+    pointer-events:none;
+}
+
+/* =========================
+   MODAL ACTIONS
+========================= */
 
 .modal-actions{
     display:flex;
@@ -665,17 +848,23 @@ main{
 
 .primary-btn:hover{
     transform:translateY(-2px);
-    box-shadow:0 10px 25px rgba(22,217,139,.15);
+    box-shadow:0 10px 25px rgba(22,217,139,.18);
+    background:#29e99c;
+}
+
+.primary-btn.loading{
+    opacity:.65;
+    pointer-events:none;
 }
 
 .secondary-btn{
-    background:rgba(255,255,255,.05);
+    background:#f3f6f5;
     color:var(--text);
     border:1px solid var(--border);
 }
 
 .secondary-btn:hover{
-    background:rgba(255,255,255,.09);
+    background:#e9efec;
 }
 
 /* =========================
@@ -687,10 +876,10 @@ main{
     left:50%;
     bottom:25px;
     z-index:700;
-    transform:translate(-50%,20px);
-    background:#10231d;
-    border:1px solid rgba(22,217,139,.2);
-    color:var(--text);
+    transform:translate(-50%,20px) scale(.96);
+    background:#12201b;
+    border:1px solid rgba(22,217,139,.28);
+    color:#fff;
     padding:13px 18px;
     border-radius:11px;
     font-size:12px;
@@ -698,12 +887,58 @@ main{
     opacity:0;
     pointer-events:none;
     transition:.3s ease;
-    box-shadow:0 15px 40px rgba(0,0,0,.3);
+    box-shadow:0 15px 40px rgba(15,23,42,.20);
+    max-width:calc(100% - 30px);
+    text-align:center;
 }
 
 .toast.show{
     opacity:1;
-    transform:translate(-50%,0);
+    transform:translate(-50%,0) scale(1);
+}
+
+/* =========================
+   LOADING
+========================= */
+
+.profile-loading{
+    position:fixed;
+    inset:0;
+    z-index:1000;
+    background:#fff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    transition:.35s ease;
+}
+
+.profile-loading.hide{
+    opacity:0;
+    pointer-events:none;
+}
+
+.loading-box{
+    text-align:center;
+}
+
+.loading-logo{
+    font-size:30px;
+    font-weight:900;
+    margin-bottom:14px;
+}
+
+.loading-logo span{
+    color:var(--green-dark);
+}
+
+.loading-spinner{
+    width:28px;
+    height:28px;
+    margin:auto;
+    border:3px solid #e1e8e5;
+    border-top-color:var(--green-dark);
+    border-radius:50%;
+    animation:spin .8s linear infinite;
 }
 
 /* =========================
@@ -741,11 +976,17 @@ footer{
 @keyframes modalIn{
     from{
         opacity:0;
-        transform:translateY(15px) scale(.97);
+        transform:translateY(18px) scale(.96);
     }
     to{
         opacity:1;
         transform:translateY(0) scale(1);
+    }
+}
+
+@keyframes spin{
+    to{
+        transform:rotate(360deg);
     }
 }
 
@@ -785,6 +1026,11 @@ footer{
     .profile-hero{
         align-items:flex-start;
         flex-wrap:wrap;
+    }
+
+    .profile-avatar-wrap{
+        width:76px;
+        height:76px;
     }
 
     .profile-avatar{
@@ -835,11 +1081,47 @@ footer{
     .modal-actions{
         flex-direction:column;
     }
+
+    .photo-upload{
+        align-items:flex-start;
+        flex-wrap:wrap;
+    }
+
+    .photo-upload-text{
+        min-width:calc(100% - 80px);
+    }
+
+    .photo-btn{
+        width:100%;
+    }
 }
 </style>
 </head>
 
 <body>
+
+<!-- =========================
+     REAL LOADING SCREEN
+========================= -->
+
+<div class="profile-loading" id="profileLoading">
+
+    <div class="loading-box">
+
+        <div class="loading-logo">
+            Sport<span>X</span>
+        </div>
+
+        <div class="loading-spinner"></div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================
+     HEADER
+========================= -->
 
 <header>
 
@@ -893,7 +1175,7 @@ footer{
             style="display:none;"
         >
 
-            <div class="user-avatar">
+            <div class="user-avatar" id="headerAvatar">
 
                 <span data-user-initials>
                     US
@@ -908,7 +1190,7 @@ footer{
                 </strong>
 
                 <span data-user-balance>
-                    AFN 1,000
+                    --
                 </span>
 
             </div>
@@ -930,11 +1212,13 @@ footer{
 </header>
 
 
+<!-- =========================
+     MAIN
+========================= -->
+
 <main>
 
 <div class="container">
-
-    <!-- PAGE HEADER -->
 
     <section class="page-head">
 
@@ -949,25 +1233,41 @@ footer{
     </section>
 
 
-    <!-- PROFILE HERO -->
+    <!-- =========================
+         PROFILE HERO
+    ========================= -->
 
     <section class="profile-hero">
 
-        <div
-            class="profile-avatar"
-            id="profileAvatar"
-        >
-            US
+        <div class="profile-avatar-wrap">
+
+            <div
+                class="profile-avatar"
+                id="profileAvatar"
+            >
+                US
+            </div>
+
+            <button
+                type="button"
+                class="avatar-camera"
+                onclick="openEditProfile(true)"
+                aria-label="Change profile photo"
+            >
+                📷
+            </button>
+
         </div>
+
 
         <div class="profile-main">
 
             <h2 id="profileName">
-                User
+                Loading...
             </h2>
 
             <p id="profileEmail">
-                user@sportx.demo
+                Loading...
             </p>
 
             <div class="profile-status">
@@ -980,10 +1280,11 @@ footer{
 
         </div>
 
+
         <button
             type="button"
             class="edit-profile-btn"
-            onclick="openEditProfile()"
+            onclick="openEditProfile(false)"
         >
             Edit Profile
         </button>
@@ -991,11 +1292,16 @@ footer{
     </section>
 
 
-    <!-- MAIN GRID -->
+    <!-- =========================
+         MAIN GRID
+    ========================= -->
 
     <section class="profile-grid">
 
-        <!-- PERSONAL INFORMATION -->
+
+        <!-- =========================
+             PERSONAL INFORMATION
+        ========================= -->
 
         <div class="panel">
 
@@ -1006,10 +1312,11 @@ footer{
                 </h3>
 
                 <p>
-                    Your account information
+                    Your real account information
                 </p>
 
             </div>
+
 
             <div class="panel-body">
 
@@ -1025,7 +1332,7 @@ footer{
                             class="info-value"
                             id="firstNameValue"
                         >
-                            User
+                            —
                         </div>
 
                     </div>
@@ -1041,7 +1348,7 @@ footer{
                             class="info-value"
                             id="lastNameValue"
                         >
-                            Account
+                            —
                         </div>
 
                     </div>
@@ -1057,7 +1364,7 @@ footer{
                             class="info-value"
                             id="emailValue"
                         >
-                            user@sportx.demo
+                            —
                         </div>
 
                     </div>
@@ -1073,7 +1380,7 @@ footer{
                             class="info-value"
                             id="countryValue"
                         >
-                            Afghanistan
+                            —
                         </div>
 
                     </div>
@@ -1082,11 +1389,14 @@ footer{
                     <div class="info-item">
 
                         <div class="info-label">
-                            Account Type
+                            Language
                         </div>
 
-                        <div class="info-value">
-                            SportX Simulator
+                        <div
+                            class="info-value"
+                            id="languageValue"
+                        >
+                            —
                         </div>
 
                     </div>
@@ -1098,8 +1408,11 @@ footer{
                             Member Since
                         </div>
 
-                        <div class="info-value">
-                            September 2026
+                        <div
+                            class="info-value"
+                            id="memberSinceValue"
+                        >
+                            —
                         </div>
 
                     </div>
@@ -1107,47 +1420,54 @@ footer{
                 </div>
 
 
-                <!-- STATS -->
+                <!-- REAL ACCOUNT STATS -->
 
                 <div class="stats">
 
                     <div class="stat">
 
                         <div class="stat-label">
-                            TOTAL PREDICTIONS
-                        </div>
-
-                        <div class="stat-value">
-                            12
-                        </div>
-
-                    </div>
-
-
-                    <div class="stat">
-
-                        <div class="stat-label">
-                            OPEN PREDICTIONS
-                        </div>
-
-                        <div class="stat-value">
-                            3
-                        </div>
-
-                    </div>
-
-
-                    <div class="stat">
-
-                        <div class="stat-label">
-                            VIRTUAL P/L
+                            ACCOUNT STATUS
                         </div>
 
                         <div
                             class="stat-value"
-                            style="color:var(--green);"
+                            id="accountStatusValue"
                         >
-                            +245
+                            Active
+                        </div>
+
+                    </div>
+
+
+                    <div class="stat">
+
+                        <div class="stat-label">
+                            EMAIL STATUS
+                        </div>
+
+                        <div
+                            class="stat-value"
+                            id="emailStatusValue"
+                        >
+                            —
+                        </div>
+
+                    </div>
+
+
+                    <div class="stat">
+
+                        <div class="stat-label">
+                            USER ID
+                        </div>
+
+                        <div
+                            class="stat-value"
+                            id="userIdValue"
+                            style="font-size:11px;"
+                        >
+                            —
                         </div>
 
                     </div>
@@ -1159,7 +1479,9 @@ footer{
         </div>
 
 
-        <!-- SETTINGS -->
+        <!-- =========================
+             PREFERENCES
+        ========================= -->
 
         <div class="panel">
 
@@ -1170,14 +1492,16 @@ footer{
                 </h3>
 
                 <p>
-                    Customize your experience
+                    Saved to your SportX account
                 </p>
 
             </div>
 
+
             <div class="panel-body">
 
                 <div class="setting-list">
+
 
                     <div class="setting">
 
@@ -1188,7 +1512,7 @@ footer{
                             </strong>
 
                             <span>
-                                Receive important account updates.
+                                Save your notification preference.
                             </span>
 
                         </div>
@@ -1198,7 +1522,6 @@ footer{
                             <input
                                 type="checkbox"
                                 id="emailNotifications"
-                                checked
                             >
 
                             <span class="slider"></span>
@@ -1217,7 +1540,7 @@ footer{
                             </strong>
 
                             <span>
-                                Get alerts about your predictions.
+                                Save prediction alert preferences.
                             </span>
 
                         </div>
@@ -1227,7 +1550,6 @@ footer{
                             <input
                                 type="checkbox"
                                 id="predictionAlerts"
-                                checked
                             >
 
                             <span class="slider"></span>
@@ -1246,7 +1568,7 @@ footer{
                             </strong>
 
                             <span>
-                                Receive live match notifications.
+                                Save live match notification preferences.
                             </span>
 
                         </div>
@@ -1269,6 +1591,7 @@ footer{
 
                 <div class="account-actions">
 
+
                     <button
                         type="button"
                         class="account-action"
@@ -1288,7 +1611,7 @@ footer{
                                 </strong>
 
                                 <span>
-                                    Update your account password
+                                    Update your real account password
                                 </span>
 
                             </div>
@@ -1305,23 +1628,23 @@ footer{
                     <button
                         type="button"
                         class="account-action"
-                        onclick="showToast('Security settings will be connected to the backend later.')"
+                        onclick="openEditProfile(false)"
                     >
 
                         <div class="action-left">
 
                             <div class="action-icon">
-                                🛡
+                                🌍
                             </div>
 
                             <div class="action-text">
 
                                 <strong>
-                                    Security
+                                    Country & Language
                                 </strong>
 
                                 <span>
-                                    Manage account security options
+                                    Change your real profile preferences
                                 </span>
 
                             </div>
@@ -1384,7 +1707,7 @@ footer{
 
 <div class="container">
 
-    © 2026 SportX. Virtual sports prediction simulator.
+    © 2026 SportX. Real account data powered by Supabase.
 
 </div>
 
@@ -1419,9 +1742,57 @@ footer{
 
         </div>
 
+
         <div class="modal-body">
 
+
+            <!-- PHOTO -->
+
+            <div class="photo-upload">
+
+                <div
+                    class="photo-preview"
+                    id="photoPreview"
+                >
+                    US
+                </div>
+
+
+                <div class="photo-upload-text">
+
+                    <strong>
+                        Profile Photo
+                    </strong>
+
+                    <span>
+                        Choose a real photo from your device.
+                    </span>
+
+                </div>
+
+
+                <button
+                    type="button"
+                    class="photo-btn"
+                    onclick="document.getElementById('avatarFile').click()"
+                >
+                    Change Photo
+                </button>
+
+                <input
+                    type="file"
+                    id="avatarFile"
+                    accept="image/jpeg,image/png,image/webp"
+                    hidden
+                >
+
+            </div>
+
+
             <div class="form-grid">
+
+
+                <!-- FIRST NAME -->
 
                 <div class="form-group">
 
@@ -1433,10 +1804,13 @@ footer{
                         type="text"
                         id="editFirstName"
                         placeholder="First name"
+                        autocomplete="given-name"
                     >
 
                 </div>
 
+
+                <!-- LAST NAME -->
 
                 <div class="form-group">
 
@@ -1448,10 +1822,13 @@ footer{
                         type="text"
                         id="editLastName"
                         placeholder="Last name"
+                        autocomplete="family-name"
                     >
 
                 </div>
 
+
+                <!-- EMAIL -->
 
                 <div class="form-group full">
 
@@ -1459,14 +1836,29 @@ footer{
                         Email Address
                     </label>
 
-                    <input
-                        type="email"
-                        id="editEmail"
-                        placeholder="Email address"
-                    >
+                    <div class="email-locked">
+
+                        <input
+                            type="email"
+                            id="editEmail"
+                            placeholder="Email address"
+                            disabled
+                        >
+
+                        <span class="email-lock">
+                            🔒
+                        </span>
+
+                    </div>
+
+                    <span class="input-note">
+                        Your login email is shown for information only and cannot be changed here.
+                    </span>
 
                 </div>
 
+
+                <!-- COUNTRY -->
 
                 <div class="form-group full">
 
@@ -1476,28 +1868,41 @@ footer{
 
                     <select id="editCountry">
 
-                        <option value="Afghanistan">
-                            Afghanistan
+                        <option value="">Select country</option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- LANGUAGE -->
+
+                <div class="form-group full">
+
+                    <label for="editLanguage">
+                        Language
+                    </label>
+
+                    <select id="editLanguage">
+
+                        <option value="en">
+                            English
                         </option>
 
-                        <option value="Pakistan">
-                            Pakistan
+                        <option value="fa">
+                            فارسی
                         </option>
 
-                        <option value="Iran">
-                            Iran
+                        <option value="ps">
+                            پښتو
                         </option>
 
-                        <option value="United States">
-                            United States
+                        <option value="tr">
+                            Türkçe
                         </option>
 
-                        <option value="United Kingdom">
-                            United Kingdom
-                        </option>
-
-                        <option value="Other">
-                            Other
+                        <option value="ar">
+                            العربية
                         </option>
 
                     </select>
@@ -1520,6 +1925,7 @@ footer{
                 <button
                     type="button"
                     class="primary-btn"
+                    id="saveProfileButton"
                     onclick="saveProfile()"
                 >
                     Save Changes
@@ -1562,7 +1968,9 @@ footer{
 
         </div>
 
+
         <div class="modal-body">
+
 
             <div class="form-group">
 
@@ -1574,6 +1982,7 @@ footer{
                     type="password"
                     id="currentPassword"
                     placeholder="Enter current password"
+                    autocomplete="current-password"
                 >
 
             </div>
@@ -1589,6 +1998,7 @@ footer{
                     type="password"
                     id="newPassword"
                     placeholder="Enter new password"
+                    autocomplete="new-password"
                 >
 
             </div>
@@ -1604,6 +2014,7 @@ footer{
                     type="password"
                     id="confirmPassword"
                     placeholder="Confirm new password"
+                    autocomplete="new-password"
                 >
 
             </div>
@@ -1622,6 +2033,7 @@ footer{
                 <button
                     type="button"
                     class="primary-btn"
+                    id="changePasswordButton"
                     onclick="changePassword()"
                 >
                     Update Password
@@ -1646,223 +2058,2015 @@ footer{
 
 <script>
 
-/* =========================
-   LOAD USER
-========================= */
+/* =========================================================
+   SPORTX PROFILE
+   REAL SUPABASE CONNECTION
+========================================================= */
 
+const SUPABASE_URL =
+    "https://zchtcosljkkkiykhforj.supabase.co";
+
+const SUPABASE_KEY =
+    "sb_publishable_aGLckKZjNaVbpdxZUFhCqA_VzHppjrW";
+
+
+let supabaseClient = null;
 let currentUser = null;
+let currentProfile = {};
+let selectedAvatarData = null;
+let profileColumns = new Set();
 
 
-function loadProfile(){
+/* =========================================================
+   COUNTRY LIST
+========================================================= */
 
-    const stored =
-        localStorage.getItem("sportx_demo_user");
+const COUNTRIES = [
+    "Afghanistan",
+    "Albania",
+    "Algeria",
+    "Andorra",
+    "Angola",
+    "Antigua and Barbuda",
+    "Argentina",
+    "Armenia",
+    "Australia",
+    "Austria",
+    "Azerbaijan",
+    "Bahamas",
+    "Bahrain",
+    "Bangladesh",
+    "Barbados",
+    "Belarus",
+    "Belgium",
+    "Belize",
+    "Benin",
+    "Bhutan",
+    "Bolivia",
+    "Bosnia and Herzegovina",
+    "Botswana",
+    "Brazil",
+    "Brunei",
+    "Bulgaria",
+    "Burkina Faso",
+    "Burundi",
+    "Cambodia",
+    "Cameroon",
+    "Canada",
+    "Cape Verde",
+    "Central African Republic",
+    "Chad",
+    "Chile",
+    "China",
+    "Colombia",
+    "Comoros",
+    "Congo",
+    "Costa Rica",
+    "Croatia",
+    "Cuba",
+    "Cyprus",
+    "Czech Republic",
+    "Denmark",
+    "Djibouti",
+    "Dominica",
+    "Dominican Republic",
+    "Ecuador",
+    "Egypt",
+    "El Salvador",
+    "Equatorial Guinea",
+    "Eritrea",
+    "Estonia",
+    "Eswatini",
+    "Ethiopia",
+    "Fiji",
+    "Finland",
+    "France",
+    "Gabon",
+    "Gambia",
+    "Georgia",
+    "Germany",
+    "Ghana",
+    "Greece",
+    "Grenada",
+    "Guatemala",
+    "Guinea",
+    "Guinea-Bissau",
+    "Guyana",
+    "Haiti",
+    "Honduras",
+    "Hungary",
+    "Iceland",
+    "India",
+    "Indonesia",
+    "Iraq",
+    "Ireland",
+    "Italy",
+    "Ivory Coast",
+    "Jamaica",
+    "Japan",
+    "Jordan",
+    "Kazakhstan",
+    "Kenya",
+    "Kiribati",
+    "Kuwait",
+    "Kyrgyzstan",
+    "Laos",
+    "Latvia",
+    "Lebanon",
+    "Lesotho",
+    "Liberia",
+    "Libya",
+    "Liechtenstein",
+    "Lithuania",
+    "Luxembourg",
+    "Madagascar",
+    "Malawi",
+    "Malaysia",
+    "Maldives",
+    "Mali",
+    "Malta",
+    "Marshall Islands",
+    "Mauritania",
+    "Mauritius",
+    "Mexico",
+    "Micronesia",
+    "Moldova",
+    "Monaco",
+    "Mongolia",
+    "Montenegro",
+    "Morocco",
+    "Mozambique",
+    "Myanmar",
+    "Namibia",
+    "Nauru",
+    "Nepal",
+    "Netherlands",
+    "New Zealand",
+    "Nicaragua",
+    "Niger",
+    "Nigeria",
+    "North Korea",
+    "North Macedonia",
+    "Norway",
+    "Oman",
+    "Pakistan",
+    "Palau",
+    "Palestine",
+    "Panama",
+    "Papua New Guinea",
+    "Paraguay",
+    "Peru",
+    "Philippines",
+    "Poland",
+    "Portugal",
+    "Qatar",
+    "Romania",
+    "Russia",
+    "Rwanda",
+    "Saint Kitts and Nevis",
+    "Saint Lucia",
+    "Saint Vincent and the Grenadines",
+    "Samoa",
+    "San Marino",
+    "Sao Tome and Principe",
+    "Saudi Arabia",
+    "Senegal",
+    "Serbia",
+    "Seychelles",
+    "Sierra Leone",
+    "Singapore",
+    "Slovakia",
+    "Slovenia",
+    "Solomon Islands",
+    "Somalia",
+    "South Africa",
+    "South Korea",
+    "South Sudan",
+    "Spain",
+    "Sri Lanka",
+    "Sudan",
+    "Suriname",
+    "Sweden",
+    "Switzerland",
+    "Syria",
+    "Taiwan",
+    "Tajikistan",
+    "Tanzania",
+    "Thailand",
+    "Timor-Leste",
+    "Togo",
+    "Tonga",
+    "Trinidad and Tobago",
+    "Tunisia",
+    "Turkey",
+    "Turkmenistan",
+    "Tuvalu",
+    "Uganda",
+    "Ukraine",
+    "United Arab Emirates",
+    "United Kingdom",
+    "United States",
+    "Uruguay",
+    "Uzbekistan",
+    "Vanuatu",
+    "Vatican City",
+    "Venezuela",
+    "Vietnam",
+    "Yemen",
+    "Zambia",
+    "Zimbabwe"
+];
 
-    if(!stored){
+
+/* =========================================================
+   LANGUAGE NAMES
+========================================================= */
+
+const LANGUAGE_NAMES = {
+    en:"English",
+    fa:"فارسی",
+    ps:"پښتو",
+    tr:"Türkçe",
+    ar:"العربية"
+};
+
+
+/* =========================================================
+   SUPABASE
+========================================================= */
+
+async function initSupabase(){
+
+    if(window.SportXSupabase){
+
+        supabaseClient =
+            window.SportXSupabase;
+
+        return supabaseClient;
+
+    }
+
+    if(window.supabase){
+
+        supabaseClient =
+            window.supabase.createClient(
+                SUPABASE_URL,
+                SUPABASE_KEY
+            );
+
+        window.SportXSupabase =
+            supabaseClient;
+
+        return supabaseClient;
+
+    }
+
+    const existing =
+        document.querySelector(
+            'script[src*="supabase-js"]'
+        );
+
+    if(!existing){
+
+        await new Promise((resolve,reject)=>{
+
+            const script =
+                document.createElement("script");
+
+            script.src =
+                "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2";
+
+            script.onload = resolve;
+
+            script.onerror = reject;
+
+            document.head.appendChild(script);
+
+        });
+
+    }
+
+    supabaseClient =
+        window.supabase.createClient(
+            SUPABASE_URL,
+            SUPABASE_KEY
+        );
+
+    window.SportXSupabase =
+        supabaseClient;
+
+    return supabaseClient;
+
+}
+
+
+/* =========================================================
+   COUNTRIES
+========================================================= */
+
+function buildCountryList(){
+
+    const select =
+        document.getElementById(
+            "editCountry"
+        );
+
+    if(!select){
+        return;
+    }
+
+    select.innerHTML =
+        '<option value="">Select country</option>';
+
+    COUNTRIES.forEach(country=>{
+
+        const option =
+            document.createElement("option");
+
+        option.value = country;
+
+        option.textContent = country;
+
+        select.appendChild(option);
+
+    });
+
+}
+
+
+/* =========================================================
+   AUTH SESSION
+========================================================= */
+
+async function getRealUser(){
+
+    await initSupabase();
+
+    const {
+        data,
+        error
+    } =
+    await supabaseClient.auth.getUser();
+
+    if(error){
+
+        console.error(
+            "Auth error:",
+            error
+        );
+
+        return null;
+
+    }
+
+    return data?.user || null;
+
+}
+
+
+/* =========================================================
+   PROFILE QUERY
+========================================================= */
+
+async function loadDatabaseProfile(){
+
+    if(!currentUser){
+        return {};
+    }
+
+    const {
+        data,
+        error
+    } =
+    await supabaseClient
+        .from("profiles")
+        .select("*")
+        .eq("id",currentUser.id)
+        .maybeSingle();
+
+    if(error){
+
+        console.error(
+            "Profile load error:",
+            error
+        );
+
+        /*
+         * Some projects use user_id instead of id.
+         * Try that before giving up.
+         */
+
+        const retry =
+        await supabaseClient
+            .from("profiles")
+            .select("*")
+            .eq("user_id",currentUser.id)
+            .maybeSingle();
+
+        if(!retry.error && retry.data){
+
+            return retry.data;
+
+        }
+
+        return {};
+
+    }
+
+    return data || {};
+
+}
+
+
+/* =========================================================
+   PROFILE COLUMN DETECTION
+========================================================= */
+
+function rememberProfileColumns(profile){
+
+    profileColumns =
+        new Set(
+            Object.keys(profile || {})
+        );
+
+}
+
+
+/* =========================================================
+   PROFILE VALUE HELPER
+========================================================= */
+
+function firstExistingValue(
+    object,
+    keys,
+    fallback=""
+){
+
+    for(const key of keys){
+
+        if(
+            object &&
+            object[key] !== undefined &&
+            object[key] !== null &&
+            String(object[key]).trim() !== ""
+        ){
+
+            return object[key];
+
+        }
+
+    }
+
+    return fallback;
+
+}
+
+
+/* =========================================================
+   REAL PROFILE VALUES
+========================================================= */
+
+function getFirstName(){
+
+    return firstExistingValue(
+        currentProfile,
+        [
+            "first_name",
+            "firstname",
+            "firstName"
+        ],
+        firstExistingValue(
+            currentUser?.user_metadata,
+            [
+                "first_name",
+                "firstName"
+            ],
+            ""
+        )
+    );
+
+}
+
+
+function getLastName(){
+
+    return firstExistingValue(
+        currentProfile,
+        [
+            "last_name",
+            "lastname",
+            "lastName"
+        ],
+        firstExistingValue(
+            currentUser?.user_metadata,
+            [
+                "last_name",
+                "lastName"
+            ],
+            ""
+        )
+    );
+
+}
+
+
+function getFullName(){
+
+    const profileName =
+        firstExistingValue(
+            currentProfile,
+            [
+                "full_name",
+                "name",
+                "display_name",
+                "displayName"
+            ],
+            ""
+        );
+
+    if(profileName){
+        return profileName;
+    }
+
+    const first =
+        getFirstName();
+
+    const last =
+        getLastName();
+
+    return `${first} ${last}`.trim();
+
+}
+
+
+function getCountry(){
+
+    return firstExistingValue(
+        currentProfile,
+        [
+            "country",
+            "country_name"
+        ],
+        firstExistingValue(
+            currentUser?.user_metadata,
+            [
+                "country",
+                "country_name"
+            ],
+            "Afghanistan"
+        )
+    );
+
+}
+
+
+function getLanguage(){
+
+    return firstExistingValue(
+        currentProfile,
+        [
+            "language",
+            "lang",
+            "locale"
+        ],
+        firstExistingValue(
+            currentUser?.user_metadata,
+            [
+                "language",
+                "lang",
+                "locale"
+            ],
+            "en"
+        )
+    );
+
+}
+
+
+function getAvatar(){
+
+    return firstExistingValue(
+        currentProfile,
+        [
+            "avatar_url",
+            "avatar",
+            "photo_url",
+            "image_url",
+            "profile_image"
+        ],
+        firstExistingValue(
+            currentUser?.user_metadata,
+            [
+                "avatar_url",
+                "avatar",
+                "photo_url"
+            ],
+            ""
+        )
+    );
+
+}
+
+
+/* =========================================================
+   INITIALS
+========================================================= */
+
+function makeInitials(){
+
+    const first =
+        getFirstName();
+
+    const last =
+        getLastName();
+
+    const full =
+        getFullName();
+
+    if(first || last){
+
+        return (
+            `${first.charAt(0)}${last.charAt(0)}`
+        ).toUpperCase();
+
+    }
+
+    const parts =
+        full
+            .split(/\s+/)
+            .filter(Boolean);
+
+    if(parts.length >= 2){
+
+        return (
+            `${parts[0].charAt(0)}${parts[1].charAt(0)}`
+        ).toUpperCase();
+
+    }
+
+    return (
+        full.slice(0,2) ||
+        "US"
+    ).toUpperCase();
+
+}
+
+
+/* =========================================================
+   RENDER AVATAR
+========================================================= */
+
+function renderAvatar(elementId){
+
+    const element =
+        document.getElementById(
+            elementId
+        );
+
+    if(!element){
+        return;
+    }
+
+    const avatar =
+        getAvatar();
+
+    const initials =
+        makeInitials();
+
+    element.innerHTML = "";
+
+    if(avatar){
+
+        const image =
+            document.createElement("img");
+
+        image.src = avatar;
+
+        image.alt = "Profile photo";
+
+        image.onerror = ()=>{
+
+            element.innerHTML =
+                "";
+
+            element.textContent =
+                initials;
+
+        };
+
+        element.appendChild(image);
+
+    }else{
+
+        element.textContent =
+            initials;
+
+    }
+
+}
+
+
+/* =========================================================
+   RENDER PROFILE
+========================================================= */
+
+function renderProfile(){
+
+    const first =
+        getFirstName() ||
+        "User";
+
+    const last =
+        getLastName();
+
+    const full =
+        getFullName() ||
+        `${first} ${last}`.trim() ||
+        "User";
+
+    const email =
+        currentUser?.email ||
+        "—";
+
+    const country =
+        getCountry();
+
+    const language =
+        getLanguage();
+
+    document.getElementById(
+        "profileName"
+    ).textContent = full;
+
+    document.getElementById(
+        "profileEmail"
+    ).textContent = email;
+
+    document.getElementById(
+        "firstNameValue"
+    ).textContent =
+        first;
+
+    document.getElementById(
+        "lastNameValue"
+    ).textContent =
+        last || "—";
+
+    document.getElementById(
+        "emailValue"
+    ).textContent =
+        email;
+
+    document.getElementById(
+        "countryValue"
+    ).textContent =
+        country || "—";
+
+    document.getElementById(
+        "languageValue"
+    ).textContent =
+        LANGUAGE_NAMES[language] ||
+        language ||
+        "English";
+
+
+    const created =
+        currentUser?.created_at;
+
+    document.getElementById(
+        "memberSinceValue"
+    ).textContent =
+        created
+        ?
+        new Date(created)
+            .toLocaleDateString(
+                "en-US",
+                {
+                    year:"numeric",
+                    month:"long"
+                }
+            )
+        :
+        "—";
+
+
+    document.getElementById(
+        "accountStatusValue"
+    ).textContent =
+        currentUser
+        ?
+        "Active"
+        :
+        "—";
+
+
+    document.getElementById(
+        "emailStatusValue"
+    ).textContent =
+        currentUser?.email_confirmed_at
+        ?
+        "Verified"
+        :
+        "Not verified";
+
+
+    document.getElementById(
+        "userIdValue"
+    ).textContent =
+        currentUser?.id
+        ?
+        `${currentUser.id.slice(0,8)}...`
+        :
+        "—";
+
+
+    renderAvatar(
+        "profileAvatar"
+    );
+
+    renderAvatar(
+        "headerAvatar"
+    );
+
+    updateAuthHeader();
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+function updateAuthHeader(){
+
+    const full =
+        getFullName() ||
+        "User";
+
+    const balance =
+        document.querySelector(
+            "[data-user-balance]"
+        );
+
+    const name =
+        document.querySelector(
+            "[data-user-name]"
+        );
+
+    const initials =
+        document.querySelector(
+            "[data-user-initials]"
+        );
+
+    if(name){
+
+        name.textContent =
+            full;
+
+    }
+
+    if(initials){
+
+        initials.textContent =
+            makeInitials();
+
+    }
+
+    /*
+     * Do not invent a wallet balance.
+     * auth.js remains responsible for the
+     * real balance value.
+     */
+
+    if(balance && !balance.textContent.trim()){
+
+        balance.textContent =
+            "—";
+
+    }
+
+}
+
+
+/* =========================================================
+   OPEN EDIT PROFILE
+========================================================= */
+
+function openEditProfile(focusPhoto=false){
+
+    const first =
+        getFirstName();
+
+    const last =
+        getLastName();
+
+    const country =
+        getCountry();
+
+    const language =
+        getLanguage();
+
+    document.getElementById(
+        "editFirstName"
+    ).value =
+        first;
+
+    document.getElementById(
+        "editLastName"
+    ).value =
+        last;
+
+    document.getElementById(
+        "editEmail"
+    ).value =
+        currentUser?.email || "";
+
+    document.getElementById(
+        "editCountry"
+    ).value =
+        country;
+
+    document.getElementById(
+        "editLanguage"
+    ).value =
+        language in LANGUAGE_NAMES
+        ?
+        language
+        :
+        "en";
+
+
+    selectedAvatarData =
+        null;
+
+    renderPhotoPreview();
+
+
+    const modal =
+        document.getElementById(
+            "editProfileModal"
+        );
+
+    modal.classList.add("show");
+
+    document.body.classList.add(
+        "modal-open"
+    );
+
+
+    if(focusPhoto){
+
+        setTimeout(()=>{
+
+            document
+                .getElementById("avatarFile")
+                .click();
+
+        },180);
+
+    }
+
+}
+
+
+/* =========================================================
+   PHOTO PREVIEW
+========================================================= */
+
+function renderPhotoPreview(){
+
+    const preview =
+        document.getElementById(
+            "photoPreview"
+        );
+
+    if(!preview){
+        return;
+    }
+
+    preview.innerHTML = "";
+
+    const source =
+        selectedAvatarData ||
+        getAvatar();
+
+    if(source){
+
+        const image =
+            document.createElement("img");
+
+        image.src =
+            source;
+
+        image.alt =
+            "Profile preview";
+
+        image.onerror = ()=>{
+
+            preview.innerHTML = "";
+
+            preview.textContent =
+                makeInitials();
+
+        };
+
+        preview.appendChild(
+            image
+        );
+
+    }else{
+
+        preview.textContent =
+            makeInitials();
+
+    }
+
+}
+
+
+/* =========================================================
+   IMAGE FILE
+========================================================= */
+
+document
+    .getElementById("avatarFile")
+    .addEventListener(
+        "change",
+        async function(){
+
+            const file =
+                this.files?.[0];
+
+            if(!file){
+                return;
+            }
+
+            if(
+                ![
+                    "image/jpeg",
+                    "image/png",
+                    "image/webp"
+                ].includes(file.type)
+            ){
+
+                showToast(
+                    "Please select a JPG, PNG, or WebP image."
+                );
+
+                this.value = "";
+
+                return;
+
+            }
+
+            if(file.size > 2 * 1024 * 1024){
+
+                showToast(
+                    "Image must be smaller than 2 MB."
+                );
+
+                this.value = "";
+
+                return;
+
+            }
+
+            try{
+
+                selectedAvatarData =
+                    await compressImage(file);
+
+                renderPhotoPreview();
+
+                showToast(
+                    "Photo selected. Save your profile to apply it."
+                );
+
+            }catch(error){
+
+                console.error(error);
+
+                showToast(
+                    "Could not process the image."
+                );
+
+            }
+
+        }
+    );
+
+
+/* =========================================================
+   IMAGE COMPRESSION
+========================================================= */
+
+function compressImage(file){
+
+    return new Promise(
+        (resolve,reject)=>{
+
+            const reader =
+                new FileReader();
+
+            reader.onload =
+                function(){
+
+                    const image =
+                        new Image();
+
+                    image.onload =
+                        function(){
+
+                            const max =
+                                700;
+
+                            let width =
+                                image.width;
+
+                            let height =
+                                image.height;
+
+                            if(width > height){
+
+                                if(width > max){
+
+                                    height =
+                                        Math.round(
+                                            height *
+                                            max /
+                                            width
+                                        );
+
+                                    width =
+                                        max;
+
+                                }
+
+                            }else{
+
+                                if(height > max){
+
+                                    width =
+                                        Math.round(
+                                            width *
+                                            max /
+                                            height
+                                        );
+
+                                    height =
+                                        max;
+
+                                }
+
+                            }
+
+                            const canvas =
+                                document.createElement(
+                                    "canvas"
+                                );
+
+                            canvas.width =
+                                width;
+
+                            canvas.height =
+                                height;
+
+                            const ctx =
+                                canvas.getContext(
+                                    "2d"
+                                );
+
+                            ctx.drawImage(
+                                image,
+                                0,
+                                0,
+                                width,
+                                height
+                            );
+
+                            resolve(
+                                canvas.toDataURL(
+                                    "image/webp",
+                                    .82
+                                )
+                            );
+
+                        };
+
+                    image.onerror =
+                        reject;
+
+                    image.src =
+                        reader.result;
+
+                };
+
+            reader.onerror =
+                reject;
+
+            reader.readAsDataURL(
+                file
+            );
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   BUILD REAL UPDATE OBJECT
+========================================================= */
+
+function buildProfileUpdate(){
+
+    const firstName =
+        document
+            .getElementById(
+                "editFirstName"
+            )
+            .value
+            .trim();
+
+    const lastName =
+        document
+            .getElementById(
+                "editLastName"
+            )
+            .value
+            .trim();
+
+    const country =
+        document
+            .getElementById(
+                "editCountry"
+            )
+            .value;
+
+    const language =
+        document
+            .getElementById(
+                "editLanguage"
+            )
+            .value;
+
+
+    const fullName =
+        `${firstName} ${lastName}`.trim();
+
+
+    const update = {};
+
+
+    /*
+     * Only send columns that actually exist
+     * in the user's profiles row.
+     */
+
+    if(profileColumns.has("first_name")){
+
+        update.first_name =
+            firstName;
+
+    }
+
+    if(profileColumns.has("last_name")){
+
+        update.last_name =
+            lastName;
+
+    }
+
+    if(profileColumns.has("firstname")){
+
+        update.firstname =
+            firstName;
+
+    }
+
+    if(profileColumns.has("lastname")){
+
+        update.lastname =
+            lastName;
+
+    }
+
+    if(profileColumns.has("firstName")){
+
+        update.firstName =
+            firstName;
+
+    }
+
+    if(profileColumns.has("lastName")){
+
+        update.lastName =
+            lastName;
+
+    }
+
+    if(profileColumns.has("full_name")){
+
+        update.full_name =
+            fullName;
+
+    }
+
+    if(profileColumns.has("name")){
+
+        update.name =
+            fullName;
+
+    }
+
+    if(profileColumns.has("display_name")){
+
+        update.display_name =
+            fullName;
+
+    }
+
+    if(profileColumns.has("displayName")){
+
+        update.displayName =
+            fullName;
+
+    }
+
+    if(profileColumns.has("country")){
+
+        update.country =
+            country;
+
+    }
+
+    if(profileColumns.has("country_name")){
+
+        update.country_name =
+            country;
+
+    }
+
+    if(profileColumns.has("language")){
+
+        update.language =
+            language;
+
+    }
+
+    if(profileColumns.has("lang")){
+
+        update.lang =
+            language;
+
+    }
+
+    if(profileColumns.has("locale")){
+
+        update.locale =
+            language;
+
+    }
+
+    if(
+        selectedAvatarData &&
+        profileColumns.has("avatar_url")
+    ){
+
+        update.avatar_url =
+            selectedAvatarData;
+
+    }
+
+    if(
+        selectedAvatarData &&
+        profileColumns.has("avatar")
+    ){
+
+        update.avatar =
+            selectedAvatarData;
+
+    }
+
+    if(
+        selectedAvatarData &&
+        profileColumns.has("photo_url")
+    ){
+
+        update.photo_url =
+            selectedAvatarData;
+
+    }
+
+    if(
+        selectedAvatarData &&
+        profileColumns.has("image_url")
+    ){
+
+        update.image_url =
+            selectedAvatarData;
+
+    }
+
+    if(
+        selectedAvatarData &&
+        profileColumns.has("profile_image")
+    ){
+
+        update.profile_image =
+            selectedAvatarData;
+
+    }
+
+
+    return update;
+
+}
+
+
+/* =========================================================
+   SAVE PROFILE
+========================================================= */
+
+async function saveProfile(){
+
+    if(!currentUser){
+
+        showToast(
+            "Please log in first."
+        );
 
         return;
 
     }
 
 
+    const firstName =
+        document
+            .getElementById(
+                "editFirstName"
+            )
+            .value
+            .trim();
+
+    const country =
+        document
+            .getElementById(
+                "editCountry"
+            )
+            .value;
+
+    const language =
+        document
+            .getElementById(
+                "editLanguage"
+            )
+            .value;
+
+
+    if(!firstName){
+
+        showToast(
+            "Please enter your first name."
+        );
+
+        return;
+
+    }
+
+
+    if(!country){
+
+        showToast(
+            "Please select your country."
+        );
+
+        return;
+
+    }
+
+
+    if(
+        !LANGUAGE_NAMES[language]
+    ){
+
+        showToast(
+            "Please select a valid language."
+        );
+
+        return;
+
+    }
+
+
+    const button =
+        document.getElementById(
+            "saveProfileButton"
+        );
+
+    button.classList.add(
+        "loading"
+    );
+
+    button.textContent =
+        "Saving...";
+
+
     try{
 
-        currentUser = JSON.parse(stored);
+        const update =
+            buildProfileUpdate();
 
-        if(!currentUser){
+
+        /*
+         * If no known profile fields were found,
+         * stop instead of pretending the save worked.
+         */
+
+        if(
+            Object.keys(update).length === 0
+        ){
+
+            throw new Error(
+                "No compatible editable profile columns were found."
+            );
+
+        }
+
+
+        /*
+         * Determine the correct profile row.
+         */
+
+        let query =
+            supabaseClient
+                .from("profiles")
+                .update(update)
+                .eq("id",currentUser.id);
+
+
+        let result =
+            await query
+                .select("*")
+                .maybeSingle();
+
+
+        /*
+         * Retry with user_id when the project
+         * uses user_id instead of id.
+         */
+
+        if(
+            result.error &&
+            String(result.error.message || "")
+                .toLowerCase()
+                .includes("id")
+        ){
+
+            result =
+                await supabaseClient
+                    .from("profiles")
+                    .update(update)
+                    .eq("user_id",currentUser.id)
+                    .select("*")
+                    .maybeSingle();
+
+        }
+
+
+        if(result.error){
+
+            throw result.error;
+
+        }
+
+
+        if(result.data){
+
+            currentProfile =
+                result.data;
+
+            rememberProfileColumns(
+                currentProfile
+            );
+
+        }else{
+
+            /*
+             * If RLS returns no row after update,
+             * reload it and verify the actual value.
+             */
+
+            currentProfile =
+                await loadDatabaseProfile();
+
+            rememberProfileColumns(
+                currentProfile
+            );
+
+        }
+
+
+        /*
+         * Update Auth metadata too when those fields
+         * exist there. Email is deliberately excluded.
+         */
+
+        const metadata = {};
+
+        metadata.first_name =
+            firstName;
+
+        metadata.last_name =
+            document
+                .getElementById(
+                    "editLastName"
+                )
+                .value
+                .trim();
+
+        metadata.country =
+            country;
+
+        metadata.language =
+            language;
+
+        if(selectedAvatarData){
+
+            metadata.avatar_url =
+                selectedAvatarData;
+
+        }
+
+
+        const authResult =
+            await supabaseClient.auth.updateUser({
+                data:metadata
+            });
+
+
+        if(authResult.error){
+
+            console.warn(
+                "Auth metadata update:",
+                authResult.error
+            );
+
+        }
+
+
+        currentUser =
+            authResult.data?.user ||
+            currentUser;
+
+
+        /*
+         * Reload the actual database row.
+         */
+
+        currentProfile =
+            await loadDatabaseProfile();
+
+        rememberProfileColumns(
+            currentProfile
+        );
+
+
+        renderProfile();
+
+        closeModal(
+            "editProfileModal"
+        );
+
+
+        showToast(
+            "Profile updated successfully."
+        );
+
+
+        selectedAvatarData =
+            null;
+
+
+    }catch(error){
+
+        console.error(
+            "Save profile error:",
+            error
+        );
+
+        showToast(
+            error.message ||
+            "Could not save your profile."
+        );
+
+    }finally{
+
+        button.classList.remove(
+            "loading"
+        );
+
+        button.textContent =
+            "Save Changes";
+
+    }
+
+}
+
+
+/* =========================================================
+   LOAD PREFERENCES
+========================================================= */
+
+function loadPreferences(){
+
+    const preferences =
+        firstExistingValue(
+            currentProfile,
+            [
+                "preferences",
+                "settings"
+            ],
+            null
+        );
+
+
+    if(
+        !preferences ||
+        typeof preferences !== "object"
+    ){
+
+        return;
+
+    }
+
+
+    const email =
+        document.getElementById(
+            "emailNotifications"
+        );
+
+    const prediction =
+        document.getElementById(
+            "predictionAlerts"
+        );
+
+    const live =
+        document.getElementById(
+            "liveUpdates"
+        );
+
+
+    if(
+        preferences.email_notifications !==
+        undefined
+    ){
+
+        email.checked =
+            !!preferences.email_notifications;
+
+    }
+
+
+    if(
+        preferences.prediction_alerts !==
+        undefined
+    ){
+
+        prediction.checked =
+            !!preferences.prediction_alerts;
+
+    }
+
+
+    if(
+        preferences.live_updates !==
+        undefined
+    ){
+
+        live.checked =
+            !!preferences.live_updates;
+
+    }
+
+}
+
+
+/* =========================================================
+   SAVE PREFERENCES
+========================================================= */
+
+async function savePreferences(){
+
+    if(!currentUser){
+        return;
+    }
+
+
+    /*
+     * Only save if the profiles table already
+     * exposes a JSON preferences/settings column.
+     */
+
+    let column = null;
+
+    if(profileColumns.has("preferences")){
+
+        column =
+            "preferences";
+
+    }else if(
+        profileColumns.has("settings")
+    ){
+
+        column =
+            "settings";
+
+    }
+
+
+    if(!column){
+
+        return;
+
+    }
+
+
+    const current =
+        currentProfile[column];
+
+    const preferences =
+        (
+            current &&
+            typeof current === "object"
+        )
+        ?
+        {...current}
+        :
+        {};
+
+
+    preferences.email_notifications =
+        document.getElementById(
+            "emailNotifications"
+        ).checked;
+
+    preferences.prediction_alerts =
+        document.getElementById(
+            "predictionAlerts"
+        ).checked;
+
+    preferences.live_updates =
+        document.getElementById(
+            "liveUpdates"
+        ).checked;
+
+
+    const update = {};
+
+    update[column] =
+        preferences;
+
+
+    const result =
+        await supabaseClient
+            .from("profiles")
+            .update(update)
+            .eq("id",currentUser.id);
+
+
+    if(result.error){
+
+        /*
+         * Retry using user_id if needed.
+         */
+
+        const retry =
+            await supabaseClient
+                .from("profiles")
+                .update(update)
+                .eq("user_id",currentUser.id);
+
+        if(retry.error){
+
+            console.error(
+                "Preference save error:",
+                retry.error
+            );
 
             return;
 
         }
 
-
-        const firstName =
-            currentUser.firstName ||
-            currentUser.name ||
-            "User";
-
-        const lastName =
-            currentUser.lastName ||
-            "Account";
-
-        const fullName =
-            `${firstName} ${lastName}`.trim();
-
-        const email =
-            currentUser.email ||
-            "user@sportx.demo";
-
-        const country =
-            currentUser.country ||
-            "Afghanistan";
-
-
-        document.getElementById("profileName")
-            .textContent = fullName;
-
-        document.getElementById("profileEmail")
-            .textContent = email;
-
-        document.getElementById("firstNameValue")
-            .textContent = firstName;
-
-        document.getElementById("lastNameValue")
-            .textContent = lastName;
-
-        document.getElementById("emailValue")
-            .textContent = email;
-
-        document.getElementById("countryValue")
-            .textContent = country;
-
-
-        const initials =
-            `${firstName.charAt(0)}${lastName.charAt(0)}`
-            .toUpperCase();
-
-
-        document.getElementById("profileAvatar")
-            .textContent = initials;
-
-    }catch(error){
-
-        console.error(error);
-
     }
+
+
+    currentProfile[column] =
+        preferences;
 
 }
 
 
-/* =========================
-   EDIT PROFILE
-========================= */
+/* =========================================================
+   PREFERENCE EVENTS
+========================================================= */
 
-function openEditProfile(){
+document
+    .querySelectorAll(
+        ".toggle input"
+    )
+    .forEach(toggle=>{
 
-    const user =
-        currentUser || {};
+        toggle.addEventListener(
+            "change",
+            async function(){
 
-    document.getElementById("editFirstName").value =
-        user.firstName ||
-        user.name ||
-        "";
-
-    document.getElementById("editLastName").value =
-        user.lastName ||
-        "";
-
-    document.getElementById("editEmail").value =
-        user.email ||
-        "";
-
-    document.getElementById("editCountry").value =
-        user.country ||
-        "Afghanistan";
+                const label =
+                    this
+                        .closest(".setting")
+                        .querySelector(
+                            ".setting-info strong"
+                        )
+                        .textContent;
 
 
-    document
-        .getElementById("editProfileModal")
-        .classList.add("show");
-
-}
+                await savePreferences();
 
 
-function saveProfile(){
+                showToast(
+                    `${label} ${
+                        this.checked
+                        ?
+                        "enabled"
+                        :
+                        "disabled"
+                    }.`
+                );
 
-    const firstName =
-        document.getElementById("editFirstName").value.trim();
+            }
+        );
 
-    const lastName =
-        document.getElementById("editLastName").value.trim();
-
-    const email =
-        document.getElementById("editEmail").value.trim();
-
-    const country =
-        document.getElementById("editCountry").value;
-
-
-    if(!firstName){
-
-        showToast("Please enter your first name.");
-
-        return;
-
-    }
+    });
 
 
-    if(!email){
-
-        showToast("Please enter your email address.");
-
-        return;
-
-    }
-
-
-    currentUser =
-        currentUser || {};
-
-
-    currentUser.firstName =
-        firstName;
-
-    currentUser.lastName =
-        lastName;
-
-    currentUser.name =
-        `${firstName} ${lastName}`.trim();
-
-    currentUser.email =
-        email;
-
-    currentUser.country =
-        country;
-
-
-    localStorage.setItem(
-        "sportx_demo_user",
-        JSON.stringify(currentUser)
-    );
-
-
-    loadProfile();
-
-    closeModal("editProfileModal");
-
-    showToast("Profile updated successfully.");
-
-}
-
-
-/* =========================
-   PASSWORD
-========================= */
+/* =========================================================
+   CHANGE PASSWORD
+========================================================= */
 
 function openChangePassword(){
 
     document
-        .getElementById("passwordModal")
+        .getElementById(
+            "passwordModal"
+        )
         .classList.add("show");
+
+    document.body.classList.add(
+        "modal-open"
+    );
 
 }
 
 
-function changePassword(){
+async function changePassword(){
+
+    if(!currentUser){
+
+        showToast(
+            "Please log in first."
+        );
+
+        return;
+
+    }
+
 
     const current =
-        document.getElementById("currentPassword").value;
+        document
+            .getElementById(
+                "currentPassword"
+            )
+            .value;
 
     const newPassword =
-        document.getElementById("newPassword").value;
+        document
+            .getElementById(
+                "newPassword"
+            )
+            .value;
 
     const confirm =
-        document.getElementById("confirmPassword").value;
+        document
+            .getElementById(
+                "confirmPassword"
+            )
+            .value;
 
 
     if(!current){
 
-        showToast("Enter your current password.");
+        showToast(
+            "Enter your current password."
+        );
 
         return;
 
@@ -1891,38 +4095,155 @@ function changePassword(){
     }
 
 
-    closeModal("passwordModal");
+    if(!currentUser.email){
 
-    document.getElementById("currentPassword").value = "";
+        showToast(
+            "Your account email is not available."
+        );
 
-    document.getElementById("newPassword").value = "";
+        return;
 
-    document.getElementById("confirmPassword").value = "";
+    }
 
 
-    showToast(
-        "Password update will be connected to the backend."
+    const button =
+        document.getElementById(
+            "changePasswordButton"
+        );
+
+    button.classList.add(
+        "loading"
     );
+
+    button.textContent =
+        "Updating...";
+
+
+    try{
+
+        /*
+         * Re-authenticate with the REAL current password.
+         */
+
+        const login =
+            await supabaseClient.auth.signInWithPassword({
+                email:currentUser.email,
+                password:current
+            });
+
+
+        if(login.error){
+
+            throw new Error(
+                "Current password is incorrect."
+            );
+
+        }
+
+
+        /*
+         * Change the REAL Supabase Auth password.
+         */
+
+        const update =
+            await supabaseClient.auth.updateUser({
+                password:newPassword
+            });
+
+
+        if(update.error){
+
+            throw update.error;
+
+        }
+
+
+        closeModal(
+            "passwordModal"
+        );
+
+
+        document.getElementById(
+            "currentPassword"
+        ).value = "";
+
+        document.getElementById(
+            "newPassword"
+        ).value = "";
+
+        document.getElementById(
+            "confirmPassword"
+        ).value = "";
+
+
+        showToast(
+            "Password changed successfully."
+        );
+
+
+    }catch(error){
+
+        console.error(
+            "Password change error:",
+            error
+        );
+
+        showToast(
+            error.message ||
+            "Could not change password."
+        );
+
+    }finally{
+
+        button.classList.remove(
+            "loading"
+        );
+
+        button.textContent =
+            "Update Password";
+
+    }
 
 }
 
 
-/* =========================
+/* =========================================================
    MODALS
-========================= */
+========================================================= */
 
 function closeModal(id){
 
-    document
-        .getElementById(id)
-        .classList.remove("show");
+    const modal =
+        document.getElementById(id);
+
+    if(!modal){
+        return;
+    }
+
+    modal.classList.remove(
+        "show"
+    );
+
+    if(
+        !document.querySelector(
+            ".modal-overlay.show"
+        )
+    ){
+
+        document.body.classList.remove(
+            "modal-open"
+        );
+
+    }
 
 }
 
 
 function closeOverlay(event,id){
 
-    if(event.target.id === id){
+    if(
+        event.target.id === id
+    ){
 
         closeModal(id);
 
@@ -1931,9 +4252,9 @@ function closeOverlay(event,id){
 }
 
 
-/* =========================
+/* =========================================================
    TOAST
-========================= */
+========================================================= */
 
 let toastTimer;
 
@@ -1941,73 +4262,208 @@ let toastTimer;
 function showToast(message){
 
     const toast =
-        document.getElementById("toast");
+        document.getElementById(
+            "toast"
+        );
 
     toast.textContent =
         message;
 
-    toast.classList.add("show");
+    toast.classList.add(
+        "show"
+    );
 
 
-    clearTimeout(toastTimer);
+    clearTimeout(
+        toastTimer
+    );
 
-    toastTimer = setTimeout(() => {
 
-        toast.classList.remove("show");
+    toastTimer =
+        setTimeout(()=>{
 
-    },3000);
+            toast.classList.remove(
+                "show"
+            );
+
+        },3200);
 
 }
 
 
-/* =========================
-   PREFERENCES
-========================= */
+/* =========================================================
+   ESC KEY
+========================================================= */
 
-document.querySelectorAll(
-    ".toggle input"
-).forEach(toggle => {
+document.addEventListener(
+    "keydown",
+    function(event){
 
-    toggle.addEventListener("change", function(){
+        if(event.key !== "Escape"){
+            return;
+        }
 
-        const label =
-            this.closest(".setting")
-                .querySelector(".setting-info strong")
-                .textContent;
-
-        showToast(
-            `${label} ${this.checked ? "enabled" : "disabled"}.`
+        closeModal(
+            "editProfileModal"
         );
 
-    });
+        closeModal(
+            "passwordModal"
+        );
 
-});
+    }
+);
 
 
-/* =========================
-   ESC KEY
-========================= */
+/* =========================================================
+   AUTH STATE
+========================================================= */
 
-document.addEventListener("keydown",function(event){
+async function waitForAuth(){
 
-    if(event.key !== "Escape"){
+    await initSupabase();
+
+
+    /*
+     * First check current authenticated user.
+     */
+
+    currentUser =
+        await getRealUser();
+
+
+    /*
+     * No authenticated user:
+     * do not show fake profile data.
+     */
+
+    if(!currentUser){
+
+        window.location.href =
+            "login.html";
 
         return;
 
     }
 
-    closeModal("editProfileModal");
 
-    closeModal("passwordModal");
+    /*
+     * Load actual profile.
+     */
 
-});
+    currentProfile =
+        await loadDatabaseProfile();
 
 
-/* =========================
+    rememberProfileColumns(
+        currentProfile
+    );
+
+
+    renderProfile();
+
+    loadPreferences();
+
+
+    /*
+     * Auth changes are real-time.
+     */
+
+    supabaseClient.auth.onAuthStateChange(
+        async function(event,session){
+
+            if(
+                event === "SIGNED_OUT" ||
+                !session?.user
+            ){
+
+                window.location.href =
+                    "login.html";
+
+                return;
+
+            }
+
+
+            currentUser =
+                session.user;
+
+            currentProfile =
+                await loadDatabaseProfile();
+
+            rememberProfileColumns(
+                currentProfile
+            );
+
+            renderProfile();
+
+            loadPreferences();
+
+        }
+    );
+
+
+    /*
+     * Hide loading screen only after
+     * the real account data is ready.
+     */
+
+    requestAnimationFrame(()=>{
+
+        document
+            .getElementById(
+                "profileLoading"
+            )
+            .classList.add(
+                "hide"
+            );
+
+    });
+
+}
+
+
+/* =========================================================
    INIT
-========================= */
+========================================================= */
 
-loadProfile();
+async function startProfile(){
+
+    buildCountryList();
+
+    try{
+
+        await waitForAuth();
+
+    }catch(error){
+
+        console.error(
+            "Profile initialization error:",
+            error
+        );
+
+        showToast(
+            "Could not load your real account."
+        );
+
+        setTimeout(()=>{
+
+            document
+                .getElementById(
+                    "profileLoading"
+                )
+                .classList.add(
+                    "hide"
+                );
+
+        },500);
+
+    }
+
+}
+
+
+startProfile();
 
 </script>
 
