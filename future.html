@@ -22,13 +22,9 @@
   --red-soft:#fef2f2;
 }
 
-*{
-  box-sizing:border-box;
-}
+*{box-sizing:border-box}
 
-html{
-  scroll-behavior:smooth;
-}
+html{scroll-behavior:smooth}
 
 body{
   margin:0;
@@ -42,10 +38,7 @@ a{
   color:inherit;
 }
 
-button,
-input{
-  font:inherit;
-}
+button,input{font:inherit}
 
 header{
   position:sticky;
@@ -87,9 +80,7 @@ header{
   border-radius:10px;
 }
 
-.nav a:hover{
-  background:#f3f4f6;
-}
+.nav a:hover{background:#f3f4f6}
 
 .nav a.active{
   background:var(--soft);
@@ -102,9 +93,7 @@ main{
   padding:24px 16px 45px;
 }
 
-.page-head{
-  margin-bottom:20px;
-}
+.page-head{margin-bottom:20px}
 
 .badge{
   display:inline-flex;
@@ -236,9 +225,7 @@ h1{
 }
 
 @keyframes spin{
-  to{
-    transform:rotate(360deg);
-  }
+  to{transform:rotate(360deg)}
 }
 
 .matches-grid{
@@ -441,9 +428,7 @@ h1{
   color:#4b5563;
 }
 
-.end-section{
-  margin-top:28px;
-}
+.end-section{margin-top:28px}
 
 .end-heading{
   margin:0 0 12px;
@@ -518,22 +503,16 @@ footer a{
 
 @media(max-width:720px){
 
-  .header-inner{
-    min-height:58px;
-  }
+  .header-inner{min-height:58px}
 
   .nav a{
     font-size:11px;
     padding:8px 7px;
   }
 
-  main{
-    padding:20px 12px 40px;
-  }
+  main{padding:20px 12px 40px}
 
-  h1{
-    font-size:25px;
-  }
+  h1{font-size:25px}
 
   .toolbar{
     flex-direction:column;
@@ -557,9 +536,7 @@ footer a{
 <header>
   <div class="header-inner">
 
-    <a href="index.html" class="logo">
-      SportX
-    </a>
+    <a href="index.html" class="logo">SportX</a>
 
     <nav class="nav">
       <a href="index.html">Home</a>
@@ -593,18 +570,14 @@ footer a{
     <div class="info-row">
 
       <div>
-        <div class="info-title">
-          7-Day Future
-        </div>
+        <div class="info-title">7-Day Future</div>
 
         <div class="info-text">
           Only real fixtures from the selected 50 teams are shown.
         </div>
       </div>
 
-      <div id="matchCount" class="info-number">
-        0
-      </div>
+      <div id="matchCount" class="info-number">0</div>
 
     </div>
 
@@ -626,58 +599,31 @@ footer a{
 
   </div>
 
-  <div
-    id="loading"
-    class="loading"
-    style="display:none;"
-  >
-
+  <div id="loading" class="loading" style="display:none;">
     <div class="spinner"></div>
-
     Loading real future matches...
-
   </div>
 
-  <section
-    id="matchesGrid"
-    class="matches-grid"
-  ></section>
+  <section id="matchesGrid" class="matches-grid"></section>
 
-  <section
-    id="emptyState"
-    class="empty"
-    style="display:none;"
-  >
+  <section id="emptyState" class="empty" style="display:none;">
     <strong>No future matches found</strong>
     There are currently no matches from the selected 50 teams within the next 7 days.
   </section>
 
-  <section
-    id="errorState"
-    class="error"
-    style="display:none;"
-  >
+  <section id="errorState" class="error" style="display:none;">
     Unable to load future matches right now.
   </section>
 
-  <section
-    id="endSection"
-    class="end-section"
-    style="display:none;"
-  >
+  <section id="endSection" class="end-section" style="display:none;">
 
-    <h2 class="end-heading">
-      Finished Matches
-    </h2>
+    <h2 class="end-heading">Finished Matches</h2>
 
     <p class="end-subtitle">
       Finished Future matches remain here for 2 hours.
     </p>
 
-    <div
-      id="endGrid"
-      class="matches-grid"
-    ></div>
+    <div id="endGrid" class="matches-grid"></div>
 
   </section>
 
@@ -701,26 +647,19 @@ footer a{
 const SPORT_SCORE_BASE =
   "https://sportscore.com/api/widget/team/";
 
-const SPORT =
-  "football";
+const SPORT = "football";
 
-const MAX_DAYS =
-  7;
+const MAX_DAYS = 7;
 
-const MAX_MATCHES =
-  50;
+const MAX_MATCHES = 50;
 
-const REFRESH_INTERVAL =
-  60 * 1000;
+const REFRESH_INTERVAL = 60 * 1000;
 
-const LIVE_REFRESH_INTERVAL =
-  15 * 1000;
+const LIVE_REFRESH_INTERVAL = 15 * 1000;
 
-const COUNTDOWN_INTERVAL =
-  1000;
+const COUNTDOWN_INTERVAL = 1000;
 
-const END_KEEP_TIME =
-  2 * 60 * 60 * 1000;
+const END_KEEP_TIME = 2 * 60 * 60 * 1000;
 
 const MATCH_STORAGE_KEY =
   "sportx_future_matches_v2";
@@ -728,6 +667,10 @@ const MATCH_STORAGE_KEY =
 const VOTE_STORAGE_KEY =
   "sportx_future_votes";
 
+
+/* =========================================================
+   EXACT SAME 50 FEATURED TEAMS
+========================================================= */
 
 const FEATURED_TEAMS = [
 
@@ -797,14 +740,10 @@ const FEATURED_TEAMS = [
 ];
 
 
-if(
-  FEATURED_TEAMS.length !== 50
-){
-
+if(FEATURED_TEAMS.length !== 50){
   throw new Error(
     "FEATURED_TEAMS must contain exactly 50 teams."
   );
-
 }
 
 
@@ -846,9 +785,9 @@ const endGrid =
   document.getElementById("endGrid");
 
 
-/* =========================
+/* =========================================================
    STORAGE
-========================= */
+========================================================= */
 
 function loadStoredMatches(){
 
@@ -861,14 +800,10 @@ function loadStoredMatches(){
         ) || "[]"
       );
 
-    if(
+    matches =
       Array.isArray(saved)
-    ){
-
-      matches =
-        saved.filter(Boolean);
-
-    }
+        ? saved.filter(Boolean)
+        : [];
 
   }catch(error){
 
@@ -921,9 +856,9 @@ try{
 }
 
 
-/* =========================
+/* =========================================================
    HELPERS
-========================= */
+========================================================= */
 
 function normalize(value){
 
@@ -958,27 +893,20 @@ function parseDate(value){
     value === undefined ||
     value === ""
   ){
-
     return null;
-
   }
 
 
-  if(
-    typeof value === "number"
-  ){
+  if(typeof value === "number"){
 
     const ms =
       value < 100000000000
         ? value * 1000
         : value;
 
-    const date =
-      new Date(ms);
+    const date = new Date(ms);
 
-    return Number.isNaN(
-      date.getTime()
-    )
+    return Number.isNaN(date.getTime())
       ? null
       : date;
 
@@ -990,15 +918,11 @@ function parseDate(value){
 
 
   if(!text){
-
     return null;
-
   }
 
 
-  if(
-    /^\d+$/.test(text)
-  ){
+  if(/^\d+$/.test(text)){
 
     const number =
       Number(text);
@@ -1011,9 +935,7 @@ function parseDate(value){
     const date =
       new Date(ms);
 
-    return Number.isNaN(
-      date.getTime()
-    )
+    return Number.isNaN(date.getTime())
       ? null
       : date;
 
@@ -1023,9 +945,7 @@ function parseDate(value){
   const date =
     new Date(text);
 
-  return Number.isNaN(
-    date.getTime()
-  )
+  return Number.isNaN(date.getTime())
     ? null
     : date;
 
@@ -1053,22 +973,12 @@ function getTime(match){
 function getTeamObject(value){
 
   if(!value){
-
     return {};
-
   }
 
-
-  if(
-    typeof value === "string"
-  ){
-
-    return {
-      name:value
-    };
-
+  if(typeof value === "string"){
+    return {name:value};
   }
-
 
   return value;
 
@@ -1099,14 +1009,9 @@ function getAway(match){
 
 function getTeamName(team){
 
-  if(
-    typeof team === "string"
-  ){
-
+  if(typeof team === "string"){
     return team;
-
   }
-
 
   return (
     team?.name ||
@@ -1122,14 +1027,9 @@ function getTeamName(team){
 
 function getTeamLogo(team){
 
-  if(
-    typeof team === "string"
-  ){
-
+  if(typeof team === "string"){
     return "";
-
   }
-
 
   return (
     team?.logo ||
@@ -1195,9 +1095,9 @@ function getLeague(match){
 }
 
 
-/* =========================
+/* =========================================================
    STATUS
-========================= */
+========================================================= */
 
 function getStatus(match){
 
@@ -1256,9 +1156,9 @@ function getStatus(match){
 }
 
 
-/* =========================
+/* =========================================================
    ID
-========================= */
+========================================================= */
 
 function getId(
   match,
@@ -1290,9 +1190,9 @@ function getId(
 }
 
 
-/* =========================
+/* =========================================================
    SCORE
-========================= */
+========================================================= */
 
 function getNumber(value){
 
@@ -1301,15 +1201,11 @@ function getNumber(value){
     value === undefined ||
     value === ""
   ){
-
     return null;
-
   }
-
 
   const number =
     Number(value);
-
 
   return Number.isFinite(number)
     ? number
@@ -1348,21 +1244,13 @@ function getScoreValue(
         ];
 
 
-  for(
-    const key of directKeys
-  ){
+  for(const key of directKeys){
 
     const value =
-      getNumber(
-        match[key]
-      );
+      getNumber(match[key]);
 
-    if(
-      value !== null
-    ){
-
+    if(value !== null){
       return value;
-
     }
 
   }
@@ -1375,17 +1263,13 @@ function getScoreValue(
   ];
 
 
-  for(
-    const object of objects
-  ){
+  for(const object of objects){
 
     if(
       !object ||
       typeof object !== "object"
     ){
-
       continue;
-
     }
 
 
@@ -1411,9 +1295,7 @@ function getScoreValue(
           ];
 
 
-    for(
-      const key of keys
-    ){
+    for(const key of keys){
 
       const value =
         object[key];
@@ -1432,13 +1314,8 @@ function getScoreValue(
             value.value
           );
 
-
-        if(
-          nested !== null
-        ){
-
+        if(nested !== null){
           return nested;
-
         }
 
       }
@@ -1447,13 +1324,8 @@ function getScoreValue(
       const number =
         getNumber(value);
 
-
-      if(
-        number !== null
-      ){
-
+      if(number !== null){
         return number;
-
       }
 
     }
@@ -1466,9 +1338,9 @@ function getScoreValue(
 }
 
 
-/* =========================
+/* =========================================================
    NORMALIZE MATCH
-========================= */
+========================================================= */
 
 function normalizeMatch(
   match,
@@ -1483,20 +1355,14 @@ function normalizeMatch(
 
 
   const home =
-    getTeamName(
-      homeObject
-    );
+    getTeamName(homeObject);
 
   const away =
-    getTeamName(
-      awayObject
-    );
+    getTeamName(awayObject);
 
 
   const date =
-    parseDate(
-      getTime(match)
-    );
+    parseDate(getTime(match));
 
 
   if(
@@ -1504,15 +1370,22 @@ function normalizeMatch(
     !away ||
     !date
   ){
-
     return null;
-
   }
 
 
   const status =
     getStatus(match);
 
+
+  /*
+    IMPORTANT:
+    Do NOT create finishedObservedAt here.
+
+    A SportScore team endpoint can return
+    old Finished fixtures. They must NOT
+    become new 2-hour End matches.
+  */
 
   return {
 
@@ -1529,19 +1402,13 @@ function normalizeMatch(
     away,
 
     homeLogo:
-      getTeamLogo(
-        homeObject
-      ),
+      getTeamLogo(homeObject),
 
     awayLogo:
-      getTeamLogo(
-        awayObject
-      ),
+      getTeamLogo(awayObject),
 
     league:
-      String(
-        getLeague(match)
-      ),
+      String(getLeague(match)),
 
     timestamp:
       date.getTime(),
@@ -1549,21 +1416,13 @@ function normalizeMatch(
     status,
 
     homeScore:
-      getScoreValue(
-        match,
-        "home"
-      ),
+      getScoreValue(match,"home"),
 
     awayScore:
-      getScoreValue(
-        match,
-        "away"
-      ),
+      getScoreValue(match,"away"),
 
     finishedObservedAt:
-      status === "finished"
-        ? Date.now()
-        : null,
+      null,
 
     sourceTeam
 
@@ -1572,74 +1431,45 @@ function normalizeMatch(
 }
 
 
-/* =========================
+/* =========================================================
    API
-========================= */
+========================================================= */
 
 function extractMatches(json){
 
-  if(
-    Array.isArray(json)
-  ){
-
+  if(Array.isArray(json)){
     return json;
-
   }
 
-
-  if(
-    Array.isArray(json?.matches)
-  ){
-
+  if(Array.isArray(json?.matches)){
     return json.matches;
-
   }
 
-
-  if(
-    Array.isArray(json?.data)
-  ){
-
+  if(Array.isArray(json?.data)){
     return json.data;
-
   }
 
-
-  if(
-    Array.isArray(json?.fixtures)
-  ){
-
+  if(Array.isArray(json?.fixtures)){
     return json.fixtures;
-
   }
 
-
-  if(
-    Array.isArray(json?.events)
-  ){
-
+  if(Array.isArray(json?.events)){
     return json.events;
-
   }
-
 
   return [];
 
 }
 
 
-async function loadTeam(
-  teamSlug
-){
+async function loadTeam(teamSlug){
 
   const url =
     SPORT_SCORE_BASE +
     "?sport=" +
     SPORT +
     "&slug=" +
-    encodeURIComponent(
-      teamSlug
-    ) +
+    encodeURIComponent(teamSlug) +
     "&limit=30";
 
 
@@ -1658,9 +1488,7 @@ async function loadTeam(
       );
 
 
-    if(
-      !response.ok
-    ){
+    if(!response.ok){
 
       console.warn(
         "Team request failed:",
@@ -1677,9 +1505,7 @@ async function loadTeam(
       await response.json();
 
 
-    return extractMatches(
-      json
-    )
+    return extractMatches(json)
       .map(
         item =>
           normalizeMatch(
@@ -1704,9 +1530,9 @@ async function loadTeam(
 }
 
 
-/* =========================
+/* =========================================================
    MATCH KEY
-========================= */
+========================================================= */
 
 function matchKey(match){
 
@@ -1717,9 +1543,8 @@ function matchKey(match){
     normalize(match.away),
 
     Math.floor(
-      Number(
-        match.timestamp
-      ) / 60000
+      Number(match.timestamp) /
+      60000
     )
 
   ].join("|");
@@ -1727,9 +1552,174 @@ function matchKey(match){
 }
 
 
-/* =========================
+/* =========================================================
+   FEATURED TEAM CHECK
+========================================================= */
+
+function isFeaturedSource(
+  sourceTeam
+){
+
+  return FEATURED_TEAMS.includes(
+    sourceTeam
+  );
+
+}
+
+
+/*
+  Extra safety:
+  make sure at least one side of the
+  match corresponds to the requested
+  featured team.
+
+  Because the API endpoint is team-based,
+  sourceTeam is the strongest identifier.
+*/
+
+function isAllowedMatch(match){
+
+  return Boolean(
+    match &&
+    isFeaturedSource(
+      match.sourceTeam
+    )
+  );
+
+}
+
+
+/* =========================================================
+   FRESH FILTER
+========================================================= */
+
+function filterFreshMatches(
+  freshList
+){
+
+  const now =
+    Date.now();
+
+  const maxFuture =
+    now +
+    MAX_DAYS *
+    86400000;
+
+
+  const result = [];
+
+
+  for(const fresh of freshList){
+
+    if(!fresh){
+      continue;
+    }
+
+
+    if(!isAllowedMatch(fresh)){
+      continue;
+    }
+
+
+    if(
+      fresh.status ===
+      "excluded"
+    ){
+      continue;
+    }
+
+
+    /*
+      LIVE:
+      always accept.
+    */
+
+    if(
+      fresh.status ===
+      "live"
+    ){
+
+      result.push(fresh);
+
+      continue;
+
+    }
+
+
+    /*
+      SCHEDULED:
+      ONLY 0 -> 7 days.
+    */
+
+    if(
+      fresh.status ===
+      "scheduled"
+    ){
+
+      if(
+        fresh.timestamp > now &&
+        fresh.timestamp <= maxFuture
+      ){
+
+        result.push(fresh);
+
+      }
+
+      continue;
+
+    }
+
+
+    /*
+      FINISHED:
+      NEVER insert an old Finished match
+      directly from the API.
+
+      It will only be accepted later when
+      an existing LIVE match changes to
+      FINISHED.
+    */
+
+    if(
+      fresh.status ===
+      "finished"
+    ){
+
+      const existing =
+        matches.find(
+          old =>
+            matchKey(old) ===
+            matchKey(fresh)
+        );
+
+
+      if(
+        existing &&
+        (
+          existing.status === "live" ||
+          existing.status === "finished"
+        )
+      ){
+
+        result.push(fresh);
+
+      }
+
+      continue;
+
+    }
+
+  }
+
+
+  return result;
+
+}
+
+
+/* =========================================================
    MERGE
-========================= */
+========================================================= */
 
 function mergeMatches(
   oldList,
@@ -1740,14 +1730,24 @@ function mergeMatches(
     new Map();
 
 
-  for(
-    const oldMatch of oldList
-  ){
+  /*
+    Keep existing lifecycle data.
+  */
+
+  for(const oldMatch of oldList){
 
     if(!oldMatch){
-
       continue;
+    }
 
+
+    /*
+      Never allow non-featured saved
+      records to survive.
+    */
+
+    if(!isAllowedMatch(oldMatch)){
+      continue;
     }
 
 
@@ -1759,20 +1759,24 @@ function mergeMatches(
   }
 
 
-  for(
-    const fresh of freshList
-  ){
+  /*
+    Add/update fresh matches.
+  */
+
+  for(const fresh of freshList){
 
     if(!fresh){
-
       continue;
+    }
 
+
+    if(!isAllowedMatch(fresh)){
+      continue;
     }
 
 
     const key =
       matchKey(fresh);
-
 
     const old =
       map.get(key);
@@ -1780,23 +1784,43 @@ function mergeMatches(
 
     if(!old){
 
-      map.set(
-        key,
-        fresh
-      );
+      /*
+        Only scheduled/live matches can
+        normally reach here.
+
+        A new Finished match is blocked.
+      */
+
+      if(
+        fresh.status !==
+        "finished"
+      ){
+
+        map.set(
+          key,
+          fresh
+        );
+
+      }
 
       continue;
 
     }
 
 
-    const merged = {
+    const oldStatus =
+      old.status;
 
+
+    const merged = {
       ...old,
       ...fresh
-
     };
 
+
+    /*
+      Preserve good logos.
+    */
 
     if(
       !fresh.homeLogo &&
@@ -1821,28 +1845,55 @@ function mergeMatches(
 
 
     /*
-      Never reset the original
-      finished observation time.
+      IMPORTANT LIFECYCLE:
+
+      LIVE -> FINISHED
+      starts the 2-hour End timer.
+
+      Existing FINISHED keeps its original
+      observation time.
     */
 
     if(
-      old.finishedObservedAt &&
+      oldStatus === "live" &&
       fresh.status === "finished"
     ){
 
       merged.finishedObservedAt =
-        old.finishedObservedAt;
+        old.finishedObservedAt ||
+        Date.now();
 
     }
 
 
     if(
-      fresh.status === "finished" &&
-      !old.finishedObservedAt
+      oldStatus === "finished" &&
+      fresh.status === "finished"
     ){
 
       merged.finishedObservedAt =
+        old.finishedObservedAt ||
         Date.now();
+
+    }
+
+
+    /*
+      If API temporarily says scheduled
+      after a live match, don't destroy
+      the known finished/live lifecycle.
+    */
+
+    if(
+      oldStatus === "finished" &&
+      fresh.status === "scheduled"
+    ){
+
+      merged.status =
+        "finished";
+
+      merged.finishedObservedAt =
+        old.finishedObservedAt;
 
     }
 
@@ -1862,9 +1913,9 @@ function mergeMatches(
 }
 
 
-/* =========================
+/* =========================================================
    CLEANUP
-========================= */
+========================================================= */
 
 function cleanupMatches(){
 
@@ -1873,141 +1924,172 @@ function cleanupMatches(){
 
   const maxFuture =
     now +
-    MAX_DAYS * 86400000;
+    MAX_DAYS *
+    86400000;
 
 
-  const before =
+  const oldLength =
     matches.length;
 
 
-  matches =
-    matches.filter(
-      match => {
-
-        if(!match){
-
-          return false;
-
-        }
+  const cleaned = [];
 
 
-        /*
-          Cancelled / postponed:
-          remove from local storage.
-        */
+  for(const match of matches){
 
-        if(
-          match.status ===
-          "excluded"
-        ){
-
-          return false;
-
-        }
+    if(!match){
+      continue;
+    }
 
 
-        /*
-          FINISHED:
-          keep exactly 2 hours,
-          then delete completely.
-        */
+    /*
+      Only the exact 50 featured sources
+      are allowed.
+    */
 
-        if(
-          match.status ===
-          "finished"
-        ){
+    if(
+      !isAllowedMatch(match)
+    ){
 
-          const finishedAt =
-            Number(
-              match.finishedObservedAt
-            );
+      continue;
+
+    }
 
 
-          if(
-            !Number.isFinite(
-              finishedAt
-            )
-          ){
+    /*
+      Cancelled / postponed:
+      remove.
+    */
 
-            /*
-              Safety:
-              if an old finished match has
-              no observation timestamp,
-              start its 2-hour lifetime now.
-            */
+    if(
+      match.status ===
+      "excluded"
+    ){
 
-            match.finishedObservedAt =
-              now;
+      continue;
 
-            return true;
-
-          }
+    }
 
 
-          if(
-            now - finishedAt >=
-              END_KEEP_TIME
-          ){
+    /*
+      FINISHED:
 
-            return false;
+      A finished match MUST have a real
+      finishedObservedAt.
 
-          }
+      Old LocalStorage records without it
+      are removed immediately.
+
+      This is what clears old End records
+      such as the previous 310 records.
+    */
+
+    if(
+      match.status ===
+      "finished"
+    ){
+
+      const finishedAt =
+        Number(
+          match.finishedObservedAt
+        );
 
 
-          return true;
-
-        }
-
+      if(
+        !Number.isFinite(
+          finishedAt
+        )
+      ){
 
         /*
-          LIVE:
-          always keep while live.
+          Do NOT give an old End a new
+          2-hour lifetime.
+
+          Delete it.
         */
 
-        if(
-          match.status ===
-          "live"
-        ){
-
-          return true;
-
-        }
-
-
-        /*
-          SCHEDULED:
-          keep ONLY if it is still in
-          the next 7 days.
-        */
-
-        if(
-          match.status ===
-          "scheduled"
-        ){
-
-          if(
-            match.timestamp > now &&
-            match.timestamp <= maxFuture
-          ){
-
-            return true;
-
-          }
-
-
-          return false;
-
-        }
-
-
-        return false;
+        continue;
 
       }
-    );
 
+
+      if(
+        now - finishedAt >=
+        END_KEEP_TIME
+      ){
+
+        continue;
+
+      }
+
+
+      cleaned.push(match);
+
+      continue;
+
+    }
+
+
+    /*
+      LIVE:
+
+      Always keep.
+    */
+
+    if(
+      match.status ===
+      "live"
+    ){
+
+      cleaned.push(match);
+
+      continue;
+
+    }
+
+
+    /*
+      SCHEDULED:
+
+      Only from now through 7 days.
+    */
+
+    if(
+      match.status ===
+      "scheduled"
+    ){
+
+      if(
+        match.timestamp > now &&
+        match.timestamp <= maxFuture
+      ){
+
+        cleaned.push(match);
+
+      }
+
+      continue;
+
+    }
+
+  }
+
+
+  matches =
+    cleaned;
+
+
+  /*
+    Always rewrite LocalStorage when
+    anything was removed.
+
+    This guarantees that old End,
+    old Future and non-featured matches
+    do not return after refresh.
+  */
 
   if(
-    before !== matches.length
+    oldLength !== matches.length
   ){
 
     saveStoredMatches();
@@ -2017,18 +2099,16 @@ function cleanupMatches(){
 }
 
 
-/* =========================
-   LOAD ALL 50
-========================= */
+/* =========================================================
+   LOAD ALL 50 TEAMS
+========================================================= */
 
 async function loadAllTeams(
   silent = false
 ){
 
   if(loading){
-
     return;
-
   }
 
 
@@ -2050,12 +2130,10 @@ async function loadAllTeams(
 
     const results =
       await Promise.all(
-
         FEATURED_TEAMS.map(
           slug =>
             loadTeam(slug)
         )
-
       );
 
 
@@ -2064,27 +2142,47 @@ async function loadAllTeams(
 
 
     /*
-      Merge fresh data with saved
-      lifecycle data.
+      IMPORTANT:
+
+      Filter API data BEFORE merging.
+
+      This blocks old Finished fixtures
+      from becoming new End records.
     */
 
-    matches =
-      mergeMatches(
-        matches,
+    const fresh =
+      filterFreshMatches(
         collected
       );
 
 
     /*
-      IMPORTANT:
-      This now removes:
-      - old future matches
-      - matches > 7 days
-      - expired finished matches
-      - excluded matches
+      Merge only allowed current data
+      with valid saved lifecycle data.
+    */
+
+    matches =
+      mergeMatches(
+        matches,
+        fresh
+      );
+
+
+    /*
+      Remove:
+      - expired End
+      - old Future
+      - >7-day Future
+      - non-featured
+      - excluded
     */
 
     cleanupMatches();
+
+
+    /*
+      Save clean state.
+    */
 
     saveStoredMatches();
 
@@ -2094,44 +2192,7 @@ async function loadAllTeams(
     renderEnded();
 
 
-    const liveCount =
-      matches.filter(
-        match =>
-          match.status === "live"
-      ).length;
-
-
-    const futureCount =
-      matches.filter(
-        match =>
-          match.status === "scheduled" &&
-          match.timestamp > Date.now() &&
-          match.timestamp <=
-            Date.now() +
-            MAX_DAYS * 86400000
-      ).length;
-
-
-    const finishedCount =
-      matches.filter(
-        match =>
-          match.status === "finished"
-      ).length;
-
-
-    if(
-      liveCount > 0
-    ){
-
-      statusEl.textContent =
-        `${liveCount} LIVE · ${futureCount} future · ${finishedCount} END`;
-
-    }else{
-
-      statusEl.textContent =
-        `${futureCount} future · ${finishedCount} END`;
-
-    }
+    updateStatus();
 
   }catch(error){
 
@@ -2141,9 +2202,7 @@ async function loadAllTeams(
     );
 
 
-    if(
-      !matches.length
-    ){
+    if(!matches.length){
 
       errorState.style.display =
         "block";
@@ -2175,9 +2234,65 @@ async function loadAllTeams(
 }
 
 
-/* =========================
+/* =========================================================
+   STATUS COUNTER
+========================================================= */
+
+function updateStatus(){
+
+  const now =
+    Date.now();
+
+  const max =
+    now +
+    MAX_DAYS *
+    86400000;
+
+
+  const liveCount =
+    matches.filter(
+      match =>
+        match.status === "live"
+    ).length;
+
+
+  const futureCount =
+    matches.filter(
+      match =>
+        match.status === "scheduled" &&
+        match.timestamp > now &&
+        match.timestamp <= max
+    ).length;
+
+
+  const finishedCount =
+    matches.filter(
+      match =>
+        match.status === "finished" &&
+        Number.isFinite(
+          Number(
+            match.finishedObservedAt
+          )
+        ) &&
+        now -
+          Number(
+            match.finishedObservedAt
+          ) <
+          END_KEEP_TIME
+    ).length;
+
+
+  statusEl.textContent =
+    liveCount > 0
+      ? `${liveCount} LIVE · ${futureCount} future · ${finishedCount} END`
+      : `${futureCount} future · ${finishedCount} END`;
+
+}
+
+
+/* =========================================================
    COUNTDOWN
-========================= */
+========================================================= */
 
 function getCountdown(
   timestamp
@@ -2188,12 +2303,8 @@ function getCountdown(
     Date.now();
 
 
-  if(
-    difference <= 0
-  ){
-
+  if(difference <= 0){
     return "Starting";
-
   }
 
 
@@ -2201,12 +2312,8 @@ function getCountdown(
     difference / 3600000;
 
 
-  if(
-    totalHours < 24
-  ){
-
+  if(totalHours < 24){
     return "Today";
-
   }
 
 
@@ -2217,12 +2324,8 @@ function getCountdown(
     );
 
 
-  if(
-    days === 1
-  ){
-
+  if(days === 1){
     return "1 Day";
-
   }
 
 
@@ -2253,9 +2356,9 @@ function formatDate(
 }
 
 
-/* =========================
+/* =========================================================
    TEAM LOGO
-========================= */
+========================================================= */
 
 function logoHtml(
   url,
@@ -2271,14 +2374,11 @@ function logoHtml(
         src="${escapeHtml(url)}"
         alt="${escapeHtml(name)}"
         loading="lazy"
-
         onerror="
           this.outerHTML =
           '<div class=&quot;team-logo logo-fallback&quot;>' +
           '${escapeHtml(
-            name
-              .charAt(0)
-              .toUpperCase()
+            name.charAt(0).toUpperCase()
           )}' +
           '</div>'
         "
@@ -2291,13 +2391,9 @@ function logoHtml(
 
   return `
 
-    <div
-      class="team-logo logo-fallback"
-    >
+    <div class="team-logo logo-fallback">
       ${escapeHtml(
-        name
-          .charAt(0)
-          .toUpperCase()
+        name.charAt(0).toUpperCase()
       )}
     </div>
 
@@ -2306,9 +2402,9 @@ function logoHtml(
 }
 
 
-/* =========================
+/* =========================================================
    FUTURE / LIVE CARD
-========================= */
+========================================================= */
 
 function createCard(
   match
@@ -2324,8 +2420,7 @@ function createCard(
 
 
   const isLive =
-    match.status ===
-    "live";
+    match.status === "live";
 
 
   const homeScore =
@@ -2367,9 +2462,7 @@ function createCard(
           data-time="${match.timestamp}"
         >
           ${escapeHtml(
-            getCountdown(
-              match.timestamp
-            )
+            getCountdown(match.timestamp)
           )}
         </div>
 
@@ -2419,9 +2512,7 @@ function createCard(
       <div class="match-top">
 
         <div class="league">
-          ${escapeHtml(
-            match.league
-          )}
+          ${escapeHtml(match.league)}
         </div>
 
         ${topBadge}
@@ -2430,13 +2521,9 @@ function createCard(
 
 
       <div class="date">
-
         ${escapeHtml(
-          formatDate(
-            match.timestamp
-          )
+          formatDate(match.timestamp)
         )}
-
       </div>
 
 
@@ -2450,9 +2537,7 @@ function createCard(
           )}
 
           <div class="team-name">
-            ${escapeHtml(
-              match.home
-            )}
+            ${escapeHtml(match.home)}
           </div>
 
         </div>
@@ -2469,9 +2554,7 @@ function createCard(
           )}
 
           <div class="team-name">
-            ${escapeHtml(
-              match.away
-            )}
+            ${escapeHtml(match.away)}
           </div>
 
         </div>
@@ -2581,9 +2664,9 @@ function createCard(
 }
 
 
-/* =========================
+/* =========================================================
    FINISHED CARD
-========================= */
+========================================================= */
 
 function createEndedCard(
   match
@@ -2603,20 +2686,14 @@ function createEndedCard(
       : match.awayScore;
 
 
-  let homeResult =
-    "draw";
+  let homeResult = "draw";
 
-  let awayResult =
-    "draw";
+  let awayResult = "draw";
 
 
   if(
-    Number.isFinite(
-      Number(homeScore)
-    ) &&
-    Number.isFinite(
-      Number(awayScore)
-    )
+    Number.isFinite(Number(homeScore)) &&
+    Number.isFinite(Number(awayScore))
   ){
 
     if(
@@ -2624,22 +2701,16 @@ function createEndedCard(
       Number(awayScore)
     ){
 
-      homeResult =
-        "win";
-
-      awayResult =
-        "loss";
+      homeResult = "win";
+      awayResult = "loss";
 
     }else if(
       Number(awayScore) >
       Number(homeScore)
     ){
 
-      homeResult =
-        "loss";
-
-      awayResult =
-        "win";
+      homeResult = "loss";
+      awayResult = "win";
 
     }
 
@@ -2653,9 +2724,7 @@ function createEndedCard(
       <div class="match-top">
 
         <div class="league">
-          ${escapeHtml(
-            match.league
-          )}
+          ${escapeHtml(match.league)}
         </div>
 
         <div class="end-badge">
@@ -2666,13 +2735,9 @@ function createEndedCard(
 
 
       <div class="date">
-
         ${escapeHtml(
-          formatDate(
-            match.timestamp
-          )
+          formatDate(match.timestamp)
         )}
-
       </div>
 
 
@@ -2686,9 +2751,7 @@ function createEndedCard(
           )}
 
           <div class="team-name">
-            ${escapeHtml(
-              match.home
-            )}
+            ${escapeHtml(match.home)}
           </div>
 
         </div>
@@ -2696,9 +2759,7 @@ function createEndedCard(
 
         <div
           class="vs"
-          style="
-            font-size:20px;
-          "
+          style="font-size:20px;"
         >
 
           ${escapeHtml(
@@ -2722,9 +2783,7 @@ function createEndedCard(
           )}
 
           <div class="team-name">
-            ${escapeHtml(
-              match.away
-            )}
+            ${escapeHtml(match.away)}
           </div>
 
         </div>
@@ -2760,9 +2819,7 @@ function createEndedCard(
             class="result-team ${homeResult}"
           >
 
-            ${escapeHtml(
-              match.home
-            )}
+            ${escapeHtml(match.home)}
 
             <br>
 
@@ -2781,9 +2838,7 @@ function createEndedCard(
             class="result-team ${awayResult}"
           >
 
-            ${escapeHtml(
-              match.away
-            )}
+            ${escapeHtml(match.away)}
 
             <br>
 
@@ -2808,35 +2863,44 @@ function createEndedCard(
 }
 
 
-/* =========================
+/* =========================================================
    RENDER ENDED
-========================= */
+========================================================= */
 
 function renderEnded(){
+
+  const now =
+    Date.now();
+
 
   const ended =
     matches
       .filter(
         match =>
-          match.status ===
-          "finished"
+          match.status === "finished" &&
+          Number.isFinite(
+            Number(
+              match.finishedObservedAt
+            )
+          ) &&
+          now -
+            Number(
+              match.finishedObservedAt
+            ) <
+            END_KEEP_TIME
       )
       .sort(
         (a,b) =>
-          (
-            b.finishedObservedAt ||
-            0
+          Number(
+            b.finishedObservedAt
           ) -
-          (
-            a.finishedObservedAt ||
-            0
+          Number(
+            a.finishedObservedAt
           )
       );
 
 
-  if(
-    !ended.length
-  ){
+  if(!ended.length){
 
     endSection.style.display =
       "none";
@@ -2855,29 +2919,24 @@ function renderEnded(){
 
   endGrid.innerHTML =
     ended
-      .map(
-        createEndedCard
-      )
+      .map(createEndedCard)
       .join("");
 
 }
 
 
-/* =========================
-   RENDER
-========================= */
+/* =========================================================
+   RENDER FUTURE / LIVE
+========================================================= */
 
 function render(){
 
   const query =
-    normalize(
-      searchInput.value
-    );
+    normalize(searchInput.value);
 
 
   const now =
     Date.now();
-
 
   const max =
     now +
@@ -2889,9 +2948,12 @@ function render(){
     matches.filter(
       match => {
 
+        /*
+          LIVE is always visible.
+        */
+
         if(
-          match.status ===
-          "live"
+          match.status === "live"
         ){
 
           return true;
@@ -2899,9 +2961,14 @@ function render(){
         }
 
 
+        /*
+          Future only:
+          strictly after now and
+          no more than 7 days.
+        */
+
         if(
-          match.status !==
-          "scheduled"
+          match.status !== "scheduled"
         ){
 
           return false;
@@ -2933,9 +3000,7 @@ function render(){
               ].join(" ")
             );
 
-          return text.includes(
-            query
-          );
+          return text.includes(query);
 
         }
       );
@@ -2950,9 +3015,7 @@ function render(){
         a.status === "live" &&
         b.status !== "live"
       ){
-
         return -1;
-
       }
 
 
@@ -2960,9 +3023,7 @@ function render(){
         a.status !== "live" &&
         b.status === "live"
       ){
-
         return 1;
-
       }
 
 
@@ -2986,9 +3047,7 @@ function render(){
     visible.length;
 
 
-  if(
-    !visible.length
-  ){
+  if(!visible.length){
 
     matchesGrid.innerHTML =
       "";
@@ -3013,34 +3072,27 @@ function render(){
 
   matchesGrid.innerHTML =
     visible
-      .map(
-        createCard
-      )
+      .map(createCard)
       .join("");
 
 }
 
 
-/* =========================
+/* =========================================================
    LIVE REFRESH
-========================= */
+========================================================= */
 
 async function refreshLiveMatches(){
 
   const liveMatches =
     matches.filter(
       match =>
-        match.status ===
-        "live"
+        match.status === "live"
     );
 
 
-  if(
-    !liveMatches.length
-  ){
-
+  if(!liveMatches.length){
     return;
-
   }
 
 
@@ -3052,17 +3104,16 @@ async function refreshLiveMatches(){
             match =>
               match.sourceTeam
           )
-          .filter(Boolean)
+          .filter(
+            slug =>
+              isFeaturedSource(slug)
+          )
       )
     ];
 
 
-  if(
-    !teamSlugs.length
-  ){
-
+  if(!teamSlugs.length){
     return;
-
   }
 
 
@@ -3078,7 +3129,12 @@ async function refreshLiveMatches(){
 
 
     const fresh =
-      results.flat();
+      results
+        .flat()
+        .filter(isAllowedMatch);
+
+
+    let changed = false;
 
 
     for(
@@ -3086,12 +3142,9 @@ async function refreshLiveMatches(){
     ){
 
       if(
-        oldMatch.status !==
-        "live"
+        oldMatch.status !== "live"
       ){
-
         continue;
-
       }
 
 
@@ -3103,23 +3156,14 @@ async function refreshLiveMatches(){
         );
 
 
-      if(
-        !freshMatch
-      ){
+      /*
+        If SportScore temporarily omits
+        the live match, DO NOT remove it.
+      */
 
-        /*
-          Do not remove a live match
-          because SportScore temporarily
-          omitted it.
-        */
-
+      if(!freshMatch){
         continue;
-
       }
-
-
-      oldMatch.status =
-        freshMatch.status;
 
 
       if(
@@ -3172,65 +3216,43 @@ async function refreshLiveMatches(){
       }
 
 
+      /*
+        LIVE -> FINISHED
+      */
+
       if(
         freshMatch.status ===
         "finished"
       ){
 
+        oldMatch.status =
+          "finished";
+
         oldMatch.finishedObservedAt =
           oldMatch.finishedObservedAt ||
           Date.now();
+
+        changed = true;
 
       }
 
     }
 
 
-    /*
-      This is important:
-      once a live match becomes finished,
-      the 2-hour cleanup timer starts.
-    */
+    if(changed){
 
-    cleanupMatches();
+      cleanupMatches();
 
-    saveStoredMatches();
+      saveStoredMatches();
+
+    }
+
 
     render();
 
     renderEnded();
 
-
-    const liveCount =
-      matches.filter(
-        m =>
-          m.status ===
-          "live"
-      ).length;
-
-
-    const futureCount =
-      matches.filter(
-        m =>
-          m.status === "scheduled" &&
-          m.timestamp > Date.now() &&
-          m.timestamp <=
-            Date.now() +
-            MAX_DAYS * 86400000
-      ).length;
-
-
-    const finishedCount =
-      matches.filter(
-        m =>
-          m.status === "finished"
-      ).length;
-
-
-    statusEl.textContent =
-      liveCount > 0
-        ? `${liveCount} LIVE · ${futureCount} future · ${finishedCount} END`
-        : `${futureCount} future · ${finishedCount} END`;
+    updateStatus();
 
   }catch(error){
 
@@ -3244,9 +3266,9 @@ async function refreshLiveMatches(){
 }
 
 
-/* =========================
+/* =========================================================
    VOTES
-========================= */
+========================================================= */
 
 function saveVote(
   matchId,
@@ -3274,9 +3296,7 @@ function saveVote(
 
     localStorage.setItem(
       VOTE_STORAGE_KEY,
-      JSON.stringify(
-        voteStore
-      )
+      JSON.stringify(voteStore)
     );
 
   }catch(error){
@@ -3292,8 +3312,7 @@ function saveVote(
   const match =
     matches.find(
       item =>
-        item.id ===
-        matchId
+        item.id === matchId
     );
 
 
@@ -3311,9 +3330,9 @@ function saveVote(
 }
 
 
-/* =========================
+/* =========================================================
    EVENTS
-========================= */
+========================================================= */
 
 matchesGrid.addEventListener(
   "click",
@@ -3326,9 +3345,7 @@ matchesGrid.addEventListener(
 
 
     if(!button){
-
       return;
-
     }
 
 
@@ -3341,17 +3358,13 @@ matchesGrid.addEventListener(
 );
 
 
-function showToast(
-  message
-){
+function showToast(message){
 
   toastEl.textContent =
     message;
 
 
-  toastEl.classList.add(
-    "show"
-  );
+  toastEl.classList.add("show");
 
 
   clearTimeout(
@@ -3380,19 +3393,21 @@ searchInput.addEventListener(
 );
 
 
-/* =========================
+/* =========================================================
    UI MAINTENANCE
-========================= */
+========================================================= */
 
 function updateCountdowns(){
 
   /*
-    Runs every second.
+    Every second:
 
-    This means a finished match
-    is automatically deleted from
-    LocalStorage immediately after
-    its 2-hour lifetime expires.
+    1. Delete expired End.
+    2. Delete old Future.
+    3. Delete Future > 7 days.
+    4. Delete non-featured.
+    5. Save cleanup to LocalStorage.
+    6. Re-render.
   */
 
   cleanupMatches();
@@ -3401,31 +3416,37 @@ function updateCountdowns(){
 
   renderEnded();
 
+  updateStatus();
+
 }
 
 
-/* =========================
+/* =========================================================
    START
-========================= */
+========================================================= */
 
 loadStoredMatches();
 
 
 /*
-  Clean old LocalStorage data
-  immediately on page opening.
+  VERY IMPORTANT:
+
+  This immediately removes old LocalStorage
+  Finished records that don't have a valid
+  finishedObservedAt.
+
+  Therefore the old 310 End records will
+  disappear from the page and LocalStorage.
 */
 
 cleanupMatches();
 
 
-/*
-  Show valid saved matches immediately.
-*/
-
 render();
 
 renderEnded();
+
+updateStatus();
 
 
 loadingEl.style.display =
@@ -3433,14 +3454,14 @@ loadingEl.style.display =
 
 
 /*
-  Background API refresh.
+  First background load.
 */
 
 loadAllTeams(true);
 
 
 /*
-  Refresh all 50 teams every 60 seconds.
+  All 50 featured teams every 60 seconds.
 */
 
 setInterval(
@@ -3454,7 +3475,7 @@ setInterval(
 
 
 /*
-  Refresh live scores every 15 seconds.
+  Live scores every 15 seconds.
 */
 
 setInterval(
@@ -3464,7 +3485,7 @@ setInterval(
 
 
 /*
-  Cleanup + countdown every second.
+  Cleanup every second.
 */
 
 setInterval(
@@ -3486,17 +3507,13 @@ document.addEventListener(
       "visible"
     ){
 
-      /*
-        First cleanup anything
-        that expired while page
-        was in background.
-      */
-
       cleanupMatches();
 
       render();
 
       renderEnded();
+
+      updateStatus();
 
       loadAllTeams(true);
 
