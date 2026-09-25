@@ -18,6 +18,8 @@
   --soft:#f0fdf4;
   --blue:#2563eb;
   --blue-soft:#eff6ff;
+  --red:#dc2626;
+  --red-soft:#fef2f2;
 }
 
 *{
@@ -286,6 +288,16 @@ h1{
   font-weight:900;
 }
 
+.end-badge{
+  flex-shrink:0;
+  background:var(--red-soft);
+  color:var(--red);
+  border-radius:999px;
+  padding:6px 9px;
+  font-size:11px;
+  font-weight:900;
+}
+
 .date{
   text-align:center;
   color:var(--muted);
@@ -372,6 +384,76 @@ h1{
   background:#dcfce7;
   border-color:var(--primary);
   color:var(--primary-dark);
+}
+
+.vote-btn.locked{
+  cursor:not-allowed;
+}
+
+.result-box{
+  margin-top:15px;
+  padding-top:13px;
+  border-top:1px solid var(--border);
+}
+
+.result-title{
+  text-align:center;
+  color:var(--muted);
+  font-size:11px;
+  font-weight:900;
+  margin-bottom:10px;
+}
+
+.result-score{
+  text-align:center;
+  font-size:24px;
+  font-weight:900;
+  margin-bottom:10px;
+}
+
+.result-teams{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+}
+
+.result-team{
+  padding:9px 7px;
+  border-radius:11px;
+  text-align:center;
+  font-size:11px;
+  font-weight:900;
+}
+
+.result-team.win{
+  background:#dcfce7;
+  color:var(--primary-dark);
+}
+
+.result-team.loss{
+  background:var(--red-soft);
+  color:#991b1b;
+}
+
+.result-team.draw{
+  background:#f3f4f6;
+  color:#4b5563;
+}
+
+.end-section{
+  margin-top:28px;
+}
+
+.end-heading{
+  margin:0 0 12px;
+  font-size:18px;
+  font-weight:900;
+}
+
+.end-subtitle{
+  margin:-5px 0 15px;
+  color:var(--muted);
+  font-size:12px;
 }
 
 .empty{
@@ -574,6 +656,20 @@ footer a{
     Unable to load future matches right now.
   </section>
 
+  <section id="endSection" class="end-section" style="display:none;">
+
+    <h2 class="end-heading">
+      Finished Matches
+    </h2>
+
+    <p class="end-subtitle">
+      Finished Future matches remain here for 2 hours.
+    </p>
+
+    <div id="endGrid" class="matches-grid"></div>
+
+  </section>
+
 </main>
 
 <footer>
@@ -607,6 +703,9 @@ const REFRESH_INTERVAL =
 
 const COUNTDOWN_INTERVAL =
   30 * 1000;
+
+const END_KEEP_TIME =
+  2 * 60 * 60 * 1000;
 
 const FEATURED_TEAMS = [
   "real-madrid",
@@ -685,6 +784,8 @@ let loading = false;
 
 let voteStore = {};
 
+let endedStore = {};
+
 const loadingEl =
   document.getElementById("loading");
 
@@ -709,30 +810,61 @@ const matchCountEl =
 const toastEl =
   document.getElementById("toast");
 
+const endSection =
+  document.getElementById("endSection");
+
+const endGrid =
+  document.getElementById("endGrid");
+
 try{
+
   voteStore =
     JSON.parse(
-      localStorage.getItem("sportx_future_votes") || "{}"
+      localStorage.getItem(
+        "sportx_future_votes"
+      ) || "{}"
     ) || {};
+
 }catch{
+
   voteStore = {};
+
+}
+
+try{
+
+  endedStore =
+    JSON.parse(
+      localStorage.getItem(
+        "sportx_future_ended"
+      ) || "{}"
+    ) || {};
+
+}catch{
+
+  endedStore = {};
+
 }
 
 function normalize(value){
+
   return String(value || "")
     .toLowerCase()
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g,"")
     .trim();
+
 }
 
 function escapeHtml(value){
+
   return String(value ?? "")
     .replaceAll("&","&amp;")
     .replaceAll("<","&lt;")
     .replaceAll(">","&gt;")
     .replaceAll('"',"&quot;")
     .replaceAll("'","&#039;");
+
 }
 
 function parseDate(value){
@@ -758,6 +890,7 @@ function parseDate(value){
     return Number.isNaN(date.getTime())
       ? null
       : date;
+
   }
 
   const text =
@@ -783,6 +916,7 @@ function parseDate(value){
     return Number.isNaN(date.getTime())
       ? null
       : date;
+
   }
 
   const date =
@@ -791,6 +925,7 @@ function parseDate(value){
   return Number.isNaN(date.getTime())
     ? null
     : date;
+
 }
 
 function getTime(match){
@@ -807,6 +942,7 @@ function getTime(match){
     match.scheduledAt ??
     null
   );
+
 }
 
 function getTeamObject(value){
@@ -822,6 +958,7 @@ function getTeamObject(value){
   }
 
   return value;
+
 }
 
 function getHome(match){
@@ -831,6 +968,7 @@ function getHome(match){
     match.home_team ||
     match.homeTeam
   );
+
 }
 
 function getAway(match){
@@ -840,6 +978,7 @@ function getAway(match){
     match.away_team ||
     match.awayTeam
   );
+
 }
 
 function getTeamName(team){
@@ -856,6 +995,7 @@ function getTeamName(team){
     team?.shortName ||
     "Unknown"
   );
+
 }
 
 function getTeamLogo(team){
@@ -872,8 +1012,12 @@ function getTeamLogo(team){
     team?.image_url ||
     team?.imageUrl ||
     team?.crest ||
+    team?.badge ||
+    team?.icon ||
+    team?.photo ||
     ""
   );
+
 }
 
 function getLeague(match){
@@ -888,6 +1032,7 @@ function getLeague(match){
       competition?.title ||
       "Football"
     );
+
   }
 
   const league =
@@ -900,6 +1045,7 @@ function getLeague(match){
       league?.title ||
       "Football"
     );
+
   }
 
   return (
@@ -909,6 +1055,7 @@ function getLeague(match){
     match.competition_name ||
     "Football"
   );
+
 }
 
 function getStatus(match){
@@ -918,6 +1065,7 @@ function getStatus(match){
       match.status ||
       match.status_text ||
       match.statusText ||
+      match.state ||
       ""
     );
 
@@ -929,26 +1077,35 @@ function getStatus(match){
     raw.includes("inplay") ||
     raw.includes("in play")
   ){
+
     return "live";
+
   }
 
   if(
     raw.includes("finished") ||
     raw.includes("ended") ||
     raw.includes("final") ||
-    raw === "ft"
+    raw === "ft" ||
+    raw === "full time" ||
+    raw === "ft."
   ){
+
     return "finished";
+
   }
 
   if(
     raw.includes("cancel") ||
     raw.includes("postpon")
   ){
+
     return "excluded";
+
   }
 
   return "scheduled";
+
 }
 
 function getId(match,home,away,timestamp){
@@ -956,8 +1113,12 @@ function getId(match,home,away,timestamp){
   return String(
     match.id ||
     match.match_id ||
+    match.matchId ||
     match.fixture_id ||
+    match.fixtureId ||
     match.event_id ||
+    match.eventId ||
+    match.slug ||
     match.url ||
     [
       normalize(home),
@@ -965,6 +1126,213 @@ function getId(match,home,away,timestamp){
       timestamp
     ].join("-")
   );
+
+}
+
+function getNumber(value){
+
+  if(
+    value === null ||
+    value === undefined ||
+    value === ""
+  ){
+    return null;
+  }
+
+  const number =
+    Number(value);
+
+  return Number.isFinite(number)
+    ? number
+    : null;
+
+}
+
+function getScoreValue(match,side){
+
+  const score =
+    match.score;
+
+  const scores =
+    match.scores;
+
+  const directKeys =
+    side === "home"
+      ? [
+          "home_score",
+          "homeScore",
+          "home_goals",
+          "homeGoals"
+        ]
+      : [
+          "away_score",
+          "awayScore",
+          "away_goals",
+          "awayGoals"
+        ];
+
+  for(const key of directKeys){
+
+    const value =
+      getNumber(match[key]);
+
+    if(value !== null){
+      return value;
+    }
+
+  }
+
+  const objects =
+    [
+      score,
+      scores,
+      match.result
+    ];
+
+  for(const object of objects){
+
+    if(!object || typeof object !== "object"){
+      continue;
+    }
+
+    const keys =
+      side === "home"
+        ? [
+            "home",
+            "home_score",
+            "homeScore",
+            "home_goals",
+            "homeGoals",
+            "1"
+          ]
+        : [
+            "away",
+            "away_score",
+            "awayScore",
+            "away_goals",
+            "awayGoals",
+            "2"
+          ];
+
+    for(const key of keys){
+
+      const value =
+        object[key];
+
+      if(
+        value !== null &&
+        value !== undefined &&
+        typeof value === "object"
+      ){
+
+        const nested =
+          getNumber(
+            value.score ??
+            value.goals ??
+            value.value
+          );
+
+        if(nested !== null){
+          return nested;
+        }
+
+      }
+
+      const number =
+        getNumber(value);
+
+      if(number !== null){
+        return number;
+      }
+
+    }
+
+  }
+
+  return null;
+
+}
+
+function getFinishedAt(match,timestamp){
+
+  const explicit =
+    match.finished_at ||
+    match.finishedAt ||
+    match.end_time ||
+    match.endTime ||
+    match.completed_at ||
+    match.completedAt ||
+    match.final_time ||
+    match.finalTime;
+
+  const explicitDate =
+    parseDate(explicit);
+
+  if(explicitDate){
+    return explicitDate.getTime();
+  }
+
+  return timestamp + 2 * 60 * 60 * 1000;
+
+}
+
+function getResult(match){
+
+  const homeScore =
+    getScoreValue(
+      match,
+      "home"
+    );
+
+  const awayScore =
+    getScoreValue(
+      match,
+      "away"
+    );
+
+  if(
+    homeScore === null ||
+    awayScore === null
+  ){
+
+    return {
+      homeScore,
+      awayScore,
+      homeResult:"draw",
+      awayResult:"draw"
+    };
+
+  }
+
+  if(homeScore > awayScore){
+
+    return {
+      homeScore,
+      awayScore,
+      homeResult:"win",
+      awayResult:"loss"
+    };
+
+  }
+
+  if(awayScore > homeScore){
+
+    return {
+      homeScore,
+      awayScore,
+      homeResult:"loss",
+      awayResult:"win"
+    };
+
+  }
+
+  return {
+    homeScore,
+    awayScore,
+    homeResult:"draw",
+    awayResult:"draw"
+  };
+
 }
 
 function normalizeMatch(match,sourceTeam){
@@ -992,6 +1360,12 @@ function normalizeMatch(match,sourceTeam){
     return null;
   }
 
+  const result =
+    getResult(match);
+
+  const status =
+    getStatus(match);
+
   return {
 
     id:
@@ -1018,12 +1392,26 @@ function normalizeMatch(match,sourceTeam){
     timestamp:
       date.getTime(),
 
-    status:
-      getStatus(match),
+    status,
+
+    homeScore:
+      result.homeScore,
+
+    awayScore:
+      result.awayScore,
+
+    finishedAt:
+      status === "finished"
+        ? getFinishedAt(
+            match,
+            date.getTime()
+          )
+        : null,
 
     sourceTeam
 
   };
+
 }
 
 function extractMatches(json){
@@ -1049,6 +1437,7 @@ function extractMatches(json){
   }
 
   return [];
+
 }
 
 async function loadTeam(teamSlug){
@@ -1084,6 +1473,7 @@ async function loadTeam(teamSlug){
       );
 
       return [];
+
     }
 
     const json =
@@ -1110,7 +1500,9 @@ async function loadTeam(teamSlug){
     );
 
     return [];
+
   }
+
 }
 
 function isWithinFutureWindow(match){
@@ -1146,6 +1538,7 @@ function isWithinFutureWindow(match){
     match.timestamp > now &&
     match.timestamp <= max
   );
+
 }
 
 function matchKey(match){
@@ -1157,6 +1550,7 @@ function matchKey(match){
       match.timestamp / 60000
     )
   ].join("|");
+
 }
 
 function deduplicate(list){
@@ -1173,38 +1567,251 @@ function deduplicate(list){
       map.get(key);
 
     if(!old){
-      map.set(key,match);
+
+      map.set(
+        key,
+        match
+      );
+
       continue;
+
     }
 
     if(
       !old.homeLogo &&
       match.homeLogo
     ){
+
       old.homeLogo =
         match.homeLogo;
+
     }
 
     if(
       !old.awayLogo &&
       match.awayLogo
     ){
+
       old.awayLogo =
         match.awayLogo;
+
     }
 
     if(
       old.league === "Football" &&
       match.league !== "Football"
     ){
+
       old.league =
         match.league;
+
     }
+
+    if(
+      match.status === "finished"
+    ){
+
+      map.set(
+        key,
+        match
+      );
+
+    }
+
   }
 
   return Array.from(
     map.values()
   );
+
+}
+
+function cleanupEnded(){
+
+  const now =
+    Date.now();
+
+  let changed =
+    false;
+
+  for(const id of Object.keys(endedStore)){
+
+    const item =
+      endedStore[id];
+
+    if(
+      !item ||
+      !item.savedAt ||
+      now - item.savedAt >= END_KEEP_TIME
+    ){
+
+      delete endedStore[id];
+
+      changed = true;
+
+    }
+
+  }
+
+  if(changed){
+
+    try{
+
+      localStorage.setItem(
+        "sportx_future_ended",
+        JSON.stringify(
+          endedStore
+        )
+      );
+
+    }catch(error){
+
+      console.warn(
+        "End storage error:",
+        error
+      );
+
+    }
+
+  }
+
+}
+
+function saveEnded(match){
+
+  const key =
+    match.id;
+
+  const existing =
+    endedStore[key];
+
+  const now =
+    Date.now();
+
+  if(existing){
+
+    endedStore[key] = {
+      ...existing,
+      ...match,
+      savedAt:
+        existing.savedAt
+    };
+
+  }else{
+
+    endedStore[key] = {
+      ...match,
+      savedAt:now
+    };
+
+  }
+
+  try{
+
+    localStorage.setItem(
+      "sportx_future_ended",
+      JSON.stringify(
+        endedStore
+      )
+    );
+
+  }catch(error){
+
+    console.warn(
+      "End storage error:",
+      error
+    );
+
+  }
+
+}
+
+function getEndedMatches(){
+
+  cleanupEnded();
+
+  return Object.values(
+    endedStore
+  )
+  .filter(item =>
+    item &&
+    item.savedAt &&
+    Date.now() - item.savedAt < END_KEEP_TIME
+  )
+  .sort(
+    (a,b) =>
+      b.savedAt -
+      a.savedAt
+  );
+
+}
+
+function processFinishedMatches(collected){
+
+  const now =
+    Date.now();
+
+  for(const match of collected){
+
+    if(match.status !== "finished"){
+      continue;
+    }
+
+    const key =
+      match.id;
+
+    const existing =
+      endedStore[key];
+
+    if(existing){
+
+      endedStore[key] = {
+        ...existing,
+        ...match,
+        savedAt:
+          existing.savedAt
+      };
+
+      continue;
+
+    }
+
+    const finishedAt =
+      match.finishedAt ||
+      (
+        match.timestamp +
+        2 * 60 * 60 * 1000
+      );
+
+    if(
+      finishedAt <= now &&
+      now - finishedAt < END_KEEP_TIME
+    ){
+
+      saveEnded(match);
+
+    }
+
+  }
+
+  try{
+
+    localStorage.setItem(
+      "sportx_future_ended",
+      JSON.stringify(
+        endedStore
+      )
+    );
+
+  }catch(error){
+
+    console.warn(
+      "End storage error:",
+      error
+    );
+
+  }
+
 }
 
 async function loadAllTeams(){
@@ -1236,13 +1843,19 @@ async function loadAllTeams(){
     const collected =
       results.flat();
 
+    processFinishedMatches(
+      collected
+    );
+
     const filtered =
       collected.filter(
         isWithinFutureWindow
       );
 
     const unique =
-      deduplicate(filtered);
+      deduplicate(
+        filtered
+      );
 
     unique.sort(
       (a,b) =>
@@ -1257,6 +1870,8 @@ async function loadAllTeams(){
       );
 
     render();
+
+    renderEnded();
 
     statusEl.textContent =
       `${matches.length} matches`;
@@ -1274,6 +1889,8 @@ async function loadAllTeams(){
     statusEl.textContent =
       "Update failed";
 
+    renderEnded();
+
   }finally{
 
     loading = false;
@@ -1283,7 +1900,9 @@ async function loadAllTeams(){
 
     matchesGrid.style.display =
       "grid";
+
   }
+
 }
 
 function getCountdown(timestamp){
@@ -1314,6 +1933,7 @@ function getCountdown(timestamp){
   }
 
   return `${days} Days`;
+
 }
 
 function formatDate(timestamp){
@@ -1331,6 +1951,7 @@ function formatDate(timestamp){
       minute:"2-digit"
     }
   );
+
 }
 
 function logoHtml(url,name){
@@ -1346,6 +1967,7 @@ function logoHtml(url,name){
         onerror="this.outerHTML='<div class=&quot;logo logo-fallback&quot;>${escapeHtml(name.charAt(0).toUpperCase())}</div>'"
       >
     `;
+
   }
 
   return `
@@ -1355,12 +1977,16 @@ function logoHtml(url,name){
       )}
     </div>
   `;
+
 }
 
 function createCard(match){
 
   const selected =
     voteStore[match.id] || "";
+
+  const locked =
+    Boolean(selected);
 
   return `
     <article class="match-card">
@@ -1424,31 +2050,36 @@ function createCard(match){
       </div>
 
       <div class="vote-label">
-        Predict the winner
+        ${locked
+          ? "Prediction locked"
+          : "Predict the winner"}
       </div>
 
       <div class="vote-buttons">
 
         <button
-          class="vote-btn ${selected === "1" ? "selected" : ""}"
+          class="vote-btn ${selected === "1" ? "selected" : ""} ${locked ? "locked" : ""}"
           data-match="${escapeHtml(match.id)}"
           data-vote="1"
+          ${locked ? "disabled" : ""}
         >
           1
         </button>
 
         <button
-          class="vote-btn ${selected === "X" ? "selected" : ""}"
+          class="vote-btn ${selected === "X" ? "selected" : ""} ${locked ? "locked" : ""}"
           data-match="${escapeHtml(match.id)}"
           data-vote="X"
+          ${locked ? "disabled" : ""}
         >
           X
         </button>
 
         <button
-          class="vote-btn ${selected === "2" ? "selected" : ""}"
+          class="vote-btn ${selected === "2" ? "selected" : ""} ${locked ? "locked" : ""}"
           data-match="${escapeHtml(match.id)}"
           data-vote="2"
+          ${locked ? "disabled" : ""}
         >
           2
         </button>
@@ -1457,6 +2088,159 @@ function createCard(match){
 
     </article>
   `;
+
+}
+
+function createEndedCard(match){
+
+  const result =
+    getResult(match);
+
+  const homeScore =
+    result.homeScore === null
+      ? "-"
+      : result.homeScore;
+
+  const awayScore =
+    result.awayScore === null
+      ? "-"
+      : result.awayScore;
+
+  return `
+    <article class="match-card">
+
+      <div class="match-top">
+
+        <div class="league">
+          ${escapeHtml(match.league)}
+        </div>
+
+        <div class="end-badge">
+          LIVE END
+        </div>
+
+      </div>
+
+      <div class="date">
+        ${escapeHtml(
+          formatDate(match.timestamp)
+        )}
+      </div>
+
+      <div class="teams">
+
+        <div class="team">
+
+          ${logoHtml(
+            match.homeLogo,
+            match.home
+          )}
+
+          <div class="team-name">
+            ${escapeHtml(match.home)}
+          </div>
+
+        </div>
+
+        <div class="vs">
+          FINAL
+        </div>
+
+        <div class="team">
+
+          ${logoHtml(
+            match.awayLogo,
+            match.away
+          )}
+
+          <div class="team-name">
+            ${escapeHtml(match.away)}
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="result-box">
+
+        <div class="result-title">
+          Final Result
+        </div>
+
+        <div class="result-score">
+          ${escapeHtml(
+            String(homeScore)
+          )}
+          -
+          ${escapeHtml(
+            String(awayScore)
+          )}
+        </div>
+
+        <div class="result-teams">
+
+          <div
+            class="result-team ${result.homeResult}"
+          >
+            ${escapeHtml(
+              match.home
+            )}
+            <br>
+            ${result.homeResult === "win"
+              ? "WIN"
+              : result.homeResult === "loss"
+                ? "LOSS"
+                : "DRAW"}
+          </div>
+
+          <div
+            class="result-team ${result.awayResult}"
+          >
+            ${escapeHtml(
+              match.away
+            )}
+            <br>
+            ${result.awayResult === "win"
+              ? "WIN"
+              : result.awayResult === "loss"
+                ? "LOSS"
+                : "DRAW"}
+          </div>
+
+        </div>
+
+      </div>
+
+    </article>
+  `;
+
+}
+
+function renderEnded(){
+
+  const ended =
+    getEndedMatches();
+
+  if(!ended.length){
+
+    endSection.style.display =
+      "none";
+
+    endGrid.innerHTML =
+      "";
+
+    return;
+
+  }
+
+  endSection.style.display =
+    "block";
+
+  endGrid.innerHTML =
+    ended
+      .map(createEndedCard)
+      .join("");
+
 }
 
 function render(){
@@ -1495,7 +2279,9 @@ function render(){
           );
 
         return text.includes(query);
+
       });
+
   }
 
   visible.sort(
@@ -1525,6 +2311,7 @@ function render(){
       "block";
 
     return;
+
   }
 
   emptyState.style.display =
@@ -1537,9 +2324,14 @@ function render(){
     visible
       .map(createCard)
       .join("");
+
 }
 
 function updateCountdowns(){
+
+  cleanupEnded();
+
+  renderEnded();
 
   const now =
     Date.now();
@@ -1565,6 +2357,7 @@ function updateCountdowns(){
     render();
 
     return;
+
   }
 
   document
@@ -1586,15 +2379,29 @@ function updateCountdowns(){
           getCountdown(
             timestamp
           );
+
       }
 
     });
+
 }
 
 function saveVote(
   matchId,
   value
 ){
+
+  if(
+    voteStore[matchId]
+  ){
+
+    showToast(
+      "Prediction is already locked."
+    );
+
+    return;
+
+  }
 
   voteStore[matchId] =
     value;
@@ -1614,20 +2421,8 @@ function saveVote(
       "Vote storage error:",
       error
     );
+
   }
-
-  document
-    .querySelectorAll(
-      `[data-match="${CSS.escape(matchId)}"]`
-    )
-    .forEach(button => {
-
-      button.classList.toggle(
-        "selected",
-        button.dataset.vote === value
-      );
-
-    });
 
   const match =
     matches.find(
@@ -1635,12 +2430,16 @@ function saveVote(
         item.id === matchId
     );
 
+  render();
+
   if(match){
 
     showToast(
       `Prediction saved: ${match.home} vs ${match.away}`
     );
+
   }
+
 }
 
 matchesGrid.addEventListener(
@@ -1660,6 +2459,7 @@ matchesGrid.addEventListener(
       button.dataset.match,
       button.dataset.vote
     );
+
   }
 );
 
@@ -1684,12 +2484,17 @@ function showToast(message){
       );
 
     },2200);
+
 }
 
 searchInput.addEventListener(
   "input",
   render
 );
+
+cleanupEnded();
+
+renderEnded();
 
 loadAllTeams();
 
