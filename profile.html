@@ -1319,6 +1319,7 @@ function buildFallbackProfile(){
 /* =========================================================
    LOAD PROFILE
 ========================================================= */
+
 async function loadProfile(){
  const fallback=buildFallbackProfile();
 
@@ -1347,52 +1348,6 @@ async function loadProfile(){
  profileKeyColumn="id";
  return fallback;
 }
-
- /*
-  * اگر id جواب نداد،
-  * user_id را امتحان می‌کنیم.
-  */
-
- const byUserId=
-  await queryProfileBy("user_id");
-
- if(
-  !byUserId.error &&
-  byUserId.data
- ){
-
-  profileKeyColumn="user_id";
-
-  return {
-   ...fallback,
-   ...byUserId.data
-  };
- }
-
-
- /*
-  * اگر جدول profiles مشکل داشت،
-  * Auth اطلاعات اصلی را برمی‌گرداند.
-  */
-
- console.warn(
-  "profiles row unavailable. Using Auth fallback."
- );
-
-
- if(
-  byId.error &&
-  !byUserId.error
- ){
-  profileKeyColumn="user_id";
- }else{
-  profileKeyColumn="id";
- }
-
-
- return fallback;
-}
-
 
 /* =========================================================
    PROFILE VALUES
