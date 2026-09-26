@@ -1,0 +1,23 @@
+{
+  "name": "SportX",
+  "short_name": "SportX",
+  "description": "Sport prediction simulator",
+  "start_url": "/cina-bet/index.html",
+  "scope": "/cina-bet/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#ffffff",
+  "theme_color": "#087a55",
+  "icons": [
+    {
+      "src": "/cina-bet/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/cina-bet/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
