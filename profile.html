@@ -2483,22 +2483,168 @@ async function saveProfile(){
    }
   }
 
+async function saveProfile(){
 
-  if(result.error)
-   throw result.error;
+ if(!currentUser){
+
+  showToast(
+   "Your session is not ready."
+  );
+
+  return;
+ }
 
 
-  currentProfile=
-   result.data ||
-   {
-    ...currentProfile,
-    ...update
-   };
+ const input=
+  document.getElementById(
+   "editFullName"
+  );
 
 
-  /*
-   * فقط اطلاعات لازم حساب.
-   */
+ const name=
+  input?.value.trim() || "";
+
+
+ if(!name){
+
+  showToast(
+   "Enter your name."
+  );
+
+  return;
+ }
+
+
+ if(!selectedCountry){
+
+  showToast(
+   "Select your country."
+  );
+
+  return;
+ }
+
+
+ const button=
+  document.getElementById(
+   "saveProfileButton"
+  );
+
+
+ button.classList.add("loading");
+ button.textContent="Saving...";
+
+
+ try{
+
+  const update={
+   full_name:name,
+   country:selectedCountry,
+   updated_at:
+    new Date().toISOString()
+  };
+
+
+  if(selectedAvatarData){
+
+   update.avatar_url=
+    selectedAvatarData;
+
+  }
+
+
+  const updateResult=
+   await withTimeout(
+    supabaseClient
+     .from("profiles")
+     .update(update)
+     .eq("id",currentUser.id),
+    8000,
+    "Profile save timed out."
+   );
+
+
+  if(updateResult.error){
+
+   throw updateResult.error;
+
+  }
+
+
+  const profileResult=
+   await withTimeout(
+    supabaseClient
+     .from("profiles")
+     .select("*")
+     .eq("id",currentUser.id)
+     .maybeSingle(),
+    8000,
+    "Profile reload timed out."
+   );
+
+
+  if(profileResult.error){
+
+   throw profileResult.error;
+
+  }
+
+
+  if(!profileResult.data){
+
+   const insertResult=
+    await withTimeout(
+     supabaseClient
+      .from("profiles")
+      .insert({
+       id:currentUser.id,
+       ...update
+      }),
+     8000,
+     "Profile creation timed out."
+    );
+
+
+   if(insertResult.error){
+
+    throw insertResult.error;
+
+   }
+
+
+   const insertedProfile=
+    await withTimeout(
+     supabaseClient
+      .from("profiles")
+      .select("*")
+      .eq("id",currentUser.id)
+      .maybeSingle(),
+     8000,
+     "Profile reload timed out."
+    );
+
+
+   if(insertedProfile.error){
+
+    throw insertedProfile.error;
+
+   }
+
+
+   currentProfile=
+    insertedProfile.data ||
+    {
+     ...currentProfile,
+     ...update
+    };
+
+  }else{
+
+   currentProfile=
+    profileResult.data;
+
+  }
+
 
   const metadata={
    full_name:name,
@@ -2506,9 +2652,12 @@ async function saveProfile(){
   };
 
 
-  if(selectedAvatarData)
+  if(selectedAvatarData){
+
    metadata.avatar_url=
     selectedAvatarData;
+
+  }
 
 
   try{
@@ -2518,7 +2667,7 @@ async function saveProfile(){
      supabaseClient.auth.updateUser({
       data:metadata
      }),
-     6000,
+     8000,
      "Account metadata update timed out."
     );
 
@@ -2530,6 +2679,7 @@ async function saveProfile(){
 
     currentUser=
      authResult.data.user;
+
    }
 
   }catch(error){
@@ -2538,20 +2688,18 @@ async function saveProfile(){
     "Auth metadata update:",
     error
    );
+
   }
 
 
   renderProfile();
-
   renderPhotoPreview();
 
   closeModal(
    "editProfileModal"
   );
 
-
   selectedAvatarData=null;
-
 
   showToast(
    "Profile saved successfully."
@@ -2580,6 +2728,7 @@ async function saveProfile(){
 
   button.textContent=
    "Save Changes";
+
  }
 }
 
