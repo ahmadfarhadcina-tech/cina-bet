@@ -7,6 +7,8 @@
 <title>Create Account | SportX</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script>
 
 <style>
 :root{
@@ -195,6 +197,11 @@ button{
     transform:translateY(-2px);
     background:#16251f;
     border-color:rgba(255,255,255,.15);
+}
+
+.social-btn.loading{
+    pointer-events:none;
+    opacity:.65;
 }
 
 .social-icon{
@@ -760,30 +767,32 @@ footer{
 <div class="toast" id="toast"></div>
 
 <script>
-
-/* ================================
-   SUPABASE
-================================ */
-
 const SUPABASE_URL =
     "https://zchtcosljkkkiykhforj.supabase.co";
 
 const SUPABASE_KEY =
     "sb_publishable_aGLckKZjNaVbpdxZUFhCqA_VzHppjrW";
 
-const { createClient } =
-    supabase;
-
 const supabaseClient =
-    createClient(
+    supabase.createClient(
         SUPABASE_URL,
         SUPABASE_KEY
     );
 
+const firebaseConfig = {
+    apiKey:"AIzaSyBep2khsSd8ynLg2gEG1sxxoLMug632emA",
+    authDomain:"sportx-36865.firebaseapp.com",
+    projectId:"sportx-36865",
+    storageBucket:"sportx-36865.firebasestorage.app",
+    messagingSenderId:"397751189949",
+    appId:"1:397751189949:web:9c82fac60e20c3c1ca52d4",
+    measurementId:"G-XXH0H2MMHD"
+};
 
-/* ================================
-   ELEMENTS
-================================ */
+firebase.initializeApp(firebaseConfig);
+
+const firebaseAuth =
+    firebase.auth();
 
 const form =
     document.getElementById("registerForm");
@@ -809,14 +818,9 @@ const strengthBars =
 const strengthText =
     document.getElementById("strengthText");
 
-
-/* ================================
-   PASSWORD TOGGLE
-================================ */
-
 document
 .getElementById("passwordToggle")
-.addEventListener("click", () => {
+.addEventListener("click",() => {
 
     const button =
         document.getElementById("passwordToggle");
@@ -835,12 +839,7 @@ document
 
 });
 
-
-/* ================================
-   PASSWORD STRENGTH
-================================ */
-
-password.addEventListener("input", () => {
+password.addEventListener("input",() => {
 
     const value = password.value;
 
@@ -922,14 +921,10 @@ password.addEventListener("input", () => {
 
 });
 
-
-/* ================================
-   ERROR
-================================ */
-
 function showError(message){
 
-    errorBox.textContent = message;
+    errorBox.textContent =
+        message;
 
     errorBox.classList.add("show");
 
@@ -937,59 +932,74 @@ function showError(message){
 
 function hideError(){
 
-    errorBox.textContent = "";
+    errorBox.textContent =
+        "";
 
     errorBox.classList.remove("show");
 
 }
 
-
-/* ================================
-   TOAST
-================================ */
-
 function showToast(message){
 
-    toast.textContent = message;
+    toast.textContent =
+        message;
 
     toast.classList.add("show");
 
-    clearTimeout(window.toastTimer);
+    clearTimeout(
+        window.toastTimer
+    );
 
     window.toastTimer =
         setTimeout(() => {
 
-            toast.classList.remove("show");
+            toast.classList.remove(
+                "show"
+            );
 
         },3000);
 
 }
 
-
-/* ================================
-   SUPABASE ERROR
-================================ */
-
 function getAuthErrorMessage(error){
 
     const message =
-        String(error?.message || "")
-        .toLowerCase();
+        String(
+            error?.message || ""
+        ).toLowerCase();
 
-    if(message.includes("user already registered")){
+    if(
+        message.includes(
+            "user already registered"
+        )
+    ){
+
         return "An account with this email already exists.";
+
     }
 
-    if(message.includes("password")){
+    if(
+        message.includes("password")
+    ){
+
         return "Please use a stronger password with at least 8 characters.";
+
     }
 
-    if(message.includes("invalid email")){
+    if(
+        message.includes("invalid email")
+    ){
+
         return "Please enter a valid email address.";
+
     }
 
-    if(message.includes("rate limit")){
+    if(
+        message.includes("rate limit")
+    ){
+
         return "Too many attempts. Please wait a moment and try again.";
+
     }
 
     return error?.message ||
@@ -997,325 +1007,425 @@ function getAuthErrorMessage(error){
 
 }
 
+form.addEventListener(
+    "submit",
+    async event => {
 
-/* ================================
-   REGISTER
-================================ */
+        event.preventDefault();
 
-form.addEventListener("submit", async event => {
+        hideError();
 
-    event.preventDefault();
+        const firstName =
+            document
+            .getElementById("firstName")
+            .value
+            .trim();
 
-    hideError();
+        const lastName =
+            document
+            .getElementById("lastName")
+            .value
+            .trim();
 
-    const firstName =
-        document
-        .getElementById("firstName")
-        .value
-        .trim();
+        const email =
+            document
+            .getElementById("email")
+            .value
+            .trim()
+            .toLowerCase();
 
-    const lastName =
-        document
-        .getElementById("lastName")
-        .value
-        .trim();
+        const terms =
+            document
+            .getElementById("terms")
+            .checked;
 
-    const email =
-        document
-        .getElementById("email")
-        .value
-        .trim()
-        .toLowerCase();
+        if(firstName.length < 2){
 
-    const terms =
-        document
-        .getElementById("terms")
-        .checked;
+            showError(
+                "Please enter a valid first name."
+            );
 
+            return;
 
-    if(firstName.length < 2){
+        }
 
-        showError(
-            "Please enter a valid first name."
+        if(lastName.length < 2){
+
+            showError(
+                "Please enter a valid last name."
+            );
+
+            return;
+
+        }
+
+        if(password.value.length < 8){
+
+            showError(
+                "Password must contain at least 8 characters."
+            );
+
+            return;
+
+        }
+
+        if(
+            password.value !==
+            confirmPassword.value
+        ){
+
+            showError(
+                "Passwords do not match."
+            );
+
+            return;
+
+        }
+
+        if(!terms){
+
+            showError(
+                "Please accept the Terms of Service and Privacy Policy."
+            );
+
+            return;
+
+        }
+
+        registerBtn.classList.add(
+            "loading"
         );
 
-        return;
-    }
+        registerBtn.textContent =
+            "Creating Account...";
 
+        try{
 
-    if(lastName.length < 2){
+            const {
+                data,
+                error
+            } =
+                await supabaseClient.auth
+                .signUp({
 
-        showError(
-            "Please enter a valid last name."
-        );
+                    email:email,
 
-        return;
-    }
+                    password:password.value,
 
+                    options:{
+                        data:{
+                            first_name:firstName,
+                            last_name:lastName
+                        }
+                    }
 
-    if(password.value.length < 8){
+                });
 
-        showError(
-            "Password must contain at least 8 characters."
-        );
+            if(error){
 
-        return;
-    }
+                throw error;
 
-
-    if(password.value !== confirmPassword.value){
-
-        showError(
-            "Passwords do not match."
-        );
-
-        return;
-    }
-
-
-    if(!terms){
-
-        showError(
-            "Please accept the Terms of Service and Privacy Policy."
-        );
-
-        return;
-    }
-
-
-    registerBtn.classList.add("loading");
-
-    registerBtn.textContent =
-        "Creating Account...";
-
-
-    try{
-
-        const {
-            data,
-            error
-        } = await supabaseClient.auth.signUp({
-
-            email:email,
-
-            password:password.value,
-
-            options:{
-                data:{
-                    first_name:firstName,
-                    last_name:lastName
-                }
             }
 
-        });
+            if(!data.user){
 
+                throw new Error(
+                    "Account creation failed. Please try again."
+                );
 
-        if(error){
+            }
 
-            throw error;
+            if(data.session){
 
-        }
+                showToast(
+                    "Account created successfully!"
+                );
 
+                setTimeout(() => {
 
-        if(!data.user){
+                    window.location.href =
+                        "index.html";
 
-            throw new Error(
-                "Account creation failed. Please try again."
+                },900);
+
+            }else{
+
+                showToast(
+                    "Account created. Please verify your email."
+                );
+
+                registerBtn.classList.remove(
+                    "loading"
+                );
+
+                registerBtn.textContent =
+                    "Create Account";
+
+            }
+
+        }catch(error){
+
+            console.error(
+                "SportX registration error:",
+                error
             );
 
-        }
-
-
-        /*
-            The database trigger automatically creates:
-
-            public.users
-            public.profiles
-            public.wallets
-
-            using the same Supabase Auth user ID.
-        */
-
-
-        if(data.session){
-
-            showToast(
-                "Account created successfully!"
+            showError(
+                getAuthErrorMessage(error)
             );
 
-            setTimeout(() => {
-
-                window.location.href =
-                    "index.html";
-
-            },900);
-
-        }else{
-
-            showToast(
-                "Account created. Please verify your email."
+            registerBtn.classList.remove(
+                "loading"
             );
-
-            registerBtn.classList.remove("loading");
 
             registerBtn.textContent =
                 "Create Account";
 
         }
 
+    }
+);
+
+document
+.getElementById("googleBtn")
+.addEventListener(
+    "click",
+    async () => {
+
+        hideError();
+
+        const button =
+            document.getElementById(
+                "googleBtn"
+            );
+
+        button.classList.add(
+            "loading"
+        );
+
+        button.innerHTML =
+            '<span class="social-icon">G</span>Connecting...';
+
+        try{
+
+            const provider =
+                new firebase.auth.GoogleAuthProvider();
+
+            provider.setCustomParameters({
+                prompt:"select_account"
+            });
+
+            const result =
+                await firebaseAuth.signInWithPopup(
+                    provider
+                );
+
+            if(
+                result &&
+                result.user
+            ){
+
+                const user =
+                    result.user;
+
+                localStorage.setItem(
+                    "sportx_firebase_user",
+                    JSON.stringify({
+                        uid:user.uid,
+                        email:user.email,
+                        displayName:user.displayName,
+                        photoURL:user.photoURL
+                    })
+                );
+
+                showToast(
+                    "Google account connected successfully!"
+                );
+
+                setTimeout(() => {
+
+                    window.location.replace(
+                        "index.html"
+                    );
+
+                },700);
+
+            }
+
+        }catch(error){
+
+            console.error(
+                "SportX Firebase Google registration error:",
+                error
+            );
+
+            if(
+                error.code ===
+                "auth/popup-closed-by-user"
+            ){
+
+                showError(
+                    "Google sign-up was cancelled."
+                );
+
+            }else if(
+                error.code ===
+                "auth/popup-blocked"
+            ){
+
+                showError(
+                    "Google sign-up popup was blocked by your browser."
+                );
+
+            }else if(
+                error.code ===
+                "auth/account-exists-with-different-credential"
+            ){
+
+                showError(
+                    "An account already exists with this email using another sign-in method."
+                );
+
+            }else{
+
+                showError(
+                    error.message ||
+                    "Google sign-up is currently unavailable."
+                );
+
+            }
+
+        }finally{
+
+            button.classList.remove(
+                "loading"
+            );
+
+            button.innerHTML =
+                '<span class="social-icon">G</span>Sign up with Google';
+
+        }
+
+    }
+);
+
+document
+.getElementById("facebookBtn")
+.addEventListener(
+    "click",
+    async () => {
+
+        hideError();
+
+        try{
+
+            const {
+                error
+            } =
+                await supabaseClient.auth
+                .signInWithOAuth({
+
+                    provider:"facebook",
+
+                    options:{
+                        redirectTo:
+                            window.location.origin +
+                            window.location.pathname
+                    }
+
+                });
+
+            if(error){
+
+                showError(
+                    error.message
+                );
+
+            }
+
+        }catch(error){
+
+            showError(
+                "Facebook sign-up is currently unavailable."
+            );
+
+        }
+
+    }
+);
+
+document
+.getElementById("termsLink")
+.addEventListener(
+    "click",
+    event => {
+
+        event.preventDefault();
+
+        showToast(
+            "Terms of Service will be available soon."
+        );
+
+    }
+);
+
+document
+.getElementById("privacyLink")
+.addEventListener(
+    "click",
+    event => {
+
+        event.preventDefault();
+
+        showToast(
+            "Privacy Policy will be available soon."
+        );
+
+    }
+);
+
+(async () => {
+
+    try{
+
+        const {
+            data
+        } =
+            await supabaseClient.auth
+            .getSession();
+
+        if(data?.session){
+
+            window.location.replace(
+                "index.html"
+            );
+
+            return;
+
+        }
+
+        const firebaseUser =
+            firebaseAuth.currentUser;
+
+        if(firebaseUser){
+
+            window.location.replace(
+                "index.html"
+            );
+
+        }
 
     }catch(error){
 
         console.error(
-            "SportX registration error:",
+            "Session check error:",
             error
-        );
-
-        showError(
-            getAuthErrorMessage(error)
-        );
-
-        registerBtn.classList.remove("loading");
-
-        registerBtn.textContent =
-            "Create Account";
-
-    }
-
-});
-
-
-/* ================================
-   GOOGLE
-================================ */
-
-document
-.getElementById("googleBtn")
-.addEventListener("click", async () => {
-
-    hideError();
-
-    const {
-        error
-    } = await supabaseClient.auth.signInWithOAuth({
-
-        provider:"google",
-
-        options:{
-            redirectTo:
-                window.location.origin +
-                window.location.pathname
-        }
-
-    });
-
-    if(error){
-
-        showError(
-            error.message
-        );
-
-    }
-
-});
-
-
-/* ================================
-   FACEBOOK
-================================ */
-
-document
-.getElementById("facebookBtn")
-.addEventListener("click", async () => {
-
-    hideError();
-
-    const {
-        error
-    } = await supabaseClient.auth.signInWithOAuth({
-
-        provider:"facebook",
-
-        options:{
-            redirectTo:
-                window.location.origin +
-                window.location.pathname
-        }
-
-    });
-
-    if(error){
-
-        showError(
-            error.message
-        );
-
-    }
-
-});
-
-
-/* ================================
-   TERMS
-================================ */
-
-document
-.getElementById("termsLink")
-.addEventListener("click", event => {
-
-    event.preventDefault();
-
-    showToast(
-        "Terms of Service will be available soon."
-    );
-
-});
-
-
-/* ================================
-   PRIVACY
-================================ */
-
-document
-.getElementById("privacyLink")
-.addEventListener("click", event => {
-
-    event.preventDefault();
-
-    showToast(
-        "Privacy Policy will be available soon."
-    );
-
-});
-
-
-/* ================================
-   CHECK EXISTING SUPABASE SESSION
-================================ */
-
-(async () => {
-
-    const {
-        data
-    } = await supabaseClient.auth.getSession();
-
-    if(data?.session){
-
-        window.location.replace(
-            "index.html"
         );
 
     }
 
 })();
-
 </script>
 
 </body>
 </html>
-
-[/end]
-
-این نسخه دیگر از "sportx_demo_user" استفاده نمی‌کند و ثبت‌نام را مستقیماً به Supabase Auth می‌فرستد. پس از ثبت‌نام نیز Trigger، رکوردهای "users"، "profiles" و "wallets" را با همان UUID کاربر ایجاد می‌کند.
-
-فعلاً فقط همان SQL اول را اجرا کن و بعد فایل "register.html" را جایگزین کن. بعد تست ثبت‌نام را انجام می‌دهیم؛ مرحله بعد سراغ "login.html" می‌رویم.
