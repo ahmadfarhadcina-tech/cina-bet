@@ -7,6 +7,8 @@
 <title>Login | SportX</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script>
 
 <style>
 :root{
@@ -32,7 +34,6 @@ body{
     min-height:100vh;
     font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
     color:var(--text);
-
     background:
         radial-gradient(
             circle at 15% 10%,
@@ -45,7 +46,6 @@ body{
             transparent 30%
         ),
         var(--bg);
-
     display:flex;
     flex-direction:column;
 }
@@ -61,13 +61,9 @@ button{
 
 .header{
     height:72px;
-
     border-bottom:1px solid var(--border);
-
     background:rgba(255,255,255,.92);
-
     backdrop-filter:blur(18px);
-
     box-shadow:
         0 4px 18px rgba(15,23,42,.05);
 }
@@ -76,7 +72,6 @@ button{
     width:min(1180px,calc(100% - 32px));
     height:100%;
     margin:auto;
-
     display:flex;
     align-items:center;
     justify-content:space-between;
@@ -86,10 +81,8 @@ button{
     display:flex;
     align-items:center;
     gap:10px;
-
     color:var(--text);
     text-decoration:none;
-
     font-size:22px;
     font-weight:900;
 }
@@ -97,33 +90,25 @@ button{
 .logo-mark{
     width:36px;
     height:36px;
-
     display:grid;
     place-items:center;
-
     border-radius:11px;
-
     color:#06100d;
-
     background:
         linear-gradient(
             135deg,
             var(--green),
             #76ffc0
         );
-
     box-shadow:
         0 8px 25px rgba(22,217,139,.20);
 }
 
 .back{
     color:var(--muted);
-
     text-decoration:none;
-
     font-size:13px;
     font-weight:700;
-
     transition:.25s;
 }
 
@@ -133,16 +118,13 @@ button{
 
 .main{
     flex:1;
-
     display:grid;
     place-items:center;
-
     padding:45px 18px 60px;
 }
 
 .auth-wrapper{
     width:min(440px,100%);
-
     animation:rise .55s ease both;
 }
 
@@ -155,17 +137,11 @@ button{
     display:inline-flex;
     align-items:center;
     gap:7px;
-
     padding:7px 11px;
-
     border-radius:999px;
-
     color:var(--green-dark);
-
     background:rgba(22,217,139,.08);
-
     border:1px solid rgba(22,217,139,.25);
-
     font-size:10px;
     font-weight:900;
     letter-spacing:.8px;
@@ -174,63 +150,47 @@ button{
 .badge-dot{
     width:6px;
     height:6px;
-
     border-radius:50%;
-
     background:var(--green);
-
     box-shadow:
         0 0 10px rgba(22,217,139,.55);
 }
 
 .brand h1{
     margin-top:15px;
-
     color:var(--text);
-
     font-size:34px;
-
     letter-spacing:-1.2px;
 }
 
 .brand p{
     margin-top:8px;
-
     color:var(--muted);
-
     font-size:13px;
 }
 
 .auth-card{
     padding:28px;
-
     border:1px solid var(--border);
-
     border-radius:22px;
-
     background:
         linear-gradient(
             145deg,
             #ffffff,
             #fbfdfc
         );
-
     box-shadow:var(--shadow);
 }
 
 .auth-card h2{
     color:var(--text);
-
     font-size:21px;
-
     letter-spacing:-.5px;
 }
 
 .subtitle{
     margin-top:7px;
-
     color:var(--muted);
-
     font-size:12px;
     line-height:1.6;
 }
@@ -238,69 +198,58 @@ button{
 .social-buttons{
     display:grid;
     gap:10px;
-
     margin-top:22px;
 }
 
 .social-btn{
     width:100%;
     height:46px;
-
     display:flex;
     align-items:center;
     justify-content:center;
     gap:11px;
-
     border:1px solid var(--border);
-
     border-radius:11px;
-
     background:var(--panel-2);
-
     color:var(--text);
-
     font-size:12px;
     font-weight:800;
-
     transition:.25s ease;
 }
 
 .social-btn:hover{
     transform:translateY(-2px);
-
     border-color:
         rgba(22,217,139,.35);
-
     background:#ffffff;
-
     box-shadow:
         0 8px 22px rgba(15,23,42,.07);
+}
+
+.social-btn:disabled{
+    opacity:.65;
+    cursor:wait;
+    transform:none;
 }
 
 .social-icon{
     width:21px;
     height:21px;
-
     display:grid;
     place-items:center;
-
     border-radius:6px;
-
     font-size:13px;
     font-weight:900;
 }
 
 .google .social-icon{
     background:#fff;
-
     color:#4285f4;
-
     border:1px solid rgba(15,23,42,.10);
 }
 
 .facebook .social-icon{
     background:#1877f2;
-
     color:#fff;
 }
 
@@ -308,11 +257,8 @@ button{
     display:flex;
     align-items:center;
     gap:12px;
-
     margin:23px 0;
-
     color:#73807b;
-
     font-size:10px;
     font-weight:800;
 }
@@ -320,11 +266,8 @@ button{
 .divider::before,
 .divider::after{
     content:"";
-
     height:1px;
-
     flex:1;
-
     background:var(--border);
 }
 
@@ -334,11 +277,8 @@ button{
 
 label{
     display:block;
-
     margin-bottom:7px;
-
     color:#34423d;
-
     font-size:11px;
     font-weight:800;
 }
@@ -350,21 +290,13 @@ label{
 .input-wrap input{
     width:100%;
     height:46px;
-
     padding:0 13px;
-
     border:1px solid var(--border);
-
     border-radius:11px;
-
     outline:none;
-
     background:#ffffff;
-
     color:var(--text);
-
     font-size:13px;
-
     transition:.25s ease;
 }
 
@@ -380,7 +312,6 @@ label{
 .input-wrap input:focus{
     border-color:
         rgba(22,217,139,.65);
-
     box-shadow:
         0 0 0 3px
         rgba(22,217,139,.09);
@@ -388,53 +319,37 @@ label{
 
 .password-toggle{
     position:absolute;
-
     right:8px;
     top:50%;
-
     transform:translateY(-50%);
-
     height:32px;
-
     padding:0 9px;
-
     border:0;
-
     border-radius:8px;
-
     background:transparent;
-
     color:var(--muted);
-
     font-size:10px;
     font-weight:800;
 }
 
 .password-toggle:hover{
     color:var(--green-dark);
-
     background:
         rgba(22,217,139,.06);
 }
 
 .form-options{
     display:flex;
-
     justify-content:space-between;
-
     align-items:center;
-
     margin:3px 0 18px;
 }
 
 .remember{
     display:flex;
     align-items:center;
-
     gap:7px;
-
     color:var(--muted);
-
     font-size:11px;
 }
 
@@ -444,11 +359,8 @@ label{
 
 .forgot{
     border:0;
-
     background:none;
-
     color:var(--green-dark);
-
     font-size:11px;
     font-weight:800;
 }
@@ -460,29 +372,22 @@ label{
 .login-btn{
     width:100%;
     height:47px;
-
     border:0;
-
     border-radius:11px;
-
     background:
         linear-gradient(
             135deg,
             var(--green),
             #12bd77
         );
-
     color:#06100d;
-
     font-size:12px;
     font-weight:950;
-
     transition:.25s ease;
 }
 
 .login-btn:hover{
     transform:translateY(-2px);
-
     box-shadow:
         0 12px 30px
         rgba(22,217,139,.20);
@@ -495,25 +400,19 @@ label{
 
 .login-btn.loading{
     pointer-events:none;
-
     opacity:.75;
 }
 
 .register{
     margin-top:20px;
-
     text-align:center;
-
     color:var(--muted);
-
     font-size:12px;
 }
 
 .register a{
     color:var(--green-dark);
-
     font-weight:900;
-
     text-decoration:none;
 }
 
@@ -523,124 +422,84 @@ label{
 
 .security-note{
     display:flex;
-
     gap:9px;
-
     margin-top:17px;
-
     padding:12px;
-
     border:1px solid
         rgba(22,217,139,.20);
-
     border-radius:11px;
-
     background:
         rgba(22,217,139,.045);
-
     color:var(--muted);
-
     font-size:10px;
-
     line-height:1.6;
 }
 
 .security-icon{
     color:var(--green-dark);
-
     font-size:15px;
 }
 
 .error{
     display:none;
-
     margin-bottom:15px;
-
     padding:11px 12px;
-
     border:1px solid
         rgba(229,72,85,.22);
-
     border-radius:10px;
-
     background:
         rgba(229,72,85,.055);
-
     color:#c93442;
-
     font-size:11px;
-
     line-height:1.5;
 }
 
 .error.show{
     display:block;
-
     animation:shake .3s ease;
 }
 
 .toast{
     position:fixed;
-
     left:50%;
     bottom:25px;
-
     z-index:100;
-
     transform:
         translate(-50%,20px);
-
     opacity:0;
-
     pointer-events:none;
-
     padding:12px 17px;
-
     border:1px solid
         rgba(22,217,139,.30);
-
     border-radius:11px;
-
     background:#ffffff;
-
     color:var(--text);
-
     box-shadow:
         0 15px 40px
         rgba(15,23,42,.14);
-
     font-size:12px;
     font-weight:700;
-
     transition:.3s ease;
 }
 
 .toast.show{
     opacity:1;
-
     transform:
         translate(-50%,0);
 }
 
 footer{
     padding:22px;
-
     border-top:1px solid var(--border);
-
     color:var(--muted);
-
     text-align:center;
-
     font-size:10px;
-
     background:#ffffff;
 }
 
 footer a{
     color:var(--green-dark);
-
     font-weight:800;
-
     text-decoration:none;
 }
 
@@ -649,41 +508,31 @@ footer a:hover{
 }
 
 @keyframes rise{
-
     from{
         opacity:0;
-
         transform:
             translateY(22px);
     }
-
     to{
         opacity:1;
-
         transform:
             translateY(0);
     }
-
 }
 
 @keyframes shake{
-
     0%,100%{
         transform:translateX(0);
     }
-
     25%{
         transform:translateX(-5px);
     }
-
     75%{
         transform:translateX(5px);
     }
-
 }
 
 @media(max-width:500px){
-
     .header-inner{
         width:calc(100% - 22px);
     }
@@ -694,7 +543,6 @@ footer a:hover{
 
     .auth-card{
         padding:22px 17px;
-
         border-radius:18px;
     }
 
@@ -705,7 +553,6 @@ footer a:hover{
     .back{
         font-size:11px;
     }
-
 }
 </style>
 </head>
@@ -736,7 +583,6 @@ footer a:hover{
 
 </header>
 
-
 <main class="main">
 
     <div class="auth-wrapper">
@@ -761,7 +607,6 @@ footer a:hover{
 
         </div>
 
-
         <section class="auth-card">
 
             <h2>
@@ -772,12 +617,10 @@ footer a:hover{
                 Use your email or continue with a connected account.
             </p>
 
-
             <div
                 class="error"
                 id="errorBox"
             ></div>
-
 
             <div class="social-buttons">
 
@@ -795,7 +638,6 @@ footer a:hover{
 
                 </button>
 
-
                 <button
                     type="button"
                     class="social-btn facebook"
@@ -812,11 +654,9 @@ footer a:hover{
 
             </div>
 
-
             <div class="divider">
                 OR CONTINUE WITH EMAIL
             </div>
-
 
             <form id="loginForm">
 
@@ -841,7 +681,6 @@ footer a:hover{
 
                 </div>
 
-
                 <div class="form-group">
 
                     <label for="password">
@@ -860,7 +699,6 @@ footer a:hover{
                             required
                         >
 
-
                         <button
                             type="button"
                             class="password-toggle"
@@ -872,7 +710,6 @@ footer a:hover{
                     </div>
 
                 </div>
-
 
                 <div class="form-options">
 
@@ -887,7 +724,6 @@ footer a:hover{
 
                     </label>
 
-
                     <button
                         type="button"
                         class="forgot"
@@ -897,7 +733,6 @@ footer a:hover{
                     </button>
 
                 </div>
-
 
                 <button
                     type="submit"
@@ -909,7 +744,6 @@ footer a:hover{
 
             </form>
 
-
             <div class="register">
 
                 Don't have an account?
@@ -919,7 +753,6 @@ footer a:hover{
                 </a>
 
             </div>
-
 
             <div class="security-note">
 
@@ -941,7 +774,6 @@ footer a:hover{
 
 </main>
 
-
 <footer>
 
     © 2026 SportX.
@@ -949,18 +781,12 @@ footer a:hover{
 
 </footer>
 
-
 <div
     class="toast"
     id="toast"
 ></div>
 
-
 <script>
-
-/* =========================================================
-   SPORTX — REAL SUPABASE AUTHENTICATION
-   ========================================================= */
 
 const SUPABASE_URL =
     "https://zchtcosljkkkiykhforj.supabase.co";
@@ -974,6 +800,25 @@ const supabaseClient =
         SUPABASE_KEY
     );
 
+const firebaseConfig = {
+    apiKey: "AIzaSyBep2khsSd8ynLg2gEG1sxxoLMug632emA",
+    authDomain: "sportx-36865.firebaseapp.com",
+    projectId: "sportx-36865",
+    storageBucket: "sportx-36865.firebasestorage.app",
+    messagingSenderId: "397751189949",
+    appId: "1:397751189949:web:9c82fac60e20c3c1ca52d4",
+    measurementId: "G-XXH0H2MMHD"
+};
+
+firebase.initializeApp(
+    firebaseConfig
+);
+
+const firebaseAuth =
+    firebase.auth();
+
+const googleProvider =
+    new firebase.auth.GoogleAuthProvider();
 
 const loginForm =
     document.getElementById("loginForm");
@@ -993,15 +838,9 @@ const errorBox =
 const toast =
     document.getElementById("toast");
 
-
-/* Remove ONLY the old fake demo session */
-
 localStorage.removeItem(
     "sportx_demo_user"
 );
-
-
-/* PASSWORD VISIBILITY */
 
 document
 .getElementById("passwordToggle")
@@ -1013,7 +852,6 @@ document
             document.getElementById(
                 "passwordToggle"
             );
-
 
         if(
             passwordInput.type ===
@@ -1040,9 +878,6 @@ document
     }
 );
 
-
-/* ERROR */
-
 function showError(message){
 
     errorBox.textContent =
@@ -1065,9 +900,6 @@ function hideError(){
 
 }
 
-
-/* TOAST */
-
 function showToast(message){
 
     toast.textContent =
@@ -1077,11 +909,9 @@ function showToast(message){
         "show"
     );
 
-
     clearTimeout(
         window.toastTimer
     );
-
 
     window.toastTimer =
         setTimeout(
@@ -1097,9 +927,6 @@ function showToast(message){
 
 }
 
-
-/* EMAIL LOGIN */
-
 loginForm.addEventListener(
     "submit",
     async event => {
@@ -1108,16 +935,13 @@ loginForm.addEventListener(
 
         hideError();
 
-
         const email =
             emailInput.value
                 .trim()
                 .toLowerCase();
 
-
         const password =
             passwordInput.value;
-
 
         if(!email){
 
@@ -1131,7 +955,6 @@ loginForm.addEventListener(
 
         }
 
-
         if(!password){
 
             showError(
@@ -1143,7 +966,6 @@ loginForm.addEventListener(
             return;
 
         }
-
 
         if(password.length < 8){
 
@@ -1157,7 +979,6 @@ loginForm.addEventListener(
 
         }
 
-
         loginBtn.classList.add(
             "loading"
         );
@@ -1165,15 +986,7 @@ loginForm.addEventListener(
         loginBtn.textContent =
             "Signing In...";
 
-
         try{
-
-            /*
-                REAL SUPABASE LOGIN
-
-                No localStorage fake account.
-                Supabase verifies the email/password.
-            */
 
             const {
                 data,
@@ -1188,14 +1001,12 @@ loginForm.addEventListener(
 
                 });
 
-
             if(error){
 
                 const message =
                     String(
                         error.message || ""
                     ).toLowerCase();
-
 
                 if(
                     message.includes(
@@ -1235,12 +1046,6 @@ loginForm.addEventListener(
 
             }
 
-
-            /*
-                A successful password login
-                must return a real Supabase session.
-            */
-
             if(
                 !data ||
                 !data.session ||
@@ -1255,11 +1060,9 @@ loginForm.addEventListener(
 
             }
 
-
             showToast(
                 "Login successful. Welcome to SportX!"
             );
-
 
             setTimeout(
                 () => {
@@ -1272,7 +1075,6 @@ loginForm.addEventListener(
                 700
             );
 
-
         }
         catch(error){
 
@@ -1280,7 +1082,6 @@ loginForm.addEventListener(
                 "SportX login error:",
                 error
             );
-
 
             showError(
                 "A connection error occurred. Please try again."
@@ -1301,9 +1102,6 @@ loginForm.addEventListener(
     }
 );
 
-
-/* GOOGLE */
-
 document
 .getElementById("googleBtn")
 .addEventListener(
@@ -1312,56 +1110,111 @@ document
 
         hideError();
 
+        const button =
+            document.getElementById(
+                "googleBtn"
+            );
+
+        button.disabled =
+            true;
+
+        button.textContent =
+            "Signing in...";
 
         try{
 
-            const {
-                error
-            } =
-                await supabaseClient.auth
-                .signInWithOAuth({
+            const result =
+                await firebaseAuth
+                .signInWithPopup(
+                    googleProvider
+                );
 
-                    provider:"google",
+            const firebaseUser =
+                result.user;
 
-                    options:{
+            if(!firebaseUser){
 
-                        redirectTo:
-                            window.location.origin +
-                            window.location.pathname
-                                .replace(
-                                    "login.html",
-                                    ""
-                                ) +
-                            "index.html"
-
-                    }
-
-                });
-
-
-            if(error){
-
-                showError(
-                    error.message ||
-                    "Google sign-in is currently unavailable."
+                throw new Error(
+                    "Google authentication failed."
                 );
 
             }
 
+            const idToken =
+                await firebaseUser.getIdToken();
+
+            const {
+                data,
+                error
+            } =
+                await supabaseClient.auth
+                .signInWithIdToken({
+
+                    provider:"google",
+
+                    token:idToken
+
+                });
+
+            if(error){
+
+                throw error;
+
+            }
+
+            if(
+                !data ||
+                !data.session ||
+                !data.user
+            ){
+
+                throw new Error(
+                    "Supabase session was not created."
+                );
+
+            }
+
+            showToast(
+                "Login successful. Welcome to SportX!"
+            );
+
+            setTimeout(
+                () => {
+
+                    window.location.replace(
+                        "index.html"
+                    );
+
+                },
+                700
+            );
+
         }
         catch(error){
 
+            console.error(
+                "SportX Firebase Google login:",
+                error
+            );
+
             showError(
+                error.message ||
                 "Google sign-in is currently unavailable."
             );
+
+        }
+        finally{
+
+            button.disabled =
+                false;
+
+            button.textContent =
+                "Continue with Google";
 
         }
 
     }
 );
-
-
-/* FACEBOOK */
 
 document
 .getElementById("facebookBtn")
@@ -1370,7 +1223,6 @@ document
     async () => {
 
         hideError();
-
 
         try{
 
@@ -1397,7 +1249,6 @@ document
 
                 });
 
-
             if(error){
 
                 showError(
@@ -1419,9 +1270,6 @@ document
     }
 );
 
-
-/* FORGOT PASSWORD */
-
 document
 .getElementById("forgotBtn")
 .addEventListener(
@@ -1430,12 +1278,10 @@ document
 
         hideError();
 
-
         const email =
             emailInput.value
                 .trim()
                 .toLowerCase();
-
 
         if(!email){
 
@@ -1448,7 +1294,6 @@ document
             return;
 
         }
-
 
         try{
 
@@ -1472,7 +1317,6 @@ document
                     }
                 );
 
-
             if(error){
 
                 showError(
@@ -1484,11 +1328,9 @@ document
 
             }
 
-
             showToast(
                 "Password reset instructions have been sent to your email."
             );
-
 
         }
         catch(error){
@@ -1502,9 +1344,6 @@ document
     }
 );
 
-
-/* ALREADY AUTHENTICATED */
-
 (async () => {
 
     try{
@@ -1514,7 +1353,6 @@ document
         } =
             await supabaseClient.auth
             .getSession();
-
 
         if(
             data &&
