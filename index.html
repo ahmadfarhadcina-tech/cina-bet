@@ -1,9 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<meta name="theme-color" content="#ffffff">
+
+<meta
+  name="viewport"
+  content="width=device-width,initial-scale=1.0"
+>
+
+<meta
+  name="theme-color"
+  content="#ffffff"
+>
+
+<link
+  rel="manifest"
+  href="/cina-bet/manifest.json"
+>
+
 <title>SportX — Sports Prediction</title>
 
 <style>
@@ -947,6 +962,96 @@ font-weight:900;
 margin-top:18px
 }
 
+/* ================= PWA INSTALL ================= */
+
+.install-modal{
+position:fixed;
+inset:0;
+z-index:1200;
+display:none;
+align-items:center;
+justify-content:center;
+padding:18px;
+background:rgba(15,23,42,.48);
+backdrop-filter:blur(9px)
+}
+
+.install-modal.show{
+display:flex
+}
+
+.install-box{
+width:min(430px,100%);
+background:#fff;
+border:1px solid var(--border);
+border-radius:24px;
+padding:24px;
+box-shadow:0 30px 100px rgba(15,23,42,.24);
+text-align:center;
+animation:rise .3s ease both
+}
+
+.install-icon{
+width:68px;
+height:68px;
+margin:0 auto 15px;
+border-radius:20px;
+display:grid;
+place-items:center;
+background:linear-gradient(135deg,var(--green),var(--green-dark));
+color:#03120c;
+font-size:30px;
+font-weight:900;
+box-shadow:0 12px 35px rgba(22,217,139,.25)
+}
+
+.install-box h3{
+font-size:20px;
+margin-bottom:8px
+}
+
+.install-box p{
+color:var(--muted);
+font-size:12px;
+line-height:1.7;
+margin-bottom:20px
+}
+
+.install-actions{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:10px
+}
+
+.install-now{
+padding:13px;
+border-radius:11px;
+background:var(--green);
+color:#03120c;
+font-size:12px;
+font-weight:900
+}
+
+.install-later{
+padding:13px;
+border-radius:11px;
+background:var(--panel-2);
+border:1px solid var(--border);
+color:var(--muted);
+font-size:12px;
+font-weight:900
+}
+
+.install-now:hover,
+.install-later:hover{
+transform:translateY(-2px)
+}
+
+.install-now,
+.install-later{
+transition:.2s
+}
+
 .toast{
 position:fixed;
 left:50%;
@@ -1067,6 +1172,10 @@ align-items:stretch
 text-align:center
 }
 
+.install-actions{
+grid-template-columns:1fr
+}
+
 }
 </style>
 </head>
@@ -1100,7 +1209,11 @@ SportX
 
 <div class="user-avatar">
 
-<img id="headerProfileImage" alt="Profile" style="display:none;">
+<img
+id="headerProfileImage"
+alt="Profile"
+style="display:none;"
+>
 
 <span data-user-initials>US</span>
 
@@ -1123,7 +1236,6 @@ Logout
 
 </div>
 </header>
-
 
 <main>
 
@@ -1159,7 +1271,6 @@ Watch Live Matches
 </div>
 
 </div>
-
 
 <div class="hero-card">
 
@@ -1200,7 +1311,6 @@ Checking real sports data...
 </div>
 
 </section>
-
 
 <section class="account-section">
 
@@ -1243,7 +1353,6 @@ User
 
 </a>
 
-
 <div class="account-actions">
 
 <a href="bets.html" class="account-action">
@@ -1265,7 +1374,6 @@ View predictions
 </div>
 
 </a>
-
 
 <a href="wallet.html" class="account-action">
 
@@ -1291,7 +1399,6 @@ Balance & transactions
 
 </div>
 
-
 <div data-auth-guest class="guest-panel">
 
 <div>
@@ -1314,7 +1421,6 @@ Login / Register
 
 </section>
 
-
 <section class="section">
 
 <div class="section-heading">
@@ -1336,7 +1442,6 @@ View All →
 </a>
 
 </div>
-
 
 <div class="sports">
 
@@ -1374,7 +1479,6 @@ View All →
 
 </section>
 
-
 <!-- LIVE -->
 
 <section class="section">
@@ -1399,7 +1503,6 @@ See All →
 
 </div>
 
-
 <div id="liveMatches" class="matches">
 
 <div class="loading-card">
@@ -1419,7 +1522,6 @@ Loading live matches...
 </div>
 
 </section>
-
 
 <!-- NORMAL -->
 
@@ -1445,7 +1547,6 @@ See All →
 
 </div>
 
-
 <div id="normalMatches" class="matches">
 
 <div class="loading-card">
@@ -1465,7 +1566,6 @@ Loading real matches...
 </div>
 
 </section>
-
 
 <!-- WWE -->
 
@@ -1491,7 +1591,6 @@ Explore →
 
 </div>
 
-
 <div id="wweMatches" class="matches">
 
 <div class="loading-card">
@@ -1511,7 +1610,6 @@ Loading WWE...
 </div>
 
 </section>
-
 
 <!-- FUTURE -->
 
@@ -1537,7 +1635,6 @@ Explore →
 
 </div>
 
-
 <div id="futureMatches" class="matches">
 
 <div class="loading-card">
@@ -1560,6 +1657,7 @@ Loading future fixture...
 
 </main>
 
+<!-- MATCH MODAL -->
 
 <div
 id="matchModal"
@@ -1594,9 +1692,54 @@ class="modal-match"
 
 </div>
 
+<!-- PWA INSTALL MODAL -->
+
+<div
+id="installModal"
+class="install-modal"
+aria-hidden="true"
+>
+
+<div class="install-box">
+
+<div class="install-icon">
+S
+</div>
+
+<h3>
+Install SportX
+</h3>
+
+<p>
+Install SportX on your device for faster access
+and a better app-like experience.
+</p>
+
+<div class="install-actions">
+
+<button
+type="button"
+id="installNow"
+class="install-now"
+>
+Install SportX
+</button>
+
+<button
+type="button"
+id="installLater"
+class="install-later"
+>
+Maybe Later
+</button>
+
+</div>
+
+</div>
+
+</div>
 
 <div id="toast" class="toast"></div>
-
 
 <footer>
 
@@ -1617,14 +1760,12 @@ SportScore
 
 </footer>
 
-
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
 
 /* =========================================================
    SPORTX HOME DATA ENGINE
-   SAME DATA LAYER AS sports.html
 ========================================================= */
 
 const SUPABASE_URL =
@@ -1640,15 +1781,13 @@ const SPORT_SCORE_URL =
 /* ================= SETTINGS ================= */
 
 const NORMAL_DAYS = 2;
-const FEATURED_DAYS = 7;
 
 const MAX_NORMAL_MATCHES = 2;
-const MAX_FEATURED_MATCHES = 8;
 const MAX_FUTURE_MATCHES = 1;
 const MAX_LIVE_MATCHES = 1;
 const MAX_WWE_MATCHES = 1;
 
-const MAX_SOURCE_MATCHES = 100;
+const MAX_SOURCE_MATCHES = 50;
 
 const FINISHED_HIDE_AFTER_MS =
 30 * 60 * 1000;
@@ -1825,7 +1964,7 @@ return "scheduled";
 
 
 /* =========================================================
-   PREPARE MATCH
+   PREPARE
 ========================================================= */
 
 function prepareMatch(match){
@@ -1843,10 +1982,19 @@ match?.awayTeam?.name ||
 "Unknown";
 
 const league =
-match?.league?.name ||
+typeof match?.league === "object"
+?(
+match.league?.name ||
 match?.competition ||
 match?.league_name ||
-"Sports";
+"Sports"
+)
+:(
+match?.league ||
+match?.competition ||
+match?.league_name ||
+"Sports"
+);
 
 const prepared = {
 ...match,
@@ -1947,17 +2095,39 @@ item.away_team?.name ||
 "Unknown";
 
 const league =
+typeof item.league === "object"
+?(
+item.league?.name ||
+item.competition ||
+item.league_name ||
+"Sports"
+)
+:(
 item.league ||
 item.competition ||
 item.league_name ||
-"Sports";
+"Sports"
+);
 
 return prepareMatch({
 
 id:
 item.id ||
 item.match_id ||
+item.fixture_id ||
+item.slug ||
 `worker-${index}`,
+
+match_id:
+item.match_id ||
+item.fixture_id ||
+"",
+
+slug:
+item.slug ||
+item.match_slug ||
+item.fixture_slug ||
+"",
 
 home_team:{
 id:
@@ -2054,7 +2224,9 @@ item.sport_name ||
 
 sport_slug:
 item.sport_slug ||
-""
+"",
+
+source:"worker"
 
 });
 
@@ -2250,6 +2422,14 @@ sport;
 }
 
 
+/* FIX:
+   This closing brace is important.
+   The old version was missing it.
+*/
+
+}
+
+
 /* ---------- BUILD ---------- */
 
 return rows.map(
@@ -2271,12 +2451,6 @@ sports[row.sport_id] || {};
 return prepareMatch({
 
 id:row.id,
-
-sport_id:
-row.sport_id || null,
-
-league_id:
-row.league_id || null,
 
 home_team:{
 id:
@@ -2397,7 +2571,6 @@ throw new Error(
 const json =
 await response.json();
 
-
 let source =
 Array.isArray(json)
 ?json
@@ -2405,15 +2578,15 @@ Array.isArray(json)
 ?json.matches
 :Array.isArray(json?.data)
 ?json.data
+:Array.isArray(json?.results)
+?json.results
 :[];
-
 
 source =
 source.slice(
 0,
 MAX_SOURCE_MATCHES
 );
-
 
 return source
 .filter(
@@ -2437,13 +2610,24 @@ item.away ||
 item.away_team?.name ||
 "Unknown";
 
-
 return prepareMatch({
 
 id:
 item.id ||
 item.match_id ||
+item.fixture_id ||
+item.slug ||
 `score-${index}`,
+
+match_id:
+item.match_id ||
+item.fixture_id ||
+"",
+
+slug:
+item.slug ||
+item.match_slug ||
+"",
 
 home_team:{
 id:
@@ -2496,6 +2680,7 @@ start_time:
 item.start_time ||
 item.time ||
 item.kickoff ||
+item.date ||
 null,
 
 updated_at:
@@ -2594,13 +2779,14 @@ normalizeSearchText(
 [
 match?.sport,
 match?.sport_slug,
-match?.league,
+typeof match?.league === "object"
+?match?.league?.name
+:match?.league,
 match?.competition,
 match?.home,
 match?.away
 ].join(" ")
 );
-
 
 return (
 text.includes("wwe") ||
@@ -2612,18 +2798,68 @@ text.includes("world wrestling")
 
 
 /* =========================================================
-   DATE KEY
+   STABLE MATCH KEY
+   IMPORTANT:
+   Do NOT use database IDs first.
+   Different sources can give different IDs
+   for the exact same match.
 ========================================================= */
 
-function normalizeDateKey(value){
+function matchKey(match){
+
+const slug =
+normalizeSearchText(
+match?.slug ||
+match?.match_slug ||
+match?.fixture_slug ||
+""
+);
+
+if(slug){
+
+return `slug:${slug}`;
+
+}
+
+const home =
+normalizeSearchText(
+match?.home ||
+match?.home_team?.name ||
+""
+);
+
+const away =
+normalizeSearchText(
+match?.away ||
+match?.away_team?.name ||
+""
+);
 
 const date =
-new Date(value);
+parseDate(match);
 
-if(Number.isNaN(date.getTime()))
-return String(value || "");
+if(
+home &&
+away &&
+date
+){
 
-return date.toISOString();
+/*
+  Round to the minute so tiny timestamp
+  differences between sources don't create
+  duplicate cards.
+*/
+
+const minute =
+Math.floor(
+date.getTime()/60000
+);
+
+return `teams:${home}|${away}|${minute}`;
+
+}
+
+return `teams:${home}|${away}`;
 
 }
 
@@ -2647,31 +2883,18 @@ finished:4,
 live:5
 };
 
-
 for(
-const match of matches || []
+const raw of matches || []
 ){
 
-const key =
-[
-normalizeSearchText(
-match?.home ||
-match?.home_team?.name
-),
-normalizeSearchText(
-match?.away ||
-match?.away_team?.name
-),
-normalizeDateKey(
-match?.start_time ||
-match?.time
-)
-].join("|");
+const match =
+prepareMatch(raw);
 
+const key =
+matchKey(match);
 
 const old =
 map.get(key);
-
 
 if(!old){
 
@@ -2684,13 +2907,11 @@ continue;
 
 }
 
-
 const oldStatus =
 normalizeStatus(old);
 
 const newStatus =
 normalizeStatus(match);
-
 
 if(
 (priority[newStatus] ?? 1) >=
@@ -2708,7 +2929,6 @@ key,
 }
 
 }
-
 
 return [
 ...map.values()
@@ -2728,7 +2948,6 @@ matches
 const now =
 Date.now();
 
-
 return (
 matches || []
 ).filter(
@@ -2743,18 +2962,15 @@ return true;
 
 }
 
-
 const finishedAt =
 match?.updated_at ||
 match?.start_time ||
 match?.time;
 
-
 const timestamp =
 new Date(
 finishedAt
 ).getTime();
-
 
 if(
 Number.isNaN(timestamp)
@@ -2763,7 +2979,6 @@ Number.isNaN(timestamp)
 return false;
 
 }
-
 
 return (
 now - timestamp
@@ -2777,30 +2992,6 @@ FINISHED_HIDE_AFTER_MS;
 
 
 /* =========================================================
-   MATCH KEY
-========================================================= */
-
-function matchKey(match){
-
-return [
-normalizeSearchText(
-match?.home ||
-match?.home_team?.name
-),
-normalizeSearchText(
-match?.away ||
-match?.away_team?.name
-),
-normalizeDateKey(
-match?.start_time ||
-match?.time
-)
-].join("|");
-
-}
-
-
-/* =========================================================
    MERGE
 ========================================================= */
 
@@ -2809,6 +3000,13 @@ function mergeMatches(...groups){
 const map =
 new Map();
 
+const priority = {
+cancelled:0,
+scheduled:1,
+postponed:2,
+finished:4,
+live:5
+};
 
 for(
 const group of groups
@@ -2821,18 +3019,14 @@ const raw of group || []
 const match =
 prepareMatch(raw);
 
-
 if(!parseDate(match))
 continue;
-
 
 const key =
 matchKey(match);
 
-
 const old =
 map.get(key);
-
 
 if(!old){
 
@@ -2845,22 +3039,11 @@ continue;
 
 }
 
-
 const oldStatus =
 normalizeStatus(old);
 
 const newStatus =
 normalizeStatus(match);
-
-
-const priority = {
-cancelled:0,
-scheduled:1,
-postponed:2,
-finished:4,
-live:5
-};
-
 
 if(
 (priority[newStatus] ?? 1) >=
@@ -2880,7 +3063,6 @@ key,
 }
 
 }
-
 
 return [
 ...map.values()
@@ -2910,10 +3092,8 @@ return "Time unavailable";
 
 }
 
-
 const now =
 new Date();
-
 
 const today =
 new Date(
@@ -2924,7 +3104,6 @@ now.getUTCDate()
 )
 );
 
-
 const target =
 new Date(
 Date.UTC(
@@ -2934,16 +3113,13 @@ date.getUTCDate()
 )
 );
 
-
 const days =
 Math.round(
 (target - today) /
 86400000
 );
 
-
 let dayText;
-
 
 if(days === 0)
 dayText = "Today";
@@ -2970,7 +3146,6 @@ timeZone:"UTC"
 
 }
 
-
 const time =
 date.toLocaleTimeString(
 "en-US",
@@ -2981,7 +3156,6 @@ hour12:true,
 timeZone:"UTC"
 }
 );
-
 
 return `${dayText} · ${time} · UTC`;
 
@@ -3017,10 +3191,8 @@ document.getElementById(
 "homeProfileInitials"
 );
 
-
 const cleanURL =
 String(url || "").trim();
-
 
 if(cleanURL){
 
@@ -3046,7 +3218,6 @@ headerInitials.style.display =
 
 }
 
-
 if(homeImage){
 
 homeImage.src =
@@ -3069,7 +3240,6 @@ homeInitials.style.display =
 
 }
 
-
 if(headerInitials)
 headerInitials.style.display =
 "none";
@@ -3088,7 +3258,6 @@ if(homeImage)
 homeImage.style.display =
 "none";
 
-
 if(headerInitials){
 
 headerInitials.textContent =
@@ -3098,7 +3267,6 @@ headerInitials.style.display =
 "grid";
 
 }
-
 
 if(homeInitials){
 
@@ -3125,17 +3293,13 @@ await supabaseClient.auth.getUser();
 const user =
 result.data?.user;
 
-
 if(!user)
 return;
-
 
 const metadata =
 user.user_metadata || {};
 
-
 let profile = {};
-
 
 try{
 
@@ -3147,7 +3311,6 @@ await supabaseClient
 .limit(1)
 .maybeSingle();
 
-
 if(!profileResult.error){
 
 profile =
@@ -3156,7 +3319,6 @@ profileResult.data || {};
 }
 
 }catch(e){}
-
 
 const avatar =
 profile.avatar_url ||
@@ -3171,7 +3333,6 @@ metadata.profile_image ||
 user.user_metadata?.picture ||
 "";
 
-
 const name =
 profile.display_name ||
 profile.name ||
@@ -3180,7 +3341,6 @@ metadata.name ||
 `${metadata.first_name || ""} ${metadata.last_name || ""}`.trim() ||
 user.email?.split("@")[0] ||
 "User";
-
 
 const initials =
 name
@@ -3191,7 +3351,6 @@ name
 .join("")
 .toUpperCase() ||
 "U";
-
 
 document
 .querySelectorAll(
@@ -3204,7 +3363,6 @@ name;
 }
 );
 
-
 document
 .querySelectorAll(
 "[data-user-initials]"
@@ -3216,12 +3374,10 @@ initials;
 }
 );
 
-
 renderProfilePhoto(
 avatar,
 initials
 );
-
 
 }catch(error){
 
@@ -3251,7 +3407,6 @@ return `
 
 }
 
-
 return `
 
 <img
@@ -3278,67 +3433,6 @@ style="display:none;"
 
 
 /* =========================================================
-   CATEGORY
-========================================================= */
-
-function getCategory(
-match
-){
-
-if(
-isLiveMatch(match)
-)
-return "live";
-
-
-if(
-isFinished(match)
-)
-return "finished";
-
-
-if(
-isWweMatch(match)
-)
-return "wwe";
-
-
-const date =
-parseDate(match);
-
-
-if(!date)
-return "other";
-
-
-const now =
-Date.now();
-
-
-if(
-date.getTime() < now
-)
-return "other";
-
-
-const sevenDays =
-now +
-FEATURED_DAYS *
-86400000;
-
-
-if(
-date.getTime() <= sevenDays
-)
-return "normal";
-
-
-return "future";
-
-}
-
-
-/* =========================================================
    BUILD HOME SECTIONS
 ========================================================= */
 
@@ -3353,14 +3447,12 @@ matches
 )
 );
 
-
 const live =
 clean
 .filter(
 m =>
 isLiveMatch(m)
 );
-
 
 const wwe =
 clean
@@ -3369,12 +3461,15 @@ m =>
 isWweMatch(m)
 );
 
-
 const now =
 Date.now();
 
+/*
+   ALL genuine upcoming matches.
+   We select ONE earliest match for Future.
+*/
 
-const future =
+const upcoming =
 clean
 .filter(
 m=>{
@@ -3392,7 +3487,8 @@ return false;
 
 if(
 isLiveMatch(m) ||
-isFinished(m)
+isFinished(m) ||
+isWweMatch(m)
 )
 return false;
 
@@ -3407,8 +3503,40 @@ parseDate(b).getTime()
 );
 
 
+/* =====================================================
+   FUTURE
+   EXACTLY ONE NEXT FUTURE FIXTURE
+===================================================== */
+
+const future =
+upcoming
+.slice(
+0,
+MAX_FUTURE_MATCHES
+);
+
+
+/* =====================================================
+   NORMAL
+   TWO UPCOMING MATCHES
+   BUT NEVER THE SAME MATCH AS FUTURE
+===================================================== */
+
+const futureKeys =
+new Set(
+future.map(
+matchKey
+)
+);
+
 const normal =
-clean
+upcoming
+.filter(
+match =>
+!futureKeys.has(
+matchKey(match)
+)
+)
 .filter(
 m=>{
 
@@ -3416,26 +3544,6 @@ const d =
 parseDate(m);
 
 if(!d)
-return false;
-
-if(
-isLiveMatch(m)
-)
-return false;
-
-if(
-isWweMatch(m)
-)
-return false;
-
-if(
-isFinished(m)
-)
-return true;
-
-if(
-d.getTime() < now
-)
 return false;
 
 return (
@@ -3447,10 +3555,9 @@ NORMAL_DAYS *
 
 }
 )
-.sort(
-(a,b)=>
-parseDate(a).getTime() -
-parseDate(b).getTime()
+.slice(
+0,
+MAX_NORMAL_MATCHES
 );
 
 
@@ -3460,19 +3567,15 @@ live:
 live
 .sort(
 (a,b)=>
-parseDate(a)?.getTime() -
-parseDate(b)?.getTime()
+(parseDate(a)?.getTime() || 0) -
+(parseDate(b)?.getTime() || 0)
 )
 .slice(
 0,
 MAX_LIVE_MATCHES
 ),
 
-normal:
-normal.slice(
-0,
-MAX_NORMAL_MATCHES
-),
+normal,
 
 wwe:
 wwe
@@ -3492,11 +3595,7 @@ return ad-bd;
 MAX_WWE_MATCHES
 ),
 
-future:
-future.slice(
-0,
-MAX_FUTURE_MATCHES
-)
+future
 
 };
 
@@ -3514,10 +3613,8 @@ match
 const date =
 parseDate(match);
 
-
 const status =
 normalizeStatus(match);
-
 
 const live =
 status === "live";
@@ -3529,13 +3626,11 @@ status === "cancelled";
 const wwe =
 isWweMatch(match);
 
-
 let displayTime;
 let statusText;
 let statusClass;
 let categoryText;
 let categoryClass;
-
 
 if(live){
 
@@ -3615,7 +3710,6 @@ categoryClass =
 
 }
 
-
 return `
 
 <article
@@ -3626,7 +3720,7 @@ ${wwe ? "wwe-match" : ""}
 ${!live && !wwe && !finished ? "future-match" : ""}
 "
 data-match-id="${escapeHTML(
-match.id || matchKey(match)
+matchKey(match)
 )}"
 >
 
@@ -3654,16 +3748,19 @@ alt=""
 <span class="competition-name">
 
 ${escapeHTML(
+typeof match.league === "object"
+?match.league?.name
+:(
 match.league ||
 match.competition ||
 match.sport ||
 "Sports"
+)
 )}
 
 </span>
 
 </div>
-
 
 <span
 class="
@@ -3675,7 +3772,6 @@ ${categoryText}
 </span>
 
 </div>
-
 
 <div
 class="match-time"
@@ -3696,7 +3792,6 @@ finished
 ${escapeHTML(displayTime)}
 </div>
 
-
 <div class="match-teams">
 
 <div class="team">
@@ -3715,7 +3810,6 @@ match.home_team?.name ||
 </div>
 
 </div>
-
 
 <div class="vs">
 
@@ -3740,7 +3834,6 @@ match.away_score ?? 0
 
 </div>
 
-
 <div class="team">
 
 ${safeImage(
@@ -3759,7 +3852,6 @@ match.away_team?.name ||
 </div>
 
 </div>
-
 
 <div class="no-odds">
 
@@ -3781,7 +3873,6 @@ wwe
 
 </div>
 
-
 <div class="match-footer">
 
 <span
@@ -3790,12 +3881,11 @@ class="match-status ${statusClass}"
 ${statusText}
 </span>
 
-
 <button
 type="button"
 class="details-btn"
 data-details-match="${escapeHTML(
-match.id || matchKey(match)
+matchKey(match)
 )}"
 >
 Match Details →
@@ -3811,7 +3901,7 @@ Match Details →
 
 
 /* =========================================================
-   RENDER SECTION
+   RENDER
 ========================================================= */
 
 function renderSection(
@@ -3827,10 +3917,8 @@ document.getElementById(
 containerId
 );
 
-
 if(!container)
 return;
-
 
 if(!matches.length){
 
@@ -3870,12 +3958,10 @@ return;
 
 }
 
-
 container.innerHTML =
 matches
 .map(renderMatch)
 .join("");
-
 
 attachMatchEvents();
 
@@ -3893,12 +3979,9 @@ id
 const key =
 String(id);
 
-
 return allMatches.find(
 match =>
-String(
-match.id || matchKey(match)
-) === key
+matchKey(match) === key
 );
 
 }
@@ -3922,10 +4005,8 @@ button.dataset.bound === "true"
 )
 return;
 
-
 button.dataset.bound =
 "true";
-
 
 button.addEventListener(
 "click",
@@ -3935,7 +4016,6 @@ const match =
 findMatchById(
 button.dataset.detailsMatch
 );
-
 
 if(match)
 openMatchModal(match);
@@ -3965,10 +4045,8 @@ document.getElementById(
 "modalContent"
 );
 
-
 if(!modal || !content)
 return;
-
 
 const date =
 parseDate(match);
@@ -3982,20 +4060,23 @@ isFinished(match);
 const wwe =
 isWweMatch(match);
 
+const league =
+typeof match.league === "object"
+?match.league?.name
+:match.league;
 
 content.innerHTML = `
 
 <div class="modal-competition">
 
 ${escapeHTML(
-match.league ||
+league ||
 match.competition ||
 match.sport ||
 "Sports"
 )}
 
 </div>
-
 
 <div class="modal-teams">
 
@@ -4039,7 +4120,6 @@ match.home_team?.name ||
 
 </div>
 
-
 <div class="modal-vs">
 
 ${
@@ -4059,7 +4139,6 @@ match.away_score ?? 0
 }
 
 </div>
-
 
 <div class="modal-team">
 
@@ -4103,7 +4182,6 @@ match.away_team?.name ||
 
 </div>
 
-
 <div class="modal-time">
 
 ${
@@ -4130,7 +4208,6 @@ date.toISOString()
 
 </div>
 
-
 <div class="no-odds">
 
 ${
@@ -4153,7 +4230,6 @@ wwe
 
 `;
 
-
 modal.classList.add(
 "show"
 );
@@ -4173,10 +4249,8 @@ document.getElementById(
 "matchModal"
 );
 
-
 if(!modal)
 return;
-
 
 modal.classList.remove(
 "show"
@@ -4251,14 +4325,11 @@ document.getElementById(
 "heroLiveContainer"
 );
 
-
 if(!label || !container)
 return;
 
-
 const live =
 allLiveMatches[0];
-
 
 if(!live){
 
@@ -4268,7 +4339,6 @@ label.textContent =
 label.classList.add(
 "not-live"
 );
-
 
 container.innerHTML = `
 
@@ -4298,14 +4368,12 @@ return;
 
 }
 
-
 label.textContent =
 "● LIVE NOW";
 
 label.classList.remove(
 "not-live"
 );
-
 
 container.innerHTML = `
 
@@ -4314,14 +4382,17 @@ container.innerHTML = `
 <div class="hero-match-meta">
 
 ${escapeHTML(
+typeof live.league === "object"
+?live.league?.name
+:(
 live.league ||
 live.competition ||
 live.sport ||
 "Sports"
+)
 )}
 
 </div>
-
 
 <div class="hero-teams">
 
@@ -4366,7 +4437,6 @@ live.home_team?.name ||
 
 </div>
 
-
 <div>
 
 <div class="hero-score">
@@ -4386,7 +4456,6 @@ live.away_score ?? 0
 </div>
 
 </div>
-
 
 <div>
 
@@ -4451,13 +4520,10 @@ async function loadHomeMatches(){
 if(loadingRequest)
 return loadingRequest;
 
-
 loadingRequest =
 (async()=>{
 
 try{
-
-/* ---------- LOADING UI ---------- */
 
 const ids = [
 "liveMatches",
@@ -4465,7 +4531,6 @@ const ids = [
 "wweMatches",
 "futureMatches"
 ];
-
 
 ids.forEach(
 id=>{
@@ -4475,7 +4540,6 @@ document.getElementById(id);
 
 if(!element)
 return;
-
 
 element.innerHTML = `
 
@@ -4521,17 +4585,14 @@ error
 
 /* =====================================================
    2. WORKER
-   SAME AS sports.html
 ===================================================== */
 
 let workerMatches = [];
-
 
 try{
 
 const workerResult =
 await invokeWorkerWithTimeout();
-
 
 if(
 workerResult &&
@@ -4542,20 +4603,37 @@ const workerData =
 workerResult.data;
 
 
+/*
+   Worker may return:
+   matches
+   featured
+   normal
+   live
+   future
+   upcoming
+   fixtures
+*/
+
+let workerCombined = [];
+
 if(
-Array.isArray(
-workerData?.matches
-)
+Array.isArray(workerData)
 ){
 
-workerMatches =
-convertWorkerMatches(
-workerData.matches
-);
+workerCombined =
+workerData;
+
+}else if(
+Array.isArray(workerData?.matches)
+){
+
+workerCombined =
+workerData.matches;
 
 }else{
 
-const workerCombined = [
+workerCombined = [
+
 ...(Array.isArray(
 workerData?.featured
 )
@@ -4572,16 +4650,34 @@ workerData?.normal
 workerData?.live
 )
 ?workerData.live
+:[]),
+
+...(Array.isArray(
+workerData?.future
+)
+?workerData.future
+:[]),
+
+...(Array.isArray(
+workerData?.upcoming
+)
+?workerData.upcoming
+:[]),
+
+...(Array.isArray(
+workerData?.fixtures
+)
+?workerData.fixtures
 :[])
+
 ];
 
+}
 
 workerMatches =
 convertWorkerMatches(
 workerCombined
 );
-
-}
 
 }
 
@@ -4601,7 +4697,6 @@ error
 
 let sportScoreMatches = [];
 
-
 try{
 
 sportScoreMatches =
@@ -4618,37 +4713,7 @@ error
 
 
 /* =====================================================
-   4. RE-READ DATABASE
-   SAME IDEA AS sports.html
-===================================================== */
-
-try{
-
-const refreshed =
-await loadDatabaseMatches();
-
-
-if(
-refreshed.length
-){
-
-databaseMatches =
-refreshed;
-
-}
-
-}catch(error){
-
-console.warn(
-"Database refresh:",
-error
-);
-
-}
-
-
-/* =====================================================
-   5. MERGE ALL SOURCES
+   4. MERGE
 ===================================================== */
 
 allMatches =
@@ -4660,7 +4725,7 @@ sportScoreMatches
 
 
 /* =====================================================
-   6. REMOVE OLD FINISHED
+   5. REMOVE OLD
 ===================================================== */
 
 allMatches =
@@ -4670,14 +4735,13 @@ allMatches
 
 
 /* =====================================================
-   7. BUILD SECTIONS
+   6. BUILD
 ===================================================== */
 
 const sections =
 buildHomeSections(
 allMatches
 );
-
 
 allLiveMatches =
 sections.live;
@@ -4693,7 +4757,7 @@ sections.future;
 
 
 /* =====================================================
-   8. RENDER
+   7. RENDER
 ===================================================== */
 
 renderSection(
@@ -4704,7 +4768,6 @@ allLiveMatches,
 "There is no live match available right now."
 );
 
-
 renderSection(
 "normalMatches",
 allNormalMatches,
@@ -4712,7 +4775,6 @@ allNormalMatches,
 "No normal matches",
 "There are currently no real upcoming matches."
 );
-
 
 renderSection(
 "wweMatches",
@@ -4722,7 +4784,6 @@ allWweMatches,
 "No real WWE event is currently available."
 );
 
-
 renderSection(
 "futureMatches",
 allFutureMatches,
@@ -4731,13 +4792,7 @@ allFutureMatches,
 "No genuine future fixture is currently available."
 );
 
-
-/* =====================================================
-   9. HERO
-===================================================== */
-
 renderHeroLive();
-
 
 console.log(
 "SportX Home data:",
@@ -4753,14 +4808,12 @@ future:allFutureMatches.length
 }
 );
 
-
 }catch(error){
 
 console.error(
 "SportX Home error:",
 error
 );
-
 
 const errorHTML = `
 
@@ -4795,7 +4848,6 @@ Try Again
 
 `;
 
-
 [
 "liveMatches",
 "normalMatches",
@@ -4814,7 +4866,6 @@ errorHTML;
 
 });
 
-
 }finally{
 
 loadingRequest =
@@ -4823,7 +4874,6 @@ null;
 }
 
 })();
-
 
 return loadingRequest;
 
@@ -4840,12 +4890,10 @@ setInterval(
 const before =
 allMatches.length;
 
-
 allMatches =
 removeOldFinishedMatches(
 allMatches
 );
-
 
 if(
 before !==
@@ -4856,7 +4904,6 @@ const sections =
 buildHomeSections(
 allMatches
 );
-
 
 allLiveMatches =
 sections.live;
@@ -4870,7 +4917,6 @@ sections.wwe;
 allFutureMatches =
 sections.future;
 
-
 renderSection(
 "liveMatches",
 allLiveMatches,
@@ -4878,7 +4924,6 @@ allLiveMatches,
 "No live match",
 "There is no live match available right now."
 );
-
 
 renderSection(
 "normalMatches",
@@ -4888,7 +4933,6 @@ allNormalMatches,
 "There are currently no real upcoming matches."
 );
 
-
 renderSection(
 "wweMatches",
 allWweMatches,
@@ -4897,7 +4941,6 @@ allWweMatches,
 "No real WWE event is currently available."
 );
 
-
 renderSection(
 "futureMatches",
 allFutureMatches,
@@ -4905,7 +4948,6 @@ allFutureMatches,
 "No future fixture",
 "No genuine future fixture is currently available."
 );
-
 
 renderHeroLive();
 
@@ -4917,13 +4959,338 @@ renderHeroLive();
 
 
 /* =========================================================
+   PWA INSTALL
+========================================================= */
+
+let deferredInstallPrompt =
+null;
+
+const installModal =
+document.getElementById(
+"installModal"
+);
+
+const installNow =
+document.getElementById(
+"installNow"
+);
+
+const installLater =
+document.getElementById(
+"installLater"
+);
+
+
+function isStandalone(){
+
+return (
+window.matchMedia &&
+window.matchMedia(
+"(display-mode: standalone)"
+).matches
+) ||
+window.navigator.standalone === true;
+
+}
+
+
+function recentlyDismissedInstall(){
+
+const value =
+Number(
+localStorage.getItem(
+"sportx_install_dismissed_at"
+) || 0
+);
+
+if(!value)
+return false;
+
+return (
+Date.now() - value
+<
+24 * 60 * 60 * 1000
+);
+
+}
+
+
+function showInstallModal(){
+
+if(!installModal)
+return;
+
+if(isStandalone())
+return;
+
+if(recentlyDismissedInstall())
+return;
+
+installModal.classList.add(
+"show"
+);
+
+installModal.setAttribute(
+"aria-hidden",
+"false"
+);
+
+}
+
+
+function hideInstallModal(
+remember = false
+){
+
+if(!installModal)
+return;
+
+installModal.classList.remove(
+"show"
+);
+
+installModal.setAttribute(
+"aria-hidden",
+"true"
+);
+
+if(remember){
+
+localStorage.setItem(
+"sportx_install_dismissed_at",
+String(Date.now())
+);
+
+}
+
+}
+
+
+window.addEventListener(
+"beforeinstallprompt",
+event=>{
+
+event.preventDefault();
+
+deferredInstallPrompt =
+event;
+
+setTimeout(
+showInstallModal,
+1200
+);
+
+});
+
+
+installNow?.addEventListener(
+"click",
+async()=>{
+
+if(!deferredInstallPrompt){
+
+hideInstallModal(true);
+
+showToast(
+"Use your browser menu to install SportX."
+);
+
+return;
+
+}
+
+try{
+
+const promptEvent =
+deferredInstallPrompt;
+
+deferredInstallPrompt =
+null;
+
+await promptEvent.prompt();
+
+await promptEvent.userChoice;
+
+}catch(error){
+
+console.warn(
+"PWA install:",
+error
+);
+
+}finally{
+
+hideInstallModal(false);
+
+}
+
+});
+
+
+installLater?.addEventListener(
+"click",
+()=>{
+
+hideInstallModal(true);
+
+});
+
+
+installModal?.addEventListener(
+"click",
+event=>{
+
+if(
+event.target ===
+installModal
+){
+
+hideInstallModal(true);
+
+}
+
+});
+
+
+window.addEventListener(
+"appinstalled",
+()=>{
+
+deferredInstallPrompt =
+null;
+
+hideInstallModal(false);
+
+console.log(
+"SportX PWA installed."
+);
+
+});
+
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+let toastTimer =
+null;
+
+function showToast(
+message
+){
+
+const toast =
+document.getElementById(
+"toast"
+);
+
+if(!toast)
+return;
+
+toast.textContent =
+message;
+
+toast.classList.add(
+"show"
+);
+
+clearTimeout(
+toastTimer
+);
+
+toastTimer =
+setTimeout(
+()=>{
+toast.classList.remove(
+"show"
+);
+},
+3000
+);
+
+}
+
+
+/* =========================================================
+   SERVICE WORKER
+========================================================= */
+
+if(
+"serviceWorker" in navigator
+){
+
+window.addEventListener(
+"load",
+async()=>{
+
+try{
+
+const registration =
+await navigator.serviceWorker.register(
+"/cina-bet/service-worker.js",
+{
+updateViaCache:"none"
+}
+);
+
+await registration.update();
+
+setInterval(
+()=>{
+
+registration.update()
+.catch(
+()=>{}
+);
+
+},
+60 * 1000
+);
+
+console.log(
+"SportX Service Worker active."
+);
+
+}catch(error){
+
+console.warn(
+"Service Worker:",
+error
+);
+
+}
+
+});
+
+}
+
+
+/* =========================================================
+   VISIBILITY REFRESH
+========================================================= */
+
+document.addEventListener(
+"visibilitychange",
+()=>{
+
+if(
+!document.hidden
+){
+
+loadHomeMatches();
+
+}
+
+});
+
+
+/* =========================================================
    START
 ========================================================= */
 
 async function startSportXHome(){
 
 await loadHomeMatches();
-
 
 setTimeout(
 loadProfileData,
@@ -4980,7 +5347,6 @@ REFRESH_INTERVAL_MS
 startSportXHome();
 
 </script>
-
 
 <!-- Keep existing authentication system -->
 <script src="auth.js"></script>
