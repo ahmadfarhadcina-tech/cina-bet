@@ -644,7 +644,8 @@ footer a{
 
 <script>
 /* =========================================================
-   SPORTX FUTURE MATCH LIFECYCLE — FINAL
+   SPORTX FUTURE — LIVE LIFECYCLE ENGINE
+   Scheduled → LIVE → LIVE END → removed after 2 hours
 ========================================================= */
 
 const SPORT_SCORE_BASE =
@@ -655,14 +656,14 @@ const SPORT = "football";
 const MAX_DAYS = 7;
 const MAX_MATCHES = 50;
 
-const REFRESH_INTERVAL = 60 * 1000;
+const ALL_REFRESH_INTERVAL = 60 * 1000;
 const LIVE_REFRESH_INTERVAL = 15 * 1000;
 const COUNTDOWN_INTERVAL = 1000;
 
 const END_KEEP_TIME = 2 * 60 * 60 * 1000;
 
 const MATCH_STORAGE_KEY =
-  "sportx_future_matches_v2";
+  "sportx_future_matches_v3";
 
 const VOTE_STORAGE_KEY =
   "sportx_future_votes";
@@ -805,7 +806,7 @@ function loadStoredMatches(){
   }catch(error){
 
     console.warn(
-      "Storage error:",
+      "SportX storage read error:",
       error
     );
 
@@ -828,7 +829,7 @@ function saveStoredMatches(){
   }catch(error){
 
     console.warn(
-      "Storage save error:",
+      "SportX storage write error:",
       error
     );
 
@@ -894,7 +895,9 @@ function parseDate(value){
     value === undefined ||
     value === ""
   ){
+
     return null;
+
   }
 
 
@@ -980,9 +983,11 @@ function teamObject(value){
   }
 
   if(typeof value === "string"){
+
     return {
       name:value
     };
+
   }
 
   return value;
@@ -1118,6 +1123,7 @@ function getStatus(match){
   if(
     match.is_live === true ||
     match.isLive === true ||
+    raw === "live" ||
     raw.includes("live") ||
     raw.includes("playing") ||
     raw.includes("inplay") ||
@@ -1132,6 +1138,8 @@ function getStatus(match){
 
 
   if(
+    match.is_finished === true ||
+    match.isFinished === true ||
     raw.includes("finished") ||
     raw.includes("ended") ||
     raw.includes("final") ||
@@ -1146,7 +1154,8 @@ function getStatus(match){
 
   if(
     raw.includes("cancel") ||
-    raw.includes("postpon")
+    raw.includes("postpon") ||
+    raw.includes("abandoned")
   ){
 
     return "excluded";
@@ -1170,7 +1179,9 @@ function numberValue(value){
     value === undefined ||
     value === ""
   ){
+
     return null;
+
   }
 
 
@@ -1239,7 +1250,9 @@ function scoreValue(
       !object ||
       typeof object !== "object"
     ){
+
       continue;
+
     }
 
 
@@ -1311,7 +1324,7 @@ function scoreValue(
 
 
 /* =========================================================
-   ID / KEY
+   MATCH ID / KEY
 ========================================================= */
 
 function matchKey(match){
@@ -1356,7 +1369,7 @@ function matchId(
 
 
 /* =========================================================
-   NORMALIZE
+   NORMALIZE MATCH
 ========================================================= */
 
 function normalizeMatch(
@@ -1432,12 +1445,6 @@ function normalizeMatch(
 
     sourceTeam,
 
-    /*
-      IMPORTANT:
-      New API Finished matches NEVER
-      receive a finishedObservedAt here.
-    */
-
     finishedObservedAt:
       null
 
@@ -1448,6 +1455,8 @@ function normalizeMatch(
 
 /* =========================================================
    API
+   IMPORTANT:
+   cache-buster + no-store
 ========================================================= */
 
 function extractMatches(json){
@@ -1477,9 +1486,19 @@ function extractMatches(json){
 }
 
 
-async function loadTeam(
-  slug
-){
+async function loadTeam(slug){
+
+  /*
+    Timestamp query parameter prevents the browser
+    from reusing an old URL response.
+
+    cache:"no-store" also tells the browser not to
+    use its normal HTTP cache.
+  */
+
+  const cacheBuster =
+    Date.now().toString();
+
 
   const url =
     SPORT_SCORE_BASE +
@@ -1487,7 +1506,9 @@ async function loadTeam(
     SPORT +
     "&slug=" +
     encodeURIComponent(slug) +
-    "&limit=30";
+    "&limit=100" +
+    "&_live=" +
+    cacheBuster;
 
 
   try{
@@ -1497,9 +1518,13 @@ async function loadTeam(
         url,
         {
           method:"GET",
+
           cache:"no-store",
+
           headers:{
-            Accept:"application/json"
+            Accept:"application/json",
+            "Cache-Control":
+              "no-cache, no-store, max-age=0"
           }
         }
       );
@@ -1548,7 +1573,27 @@ async function loadTeam(
 
 
 /* =========================================================
-   CLEAN OLD STORAGE
+   FIND LOCAL MATCH
+========================================================= */
+
+function findMatch(
+  fresh
+){
+
+  const key =
+    matchKey(fresh);
+
+
+  return matches.find(
+    item =>
+      matchKey(item) === key
+  );
+
+}
+
+
+/* =========================================================
+   CLEAN STORAGE
 ========================================================= */
 
 function cleanupStoredMatches(){
@@ -1560,10 +1605,6 @@ function cleanupStoredMatches(){
     now +
     MAX_DAYS *
     86400000;
-
-
-  const before =
-    matches.length;
 
 
   const map =
@@ -1580,7 +1621,7 @@ function cleanupStoredMatches(){
 
 
     /*
-      ONLY exact 50 sources.
+      Only exact 50 teams.
     */
 
     if(
@@ -1595,8 +1636,7 @@ function cleanupStoredMatches(){
 
 
     /*
-      Cancelled/postponed:
-      delete.
+      Cancelled/postponed = remove.
     */
 
     if(
@@ -1610,13 +1650,27 @@ function cleanupStoredMatches(){
 
 
     /*
-      Finished:
+      LIVE is always preserved.
+    */
 
-      Must have been observed as
-      Finished after a known lifecycle.
+    if(
+      match.status ===
+      "live"
+    ){
 
-      Old records without this field
-      are deleted immediately.
+      map.set(
+        matchKey(match),
+        match
+      );
+
+      continue;
+
+    }
+
+
+    /*
+      FINISHED remains exactly 2 hours
+      from the moment we observed it.
     */
 
     if(
@@ -1651,76 +1705,9 @@ function cleanupStoredMatches(){
 
       }
 
-    }
-
-
-    /*
-      Scheduled:
-      ONLY next 7 days.
-    */
-
-    if(
-      match.status ===
-      "scheduled"
-    ){
-
-      if(
-        !Number.isFinite(
-          Number(match.timestamp)
-        )
-      ){
-
-        continue;
-
-      }
-
-
-      if(
-        Number(match.timestamp) <= now ||
-        Number(match.timestamp) > maxFuture
-      ){
-
-        continue;
-
-      }
-
-    }
-
-
-    /*
-      Live is preserved.
-    */
-
-    if(
-      match.status !== "live" &&
-      match.status !== "scheduled" &&
-      match.status !== "finished"
-    ){
-
-      continue;
-
-    }
-
-
-    /*
-      DEDUPLICATION
-
-      If the same match exists more
-      than once, keep one record.
-    */
-
-    const key =
-      matchKey(match);
-
-
-    const existing =
-      map.get(key);
-
-
-    if(!existing){
 
       map.set(
-        key,
+        matchKey(match),
         match
       );
 
@@ -1730,80 +1717,46 @@ function cleanupStoredMatches(){
 
 
     /*
-      Lifecycle priority:
-      finished > live > scheduled
-    */
-
-    const priority = {
-      scheduled:1,
-      live:2,
-      finished:3
-    };
-
-
-    const currentPriority =
-      priority[existing.status] || 0;
-
-    const newPriority =
-      priority[match.status] || 0;
-
-
-    const chosen =
-      newPriority >
-      currentPriority
-        ? match
-        : existing;
-
-
-    /*
-      Preserve useful information.
+      Scheduled must remain inside the
+      next 7 days.
     */
 
     if(
-      !chosen.homeLogo &&
-      (existing.homeLogo ||
-       match.homeLogo)
+      match.status ===
+      "scheduled"
     ){
 
-      chosen.homeLogo =
-        existing.homeLogo ||
-        match.homeLogo;
+      const timestamp =
+        Number(
+          match.timestamp
+        );
+
+
+      if(
+        !Number.isFinite(timestamp)
+      ){
+
+        continue;
+
+      }
+
+
+      if(
+        timestamp <= now ||
+        timestamp > maxFuture
+      ){
+
+        continue;
+
+      }
+
+
+      map.set(
+        matchKey(match),
+        match
+      );
 
     }
-
-
-    if(
-      !chosen.awayLogo &&
-      (existing.awayLogo ||
-       match.awayLogo)
-    ){
-
-      chosen.awayLogo =
-        existing.awayLogo ||
-        match.awayLogo;
-
-    }
-
-
-    if(
-      !chosen.finishedObservedAt &&
-      (
-        existing.finishedObservedAt ||
-        match.finishedObservedAt
-      )
-    ){
-
-      chosen.finishedObservedAt =
-        existing.finishedObservedAt ||
-        match.finishedObservedAt;
-
-    }
-
-
-    map.set(
-      key,
-      chosen
-    );
 
   }
 
@@ -1814,19 +1767,13 @@ function cleanupStoredMatches(){
     );
 
 
-  if(
-    before !== matches.length
-  ){
-
-    saveStoredMatches();
-
-  }
+  saveStoredMatches();
 
 }
 
 
 /* =========================================================
-   APPLY FRESH API DATA
+   APPLY FRESH DATA
 ========================================================= */
 
 function applyFreshMatches(
@@ -1842,13 +1789,13 @@ function applyFreshMatches(
     86400000;
 
 
+  /*
+    Remove duplicates from API response.
+  */
+
   const freshMap =
     new Map();
 
-
-  /*
-    First make fresh data unique.
-  */
 
   for(
     const fresh of freshList
@@ -1880,179 +1827,80 @@ function applyFreshMatches(
     }
 
 
-    /*
-      Future:
-      only 0-7 days.
-    */
-
-    if(
-      fresh.status ===
-      "scheduled"
-    ){
-
-      if(
-        fresh.timestamp <= now ||
-        fresh.timestamp > maxFuture
-      ){
-
-        continue;
-
-      }
-
-
-      freshMap.set(
-        matchKey(fresh),
-        fresh
-      );
-
-      continue;
-
-    }
-
-
-    /*
-      Live:
-      accept.
-    */
-
-    if(
-      fresh.status ===
-      "live"
-    ){
-
-      freshMap.set(
-        matchKey(fresh),
-        fresh
-      );
-
-      continue;
-
-    }
-
-
-    /*
-      CRITICAL RULE:
-
-      A Finished match from the API
-      is NEVER inserted as a new match.
-
-      It must already exist locally as
-      LIVE or FINISHED.
-    */
-
-    if(
-      fresh.status ===
-      "finished"
-    ){
-
-      const key =
-        matchKey(fresh);
-
-
-      const old =
-        matches.find(
-          item =>
-            matchKey(item) === key
-        );
-
-
-      if(!old){
-
-        /*
-          OLD API HISTORY -> IGNORE
-        */
-
-        continue;
-
-      }
-
-
-      /*
-        Only LIVE -> FINISHED can create
-        a new End state.
-      */
-
-      if(
-        old.status ===
-        "live"
-      ){
-
-        fresh.finishedObservedAt =
-          Date.now();
-
-        freshMap.set(
-          key,
-          fresh
-        );
-
-        continue;
-
-      }
-
-
-      /*
-        Already finished:
-        keep its original timer.
-      */
-
-      if(
-        old.status ===
-        "finished"
-      ){
-
-        fresh.finishedObservedAt =
-          old.finishedObservedAt;
-
-        freshMap.set(
-          key,
-          fresh
-        );
-
-      }
-
-    }
+    freshMap.set(
+      matchKey(fresh),
+      fresh
+    );
 
   }
 
 
   /*
-    Apply fresh data to existing matches.
+    Update existing matches.
   */
 
   for(
     const fresh of freshMap.values()
   ){
 
-    const key =
-      matchKey(fresh);
-
-
     const old =
-      matches.find(
-        item =>
-          matchKey(item) === key
-      );
+      findMatch(fresh);
 
+
+    /*
+      -----------------------------------------------------
+      NEW SCHEDULED MATCH
+      -----------------------------------------------------
+    */
 
     if(!old){
 
-      /*
-        New matches can ONLY be
-        scheduled or live.
+      if(
+        fresh.status ===
+        "scheduled"
+      ){
 
-        Finished was handled above.
+        if(
+          fresh.timestamp > now &&
+          fresh.timestamp <= maxFuture
+        ){
+
+          matches.push(
+            fresh
+          );
+
+        }
+
+        continue;
+
+      }
+
+
+      /*
+        NEW LIVE MATCH
+
+        If the site starts while a match is
+        already live, we can still add it.
       */
 
       if(
-        fresh.status === "scheduled" ||
-        fresh.status === "live"
+        fresh.status ===
+        "live"
       ){
 
         matches.push(
           fresh
         );
 
+        continue;
+
       }
+
+
+      /*
+        Old API history marked finished:
+        DO NOT create a new END card.
+      */
 
       continue;
 
@@ -2060,21 +1908,19 @@ function applyFreshMatches(
 
 
     /*
-      Preserve lifecycle.
-    */
-
-    const oldStatus =
-      old.status;
-
-
-    /*
-      FINISHED NEVER GOES BACK.
+      -----------------------------------------------------
+      FINISHED MATCH
+      -----------------------------------------------------
     */
 
     if(
-      oldStatus ===
+      old.status ===
       "finished"
     ){
+
+      /*
+        Never allow Finished → Live/Future.
+      */
 
       if(
         fresh.status ===
@@ -2101,10 +1947,6 @@ function applyFreshMatches(
           fresh.league ||
           old.league;
 
-        old.finishedObservedAt =
-          old.finishedObservedAt ||
-          fresh.finishedObservedAt;
-
       }
 
       continue;
@@ -2113,118 +1955,57 @@ function applyFreshMatches(
 
 
     /*
-      LIVE -> FINISHED.
+      -----------------------------------------------------
+      LIVE MATCH
+      -----------------------------------------------------
     */
 
     if(
-      oldStatus === "live" &&
-      fresh.status === "finished"
+      old.status ===
+      "live"
     ){
 
-      old.status =
-        "finished";
+      /*
+        LIVE can only remain LIVE or become
+        FINISHED.
 
-      old.finishedObservedAt =
-        old.finishedObservedAt ||
-        Date.now();
-
-      old.homeScore =
-        fresh.homeScore ??
-        old.homeScore;
-
-      old.awayScore =
-        fresh.awayScore ??
-        old.awayScore;
-
-      old.homeLogo =
-        fresh.homeLogo ||
-        old.homeLogo;
-
-      old.awayLogo =
-        fresh.awayLogo ||
-        old.awayLogo;
-
-      old.league =
-        fresh.league ||
-        old.league;
-
-      continue;
-
-    }
-
-
-    /*
-      LIVE stays LIVE.
-
-      Do NOT allow a temporary scheduled
-      response to turn it back into Future.
-    */
-
-    if(
-      oldStatus === "live"
-    ){
+        A temporary scheduled response is ignored.
+      */
 
       if(
         fresh.status ===
         "live"
       ){
 
-        old.homeScore =
-          fresh.homeScore ??
-          old.homeScore;
-
-        old.awayScore =
-          fresh.awayScore ??
-          old.awayScore;
-
-        old.homeLogo =
-          fresh.homeLogo ||
-          old.homeLogo;
-
-        old.awayLogo =
-          fresh.awayLogo ||
-          old.awayLogo;
-
-        old.league =
-          fresh.league ||
-          old.league;
+        updateMatchData(
+          old,
+          fresh
+        );
 
       }
 
-      continue;
 
-    }
+      if(
+        fresh.status ===
+        "finished"
+      ){
+
+        updateMatchData(
+          old,
+          fresh
+        );
 
 
-    /*
-      Scheduled -> Live.
-    */
+        old.status =
+          "finished";
 
-    if(
-      oldStatus === "scheduled" &&
-      fresh.status === "live"
-    ){
 
-      old.status =
-        "live";
+        old.finishedObservedAt =
+          old.finishedObservedAt ||
+          Date.now();
 
-      old.homeScore =
-        fresh.homeScore;
+      }
 
-      old.awayScore =
-        fresh.awayScore;
-
-      old.homeLogo =
-        fresh.homeLogo ||
-        old.homeLogo;
-
-      old.awayLogo =
-        fresh.awayLogo ||
-        old.awayLogo;
-
-      old.league =
-        fresh.league ||
-        old.league;
 
       continue;
 
@@ -2232,37 +2013,104 @@ function applyFreshMatches(
 
 
     /*
-      Scheduled -> Scheduled update.
+      -----------------------------------------------------
+      SCHEDULED MATCH
+      -----------------------------------------------------
     */
 
     if(
-      oldStatus === "scheduled" &&
-      fresh.status === "scheduled"
+      old.status ===
+      "scheduled"
     ){
 
-      old.homeLogo =
-        fresh.homeLogo ||
-        old.homeLogo;
+      /*
+        SCHEDULED → LIVE
+      */
 
-      old.awayLogo =
-        fresh.awayLogo ||
-        old.awayLogo;
+      if(
+        fresh.status ===
+        "live"
+      ){
 
-      old.league =
-        fresh.league ||
-        old.league;
+        updateMatchData(
+          old,
+          fresh
+        );
 
-      old.timestamp =
-        fresh.timestamp;
+
+        old.status =
+          "live";
+
+
+        continue;
+
+      }
+
+
+      /*
+        SCHEDULED → FINISHED
+
+        This can happen if the browser was closed
+        while the match was being played.
+
+        We only accept it if the scheduled
+        kickoff time has already passed.
+      */
+
+      if(
+        fresh.status ===
+        "finished"
+      ){
+
+        if(
+          old.timestamp <= now
+        ){
+
+          updateMatchData(
+            old,
+            fresh
+          );
+
+
+          old.status =
+            "finished";
+
+
+          old.finishedObservedAt =
+            Date.now();
+
+        }
+
+
+        continue;
+
+      }
+
+
+      /*
+        Normal scheduled update.
+      */
+
+      if(
+        fresh.status ===
+        "scheduled"
+      ){
+
+        updateMatchData(
+          old,
+          fresh
+        );
+
+
+        old.status =
+          "scheduled";
+
+      }
 
     }
 
   }
 
-
-  /*
-    Cleanup after applying.
-  */
 
   cleanupStoredMatches();
 
@@ -2272,7 +2120,77 @@ function applyFreshMatches(
 
 
 /* =========================================================
-   LOAD ALL 50
+   UPDATE EXISTING MATCH
+========================================================= */
+
+function updateMatchData(
+  old,
+  fresh
+){
+
+  if(
+    fresh.homeLogo
+  ){
+
+    old.homeLogo =
+      fresh.homeLogo;
+
+  }
+
+
+  if(
+    fresh.awayLogo
+  ){
+
+    old.awayLogo =
+      fresh.awayLogo;
+
+  }
+
+
+  if(
+    fresh.league
+  ){
+
+    old.league =
+      fresh.league;
+
+  }
+
+
+  if(
+    fresh.homeScore !== null &&
+    fresh.homeScore !== undefined
+  ){
+
+    old.homeScore =
+      fresh.homeScore;
+
+  }
+
+
+  if(
+    fresh.awayScore !== null &&
+    fresh.awayScore !== undefined
+  ){
+
+    old.awayScore =
+      fresh.awayScore;
+
+  }
+
+
+  /*
+    Keep original kickoff timestamp.
+    This prevents API fluctuations from moving
+    a match around the page.
+  */
+
+}
+
+
+/* =========================================================
+   LOAD ALL 50 TEAMS
 ========================================================= */
 
 async function loadAllTeams(){
@@ -2314,7 +2232,7 @@ async function loadAllTeams(){
   }catch(error){
 
     console.error(
-      "All teams error:",
+      "SportX full refresh error:",
       error
     );
 
@@ -2336,7 +2254,7 @@ async function loadAllTeams(){
 
 
 /* =========================================================
-   LIVE REFRESH
+   LIVE REFRESH — EVERY 15 SECONDS
 ========================================================= */
 
 async function refreshLiveMatches(){
@@ -2349,7 +2267,11 @@ async function refreshLiveMatches(){
 
 
   if(!live.length){
+
+    updateStatus();
+
     return;
+
   }
 
 
@@ -2381,18 +2303,10 @@ async function refreshLiveMatches(){
 
 
     const fresh =
-      results
-        .flat()
-        .filter(
-          item =>
-            FEATURED_SET.has(
-              item.sourceTeam
-            )
-        );
+      results.flat();
 
 
-    let changed =
-      false;
+    let changed = false;
 
 
     for(
@@ -2400,9 +2314,12 @@ async function refreshLiveMatches(){
     ){
 
       if(
-        old.status !== "live"
+        old.status !==
+        "live"
       ){
+
         continue;
+
       }
 
 
@@ -2415,67 +2332,36 @@ async function refreshLiveMatches(){
 
 
       /*
-        API omitted it:
-        preserve live match.
+        API temporarily omitted it.
+
+        IMPORTANT:
+        DO NOT delete it.
+        DO NOT turn it into Future.
+        DO NOT turn it into Finished.
+
+        Keep LIVE until a reliable finished
+        response arrives.
       */
 
       if(!freshMatch){
+
         continue;
-      }
-
-
-      if(
-        freshMatch.homeLogo
-      ){
-
-        old.homeLogo =
-          freshMatch.homeLogo;
-
-      }
-
-
-      if(
-        freshMatch.awayLogo
-      ){
-
-        old.awayLogo =
-          freshMatch.awayLogo;
-
-      }
-
-
-      if(
-        freshMatch.homeScore !== null
-      ){
-
-        old.homeScore =
-          freshMatch.homeScore;
-
-      }
-
-
-      if(
-        freshMatch.awayScore !== null
-      ){
-
-        old.awayScore =
-          freshMatch.awayScore;
-
-      }
-
-
-      if(
-        freshMatch.league
-      ){
-
-        old.league =
-          freshMatch.league;
 
       }
 
 
       /*
-        LIVE -> FINISHED
+        Live score update.
+      */
+
+      updateMatchData(
+        old,
+        freshMatch
+      );
+
+
+      /*
+        LIVE → FINISHED
       */
 
       if(
@@ -2486,9 +2372,11 @@ async function refreshLiveMatches(){
         old.status =
           "finished";
 
+
         old.finishedObservedAt =
           old.finishedObservedAt ||
           Date.now();
+
 
         changed = true;
 
@@ -2499,12 +2387,12 @@ async function refreshLiveMatches(){
 
     if(changed){
 
-      cleanupStoredMatches();
-
       saveStoredMatches();
 
     }
 
+
+    cleanupStoredMatches();
 
     render();
 
@@ -2518,6 +2406,14 @@ async function refreshLiveMatches(){
       "Live refresh failed:",
       error
     );
+
+    /*
+      Existing LIVE matches remain visible.
+    */
+
+    render();
+
+    updateStatus();
 
   }
 
@@ -2549,6 +2445,10 @@ function render(){
     matches.filter(
       match => {
 
+        /*
+          LIVE always stays visible.
+        */
+
         if(
           match.status ===
           "live"
@@ -2558,6 +2458,10 @@ function render(){
 
         }
 
+
+        /*
+          Future only.
+        */
 
         if(
           match.status !==
@@ -2593,7 +2497,9 @@ function render(){
               ].join(" ")
             );
 
-          return text.includes(query);
+          return text.includes(
+            query
+          );
 
         }
       );
@@ -2603,6 +2509,10 @@ function render(){
 
   visible.sort(
     (a,b) => {
+
+      /*
+        LIVE first.
+      */
 
       if(
         a.status === "live" &&
@@ -2682,7 +2592,7 @@ function render(){
 
 
 /* =========================================================
-   FUTURE CARD
+   IMAGE
 ========================================================= */
 
 function imageHtml(
@@ -2700,6 +2610,7 @@ function imageHtml(
         loading="lazy"
         onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"
       >
+
       <div
         class="team-logo logo-fallback"
         style="display:none;"
@@ -2724,6 +2635,10 @@ function imageHtml(
 }
 
 
+/* =========================================================
+   COUNTDOWN
+========================================================= */
+
 function countdownText(
   timestamp
 ){
@@ -2734,7 +2649,9 @@ function countdownText(
 
 
   if(diff <= 0){
+
     return "Starting";
+
   }
 
 
@@ -2743,7 +2660,9 @@ function countdownText(
 
 
   if(hours < 24){
+
     return "Today";
+
   }
 
 
@@ -2759,6 +2678,10 @@ function countdownText(
 
 }
 
+
+/* =========================================================
+   DATE
+========================================================= */
 
 function formatDate(
   timestamp
@@ -2780,6 +2703,10 @@ function formatDate(
 }
 
 
+/* =========================================================
+   FUTURE CARD
+========================================================= */
+
 function createFutureCard(
   match
 ){
@@ -2790,7 +2717,8 @@ function createFutureCard(
 
 
   const isLive =
-    match.status === "live";
+    match.status ===
+    "live";
 
 
   const hs =
@@ -2877,10 +2805,12 @@ function createFutureCard(
           class="vs"
           ${
             isLive
-              ? `style="
+              ? `
+                style="
                   font-size:21px;
                   color:#dc2626;
-                "`
+                "
+              `
               : ""
           }
         >
@@ -2929,7 +2859,7 @@ function createFutureCard(
                 font-weight:900;
               "
             >
-              LIVE SCORE · Updating
+              LIVE SCORE · Updating every 15s
             </div>
 
           `
@@ -2979,6 +2909,10 @@ function createFutureCard(
 }
 
 
+/* =========================================================
+   VOTE BUTTON
+========================================================= */
+
 function voteButton(
   id,
   value,
@@ -3018,7 +2952,7 @@ function voteButton(
 
 
 /* =========================================================
-   END CARDS
+   END / LIVE END
 ========================================================= */
 
 function renderEnded(){
@@ -3083,6 +3017,10 @@ function renderEnded(){
 
 }
 
+
+/* =========================================================
+   END CARD
+========================================================= */
 
 function createEndedCard(
   match
@@ -3345,10 +3283,17 @@ function updateStatus(){
     ).length;
 
 
-  statusEl.textContent =
-    live
-      ? `${live} LIVE · ${future} future · ${ended} END`
-      : `${future} future · ${ended} END`;
+  if(live){
+
+    statusEl.textContent =
+      `${live} LIVE · ${future} future · ${ended} END`;
+
+  }else{
+
+    statusEl.textContent =
+      `${future} future · ${ended} END`;
+
+  }
 
 }
 
@@ -3429,6 +3374,10 @@ matchesGrid.addEventListener(
 );
 
 
+/* =========================================================
+   TOAST
+========================================================= */
+
 function showToast(
   message
 ){
@@ -3482,7 +3431,7 @@ if(searchInput){
 
 
 /* =========================================================
-   SECOND-BY-SECOND CLEANUP
+   EVERY SECOND
 ========================================================= */
 
 function tick(){
@@ -3499,73 +3448,8 @@ function tick(){
 
 
 /* =========================================================
-   INITIALIZATION
+   VISIBILITY / RETURN TO TAB
 ========================================================= */
-
-loadStoredMatches();
-
-loadVotes();
-
-
-/*
-  FIRST THING:
-
-  Delete all legacy invalid End records.
-*/
-
-cleanupStoredMatches();
-
-
-render();
-
-renderEnded();
-
-updateStatus();
-
-
-/*
-  Load real data.
-*/
-
-loadAllTeams();
-
-
-/*
-  Every 60 seconds:
-  all 50 teams.
-*/
-
-setInterval(
-  loadAllTeams,
-  REFRESH_INTERVAL
-);
-
-
-/*
-  Every 15 seconds:
-  live scores.
-*/
-
-setInterval(
-  refreshLiveMatches,
-  LIVE_REFRESH_INTERVAL
-);
-
-
-/*
-  Every second:
-  End expiration + countdown.
-*/
-
-setInterval(
-  tick,
-  COUNTDOWN_INTERVAL
-);
-
-
-/*
-  Return from another tab/app.
-*/
 
 document.addEventListener(
   "visibilitychange",
@@ -3575,6 +3459,11 @@ document.addEventListener(
       document.visibilityState ===
       "visible"
     ){
+
+      /*
+        Immediately sync when the user
+        comes back to the page.
+      */
 
       cleanupStoredMatches();
 
@@ -3591,6 +3480,60 @@ document.addEventListener(
     }
 
   }
+);
+
+
+/* =========================================================
+   INITIALIZATION
+========================================================= */
+
+loadStoredMatches();
+
+loadVotes();
+
+cleanupStoredMatches();
+
+render();
+
+renderEnded();
+
+updateStatus();
+
+
+/*
+  Initial real API sync.
+*/
+
+loadAllTeams();
+
+
+/*
+  Full 7-day synchronization every 60 seconds.
+*/
+
+setInterval(
+  loadAllTeams,
+  ALL_REFRESH_INTERVAL
+);
+
+
+/*
+  Live scores every 15 seconds.
+*/
+
+setInterval(
+  refreshLiveMatches,
+  LIVE_REFRESH_INTERVAL
+);
+
+
+/*
+  Lifecycle cleanup and countdown every second.
+*/
+
+setInterval(
+  tick,
+  COUNTDOWN_INTERVAL
 );
 
 </script>
