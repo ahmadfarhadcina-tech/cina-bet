@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Future Matches | SportX</title>
 
 <style>
@@ -23,7 +22,6 @@
 }
 
 *{box-sizing:border-box}
-
 html{scroll-behavior:smooth}
 
 body{
@@ -484,7 +482,7 @@ footer a{
   position:fixed;
   left:50%;
   bottom:22px;
-  z-index:200;
+  z-index:500;
   transform:translate(-50%,20px);
   opacity:0;
   pointer-events:none;
@@ -499,6 +497,103 @@ footer a{
 .toast.show{
   opacity:1;
   transform:translate(-50%,0);
+}
+
+.modal-backdrop{
+  position:fixed;
+  inset:0;
+  z-index:400;
+  background:rgba(17,24,39,.58);
+  backdrop-filter:blur(5px);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:18px;
+}
+
+.modal-backdrop.show{
+  display:flex;
+}
+
+.modal{
+  width:min(420px,100%);
+  background:#fff;
+  border-radius:22px;
+  padding:22px;
+  box-shadow:0 25px 70px rgba(0,0,0,.25);
+}
+
+.modal h2{
+  margin:0 0 7px;
+  font-size:21px;
+}
+
+.modal p{
+  margin:0 0 18px;
+  color:var(--muted);
+  font-size:13px;
+  line-height:1.6;
+}
+
+.modal-actions{
+  display:grid;
+  gap:9px;
+}
+
+.modal-btn{
+  width:100%;
+  min-height:45px;
+  border:0;
+  border-radius:12px;
+  cursor:pointer;
+  font-weight:900;
+}
+
+.modal-btn.primary{
+  background:var(--primary);
+  color:#fff;
+}
+
+.modal-btn.secondary{
+  background:#f3f4f6;
+  color:#374151;
+}
+
+.amount-value{
+  text-align:center;
+  font-size:32px;
+  font-weight:900;
+  color:var(--primary-dark);
+  margin:8px 0 16px;
+}
+
+.amount-slider{
+  width:100%;
+  accent-color:var(--primary);
+  cursor:pointer;
+}
+
+.amount-range{
+  display:flex;
+  justify-content:space-between;
+  color:var(--muted);
+  font-size:11px;
+  margin-top:5px;
+}
+
+.modal-close{
+  position:absolute;
+  right:18px;
+  top:14px;
+  border:0;
+  background:transparent;
+  font-size:22px;
+  cursor:pointer;
+  color:#6b7280;
+}
+
+.modal-box{
+  position:relative;
 }
 
 @media(max-width:720px){
@@ -540,7 +635,7 @@ footer a{
 
     <nav class="nav">
       <a href="index.html">Home</a>
-      <a href="sports.html" class="active">Sports</a>
+      <a href="sports.html">Sports</a>
       <a href="sports.html">Live</a>
       <a href="my-bets.html">My Bets</a>
     </nav>
@@ -642,12 +737,112 @@ footer a{
 
 <div id="toast" class="toast"></div>
 
-<script>
-/* =========================================================
-   SPORTX FUTURE — LIVE LIFECYCLE ENGINE
-   Scheduled → LIVE → LIVE END → removed after 2 hours
-========================================================= */
+<div id="loginModal" class="modal-backdrop">
+  <div class="modal">
+    <div class="modal-box">
 
+      <button
+        class="modal-close"
+        id="loginModalClose"
+        type="button"
+      >
+        ×
+      </button>
+
+      <h2>Login Required</h2>
+
+      <p>
+        You must be logged in to submit a prediction.
+      </p>
+
+      <div class="modal-actions">
+
+        <button
+          id="loginBtn"
+          class="modal-btn primary"
+          type="button"
+        >
+          Login
+        </button>
+
+        <button
+          id="registerBtn"
+          class="modal-btn secondary"
+          type="button"
+        >
+          Create Account
+        </button>
+
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div id="amountModal" class="modal-backdrop">
+  <div class="modal">
+    <div class="modal-box">
+
+      <button
+        class="modal-close"
+        id="amountModalClose"
+        type="button"
+      >
+        ×
+      </button>
+
+      <h2>Prediction Amount</h2>
+
+      <p>
+        Choose your prediction amount in AFN.
+      </p>
+
+      <div id="amountValue" class="amount-value">
+        100 AFN
+      </div>
+
+      <input
+        id="amountSlider"
+        class="amount-slider"
+        type="range"
+        min="100"
+        max="500"
+        step="10"
+        value="100"
+      >
+
+      <div class="amount-range">
+        <span>100 AFN</span>
+        <span>500 AFN</span>
+      </div>
+
+      <div class="modal-actions" style="margin-top:20px;">
+
+        <button
+          id="confirmBetBtn"
+          class="modal-btn primary"
+          type="button"
+        >
+          Confirm Prediction
+        </button>
+
+        <button
+          id="cancelBetBtn"
+          class="modal-btn secondary"
+          type="button"
+        >
+          Cancel
+        </button>
+
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script src="auth.js"></script>
+
+<script>
 const SPORT_SCORE_BASE =
   "https://sportscore.com/api/widget/team/";
 
@@ -660,18 +855,11 @@ const ALL_REFRESH_INTERVAL = 60 * 1000;
 const LIVE_REFRESH_INTERVAL = 15 * 1000;
 const COUNTDOWN_INTERVAL = 1000;
 
-const END_KEEP_TIME = 2 * 60 * 60 * 1000;
+const END_KEEP_TIME =
+  2 * 60 * 60 * 1000;
 
-const MATCH_STORAGE_KEY =
-  "sportx_future_matches_v3";
-
-const VOTE_STORAGE_KEY =
-  "sportx_future_votes";
-
-
-/* =========================================================
-   EXACT 50 FEATURED TEAMS
-========================================================= */
+const WORKER_URL =
+  "https://zchtcosljkkkiykhforj.supabase.co/functions/v1/smooth-worker";
 
 const FEATURED_TEAMS = [
   "real-madrid",
@@ -682,7 +870,6 @@ const FEATURED_TEAMS = [
   "arsenal",
   "chelsea",
   "tottenham-hotspur",
-
   "bayern-munich",
   "borussia-dortmund",
   "bayer-leverkusen",
@@ -690,61 +877,45 @@ const FEATURED_TEAMS = [
   "eintracht-frankfurt",
   "stuttgart",
   "wolfsburg",
-
   "psg",
   "marseille",
   "lyon",
   "monaco",
-
   "juventus",
   "inter-milan",
   "ac-milan",
   "napoli",
   "roma",
   "lazio",
-
   "atletico-madrid",
   "sevilla",
   "athletic-bilbao",
   "villarreal",
-
   "benfica",
   "porto",
   "sporting-cp",
-
   "ajax",
   "psv-eindhoven",
   "feyenoord",
-
   "galatasaray",
   "fenerbahce",
   "besiktas",
-
   "flamengo",
   "palmeiras",
   "corinthians",
-
   "river-plate",
   "boca-juniors",
-
   "al-hilal",
   "al-nassr",
   "al-ain",
-
   "club-america",
   "inter-miami",
   "monterrey",
-
   "celtic"
 ];
 
 const FEATURED_SET =
   new Set(FEATURED_TEAMS);
-
-
-/* =========================================================
-   ELEMENTS
-========================================================= */
 
 const loadingEl =
   document.getElementById("loading");
@@ -776,117 +947,42 @@ const endGrid =
 const toastEl =
   document.getElementById("toast");
 
+const loginModal =
+  document.getElementById("loginModal");
+
+const amountModal =
+  document.getElementById("amountModal");
+
+const amountSlider =
+  document.getElementById("amountSlider");
+
+const amountValue =
+  document.getElementById("amountValue");
+
+const confirmBetBtn =
+  document.getElementById("confirmBetBtn");
 
 let matches = [];
 let loading = false;
-let voteStore = {};
-
-
-/* =========================================================
-   STORAGE
-========================================================= */
-
-function loadStoredMatches(){
-
-  try{
-
-    const raw =
-      localStorage.getItem(
-        MATCH_STORAGE_KEY
-      );
-
-    const data =
-      raw ? JSON.parse(raw) : [];
-
-    matches =
-      Array.isArray(data)
-        ? data.filter(Boolean)
-        : [];
-
-  }catch(error){
-
-    console.warn(
-      "SportX storage read error:",
-      error
-    );
-
-    matches = [];
-
-  }
-
-}
-
-
-function saveStoredMatches(){
-
-  try{
-
-    localStorage.setItem(
-      MATCH_STORAGE_KEY,
-      JSON.stringify(matches)
-    );
-
-  }catch(error){
-
-    console.warn(
-      "SportX storage write error:",
-      error
-    );
-
-  }
-
-}
-
-
-function loadVotes(){
-
-  try{
-
-    voteStore =
-      JSON.parse(
-        localStorage.getItem(
-          VOTE_STORAGE_KEY
-        ) || "{}"
-      ) || {};
-
-  }catch{
-
-    voteStore = {};
-
-  }
-
-}
-
-
-/* =========================================================
-   HELPERS
-========================================================= */
+let userBets = {};
+let pendingBet = null;
 
 function normalize(value){
-
   return String(value || "")
     .toLowerCase()
     .normalize("NFD")
-    .replace(
-      /[\u0300-\u036f]/g,
-      ""
-    )
+    .replace(/[\u0300-\u036f]/g,"")
     .trim();
-
 }
 
-
 function escapeHtml(value){
-
   return String(value ?? "")
     .replaceAll("&","&amp;")
     .replaceAll("<","&lt;")
     .replaceAll(">","&gt;")
     .replaceAll('"',"&quot;")
     .replaceAll("'","&#039;");
-
 }
-
 
 function parseDate(value){
 
@@ -895,11 +991,8 @@ function parseDate(value){
     value === undefined ||
     value === ""
   ){
-
     return null;
-
   }
-
 
   if(typeof value === "number"){
 
@@ -911,18 +1004,13 @@ function parseDate(value){
     const date =
       new Date(ms);
 
-    return Number.isNaN(
-      date.getTime()
-    )
+    return Number.isNaN(date.getTime())
       ? null
       : date;
-
   }
-
 
   const text =
     String(value).trim();
-
 
   if(/^\d+$/.test(text)){
 
@@ -937,26 +1025,18 @@ function parseDate(value){
     const date =
       new Date(ms);
 
-    return Number.isNaN(
-      date.getTime()
-    )
+    return Number.isNaN(date.getTime())
       ? null
       : date;
-
   }
-
 
   const date =
     new Date(text);
 
-  return Number.isNaN(
-    date.getTime()
-  )
+  return Number.isNaN(date.getTime())
     ? null
     : date;
-
 }
-
 
 function getTime(match){
 
@@ -972,9 +1052,7 @@ function getTime(match){
     match.scheduledAt ??
     null
   );
-
 }
-
 
 function teamObject(value){
 
@@ -983,17 +1061,11 @@ function teamObject(value){
   }
 
   if(typeof value === "string"){
-
-    return {
-      name:value
-    };
-
+    return {name:value};
   }
 
   return value;
-
 }
-
 
 function homeObject(match){
 
@@ -1002,9 +1074,7 @@ function homeObject(match){
     match.home_team ||
     match.homeTeam
   );
-
 }
-
 
 function awayObject(match){
 
@@ -1013,9 +1083,7 @@ function awayObject(match){
     match.away_team ||
     match.awayTeam
   );
-
 }
-
 
 function teamName(team){
 
@@ -1031,7 +1099,6 @@ function teamName(team){
     team?.shortName ||
     "Unknown"
   );
-
 }
 
 function teamLogo(team){
@@ -1066,7 +1133,6 @@ function teamLogo(team){
     : "";
 }
 
-
 function leagueName(match){
 
   const c =
@@ -1076,15 +1142,12 @@ function leagueName(match){
     c &&
     typeof c === "object"
   ){
-
     return (
       c.name ||
       c.title ||
       "Football"
     );
-
   }
-
 
   const l =
     match.league;
@@ -1093,15 +1156,12 @@ function leagueName(match){
     l &&
     typeof l === "object"
   ){
-
     return (
       l.name ||
       l.title ||
       "Football"
     );
-
   }
-
 
   return String(
     c ||
@@ -1110,13 +1170,7 @@ function leagueName(match){
     match.competition_name ||
     "Football"
   );
-
 }
-
-
-/* =========================================================
-   STATUS
-========================================================= */
 
 function getStatus(match){
 
@@ -1129,7 +1183,6 @@ function getStatus(match){
       ""
     );
 
-
   if(
     match.is_live === true ||
     match.isLive === true ||
@@ -1141,11 +1194,8 @@ function getStatus(match){
     raw.includes("half-time") ||
     raw.includes("extra-time")
   ){
-
     return "live";
-
   }
-
 
   if(
     match.is_finished === true ||
@@ -1156,31 +1206,19 @@ function getStatus(match){
     raw === "ft" ||
     raw === "ft."
   ){
-
     return "finished";
-
   }
-
 
   if(
     raw.includes("cancel") ||
     raw.includes("postpon") ||
     raw.includes("abandoned")
   ){
-
     return "excluded";
-
   }
 
-
   return "scheduled";
-
 }
-
-
-/* =========================================================
-   SCORE
-========================================================= */
 
 function numberValue(value){
 
@@ -1189,38 +1227,27 @@ function numberValue(value){
     value === undefined ||
     value === ""
   ){
-
     return null;
-
   }
-
 
   const n =
     Number(value);
 
-
   return Number.isFinite(n)
     ? n
     : null;
-
 }
 
-
-function scoreValue(
-  match,
-  side
-){
+function scoreValue(match,side){
 
   const direct =
     side === "home"
-
       ? [
           "home_score",
           "homeScore",
           "home_goals",
           "homeGoals"
         ]
-
       : [
           "away_score",
           "awayScore",
@@ -1228,22 +1255,15 @@ function scoreValue(
           "awayGoals"
         ];
 
-
-  for(
-    const key of direct
-  ){
+  for(const key of direct){
 
     const value =
-      numberValue(
-        match[key]
-      );
+      numberValue(match[key]);
 
     if(value !== null){
       return value;
     }
-
   }
-
 
   const objects = [
     match.score,
@@ -1251,24 +1271,17 @@ function scoreValue(
     match.result
   ];
 
-
-  for(
-    const object of objects
-  ){
+  for(const object of objects){
 
     if(
       !object ||
       typeof object !== "object"
     ){
-
       continue;
-
     }
-
 
     const keys =
       side === "home"
-
         ? [
             "home",
             "home_score",
@@ -1277,7 +1290,6 @@ function scoreValue(
             "homeGoals",
             "1"
           ]
-
         : [
             "away",
             "away_score",
@@ -1287,14 +1299,10 @@ function scoreValue(
             "2"
           ];
 
-
-    for(
-      const key of keys
-    ){
+    for(const key of keys){
 
       const value =
         object[key];
-
 
       if(
         value &&
@@ -1311,31 +1319,19 @@ function scoreValue(
         if(nested !== null){
           return nested;
         }
-
       }
-
 
       const n =
         numberValue(value);
 
-
       if(n !== null){
         return n;
       }
-
     }
-
   }
 
-
   return null;
-
 }
-
-
-/* =========================================================
-   MATCH ID / KEY
-========================================================= */
 
 function matchKey(match){
 
@@ -1343,13 +1339,10 @@ function matchKey(match){
     normalize(match.home),
     normalize(match.away),
     Math.floor(
-      Number(match.timestamp) /
-      60000
+      Number(match.timestamp) / 60000
     )
   ].join("|");
-
 }
-
 
 function matchId(
   raw,
@@ -1374,19 +1367,9 @@ function matchId(
       timestamp
     ].join("-")
   );
-
 }
 
-
-/* =========================================================
-   NORMALIZE MATCH
-========================================================= */
-
-
-function normalizeMatch(
-  raw,
-  sourceTeam
-){
+function normalizeMatch(raw,sourceTeam){
 
   const h =
     homeObject(raw);
@@ -1394,33 +1377,26 @@ function normalizeMatch(
   const a =
     awayObject(raw);
 
-
   const home =
     teamName(h);
 
   const away =
     teamName(a);
 
-
   const date =
     parseDate(
       getTime(raw)
     );
-
 
   if(
     !home ||
     !away ||
     !date
   ){
-
     return null;
-
   }
 
-
   return {
-
     id:
       matchId(
         raw,
@@ -1430,7 +1406,6 @@ function normalizeMatch(
       ),
 
     home,
-
     away,
 
     homeLogo:
@@ -1462,18 +1437,9 @@ function normalizeMatch(
 
     sourceTeam,
 
-    finishedObservedAt:
-      null
-
+    finishedObservedAt:null
   };
-
 }
-
-/* =========================================================
-   API
-   IMPORTANT:
-   cache-buster + no-store
-========================================================= */
 
 function extractMatches(json){
 
@@ -1498,23 +1464,12 @@ function extractMatches(json){
   }
 
   return [];
-
 }
-
 
 async function loadTeam(slug){
 
-  /*
-    Timestamp query parameter prevents the browser
-    from reusing an old URL response.
-
-    cache:"no-store" also tells the browser not to
-    use its normal HTTP cache.
-  */
-
   const cacheBuster =
     Date.now().toString();
-
 
   const url =
     SPORT_SCORE_BASE +
@@ -1526,7 +1481,6 @@ async function loadTeam(slug){
     "&_live=" +
     cacheBuster;
 
-
   try{
 
     const response =
@@ -1534,9 +1488,7 @@ async function loadTeam(slug){
         url,
         {
           method:"GET",
-
           cache:"no-store",
-
           headers:{
             Accept:"application/json",
             "Cache-Control":
@@ -1545,23 +1497,12 @@ async function loadTeam(slug){
         }
       );
 
-
     if(!response.ok){
-
-      console.warn(
-        "SportScore:",
-        slug,
-        response.status
-      );
-
       return [];
-
     }
-
 
     const json =
       await response.json();
-
 
     return extractMatches(json)
       .map(
@@ -1582,35 +1523,19 @@ async function loadTeam(slug){
     );
 
     return [];
-
   }
-
 }
 
-
-/* =========================================================
-   FIND LOCAL MATCH
-========================================================= */
-
-function findMatch(
-  fresh
-){
+function findMatch(fresh){
 
   const key =
     matchKey(fresh);
-
 
   return matches.find(
     item =>
       matchKey(item) === key
   );
-
 }
-
-
-/* =========================================================
-   CLEAN STORAGE
-========================================================= */
 
 function cleanupStoredMatches(){
 
@@ -1622,76 +1547,41 @@ function cleanupStoredMatches(){
     MAX_DAYS *
     86400000;
 
-
   const map =
     new Map();
 
-
-  for(
-    const match of matches
-  ){
+  for(const match of matches){
 
     if(!match){
       continue;
     }
-
-
-    /*
-      Only exact 50 teams.
-    */
 
     if(
       !FEATURED_SET.has(
         match.sourceTeam
       )
     ){
-
       continue;
-
     }
 
-
-    /*
-      Cancelled/postponed = remove.
-    */
-
     if(
-      match.status ===
-      "excluded"
+      match.status === "excluded"
     ){
-
       continue;
-
     }
 
-
-    /*
-      LIVE is always preserved.
-    */
-
     if(
-      match.status ===
-      "live"
+      match.status === "live"
     ){
-
       map.set(
         matchKey(match),
         match
       );
-
       continue;
-
     }
 
-
-    /*
-      FINISHED remains exactly 2 hours
-      from the moment we observed it.
-    */
-
     if(
-      match.status ===
-      "finished"
+      match.status === "finished"
     ){
 
       const finishedAt =
@@ -1699,28 +1589,18 @@ function cleanupStoredMatches(){
           match.finishedObservedAt
         );
 
-
       if(
-        !Number.isFinite(
-          finishedAt
-        )
+        !Number.isFinite(finishedAt)
       ){
-
         continue;
-
       }
 
-
       if(
-        now -
-        finishedAt >=
+        now - finishedAt >=
         END_KEEP_TIME
       ){
-
         continue;
-
       }
-
 
       map.set(
         matchKey(match),
@@ -1728,18 +1608,10 @@ function cleanupStoredMatches(){
       );
 
       continue;
-
     }
 
-
-    /*
-      Scheduled must remain inside the
-      next 7 days.
-    */
-
     if(
-      match.status ===
-      "scheduled"
+      match.status === "scheduled"
     ){
 
       const timestamp =
@@ -1747,54 +1619,44 @@ function cleanupStoredMatches(){
           match.timestamp
         );
 
-
       if(
         !Number.isFinite(timestamp)
       ){
-
         continue;
-
       }
 
+      if(timestamp <= now){
 
-      if(
-        timestamp <= now ||
-        timestamp > maxFuture
-      ){
+        match.status = "live";
+
+        map.set(
+          matchKey(match),
+          match
+        );
 
         continue;
-
       }
 
+      if(timestamp > maxFuture){
+        continue;
+      }
 
       map.set(
         matchKey(match),
         match
       );
-
     }
-
   }
-
 
   matches =
     Array.from(
       map.values()
     );
 
-
   saveStoredMatches();
-
 }
 
-
-/* =========================================================
-   APPLY FRESH DATA
-========================================================= */
-
-function applyFreshMatches(
-  freshList
-){
+function applyFreshMatches(freshList){
 
   const now =
     Date.now();
@@ -1804,77 +1666,70 @@ function applyFreshMatches(
     MAX_DAYS *
     86400000;
 
-
-  /*
-    Remove duplicates from API response.
-  */
-
   const freshMap =
     new Map();
 
-
-  for(
-    const fresh of freshList
-  ){
+  for(const fresh of freshList){
 
     if(!fresh){
       continue;
     }
-
 
     if(
       !FEATURED_SET.has(
         fresh.sourceTeam
       )
     ){
-
       continue;
-
     }
-
 
     if(
-      fresh.status ===
-      "excluded"
+      fresh.status === "excluded"
     ){
-
       continue;
-
     }
-
 
     freshMap.set(
       matchKey(fresh),
       fresh
     );
-
   }
 
-
-  /*
-    Update existing matches.
-  */
-
-  for(
-    const fresh of freshMap.values()
-  ){
+  for(const fresh of freshMap.values()){
 
     const old =
       findMatch(fresh);
 
-
-    /*
-      -----------------------------------------------------
-      NEW SCHEDULED MATCH
-      -----------------------------------------------------
-    */
-
     if(!old){
 
       if(
-        fresh.status ===
-        "scheduled"
+        fresh.status === "live"
       ){
+
+        matches.push(
+          fresh
+        );
+
+        continue;
+      }
+
+      if(
+        fresh.status === "scheduled"
+      ){
+
+        if(
+          fresh.timestamp <= now
+        ){
+
+          fresh.status =
+            "live";
+
+          matches.push(
+            fresh
+          );
+
+          continue;
+        }
 
         if(
           fresh.timestamp > now &&
@@ -1884,168 +1739,71 @@ function applyFreshMatches(
           matches.push(
             fresh
           );
-
         }
 
         continue;
-
-      }
-
-
-      /*
-        NEW LIVE MATCH
-
-        If the site starts while a match is
-        already live, we can still add it.
-      */
-
-      if(
-        fresh.status ===
-        "live"
-      ){
-
-        matches.push(
-          fresh
-        );
-
-        continue;
-
-      }
-
-
-      /*
-        Old API history marked finished:
-        DO NOT create a new END card.
-      */
-
-      continue;
-
-    }
-
-
-    /*
-      -----------------------------------------------------
-      FINISHED MATCH
-      -----------------------------------------------------
-    */
-
-    if(
-      old.status ===
-      "finished"
-    ){
-
-      /*
-        Never allow Finished → Live/Future.
-      */
-
-      if(
-        fresh.status ===
-        "finished"
-      ){
-
-        old.homeScore =
-          fresh.homeScore ??
-          old.homeScore;
-
-        old.awayScore =
-          fresh.awayScore ??
-          old.awayScore;
-
-        old.homeLogo =
-          fresh.homeLogo ||
-          old.homeLogo;
-
-        old.awayLogo =
-          fresh.awayLogo ||
-          old.awayLogo;
-
-        old.league =
-          fresh.league ||
-          old.league;
-
       }
 
       continue;
-
     }
 
-
-    /*
-      -----------------------------------------------------
-      LIVE MATCH
-      -----------------------------------------------------
-    */
-
     if(
-      old.status ===
-      "live"
+      old.status === "finished"
     ){
 
-      /*
-        LIVE can only remain LIVE or become
-        FINISHED.
-
-        A temporary scheduled response is ignored.
-      */
-
       if(
-        fresh.status ===
-        "live"
+        fresh.status === "finished"
       ){
 
         updateMatchData(
           old,
           fresh
         );
-
       }
 
+      continue;
+    }
+
+    if(
+      old.status === "live"
+    ){
 
       if(
-        fresh.status ===
-        "finished"
+        fresh.status === "live"
       ){
 
         updateMatchData(
           old,
           fresh
         );
+      }
 
+      if(
+        fresh.status === "finished"
+      ){
+
+        updateMatchData(
+          old,
+          fresh
+        );
 
         old.status =
           "finished";
 
-
         old.finishedObservedAt =
           old.finishedObservedAt ||
           Date.now();
-
       }
 
-
       continue;
-
     }
 
-
-    /*
-      -----------------------------------------------------
-      SCHEDULED MATCH
-      -----------------------------------------------------
-    */
-
     if(
-      old.status ===
-      "scheduled"
+      old.status === "scheduled"
     ){
 
-      /*
-        SCHEDULED → LIVE
-      */
-
       if(
-        fresh.status ===
-        "live"
+        fresh.status === "live"
       ){
 
         updateMatchData(
@@ -2053,33 +1811,18 @@ function applyFreshMatches(
           fresh
         );
 
-
         old.status =
           "live";
 
-
         continue;
-
       }
 
-
-      /*
-        SCHEDULED → FINISHED
-
-        This can happen if the browser was closed
-        while the match was being played.
-
-        We only accept it if the scheduled
-        kickoff time has already passed.
-      */
-
       if(
-        fresh.status ===
-        "finished"
+        old.timestamp <= now
       ){
 
         if(
-          old.timestamp <= now
+          fresh.status === "finished"
         ){
 
           updateMatchData(
@@ -2087,29 +1830,36 @@ function applyFreshMatches(
             fresh
           );
 
-
           old.status =
             "finished";
 
-
           old.finishedObservedAt =
+            old.finishedObservedAt ||
             Date.now();
 
+        }else{
+
+          updateMatchData(
+            old,
+            fresh
+          );
+
+          old.status =
+            "live";
         }
 
-
         continue;
-
       }
 
+      if(
+        fresh.status === "finished"
+      ){
 
-      /*
-        Normal scheduled update.
-      */
+        continue;
+      }
 
       if(
-        fresh.status ===
-        "scheduled"
+        fresh.status === "scheduled"
       ){
 
         updateMatchData(
@@ -2117,97 +1867,49 @@ function applyFreshMatches(
           fresh
         );
 
-
         old.status =
           "scheduled";
-
       }
-
     }
-
   }
-
 
   cleanupStoredMatches();
-
   saveStoredMatches();
-
 }
 
+function updateMatchData(old,fresh){
 
-/* =========================================================
-   UPDATE EXISTING MATCH
-========================================================= */
-
-function updateMatchData(
-  old,
-  fresh
-){
-
-  if(
-    fresh.homeLogo
-  ){
-
+  if(fresh.homeLogo){
     old.homeLogo =
       fresh.homeLogo;
-
   }
 
-
-  if(
-    fresh.awayLogo
-  ){
-
+  if(fresh.awayLogo){
     old.awayLogo =
       fresh.awayLogo;
-
   }
 
-
-  if(
-    fresh.league
-  ){
-
+  if(fresh.league){
     old.league =
       fresh.league;
-
   }
-
 
   if(
     fresh.homeScore !== null &&
     fresh.homeScore !== undefined
   ){
-
     old.homeScore =
       fresh.homeScore;
-
   }
-
 
   if(
     fresh.awayScore !== null &&
     fresh.awayScore !== undefined
   ){
-
     old.awayScore =
       fresh.awayScore;
-
   }
-
-
-  /*
-    Keep original kickoff timestamp.
-    This prevents API fluctuations from moving
-    a match around the page.
-  */
-
 }
-
-
-/* =========================================================
-   LOAD ALL 50 TEAMS
-========================================================= */
 
 async function loadAllTeams(){
 
@@ -2215,9 +1917,7 @@ async function loadAllTeams(){
     return;
   }
 
-
   loading = true;
-
 
   try{
 
@@ -2229,49 +1929,34 @@ async function loadAllTeams(){
         )
       );
 
-
     const fresh =
       results.flat();
-
 
     applyFreshMatches(
       fresh
     );
 
-
     render();
-
     renderEnded();
-
     updateStatus();
 
   }catch(error){
 
     console.error(
-      "SportX full refresh error:",
+      "SportX refresh error:",
       error
     );
 
     cleanupStoredMatches();
-
     render();
-
     renderEnded();
-
     updateStatus();
 
   }finally{
 
     loading = false;
-
   }
-
 }
-
-
-/* =========================================================
-   LIVE REFRESH — EVERY 15 SECONDS
-========================================================= */
 
 async function refreshLiveMatches(){
 
@@ -2281,15 +1966,12 @@ async function refreshLiveMatches(){
         match.status === "live"
     );
 
-
   if(!live.length){
 
     updateStatus();
 
     return;
-
   }
-
 
   const slugs =
     [
@@ -2306,7 +1988,6 @@ async function refreshLiveMatches(){
       )
     ];
 
-
   try{
 
     const results =
@@ -2317,27 +1998,18 @@ async function refreshLiveMatches(){
         )
       );
 
-
     const fresh =
       results.flat();
 
-
     let changed = false;
 
-
-    for(
-      const old of matches
-    ){
+    for(const old of matches){
 
       if(
-        old.status !==
-        "live"
+        old.status !== "live"
       ){
-
         continue;
-
       }
-
 
       const freshMatch =
         fresh.find(
@@ -2346,39 +2018,14 @@ async function refreshLiveMatches(){
             matchKey(old)
         );
 
-
-      /*
-        API temporarily omitted it.
-
-        IMPORTANT:
-        DO NOT delete it.
-        DO NOT turn it into Future.
-        DO NOT turn it into Finished.
-
-        Keep LIVE until a reliable finished
-        response arrives.
-      */
-
       if(!freshMatch){
-
         continue;
-
       }
-
-
-      /*
-        Live score update.
-      */
 
       updateMatchData(
         old,
         freshMatch
       );
-
-
-      /*
-        LIVE → FINISHED
-      */
 
       if(
         freshMatch.status ===
@@ -2388,32 +2035,22 @@ async function refreshLiveMatches(){
         old.status =
           "finished";
 
-
         old.finishedObservedAt =
           old.finishedObservedAt ||
           Date.now();
 
-
         changed = true;
-
       }
-
     }
-
-
-    if(changed){
-
-      saveStoredMatches();
-
-    }
-
 
     cleanupStoredMatches();
 
+    if(changed){
+      saveStoredMatches();
+    }
+
     render();
-
     renderEnded();
-
     updateStatus();
 
   }catch(error){
@@ -2423,22 +2060,10 @@ async function refreshLiveMatches(){
       error
     );
 
-    /*
-      Existing LIVE matches remain visible.
-    */
-
     render();
-
     updateStatus();
-
   }
-
 }
-
-
-/* =========================================================
-   RENDER FUTURE + LIVE
-========================================================= */
 
 function render(){
 
@@ -2450,53 +2075,33 @@ function render(){
     MAX_DAYS *
     86400000;
 
-
   const query =
     normalize(
       searchInput?.value || ""
     );
 
-
   let visible =
     matches.filter(
       match => {
 
-        /*
-          LIVE always stays visible.
-        */
-
         if(
-          match.status ===
-          "live"
+          match.status === "live"
         ){
-
           return true;
-
         }
-
-
-        /*
-          Future only.
-        */
 
         if(
-          match.status !==
-          "scheduled"
+          match.status !== "scheduled"
         ){
-
           return false;
-
         }
-
 
         return (
           match.timestamp > now &&
           match.timestamp <= maxFuture
         );
-
       }
     );
-
 
   if(query){
 
@@ -2513,51 +2118,34 @@ function render(){
               ].join(" ")
             );
 
-          return text.includes(
-            query
-          );
-
+          return text.includes(query);
         }
       );
-
   }
-
 
   visible.sort(
     (a,b) => {
-
-      /*
-        LIVE first.
-      */
 
       if(
         a.status === "live" &&
         b.status !== "live"
       ){
-
         return -1;
-
       }
-
 
       if(
         a.status !== "live" &&
         b.status === "live"
       ){
-
         return 1;
-
       }
-
 
       return (
         a.timestamp -
         b.timestamp
       );
-
     }
   );
-
 
   visible =
     visible.slice(
@@ -2565,14 +2153,8 @@ function render(){
       MAX_MATCHES
     );
 
-
-  if(matchCountEl){
-
-    matchCountEl.textContent =
-      visible.length;
-
-  }
-
+  matchCountEl.textContent =
+    visible.length;
 
   if(!visible.length){
 
@@ -2586,9 +2168,7 @@ function render(){
       "block";
 
     return;
-
   }
-
 
   emptyState.style.display =
     "none";
@@ -2596,25 +2176,15 @@ function render(){
   matchesGrid.style.display =
     "grid";
 
-
   matchesGrid.innerHTML =
     visible
       .map(
         createFutureCard
       )
       .join("");
-
 }
 
-
-/* =========================================================
-   IMAGE
-========================================================= */
-
-function imageHtml(
-  url,
-  name
-){
+function imageHtml(url,name){
 
   if(url){
 
@@ -2626,7 +2196,6 @@ function imageHtml(
         loading="lazy"
         onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"
       >
-
       <div
         class="team-logo logo-fallback"
         style="display:none;"
@@ -2636,9 +2205,7 @@ function imageHtml(
         )}
       </div>
     `;
-
   }
-
 
   return `
     <div class="team-logo logo-fallback">
@@ -2647,61 +2214,36 @@ function imageHtml(
       )}
     </div>
   `;
-
 }
 
-
-/* =========================================================
-   COUNTDOWN
-========================================================= */
-
-function countdownText(
-  timestamp
-){
+function countdownText(timestamp){
 
   const diff =
     timestamp -
     Date.now();
 
-
   if(diff <= 0){
-
     return "Starting";
-
   }
-
 
   const hours =
     diff / 3600000;
 
-
   if(hours < 24){
-
     return "Today";
-
   }
-
 
   const days =
     Math.ceil(
       diff / 86400000
     );
 
-
   return days === 1
     ? "1 Day"
     : `${days} Days`;
-
 }
 
-
-/* =========================================================
-   DATE
-========================================================= */
-
-function formatDate(
-  timestamp
-){
+function formatDate(timestamp){
 
   return new Date(
     timestamp
@@ -2715,37 +2257,24 @@ function formatDate(
       minute:"2-digit"
     }
   );
-
 }
 
-
-/* =========================================================
-   FUTURE CARD
-========================================================= */
-
-function createFutureCard(
-  match
-){
+function createFutureCard(match){
 
   const selected =
-    voteStore[match.id] ||
+    userBets[match.id]?.prediction ||
     "";
 
-
   const isLive =
-    match.status ===
-    "live";
-
+    match.status === "live";
 
   const hs =
     match.homeScore ??
     "-";
 
-
   const as =
     match.awayScore ??
     "-";
-
 
   return `
 
@@ -2759,7 +2288,6 @@ function createFutureCard(
 
         ${
           isLive
-
             ? `
               <div
                 class="countdown"
@@ -2771,7 +2299,6 @@ function createFutureCard(
                 ● LIVE
               </div>
             `
-
             : `
               <div
                 class="countdown"
@@ -2789,7 +2316,6 @@ function createFutureCard(
 
       </div>
 
-
       <div class="date">
         ${escapeHtml(
           formatDate(
@@ -2797,7 +2323,6 @@ function createFutureCard(
           )
         )}
       </div>
-
 
       <div class="teams">
 
@@ -2809,13 +2334,10 @@ function createFutureCard(
           )}
 
           <div class="team-name">
-            ${escapeHtml(
-              match.home
-            )}
+            ${escapeHtml(match.home)}
           </div>
 
         </div>
-
 
         <div
           class="vs"
@@ -2839,7 +2361,6 @@ function createFutureCard(
 
         </div>
 
-
         <div class="team">
 
           ${imageHtml(
@@ -2848,21 +2369,17 @@ function createFutureCard(
           )}
 
           <div class="team-name">
-            ${escapeHtml(
-              match.away
-            )}
+            ${escapeHtml(match.away)}
           </div>
 
         </div>
 
       </div>
 
-
       ${
         isLive
 
           ? `
-
             <div
               style="
                 margin-top:15px;
@@ -2877,7 +2394,6 @@ function createFutureCard(
             >
               LIVE SCORE · Updating every 15s
             </div>
-
           `
 
           : `
@@ -2891,7 +2407,6 @@ function createFutureCard(
               }
 
             </div>
-
 
             <div class="vote-buttons">
 
@@ -2914,20 +2429,12 @@ function createFutureCard(
               )}
 
             </div>
-
           `
       }
 
     </article>
-
   `;
-
 }
-
-
-/* =========================================================
-   VOTE BUTTON
-========================================================= */
 
 function voteButton(
   id,
@@ -2938,10 +2445,8 @@ function voteButton(
   const isSelected =
     selected === value;
 
-
   const locked =
     Boolean(selected);
-
 
   return `
 
@@ -2961,35 +2466,24 @@ function voteButton(
     >
       ${escapeHtml(value)}
     </button>
-
   `;
-
 }
-
-
-/* =========================================================
-   END / LIVE END
-========================================================= */
 
 function renderEnded(){
 
   const now =
     Date.now();
 
-
   const ended =
     matches
       .filter(
         match =>
-          match.status ===
-            "finished" &&
-
+          match.status === "finished" &&
           Number.isFinite(
             Number(
               match.finishedObservedAt
             )
           ) &&
-
           now -
             Number(
               match.finishedObservedAt
@@ -3006,7 +2500,6 @@ function renderEnded(){
           )
       );
 
-
   if(!ended.length){
 
     endSection.style.display =
@@ -3016,13 +2509,10 @@ function renderEnded(){
       "";
 
     return;
-
   }
-
 
   endSection.style.display =
     "block";
-
 
   endGrid.innerHTML =
     ended
@@ -3030,27 +2520,17 @@ function renderEnded(){
         createEndedCard
       )
       .join("");
-
 }
 
-
-/* =========================================================
-   END CARD
-========================================================= */
-
-function createEndedCard(
-  match
-){
+function createEndedCard(match){
 
   const hs =
     match.homeScore ??
     "-";
 
-
   const as =
     match.awayScore ??
     "-";
-
 
   let homeResult =
     "draw";
@@ -3058,14 +2538,9 @@ function createEndedCard(
   let awayResult =
     "draw";
 
-
   if(
-    Number.isFinite(
-      Number(hs)
-    ) &&
-    Number.isFinite(
-      Number(as)
-    )
+    Number.isFinite(Number(hs)) &&
+    Number.isFinite(Number(as))
   ){
 
     if(
@@ -3089,11 +2564,8 @@ function createEndedCard(
 
       awayResult =
         "win";
-
     }
-
   }
-
 
   return `
 
@@ -3111,7 +2583,6 @@ function createEndedCard(
 
       </div>
 
-
       <div class="date">
         ${escapeHtml(
           formatDate(
@@ -3119,7 +2590,6 @@ function createEndedCard(
           )
         )}
       </div>
-
 
       <div class="teams">
 
@@ -3131,31 +2601,19 @@ function createEndedCard(
           )}
 
           <div class="team-name">
-            ${escapeHtml(
-              match.home
-            )}
+            ${escapeHtml(match.home)}
           </div>
 
         </div>
-
 
         <div
           class="vs"
           style="font-size:20px;"
         >
-
-          ${escapeHtml(
-            String(hs)
-          )}
-
+          ${escapeHtml(String(hs))}
           -
-
-          ${escapeHtml(
-            String(as)
-          )}
-
+          ${escapeHtml(String(as))}
         </div>
-
 
         <div class="team">
 
@@ -3165,15 +2623,12 @@ function createEndedCard(
           )}
 
           <div class="team-name">
-            ${escapeHtml(
-              match.away
-            )}
+            ${escapeHtml(match.away)}
           </div>
 
         </div>
 
       </div>
-
 
       <div class="result-box">
 
@@ -3181,34 +2636,19 @@ function createEndedCard(
           Final Result
         </div>
 
-
         <div class="result-score">
-
-          ${escapeHtml(
-            String(hs)
-          )}
-
+          ${escapeHtml(String(hs))}
           -
-
-          ${escapeHtml(
-            String(as)
-          )}
-
+          ${escapeHtml(String(as))}
         </div>
-
 
         <div class="result-teams">
 
           <div
             class="result-team ${homeResult}"
           >
-
-            ${escapeHtml(
-              match.home
-            )}
-
+            ${escapeHtml(match.home)}
             <br>
-
             ${
               homeResult === "win"
                 ? "WIN"
@@ -3216,20 +2656,13 @@ function createEndedCard(
                   ? "LOSS"
                   : "DRAW"
             }
-
           </div>
-
 
           <div
             class="result-team ${awayResult}"
           >
-
-            ${escapeHtml(
-              match.away
-            )}
-
+            ${escapeHtml(match.away)}
             <br>
-
             ${
               awayResult === "win"
                 ? "WIN"
@@ -3237,7 +2670,6 @@ function createEndedCard(
                   ? "LOSS"
                   : "DRAW"
             }
-
           </div>
 
         </div>
@@ -3245,15 +2677,8 @@ function createEndedCard(
       </div>
 
     </article>
-
   `;
-
 }
-
-
-/* =========================================================
-   STATUS
-========================================================= */
 
 function updateStatus(){
 
@@ -3265,13 +2690,11 @@ function updateStatus(){
     MAX_DAYS *
     86400000;
 
-
   const live =
     matches.filter(
       m =>
         m.status === "live"
     ).length;
-
 
   const future =
     matches.filter(
@@ -3280,7 +2703,6 @@ function updateStatus(){
         m.timestamp > now &&
         m.timestamp <= max
     ).length;
-
 
   const ended =
     matches.filter(
@@ -3298,7 +2720,6 @@ function updateStatus(){
           END_KEEP_TIME
     ).length;
 
-
   if(live){
 
     statusEl.textContent =
@@ -3308,63 +2729,433 @@ function updateStatus(){
 
     statusEl.textContent =
       `${future} future · ${ended} END`;
-
   }
-
 }
 
+async function getCurrentAuth(){
 
-/* =========================================================
-   VOTE
-========================================================= */
+  try{
 
-function saveVote(
-  id,
-  value
+    if(
+      window.SportXCurrentUser
+    ){
+
+      return {
+        user:
+          window.SportXCurrentUser,
+        type:
+          window.SportXCurrentAuthType ||
+          "unknown"
+      };
+    }
+
+    if(
+      window.SportXSupabase
+    ){
+
+      const result =
+        await window.SportXSupabase.auth.getUser();
+
+      if(result?.data?.user){
+
+        return {
+          user:
+            result.data.user,
+          type:"supabase"
+        };
+      }
+    }
+
+    if(
+      window.firebase &&
+      typeof window.firebase.auth === "function"
+    ){
+
+      const firebaseUser =
+        window.firebase.auth().currentUser;
+
+      if(firebaseUser){
+
+        return {
+          user:
+            firebaseUser,
+          type:"firebase"
+        };
+      }
+    }
+
+  }catch(error){
+
+    console.warn(
+      "Auth check error:",
+      error
+    );
+  }
+
+  return null;
+}
+
+async function getAuthToken(){
+
+  const auth =
+    await getCurrentAuth();
+
+  if(!auth){
+    return null;
+  }
+
+  if(
+    auth.type === "supabase" &&
+    window.SportXSupabase
+  ){
+
+    try{
+
+      const result =
+        await window.SportXSupabase.auth.getSession();
+
+      return (
+        result?.data?.session?.access_token ||
+        null
+      );
+
+    }catch{
+      return null;
+    }
+  }
+
+  if(
+    window.firebase &&
+    typeof window.firebase.auth === "function"
+  ){
+
+    try{
+
+      const firebaseUser =
+        window.firebase.auth().currentUser;
+
+      if(firebaseUser){
+
+        return await firebaseUser.getIdToken();
+      }
+
+    }catch{
+      return null;
+    }
+  }
+
+  return null;
+}
+
+async function loadUserBets(){
+
+  userBets = {};
+
+  const token =
+    await getAuthToken();
+
+  if(!token){
+    render();
+    return;
+  }
+
+  try{
+
+    const response =
+      await fetch(
+        WORKER_URL +
+        "/bets",
+        {
+          method:"GET",
+          headers:{
+            Authorization:
+              "Bearer " + token,
+            Accept:
+              "application/json"
+          },
+          cache:"no-store"
+        }
+      );
+
+    if(!response.ok){
+      return;
+    }
+
+    const json =
+      await response.json();
+
+    const bets =
+      Array.isArray(json)
+        ? json
+        : Array.isArray(json?.bets)
+          ? json.bets
+          : [];
+
+    for(const bet of bets){
+
+      if(
+        bet?.match_id
+      ){
+
+        userBets[
+          String(bet.match_id)
+        ] = {
+          prediction:
+            bet.prediction,
+          amount_afn:
+            bet.amount_afn,
+          created_at:
+            bet.created_at
+        };
+      }
+    }
+
+    render();
+
+  }catch(error){
+
+    console.warn(
+      "Bet loading error:",
+      error
+    );
+  }
+}
+
+function openLoginModal(){
+  loginModal.classList.add("show");
+}
+
+function closeLoginModal(){
+  loginModal.classList.remove("show");
+}
+
+function openAmountModal(
+  matchId,
+  prediction
 ){
 
-  if(voteStore[id]){
+  pendingBet = {
+    matchId,
+    prediction
+  };
+
+  amountSlider.value =
+    "100";
+
+  amountValue.textContent =
+    "100 AFN";
+
+  amountModal.classList.add(
+    "show"
+  );
+}
+
+function closeAmountModal(){
+
+  amountModal.classList.remove(
+    "show"
+  );
+
+  pendingBet = null;
+}
+
+async function handleVote(
+  matchId,
+  prediction
+){
+
+  const auth =
+    await getCurrentAuth();
+
+  if(!auth){
+
+    openLoginModal();
+
+    return;
+  }
+
+  if(
+    userBets[matchId]
+  ){
 
     showToast(
       "Prediction is already locked."
     );
 
     return;
-
   }
 
+  openAmountModal(
+    matchId,
+    prediction
+  );
+}
 
-  voteStore[id] =
-    value;
+async function submitBet(){
 
+  if(!pendingBet){
+    return;
+  }
+
+  const token =
+    await getAuthToken();
+
+  if(!token){
+
+    closeAmountModal();
+    openLoginModal();
+
+    return;
+  }
+
+  const amount =
+    Number(
+      amountSlider.value
+    );
+
+  if(
+    !Number.isInteger(amount) ||
+    amount < 100 ||
+    amount > 500
+  ){
+
+    showToast(
+      "Amount must be between 100 and 500 AFN."
+    );
+
+    return;
+  }
+
+  const matchId =
+    pendingBet.matchId;
+
+  const prediction =
+    pendingBet.prediction;
+
+  if(
+    userBets[matchId]
+  ){
+
+    closeAmountModal();
+
+    showToast(
+      "Prediction is already locked."
+    );
+
+    return;
+  }
+
+  confirmBetBtn.disabled =
+    true;
+
+  confirmBetBtn.textContent =
+    "Saving...";
 
   try{
 
-    localStorage.setItem(
-      VOTE_STORAGE_KEY,
-      JSON.stringify(
-        voteStore
-      )
+    const response =
+      await fetch(
+        WORKER_URL +
+        "/bets",
+        {
+          method:"POST",
+          headers:{
+            Authorization:
+              "Bearer " + token,
+            "Content-Type":
+              "application/json",
+            Accept:
+              "application/json"
+          },
+          body:JSON.stringify({
+            match_id:
+              matchId,
+            prediction:
+              prediction,
+            amount_afn:
+              amount
+          })
+        }
+      );
+
+    const json =
+      await response.json()
+        .catch(
+          () => ({})
+        );
+
+    if(response.status === 409){
+
+      userBets[matchId] = {
+        prediction:
+          json.prediction ||
+          prediction,
+        amount_afn:
+          json.amount_afn ||
+          amount,
+        created_at:
+          json.created_at ||
+          null
+      };
+
+      closeAmountModal();
+      render();
+
+      showToast(
+        "Prediction is already locked."
+      );
+
+      return;
+    }
+
+    if(!response.ok){
+
+      throw new Error(
+        json?.error ||
+        "Unable to save prediction."
+      );
+    }
+
+    userBets[matchId] = {
+      prediction:
+        json.prediction ||
+        prediction,
+      amount_afn:
+        json.amount_afn ||
+        amount,
+      created_at:
+        json.created_at ||
+        new Date().toISOString()
+    };
+
+    closeAmountModal();
+    render();
+
+    showToast(
+      `Prediction saved · ${amount} AFN`
     );
 
   }catch(error){
 
-    console.warn(
-      "Vote save error:",
+    console.error(
+      "Prediction save error:",
       error
     );
 
+    showToast(
+      error.message ||
+      "Unable to save prediction."
+    );
+
+  }finally{
+
+    confirmBetBtn.disabled =
+      false;
+
+    confirmBetBtn.textContent =
+      "Confirm Prediction";
   }
-
-
-  render();
-
-  showToast(
-    "Prediction saved."
-  );
-
 }
-
 
 matchesGrid.addEventListener(
   "click",
@@ -3375,47 +3166,116 @@ matchesGrid.addEventListener(
         ".vote-btn"
       );
 
-
     if(!button){
       return;
     }
 
-
-    saveVote(
+    handleVote(
       button.dataset.match,
       button.dataset.vote
     );
-
   }
 );
 
+amountSlider.addEventListener(
+  "input",
+  () => {
 
-/* =========================================================
-   TOAST
-========================================================= */
+    amountValue.textContent =
+      `${Number(amountSlider.value)} AFN`;
+  }
+);
 
-function showToast(
-  message
-){
+document
+  .getElementById("loginModalClose")
+  .addEventListener(
+    "click",
+    closeLoginModal
+  );
+
+document
+  .getElementById("amountModalClose")
+  .addEventListener(
+    "click",
+    closeAmountModal
+  );
+
+document
+  .getElementById("cancelBetBtn")
+  .addEventListener(
+    "click",
+    closeAmountModal
+  );
+
+confirmBetBtn.addEventListener(
+  "click",
+  submitBet
+);
+
+document
+  .getElementById("loginBtn")
+  .addEventListener(
+    "click",
+    () => {
+
+      window.location.href =
+        "index.html?auth=login";
+    }
+  );
+
+document
+  .getElementById("registerBtn")
+  .addEventListener(
+    "click",
+    () => {
+
+      window.location.href =
+        "index.html?auth=register";
+    }
+  );
+
+loginModal.addEventListener(
+  "click",
+  event => {
+
+    if(
+      event.target ===
+      loginModal
+    ){
+      closeLoginModal();
+    }
+  }
+);
+
+amountModal.addEventListener(
+  "click",
+  event => {
+
+    if(
+      event.target ===
+      amountModal
+    ){
+      closeAmountModal();
+    }
+  }
+);
+
+function showToast(message){
 
   if(!toastEl){
     return;
   }
 
-
   toastEl.textContent =
     message;
-
 
   toastEl.classList.add(
     "show"
   );
 
-
   clearTimeout(
     showToast.timer
   );
-
 
   showToast.timer =
     setTimeout(
@@ -3426,15 +3286,9 @@ function showToast(
         );
 
       },
-      2200
+      2500
     );
-
 }
-
-
-/* =========================================================
-   SEARCH
-========================================================= */
 
 if(searchInput){
 
@@ -3442,13 +3296,50 @@ if(searchInput){
     "input",
     render
   );
-
 }
 
+function loadStoredMatches(){
 
-/* =========================================================
-   EVERY SECOND
-========================================================= */
+  try{
+
+    const raw =
+      localStorage.getItem(
+        "sportx_future_matches_v3"
+      );
+
+    const data =
+      raw
+        ? JSON.parse(raw)
+        : [];
+
+    matches =
+      Array.isArray(data)
+        ? data.filter(Boolean)
+        : [];
+
+  }catch{
+
+    matches = [];
+  }
+}
+
+function saveStoredMatches(){
+
+  try{
+
+    localStorage.setItem(
+      "sportx_future_matches_v3",
+      JSON.stringify(matches)
+    );
+
+  }catch(error){
+
+    console.warn(
+      "Storage write error:",
+      error
+    );
+  }
+}
 
 function tick(){
 
@@ -3459,13 +3350,7 @@ function tick(){
   renderEnded();
 
   updateStatus();
-
 }
-
-
-/* =========================================================
-   VISIBILITY / RETURN TO TAB
-========================================================= */
 
 document.addEventListener(
   "visibilitychange",
@@ -3476,36 +3361,19 @@ document.addEventListener(
       "visible"
     ){
 
-      /*
-        Immediately sync when the user
-        comes back to the page.
-      */
-
       cleanupStoredMatches();
-
       render();
-
       renderEnded();
-
       updateStatus();
 
       loadAllTeams();
-
       refreshLiveMatches();
-
+      loadUserBets();
     }
-
   }
 );
 
-
-/* =========================================================
-   INITIALIZATION
-========================================================= */
-
 loadStoredMatches();
-
-loadVotes();
 
 cleanupStoredMatches();
 
@@ -3515,43 +3383,24 @@ renderEnded();
 
 updateStatus();
 
-
-/*
-  Initial real API sync.
-*/
+loadUserBets();
 
 loadAllTeams();
-
-
-/*
-  Full 7-day synchronization every 60 seconds.
-*/
 
 setInterval(
   loadAllTeams,
   ALL_REFRESH_INTERVAL
 );
 
-
-/*
-  Live scores every 15 seconds.
-*/
-
 setInterval(
   refreshLiveMatches,
   LIVE_REFRESH_INTERVAL
 );
 
-
-/*
-  Lifecycle cleanup and countdown every second.
-*/
-
 setInterval(
   tick,
   COUNTDOWN_INTERVAL
 );
-
 </script>
 
 </body>
