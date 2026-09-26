@@ -1319,33 +1319,34 @@ function buildFallbackProfile(){
 /* =========================================================
    LOAD PROFILE
 ========================================================= */
-
 async function loadProfile(){
+ const fallback=buildFallbackProfile();
 
- const fallback=
-  buildFallbackProfile();
+ try{
+  const result=await withTimeout(
+   supabaseClient
+    .from("profiles")
+    .select("*")
+    .eq("id",currentUser.id)
+    .maybeSingle(),
+   2500,
+   "Profile request timed out."
+  );
 
-
- /*
-  * اول id
-  */
-
- const byId=
-  await queryProfileBy("id");
-
- if(
-  !byId.error &&
-  byId.data
- ){
-
-  profileKeyColumn="id";
-
-  return {
-   ...fallback,
-   ...byId.data
-  };
+  if(!result.error && result.data){
+   profileKeyColumn="id";
+   return {
+    ...fallback,
+    ...result.data
+   };
+  }
+ }catch(error){
+  console.warn("Profile load error:",error);
  }
 
+ profileKeyColumn="id";
+ return fallback;
+}
 
  /*
   * اگر id جواب نداد،
