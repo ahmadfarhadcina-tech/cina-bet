@@ -50,6 +50,10 @@ color:var(--text);
 min-height:100vh
 }
 
+body.auth-loading{
+visibility:hidden
+}
+
 button,a{-webkit-tap-highlight-color:transparent}
 button{font:inherit;border:0;cursor:pointer}
 a{color:inherit;text-decoration:none}
@@ -556,7 +560,7 @@ font-weight:800
 
 .sports{
 display:grid;
-grid-template-columns:repeat(6,1fr);
+grid-template-columns:repeat(3,1fr);
 gap:12px
 }
 
@@ -744,32 +748,6 @@ background:rgba(99,68,216,.08);
 border-color:rgba(99,68,216,.2)
 }
 
-.odds{
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:7px;
-margin-top:17px
-}
-
-.odd{
-background:var(--panel-2);
-border:1px solid var(--border);
-border-radius:10px;
-padding:10px 5px;
-text-align:center
-}
-
-.odd small{
-display:block;
-color:var(--muted);
-font-size:9px;
-margin-bottom:4px
-}
-
-.odd strong{
-font-size:13px
-}
-
 .no-odds{
 margin-top:17px;
 padding:10px;
@@ -795,25 +773,11 @@ font-size:10px;
 font-weight:900
 }
 
-.status-upcoming{
-color:var(--green-dark)
-}
-
-.status-live{
-color:var(--danger)
-}
-
-.status-ended{
-color:var(--muted)
-}
-
-.status-future{
-color:#8b6500
-}
-
-.status-wwe{
-color:#6344d8
-}
+.status-upcoming{color:var(--green-dark)}
+.status-live{color:var(--danger)}
+.status-ended{color:var(--muted)}
+.status-future{color:#8b6500}
+.status-wwe{color:#6344d8}
 
 .details-btn{
 color:var(--green-dark);
@@ -961,8 +925,6 @@ font-size:12px;
 font-weight:900;
 margin-top:18px
 }
-
-/* ================= PWA INSTALL ================= */
 
 .install-modal{
 position:fixed;
@@ -1180,7 +1142,7 @@ grid-template-columns:1fr
 </style>
 </head>
 
-<body>
+<body class="auth-loading">
 
 <header class="header">
 
@@ -1215,7 +1177,7 @@ alt="Profile"
 style="display:none;"
 >
 
-<span data-user-initials>US</span>
+<span data-user-initials>U</span>
 
 </div>
 
@@ -1334,7 +1296,7 @@ style="display:none;"
 id="homeProfileInitials"
 data-user-initials
 >
-US
+U
 </span>
 
 </div>
@@ -1450,36 +1412,19 @@ View All →
 <div class="sport-name">Football</div>
 </a>
 
-<a href="sports.html?type=basketball" class="sport">
-<div class="sport-icon">🏀</div>
-<div class="sport-name">Basketball</div>
+<a href="sports.html?type=pre-football" class="sport">
+<div class="sport-icon">⚽</div>
+<div class="sport-name">Pre-Football</div>
 </a>
 
-<a href="sports.html?type=tennis" class="sport">
-<div class="sport-icon">🎾</div>
-<div class="sport-name">Tennis</div>
-</a>
-
-<a href="sports.html?type=cricket" class="sport">
-<div class="sport-icon">🏏</div>
-<div class="sport-name">Cricket</div>
-</a>
-
-<a href="sports.html?type=esports" class="sport">
-<div class="sport-icon">🎮</div>
-<div class="sport-name">Esports</div>
-</a>
-
-<a href="sports.html?type=boxing" class="sport">
-<div class="sport-icon">🥊</div>
-<div class="sport-name">Boxing</div>
+<a href="wwe.html" class="sport">
+<div class="sport-icon">🤼</div>
+<div class="sport-name">WWE</div>
 </a>
 
 </div>
 
 </section>
-
-<!-- LIVE -->
 
 <section class="section">
 
@@ -1523,8 +1468,6 @@ Loading live matches...
 
 </section>
 
-<!-- NORMAL -->
-
 <section class="section">
 
 <div class="section-heading">
@@ -1567,8 +1510,6 @@ Loading real matches...
 
 </section>
 
-<!-- WWE -->
-
 <section class="section">
 
 <div class="section-heading">
@@ -1585,7 +1526,7 @@ Real WWE events and matches
 
 </div>
 
-<a href="sports.html" class="view-all">
+<a href="wwe.html" class="view-all">
 Explore →
 </a>
 
@@ -1611,8 +1552,6 @@ Loading WWE...
 
 </section>
 
-<!-- FUTURE -->
-
 <section class="section">
 
 <div class="section-heading">
@@ -1629,7 +1568,7 @@ The next real future fixture
 
 </div>
 
-<a href="sports.html" class="view-all">
+<a href="future.html" class="view-all">
 Explore →
 </a>
 
@@ -1656,8 +1595,6 @@ Loading future fixture...
 </section>
 
 </main>
-
-<!-- MATCH MODAL -->
 
 <div
 id="matchModal"
@@ -1691,8 +1628,6 @@ class="modal-match"
 </div>
 
 </div>
-
-<!-- PWA INSTALL MODAL -->
 
 <div
 id="installModal"
@@ -1762,11 +1697,9 @@ SportScore
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-<script>
+<script src="auth.js"></script>
 
-/* =========================================================
-   SPORTX HOME DATA ENGINE
-========================================================= */
+<script>
 
 const SUPABASE_URL =
 "https://zchtcosljkkkiykhforj.supabase.co";
@@ -1777,26 +1710,14 @@ const SUPABASE_PUBLISHABLE_KEY =
 const SPORT_SCORE_URL =
 "https://sportscore.com/api/widget/matches/?sport=football&limit=50";
 
-
-/* ================= SETTINGS ================= */
-
 const NORMAL_DAYS = 2;
-
 const MAX_NORMAL_MATCHES = 2;
 const MAX_FUTURE_MATCHES = 1;
 const MAX_LIVE_MATCHES = 1;
 const MAX_WWE_MATCHES = 1;
-
 const MAX_SOURCE_MATCHES = 50;
-
-const FINISHED_HIDE_AFTER_MS =
-30 * 60 * 1000;
-
-const REFRESH_INTERVAL_MS =
-60 * 1000;
-
-
-/* ================= CLIENT ================= */
+const FINISHED_HIDE_AFTER_MS = 30 * 60 * 1000;
+const REFRESH_INTERVAL_MS = 60 * 1000;
 
 let supabaseClient =
 window.supabase.createClient(
@@ -1804,20 +1725,12 @@ SUPABASE_URL,
 SUPABASE_PUBLISHABLE_KEY
 );
 
-
-/* ================= STATE ================= */
-
 let allMatches = [];
-
 let allLiveMatches = [];
 let allNormalMatches = [];
 let allFutureMatches = [];
 let allWweMatches = [];
-
-
-/* =========================================================
-   NORMALIZE
-========================================================= */
+let loadingRequest = null;
 
 function normalizeSearchText(value){
 
@@ -1832,11 +1745,6 @@ return String(value || "")
 
 }
 
-
-/* =========================================================
-   ESCAPE
-========================================================= */
-
 function escapeHTML(value){
 
 return String(value ?? "")
@@ -1847,11 +1755,6 @@ return String(value ?? "")
 .replace(/'/g,"&#039;");
 
 }
-
-
-/* =========================================================
-   DATE
-========================================================= */
 
 function parseDate(match){
 
@@ -1864,19 +1767,13 @@ match?.date;
 if(!value)
 return null;
 
-const date =
-new Date(value);
+const date = new Date(value);
 
 return Number.isNaN(date.getTime())
 ?null
 :date;
 
 }
-
-
-/* =========================================================
-   STATUS
-========================================================= */
 
 function normalizeStatus(item){
 
@@ -1895,7 +1792,6 @@ item?.statusText ??
 ""
 ).toLowerCase()
 .trim();
-
 
 if(
 item?.is_live === true ||
@@ -1918,7 +1814,6 @@ return "live";
 
 }
 
-
 if(
 [
 "finished",
@@ -1938,7 +1833,6 @@ return "finished";
 
 }
 
-
 if(
 [
 "cancelled",
@@ -1950,51 +1844,107 @@ return "cancelled";
 
 }
 
-
-if(raw === "postponed"){
-
+if(raw === "postponed")
 return "postponed";
-
-}
-
 
 return "scheduled";
 
 }
 
+function getTeamLogo(team){
 
-/* =========================================================
-   PREPARE
-========================================================= */
+if(!team)
+return "";
+
+return (
+team.logo_url ||
+team.logoUrl ||
+team.logo ||
+team.image_url ||
+team.imageUrl ||
+team.image ||
+team.photo ||
+team.icon ||
+team.badge ||
+team.crest ||
+team.emblem ||
+""
+);
+
+}
+
+function getLeagueLogo(league){
+
+if(!league)
+return "";
+
+if(typeof league === "string")
+return "";
+
+return (
+league.logo_url ||
+league.logoUrl ||
+league.logo ||
+league.image_url ||
+league.imageUrl ||
+league.image ||
+league.icon ||
+league.badge ||
+league.crest ||
+""
+);
+
+}
+
+function getTeamName(team,fallback){
+
+if(!team)
+return fallback || "Unknown";
+
+if(typeof team === "string")
+return team;
+
+return (
+team.name ||
+team.team_name ||
+team.teamName ||
+team.title ||
+fallback ||
+"Unknown"
+);
+
+}
 
 function prepareMatch(match){
 
 const home =
-match?.home_team?.name ||
+getTeamName(
+match?.home_team,
 match?.home ||
 match?.homeTeam?.name ||
-"Unknown";
+"Unknown"
+);
 
 const away =
-match?.away_team?.name ||
+getTeamName(
+match?.away_team,
 match?.away ||
 match?.awayTeam?.name ||
-"Unknown";
+"Unknown"
+);
+
+const leagueObject =
+typeof match?.league === "object"
+?match.league
+:null;
 
 const league =
-typeof match?.league === "object"
-?(
-match.league?.name ||
+leagueObject?.name ||
 match?.competition ||
 match?.league_name ||
-"Sports"
-)
-:(
-match?.league ||
-match?.competition ||
-match?.league_name ||
-"Sports"
-);
+(typeof match?.league === "string"
+?match.league
+:"Sports");
 
 const prepared = {
 ...match,
@@ -2002,6 +1952,43 @@ const prepared = {
 home,
 away,
 league,
+
+home_team:{
+...(typeof match?.home_team === "object"
+?match.home_team
+:{}),
+name:home,
+logo_url:
+getTeamLogo(match?.home_team) ||
+match?.home_logo ||
+match?.homeLogo ||
+match?.home_team_logo ||
+""
+},
+
+away_team:{
+...(typeof match?.away_team === "object"
+?match.away_team
+:{}),
+name:away,
+logo_url:
+getTeamLogo(match?.away_team) ||
+match?.away_logo ||
+match?.awayLogo ||
+match?.away_team_logo ||
+""
+},
+
+league:{
+...(leagueObject || {}),
+name:league,
+logo_url:
+getLeagueLogo(leagueObject) ||
+match?.competition_logo ||
+match?.competitionLogo ||
+match?.league_logo ||
+""
+},
 
 _search:{
 home:normalizeSearchText(home),
@@ -2021,14 +2008,7 @@ return prepared;
 
 }
 
-
-/* =========================================================
-   WORKER
-========================================================= */
-
-async function invokeWorkerWithTimeout(
-timeoutMs = 9000
-){
+async function invokeWorkerWithTimeout(timeoutMs=9000){
 
 const workerPromise =
 supabaseClient.functions.invoke(
@@ -2062,14 +2042,7 @@ timeoutPromise
 
 }
 
-
-/* =========================================================
-   WORKER CONVERTER
-========================================================= */
-
-function convertWorkerMatches(
-sourceMatches
-){
+function convertWorkerMatches(sourceMatches){
 
 if(!Array.isArray(sourceMatches))
 return [];
@@ -2083,31 +2056,6 @@ item &&
 )
 .map(
 (item,index)=>{
-
-const home =
-item.home ||
-item.home_team?.name ||
-"Unknown";
-
-const away =
-item.away ||
-item.away_team?.name ||
-"Unknown";
-
-const league =
-typeof item.league === "object"
-?(
-item.league?.name ||
-item.competition ||
-item.league_name ||
-"Sports"
-)
-:(
-item.league ||
-item.competition ||
-item.league_name ||
-"Sports"
-);
 
 return prepareMatch({
 
@@ -2135,12 +2083,18 @@ item.home_team_id ||
 item.home_team?.id ||
 null,
 
-name:home,
+name:
+getTeamName(
+item.home_team,
+item.home ||
+"Unknown"
+),
 
 logo_url:
+getTeamLogo(item.home_team) ||
 item.home_logo ||
-item.home_team?.logo_url ||
-item.home_team?.logo ||
+item.homeLogo ||
+item.home_team_logo ||
 ""
 },
 
@@ -2150,12 +2104,18 @@ item.away_team_id ||
 item.away_team?.id ||
 null,
 
-name:away,
+name:
+getTeamName(
+item.away_team,
+item.away ||
+"Unknown"
+),
 
 logo_url:
+getTeamLogo(item.away_team) ||
 item.away_logo ||
-item.away_team?.logo_url ||
-item.away_team?.logo ||
+item.awayLogo ||
+item.away_team_logo ||
 ""
 },
 
@@ -2165,11 +2125,19 @@ item.league_id ||
 item.league?.id ||
 null,
 
-name:league,
+name:
+typeof item.league === "object"
+?item.league?.name
+:item.league ||
+item.competition ||
+item.league_name ||
+"Sports",
 
 logo_url:
+getLeagueLogo(item.league) ||
 item.competition_logo ||
-item.league?.logo_url ||
+item.competitionLogo ||
+item.league_logo ||
 ""
 },
 
@@ -2195,16 +2163,12 @@ item.statusText ||
 "",
 
 home_score:
-Number.isFinite(
-Number(item.home_score)
-)
+Number.isFinite(Number(item.home_score))
 ?Number(item.home_score)
 :null,
 
 away_score:
-Number.isFinite(
-Number(item.away_score)
-)
+Number.isFinite(Number(item.away_score))
 ?Number(item.away_score)
 :null,
 
@@ -2235,11 +2199,6 @@ source:"worker"
 
 }
 
-
-/* =========================================================
-   DATABASE
-========================================================= */
-
 async function loadDatabaseMatches(){
 
 try{
@@ -2268,7 +2227,6 @@ ascending:true
 )
 .limit(1000);
 
-
 if(result.error){
 
 console.warn(
@@ -2280,15 +2238,11 @@ return [];
 
 }
 
-
 const rows =
 result.data || [];
 
 if(!rows.length)
 return [];
-
-
-/* ---------- TEAMS ---------- */
 
 const teamIds = [
 ...new Set(
@@ -2303,7 +2257,6 @@ row.away_team_id
 
 const teams = {};
 
-
 if(teamIds.length){
 
 const teamResult =
@@ -2315,27 +2268,20 @@ name,
 logo_url,
 league_id
 `)
-.in(
-"id",
-teamIds
-);
+.in("id",teamIds);
 
 if(!teamResult.error){
 
 (teamResult.data || [])
 .forEach(
 team=>{
-teams[team.id] =
-team;
+teams[team.id]=team;
 }
 );
 
 }
 
 }
-
-
-/* ---------- LEAGUES ---------- */
 
 const leagueIds = [
 ...new Set(
@@ -2346,7 +2292,6 @@ rows
 ];
 
 const leagues = {};
-
 
 if(leagueIds.length){
 
@@ -2359,27 +2304,20 @@ name,
 logo_url,
 sport_id
 `)
-.in(
-"id",
-leagueIds
-);
+.in("id",leagueIds);
 
 if(!leagueResult.error){
 
 (leagueResult.data || [])
 .forEach(
 league=>{
-leagues[league.id] =
-league;
+leagues[league.id]=league;
 }
 );
 
 }
 
 }
-
-
-/* ---------- SPORTS ---------- */
 
 const sportIds = [
 ...new Set(
@@ -2390,7 +2328,6 @@ rows
 ];
 
 const sports = {};
-
 
 if(sportIds.length){
 
@@ -2404,33 +2341,20 @@ slug,
 icon,
 logo_url
 `)
-.in(
-"id",
-sportIds
-);
+.in("id",sportIds);
 
 if(!sportResult.error){
 
 (sportResult.data || [])
 .forEach(
 sport=>{
-sports[sport.id] =
-sport;
+sports[sport.id]=sport;
 }
 );
 
 }
 
-
-/* FIX:
-   This closing brace is important.
-   The old version was missing it.
-*/
-
 }
-
-
-/* ---------- BUILD ---------- */
 
 return rows.map(
 row=>{
@@ -2447,79 +2371,45 @@ leagues[row.league_id] || {};
 const sport =
 sports[row.sport_id] || {};
 
-
 return prepareMatch({
 
 id:row.id,
 
 home_team:{
-id:
-row.home_team_id || null,
-
-name:
-home.name || "Unknown",
-
+id:row.home_team_id || null,
+name:home.name || "Unknown",
 logo_url:
-home.logo_url || ""
+getTeamLogo(home)
 },
 
 away_team:{
-id:
-row.away_team_id || null,
-
-name:
-away.name || "Unknown",
-
+id:row.away_team_id || null,
+name:away.name || "Unknown",
 logo_url:
-away.logo_url || ""
+getTeamLogo(away)
 },
 
 league:{
-id:
-row.league_id || null,
-
+id:row.league_id || null,
 name:
 league.name ||
 sport.name ||
 "Sports",
-
 logo_url:
-league.logo_url ||
+getLeagueLogo(league) ||
 sport.logo_url ||
 ""
 },
 
-start_time:
-row.start_time,
-
-updated_at:
-row.updated_at || null,
-
-status:
-row.status || "",
-
-home_score:
-row.home_score,
-
-away_score:
-row.away_score,
-
-is_live:
-row.is_live === true,
-
-sport:
-sport.name ||
-sport.slug ||
-"Sports",
-
-sport_slug:
-sport.slug ||
-"",
-
-sport_icon:
-sport.icon ||
-"",
-
+start_time:row.start_time,
+updated_at:row.updated_at || null,
+status:row.status || "",
+home_score:row.home_score,
+away_score:row.away_score,
+is_live:row.is_live === true,
+sport:sport.name || sport.slug || "Sports",
+sport_slug:sport.slug || "",
+sport_icon:sport.icon || "",
 source:"database"
 
 });
@@ -2539,11 +2429,6 @@ return [];
 
 }
 
-
-/* =========================================================
-   SPORT SCORE
-========================================================= */
-
 async function loadSportScoreMatches(){
 
 try{
@@ -2560,13 +2445,10 @@ headers:{
 }
 );
 
-if(!response.ok){
-
+if(!response.ok)
 throw new Error(
 `SportScore HTTP ${response.status}`
 );
-
-}
 
 const json =
 await response.json();
@@ -2582,13 +2464,8 @@ Array.isArray(json)
 ?json.results
 :[];
 
-source =
-source.slice(
-0,
-MAX_SOURCE_MATCHES
-);
-
 return source
+.slice(0,MAX_SOURCE_MATCHES)
 .filter(
 item =>
 item &&
@@ -2599,16 +2476,6 @@ item.away_team?.name)
 )
 .map(
 (item,index)=>{
-
-const home =
-item.home ||
-item.home_team?.name ||
-"Unknown";
-
-const away =
-item.away ||
-item.away_team?.name ||
-"Unknown";
 
 return prepareMatch({
 
@@ -2635,12 +2502,18 @@ item.home_team?.id ||
 item.home_team_id ||
 null,
 
-name:home,
+name:
+getTeamName(
+item.home_team,
+item.home ||
+"Unknown"
+),
 
 logo_url:
+getTeamLogo(item.home_team) ||
 item.home_logo ||
-item.home_team?.logo_url ||
-item.home_team?.logo ||
+item.homeLogo ||
+item.home_team_logo ||
 ""
 },
 
@@ -2650,12 +2523,18 @@ item.away_team?.id ||
 item.away_team_id ||
 null,
 
-name:away,
+name:
+getTeamName(
+item.away_team,
+item.away ||
+"Unknown"
+),
 
 logo_url:
+getTeamLogo(item.away_team) ||
 item.away_logo ||
-item.away_team?.logo_url ||
-item.away_team?.logo ||
+item.awayLogo ||
+item.away_team_logo ||
 ""
 },
 
@@ -2668,11 +2547,14 @@ null,
 name:
 item.competition ||
 item.league?.name ||
+item.league_name ||
 "Football",
 
 logo_url:
+getLeagueLogo(item.league) ||
 item.competition_logo ||
-item.league?.logo_url ||
+item.competitionLogo ||
+item.league_logo ||
 ""
 },
 
@@ -2693,19 +2575,16 @@ item.status ||
 
 status_text:
 item.status_text ||
+item.statusText ||
 "",
 
 home_score:
-Number.isFinite(
-Number(item.home_score)
-)
+Number.isFinite(Number(item.home_score))
 ?Number(item.home_score)
 :null,
 
 away_score:
-Number.isFinite(
-Number(item.away_score)
-)
+Number.isFinite(Number(item.away_score))
 ?Number(item.away_score)
 :null,
 
@@ -2713,11 +2592,8 @@ is_live:
 item.is_live === true ||
 item.isLive === true,
 
-sport:
-"Football",
-
-sport_slug:
-"football",
+sport:"Football",
+sport_slug:"football",
 
 source:"sportscore",
 
@@ -2744,11 +2620,6 @@ return [];
 
 }
 
-
-/* =========================================================
-   STATUS HELPERS
-========================================================= */
-
 function isLiveMatch(match){
 
 return (
@@ -2757,7 +2628,6 @@ normalizeStatus(match) === "live"
 );
 
 }
-
 
 function isFinished(match){
 
@@ -2770,7 +2640,6 @@ status === "cancelled"
 );
 
 }
-
 
 function isWweMatch(match){
 
@@ -2796,14 +2665,39 @@ text.includes("world wrestling")
 
 }
 
+function isFootballMatch(match){
 
-/* =========================================================
-   STABLE MATCH KEY
-   IMPORTANT:
-   Do NOT use database IDs first.
-   Different sources can give different IDs
-   for the exact same match.
-========================================================= */
+const text =
+normalizeSearchText(
+[
+match?.sport,
+match?.sport_slug,
+typeof match?.league === "object"
+?match?.league?.name
+:match?.league,
+match?.competition,
+match?.home,
+match?.away
+].join(" ")
+);
+
+return (
+text.includes("football") ||
+text.includes("soccer") ||
+text.includes("premier league") ||
+text.includes("champions league") ||
+text.includes("la liga") ||
+text.includes("serie a") ||
+text.includes("bundesliga") ||
+text.includes("ligue 1") ||
+text.includes("mls") ||
+text.includes("copa") ||
+text.includes("liga mx") ||
+text.includes("fa cup") ||
+text.includes("uefa")
+);
+
+}
 
 function matchKey(match){
 
@@ -2815,11 +2709,8 @@ match?.fixture_slug ||
 ""
 );
 
-if(slug){
-
+if(slug)
 return `slug:${slug}`;
-
-}
 
 const home =
 normalizeSearchText(
@@ -2838,17 +2729,7 @@ match?.away_team?.name ||
 const date =
 parseDate(match);
 
-if(
-home &&
-away &&
-date
-){
-
-/*
-  Round to the minute so tiny timestamp
-  differences between sources don't create
-  duplicate cards.
-*/
+if(home && away && date){
 
 const minute =
 Math.floor(
@@ -2863,17 +2744,9 @@ return `teams:${home}|${away}`;
 
 }
 
+function removeDuplicateMatches(matches){
 
-/* =========================================================
-   DEDUPLICATION
-========================================================= */
-
-function removeDuplicateMatches(
-matches
-){
-
-const map =
-new Map();
+const map = new Map();
 
 const priority = {
 cancelled:0,
@@ -2883,9 +2756,7 @@ finished:4,
 live:5
 };
 
-for(
-const raw of matches || []
-){
+for(const raw of matches || []){
 
 const match =
 prepareMatch(raw);
@@ -2898,11 +2769,7 @@ map.get(key);
 
 if(!old){
 
-map.set(
-key,
-match
-);
-
+map.set(key,match);
 continue;
 
 }
@@ -2930,32 +2797,19 @@ key,
 
 }
 
-return [
-...map.values()
-];
+return [...map.values()];
 
 }
 
+function removeOldFinishedMatches(matches){
 
-/* =========================================================
-   REMOVE OLD FINISHED
-========================================================= */
+const now = Date.now();
 
-function removeOldFinishedMatches(
-matches
-){
-
-const now =
-Date.now();
-
-return (
-matches || []
-).filter(
+return (matches || []).filter(
 match=>{
 
 if(
-normalizeStatus(match) !==
-"finished"
+normalizeStatus(match)!=="finished"
 ){
 
 return true;
@@ -2968,37 +2822,22 @@ match?.start_time ||
 match?.time;
 
 const timestamp =
-new Date(
-finishedAt
-).getTime();
+new Date(finishedAt).getTime();
 
-if(
-Number.isNaN(timestamp)
-){
-
+if(Number.isNaN(timestamp))
 return false;
 
-}
-
 return (
-now - timestamp
-)<=
-FINISHED_HIDE_AFTER_MS;
+now-timestamp
+)<=FINISHED_HIDE_AFTER_MS;
+
+});
 
 }
-);
-
-}
-
-
-/* =========================================================
-   MERGE
-========================================================= */
 
 function mergeMatches(...groups){
 
-const map =
-new Map();
+const map = new Map();
 
 const priority = {
 cancelled:0,
@@ -3008,13 +2847,9 @@ finished:4,
 live:5
 };
 
-for(
-const group of groups
-){
+for(const group of groups){
 
-for(
-const raw of group || []
-){
+for(const raw of group || []){
 
 const match =
 prepareMatch(raw);
@@ -3030,11 +2865,7 @@ map.get(key);
 
 if(!old){
 
-map.set(
-key,
-match
-);
-
+map.set(key,match);
 continue;
 
 }
@@ -3064,33 +2895,17 @@ key,
 
 }
 
-return [
-...map.values()
-];
+return [...map.values()];
 
 }
 
-
-/* =========================================================
-   TIME FORMAT
-========================================================= */
-
-function formatDateUTC(
-value
-){
+function formatDateUTC(value){
 
 const date =
 new Date(value);
 
-if(
-Number.isNaN(
-date.getTime()
-)
-){
-
+if(Number.isNaN(date.getTime()))
 return "Time unavailable";
-
-}
 
 const now =
 new Date();
@@ -3115,21 +2930,17 @@ date.getUTCDate()
 
 const days =
 Math.round(
-(target - today) /
-86400000
+(target-today)/86400000
 );
 
 let dayText;
 
-if(days === 0)
-dayText = "Today";
-
-else if(days === 1)
-dayText = "Tomorrow";
-
-else if(days > 1 && days <= 7)
-dayText = `In ${days} days`;
-
+if(days===0)
+dayText="Today";
+else if(days===1)
+dayText="Tomorrow";
+else if(days>1 && days<=7)
+dayText=`In ${days} days`;
 else{
 
 dayText =
@@ -3161,15 +2972,177 @@ return `${dayText} · ${time} · UTC`;
 
 }
 
+function getFirebaseProfile(){
 
-/* =========================================================
-   PROFILE
-========================================================= */
+try{
 
-function renderProfilePhoto(
-url,
-initials
+const raw =
+localStorage.getItem(
+"sportx_firebase_user"
+);
+
+if(!raw)
+return null;
+
+const user =
+JSON.parse(raw);
+
+if(!user)
+return null;
+
+return {
+name:
+user.displayName ||
+user.name ||
+user.email?.split("@")[0] ||
+"User",
+
+email:
+user.email || "",
+
+avatar:
+user.photoURL ||
+user.photo_url ||
+user.avatar ||
+user.avatar_url ||
+user.picture ||
+"",
+
+uid:
+user.uid || user.id || ""
+
+};
+
+}catch(error){
+
+return null;
+
+}
+
+}
+
+async function loadProfileData(){
+
+try{
+
+let user = null;
+let metadata = {};
+let profile = {};
+
+try{
+
+const result =
+await supabaseClient.auth.getUser();
+
+user =
+result.data?.user || null;
+
+if(user)
+metadata =
+user.user_metadata || {};
+
+}catch(error){}
+
+const firebaseUser =
+getFirebaseProfile();
+
+if(
+!user &&
+!firebaseUser
 ){
+
+return;
+
+}
+
+if(user){
+
+try{
+
+const profileResult =
+await supabaseClient
+.from("profiles")
+.select("*")
+.eq("id",user.id)
+.limit(1)
+.maybeSingle();
+
+if(!profileResult.error)
+profile =
+profileResult.data || {};
+
+}catch(error){}
+
+}
+
+const avatar =
+profile.avatar_url ||
+profile.avatar ||
+profile.photo_url ||
+profile.profile_image ||
+profile.image_url ||
+metadata.avatar_url ||
+metadata.avatar ||
+metadata.photo_url ||
+metadata.profile_image ||
+metadata.picture ||
+user?.user_metadata?.picture ||
+firebaseUser?.avatar ||
+"";
+
+const name =
+profile.display_name ||
+profile.name ||
+metadata.display_name ||
+metadata.name ||
+`${metadata.first_name || ""} ${metadata.last_name || ""}`.trim() ||
+user?.email?.split("@")[0] ||
+firebaseUser?.name ||
+"User";
+
+const initials =
+name
+.split(/\s+/)
+.filter(Boolean)
+.slice(0,2)
+.map(x=>x[0])
+.join("")
+.toUpperCase() ||
+"U";
+
+document
+.querySelectorAll("[data-user-name]")
+.forEach(
+el=>{
+el.textContent=name;
+}
+);
+
+document
+.querySelectorAll("[data-user-initials]")
+.forEach(
+el=>{
+el.textContent=initials;
+}
+);
+
+renderProfilePhoto(
+avatar,
+initials
+);
+
+}catch(error){
+
+console.warn(
+"Profile:",
+error
+);
+
+}
+
+}
+
+function renderProfilePhoto(url,initials){
 
 const headerImage =
 document.getElementById(
@@ -3198,21 +3171,22 @@ if(cleanURL){
 
 if(headerImage){
 
-headerImage.src =
-cleanURL;
+headerImage.src=cleanURL;
+headerImage.style.display="block";
 
-headerImage.style.display =
-"block";
+headerImage.onerror=()=>{
 
-headerImage.onerror =
-()=>{
+headerImage.style.display="none";
 
-headerImage.style.display =
-"none";
+if(headerInitials){
 
-if(headerInitials)
-headerInitials.style.display =
+headerInitials.textContent=
+initials || "U";
+
+headerInitials.style.display=
 "grid";
+
+}
 
 };
 
@@ -3220,180 +3194,62 @@ headerInitials.style.display =
 
 if(homeImage){
 
-homeImage.src =
-cleanURL;
+homeImage.src=cleanURL;
+homeImage.style.display="block";
 
-homeImage.style.display =
-"block";
+homeImage.onerror=()=>{
 
-homeImage.onerror =
-()=>{
+homeImage.style.display="none";
 
-homeImage.style.display =
-"none";
+if(homeInitials){
 
-if(homeInitials)
-homeInitials.style.display =
+homeInitials.textContent=
+initials || "U";
+
+homeInitials.style.display=
 "grid";
+
+}
 
 };
 
 }
 
 if(headerInitials)
-headerInitials.style.display =
-"none";
+headerInitials.style.display="none";
 
 if(homeInitials)
-homeInitials.style.display =
-"none";
+homeInitials.style.display="none";
 
 }else{
 
 if(headerImage)
-headerImage.style.display =
-"none";
+headerImage.style.display="none";
 
 if(homeImage)
-homeImage.style.display =
-"none";
+homeImage.style.display="none";
 
 if(headerInitials){
 
-headerInitials.textContent =
+headerInitials.textContent=
 initials || "U";
 
-headerInitials.style.display =
-"grid";
+headerInitials.style.display="grid";
 
 }
 
 if(homeInitials){
 
-homeInitials.textContent =
+homeInitials.textContent=
 initials || "U";
 
-homeInitials.style.display =
-"grid";
+homeInitials.style.display="grid";
 
 }
 
 }
 
 }
-
-
-async function loadProfileData(){
-
-try{
-
-const result =
-await supabaseClient.auth.getUser();
-
-const user =
-result.data?.user;
-
-if(!user)
-return;
-
-const metadata =
-user.user_metadata || {};
-
-let profile = {};
-
-try{
-
-const profileResult =
-await supabaseClient
-.from("profiles")
-.select("*")
-.eq("id",user.id)
-.limit(1)
-.maybeSingle();
-
-if(!profileResult.error){
-
-profile =
-profileResult.data || {};
-
-}
-
-}catch(e){}
-
-const avatar =
-profile.avatar_url ||
-profile.avatar ||
-profile.photo_url ||
-profile.profile_image ||
-profile.image_url ||
-metadata.avatar_url ||
-metadata.avatar ||
-metadata.photo_url ||
-metadata.profile_image ||
-user.user_metadata?.picture ||
-"";
-
-const name =
-profile.display_name ||
-profile.name ||
-metadata.display_name ||
-metadata.name ||
-`${metadata.first_name || ""} ${metadata.last_name || ""}`.trim() ||
-user.email?.split("@")[0] ||
-"User";
-
-const initials =
-name
-.split(/\s+/)
-.filter(Boolean)
-.slice(0,2)
-.map(x=>x[0])
-.join("")
-.toUpperCase() ||
-"U";
-
-document
-.querySelectorAll(
-"[data-user-name]"
-)
-.forEach(
-el=>{
-el.textContent =
-name;
-}
-);
-
-document
-.querySelectorAll(
-"[data-user-initials]"
-)
-.forEach(
-el=>{
-el.textContent =
-initials;
-}
-);
-
-renderProfilePhoto(
-avatar,
-initials
-);
-
-}catch(error){
-
-console.warn(
-"Profile:",
-error
-);
-
-}
-
-}
-
-
-/* =========================================================
-   IMAGE
-========================================================= */
 
 function safeImage(url){
 
@@ -3408,7 +3264,6 @@ return `
 }
 
 return `
-
 <img
 class="team-logo"
 src="${escapeHTML(url)}"
@@ -3416,29 +3271,20 @@ alt=""
 loading="lazy"
 onerror="
 this.style.display='none';
-this.nextElementSibling.style.display='grid';
+if(this.nextElementSibling)this.nextElementSibling.style.display='grid';
 "
 >
-
 <div
 class="team-placeholder"
 style="display:none;"
 >
 ⚽
 </div>
-
 `;
 
 }
 
-
-/* =========================================================
-   BUILD HOME SECTIONS
-========================================================= */
-
-function buildHomeSections(
-matches
-){
+function buildHomeSections(matches){
 
 const clean =
 removeOldFinishedMatches(
@@ -3447,30 +3293,31 @@ matches
 )
 );
 
-const live =
-clean
-.filter(
+const footballOnly =
+clean.filter(
 m =>
-isLiveMatch(m)
+isFootballMatch(m) ||
+isWweMatch(m)
+);
+
+const live =
+footballOnly
+.filter(
+m=>isLiveMatch(m) &&
+!isWweMatch(m)
 );
 
 const wwe =
-clean
+footballOnly
 .filter(
-m =>
-isWweMatch(m)
+m=>isWweMatch(m)
 );
 
 const now =
 Date.now();
 
-/*
-   ALL genuine upcoming matches.
-   We select ONE earliest match for Future.
-*/
-
 const upcoming =
-clean
+footballOnly
 .filter(
 m=>{
 
@@ -3480,9 +3327,7 @@ parseDate(m);
 if(!d)
 return false;
 
-if(
-d.getTime() <= now
-)
+if(d.getTime()<=now)
 return false;
 
 if(
@@ -3498,43 +3343,27 @@ return true;
 )
 .sort(
 (a,b)=>
-parseDate(a).getTime() -
+parseDate(a).getTime()-
 parseDate(b).getTime()
 );
 
-
-/* =====================================================
-   FUTURE
-   EXACTLY ONE NEXT FUTURE FIXTURE
-===================================================== */
-
 const future =
-upcoming
-.slice(
+upcoming.slice(
 0,
 MAX_FUTURE_MATCHES
 );
 
-
-/* =====================================================
-   NORMAL
-   TWO UPCOMING MATCHES
-   BUT NEVER THE SAME MATCH AS FUTURE
-===================================================== */
-
 const futureKeys =
 new Set(
-future.map(
-matchKey
-)
+future.map(matchKey)
 );
 
 const normal =
 upcoming
 .filter(
-match =>
+m=>
 !futureKeys.has(
-matchKey(match)
+matchKey(m)
 )
 )
 .filter(
@@ -3543,15 +3372,10 @@ m=>{
 const d =
 parseDate(m);
 
-if(!d)
-return false;
-
-return (
-d.getTime() <=
-now +
-NORMAL_DAYS *
-86400000
-);
+return d &&
+d.getTime()<=
+now+
+NORMAL_DAYS*86400000;
 
 }
 )
@@ -3560,14 +3384,13 @@ NORMAL_DAYS *
 MAX_NORMAL_MATCHES
 );
 
-
 return {
 
 live:
 live
 .sort(
 (a,b)=>
-(parseDate(a)?.getTime() || 0) -
+(parseDate(a)?.getTime() || 0)-
 (parseDate(b)?.getTime() || 0)
 )
 .slice(
@@ -3576,19 +3399,12 @@ MAX_LIVE_MATCHES
 ),
 
 normal,
-
 wwe:
 wwe
 .sort(
-(a,b)=>{
-const ad =
-parseDate(a)?.getTime() || 0;
-
-const bd =
-parseDate(b)?.getTime() || 0;
-
-return ad-bd;
-}
+(a,b)=>
+(parseDate(a)?.getTime() || 0)-
+(parseDate(b)?.getTime() || 0)
 )
 .slice(
 0,
@@ -3601,14 +3417,7 @@ future
 
 }
 
-
-/* =========================================================
-   MATCH CARD
-========================================================= */
-
-function renderMatch(
-match
-){
+function renderMatch(match){
 
 const date =
 parseDate(match);
@@ -3617,11 +3426,11 @@ const status =
 normalizeStatus(match);
 
 const live =
-status === "live";
+status==="live";
 
 const finished =
-status === "finished" ||
-status === "cancelled";
+status==="finished" ||
+status==="cancelled";
 
 const wwe =
 isWweMatch(match);
@@ -3634,94 +3443,82 @@ let categoryClass;
 
 if(live){
 
-displayTime =
-"LIVE";
-
-statusText =
-"● LIVE";
-
-statusClass =
-"status-live";
-
-categoryText =
-"Live";
-
-categoryClass =
-"live-category";
+displayTime="LIVE";
+statusText="● LIVE";
+statusClass="status-live";
+categoryText="Live";
+categoryClass="live-category";
 
 }else if(finished){
 
-displayTime =
-"LIVE END";
-
-statusText =
-"● LIVE END";
-
-statusClass =
-"status-ended";
-
-categoryText =
-"LIVE END";
-
-categoryClass =
-"";
+displayTime="LIVE END";
+statusText="● LIVE END";
+statusClass="status-ended";
+categoryText="LIVE END";
+categoryClass="";
 
 }else if(wwe){
 
-displayTime =
+displayTime=
 date
-?formatDateUTC(
-date.toISOString()
-)
+?formatDateUTC(date.toISOString())
 :"Time unavailable";
 
-statusText =
-"● WWE";
-
-statusClass =
-"status-wwe";
-
-categoryText =
-"WWE";
-
-categoryClass =
-"wwe-category";
+statusText="● WWE";
+statusClass="status-wwe";
+categoryText="WWE";
+categoryClass="wwe-category";
 
 }else{
 
-displayTime =
+displayTime=
 date
-?formatDateUTC(
-date.toISOString()
-)
+?formatDateUTC(date.toISOString())
 :"Time unavailable";
 
-statusText =
-"● UPCOMING";
-
-statusClass =
-"status-upcoming";
-
-categoryText =
-"Future";
-
-categoryClass =
-"future-category";
+statusText="● UPCOMING";
+statusClass="status-upcoming";
+categoryText="Future";
+categoryClass="future-category";
 
 }
+
+const homeLogo =
+getTeamLogo(match.home_team) ||
+match.home_logo ||
+match.homeLogo ||
+"";
+
+const awayLogo =
+getTeamLogo(match.away_team) ||
+match.away_logo ||
+match.awayLogo ||
+"";
+
+const leagueLogo =
+getLeagueLogo(match.league) ||
+match.competition_logo ||
+match.competitionLogo ||
+"";
+
+const leagueName =
+typeof match.league==="object"
+?match.league?.name
+:match.league ||
+match.competition ||
+match.sport ||
+"Sports";
 
 return `
 
 <article
 class="
 match
-${live ? "live-match" : ""}
-${wwe ? "wwe-match" : ""}
-${!live && !wwe && !finished ? "future-match" : ""}
+${live?"live-match":""}
+${wwe?"wwe-match":""}
+${!live&&!wwe&&!finished?"future-match":""}
 "
-data-match-id="${escapeHTML(
-matchKey(match)
-)}"
+data-match-id="${escapeHTML(matchKey(match))}"
 >
 
 <div class="match-top">
@@ -3729,16 +3526,12 @@ matchKey(match)
 <div class="competition">
 
 ${
-match.league?.logo_url ||
-match.competition_logo
+leagueLogo
 ?
 `
 <img
 class="competition-logo"
-src="${escapeHTML(
-match.league?.logo_url ||
-match.competition_logo
-)}"
+src="${escapeHTML(leagueLogo)}"
 alt=""
 >
 `
@@ -3746,27 +3539,13 @@ alt=""
 }
 
 <span class="competition-name">
-
-${escapeHTML(
-typeof match.league === "object"
-?match.league?.name
-:(
-match.league ||
-match.competition ||
-match.sport ||
-"Sports"
-)
-)}
-
+${escapeHTML(leagueName)}
 </span>
 
 </div>
 
 <span
-class="
-match-category
-${categoryClass}
-"
+class="match-category ${categoryClass}"
 >
 ${categoryText}
 </span>
@@ -3796,10 +3575,7 @@ ${escapeHTML(displayTime)}
 
 <div class="team">
 
-${safeImage(
-match.home_team?.logo_url ||
-match.home_logo
-)}
+${safeImage(homeLogo)}
 
 <div class="team-name">
 ${escapeHTML(
@@ -3814,32 +3590,23 @@ match.home_team?.name ||
 <div class="vs">
 
 ${
-live ||
-finished
+live||finished
 ?
 `
 <strong>
-${Number(
-match.home_score ?? 0
-)}
+${Number(match.home_score ?? 0)}
 :
-${Number(
-match.away_score ?? 0
-)}
+${Number(match.away_score ?? 0)}
 </strong>
 `
-:
-"VS"
+:"VS"
 }
 
 </div>
 
 <div class="team">
 
-${safeImage(
-match.away_team?.logo_url ||
-match.away_logo
-)}
+${safeImage(awayLogo)}
 
 <div class="team-name">
 ${escapeHTML(
@@ -3857,16 +3624,13 @@ match.away_team?.name ||
 
 ${
 live
-?
-"● Match is currently live."
+?"● Match is currently live."
 :
 finished
-?
-"Match finished — LIVE END"
+?"Match finished — LIVE END"
 :
 wwe
-?
-"WWE event data is live from the available sports source."
+?"WWE event data is available."
 :
 "Prediction markets will appear when available."
 }
@@ -3884,9 +3648,7 @@ ${statusText}
 <button
 type="button"
 class="details-btn"
-data-details-match="${escapeHTML(
-matchKey(match)
-)}"
+data-details-match="${escapeHTML(matchKey(match))}"
 >
 Match Details →
 </button>
@@ -3899,11 +3661,6 @@ Match Details →
 
 }
 
-
-/* =========================================================
-   RENDER
-========================================================= */
-
 function renderSection(
 containerId,
 matches,
@@ -3913,16 +3670,14 @@ emptyText
 ){
 
 const container =
-document.getElementById(
-containerId
-);
+document.getElementById(containerId);
 
 if(!container)
 return;
 
 if(!matches.length){
 
-container.innerHTML = `
+container.innerHTML=`
 
 <div class="empty-card">
 
@@ -3967,46 +3722,26 @@ attachMatchEvents();
 
 }
 
-
-/* =========================================================
-   FIND MATCH
-========================================================= */
-
-function findMatchById(
-id
-){
-
-const key =
-String(id);
+function findMatchById(id){
 
 return allMatches.find(
 match =>
-matchKey(match) === key
+matchKey(match)===String(id)
 );
 
 }
 
-
-/* =========================================================
-   EVENTS
-========================================================= */
-
 function attachMatchEvents(){
 
 document
-.querySelectorAll(
-"[data-details-match]"
-)
+.querySelectorAll("[data-details-match]")
 .forEach(
 button=>{
 
-if(
-button.dataset.bound === "true"
-)
+if(button.dataset.bound==="true")
 return;
 
-button.dataset.bound =
-"true";
+button.dataset.bound="true";
 
 button.addEventListener(
 "click",
@@ -4026,26 +3761,15 @@ openMatchModal(match);
 
 }
 
-
-/* =========================================================
-   MODAL
-========================================================= */
-
-function openMatchModal(
-match
-){
+function openMatchModal(match){
 
 const modal =
-document.getElementById(
-"matchModal"
-);
+document.getElementById("matchModal");
 
 const content =
-document.getElementById(
-"modalContent"
-);
+document.getElementById("modalContent");
 
-if(!modal || !content)
+if(!modal||!content)
 return;
 
 const date =
@@ -4061,21 +3785,31 @@ const wwe =
 isWweMatch(match);
 
 const league =
-typeof match.league === "object"
+typeof match.league==="object"
 ?match.league?.name
 :match.league;
 
-content.innerHTML = `
+const homeLogo =
+getTeamLogo(match.home_team) ||
+match.home_logo ||
+match.homeLogo ||
+"";
+
+const awayLogo =
+getTeamLogo(match.away_team) ||
+match.away_logo ||
+match.awayLogo ||
+"";
+
+content.innerHTML=`
 
 <div class="modal-competition">
-
 ${escapeHTML(
 league ||
 match.competition ||
 match.sport ||
 "Sports"
 )}
-
 </div>
 
 <div class="modal-teams">
@@ -4083,15 +3817,11 @@ match.sport ||
 <div class="modal-team">
 
 ${
-match.home_team?.logo_url ||
-match.home_logo
+homeLogo
 ?
 `
 <img
-src="${escapeHTML(
-match.home_team?.logo_url ||
-match.home_logo
-)}"
+src="${escapeHTML(homeLogo)}"
 alt=""
 >
 `
@@ -4123,19 +3853,14 @@ match.home_team?.name ||
 <div class="modal-vs">
 
 ${
-live || finished
+live||finished
 ?
 `
-${Number(
-match.home_score ?? 0
-)}
+${Number(match.home_score ?? 0)}
 :
-${Number(
-match.away_score ?? 0
-)}
+${Number(match.away_score ?? 0)}
 `
-:
-"VS"
+:"VS"
 }
 
 </div>
@@ -4143,15 +3868,11 @@ match.away_score ?? 0
 <div class="modal-team">
 
 ${
-match.away_team?.logo_url ||
-match.away_logo
+awayLogo
 ?
 `
 <img
-src="${escapeHTML(
-match.away_team?.logo_url ||
-match.away_logo
-)}"
+src="${escapeHTML(awayLogo)}"
 alt=""
 >
 `
@@ -4186,24 +3907,17 @@ match.away_team?.name ||
 
 ${
 live
-?
-"LIVE"
+?"LIVE"
 :
 finished
-?
-"LIVE END"
+?"LIVE END"
 :
 wwe
-?
-"◉ WWE"
+?"◉ WWE"
 :
 date
-?
-formatDateUTC(
-date.toISOString()
-)
-:
-"Time unavailable"
+?formatDateUTC(date.toISOString())
+:"Time unavailable"
 }
 
 </div>
@@ -4212,16 +3926,13 @@ date.toISOString()
 
 ${
 live
-?
-"● LIVE MATCH"
+?"● LIVE MATCH"
 :
 finished
-?
-"● LIVE END — Match finished"
+?"● LIVE END — Match finished"
 :
 wwe
-?
-"● WWE EVENT"
+?"● WWE EVENT"
 :
 "Prediction markets will appear when available."
 }
@@ -4230,102 +3941,60 @@ wwe
 
 `;
 
-modal.classList.add(
-"show"
-);
-
-modal.setAttribute(
-"aria-hidden",
-"false"
-);
+modal.classList.add("show");
+modal.setAttribute("aria-hidden","false");
 
 }
-
 
 function closeMatchModal(){
 
 const modal =
-document.getElementById(
-"matchModal"
-);
+document.getElementById("matchModal");
 
 if(!modal)
 return;
 
-modal.classList.remove(
-"show"
-);
-
-modal.setAttribute(
-"aria-hidden",
-"true"
-);
+modal.classList.remove("show");
+modal.setAttribute("aria-hidden","true");
 
 }
 
-
 document
-.getElementById(
-"closeModal"
-)
+.getElementById("closeModal")
 ?.addEventListener(
 "click",
 closeMatchModal
 );
 
-
 document
-.getElementById(
-"matchModal"
-)
+.getElementById("matchModal")
 ?.addEventListener(
 "click",
 event=>{
 
-if(
-event.target.id ===
-"matchModal"
-){
-
+if(event.target.id==="matchModal")
 closeMatchModal();
 
-}
-
 });
-
 
 document.addEventListener(
 "keydown",
 event=>{
 
-if(
-event.key === "Escape"
-){
-
+if(event.key==="Escape")
 closeMatchModal();
 
-}
-
 });
-
-
-/* =========================================================
-   HERO LIVE
-========================================================= */
 
 function renderHeroLive(){
 
 const label =
-document.getElementById(
-"heroLiveLabel"
-);
+document.getElementById("heroLiveLabel");
 
 const container =
-document.getElementById(
-"heroLiveContainer"
-);
+document.getElementById("heroLiveContainer");
 
-if(!label || !container)
+if(!label||!container)
 return;
 
 const live =
@@ -4333,14 +4002,10 @@ allLiveMatches[0];
 
 if(!live){
 
-label.textContent =
-"NO LIVE MATCH";
+label.textContent="NO LIVE MATCH";
+label.classList.add("not-live");
 
-label.classList.add(
-"not-live"
-);
-
-container.innerHTML = `
+container.innerHTML=`
 
 <div class="hero-empty">
 
@@ -4368,28 +4033,34 @@ return;
 
 }
 
-label.textContent =
-"● LIVE NOW";
+label.textContent="● LIVE NOW";
+label.classList.remove("not-live");
 
-label.classList.remove(
-"not-live"
-);
+const homeLogo =
+getTeamLogo(live.home_team) ||
+live.home_logo ||
+live.homeLogo ||
+"";
 
-container.innerHTML = `
+const awayLogo =
+getTeamLogo(live.away_team) ||
+live.away_logo ||
+live.awayLogo ||
+"";
+
+container.innerHTML=`
 
 <div class="live-preview">
 
 <div class="hero-match-meta">
 
 ${escapeHTML(
-typeof live.league === "object"
+typeof live.league==="object"
 ?live.league?.name
-:(
-live.league ||
+:live.league ||
 live.competition ||
 live.sport ||
 "Sports"
-)
 )}
 
 </div>
@@ -4399,16 +4070,12 @@ live.sport ||
 <div>
 
 ${
-live.home_team?.logo_url ||
-live.home_logo
+homeLogo
 ?
 `
 <img
 class="hero-team-logo"
-src="${escapeHTML(
-live.home_team?.logo_url ||
-live.home_logo
-)}"
+src="${escapeHTML(homeLogo)}"
 alt=""
 >
 `
@@ -4440,15 +4107,9 @@ live.home_team?.name ||
 <div>
 
 <div class="hero-score">
-
-${Number(
-live.home_score ?? 0
-)}
+${Number(live.home_score ?? 0)}
 :
-${Number(
-live.away_score ?? 0
-)}
-
+${Number(live.away_score ?? 0)}
 </div>
 
 <div class="hero-minute">
@@ -4460,16 +4121,12 @@ live.away_score ?? 0
 <div>
 
 ${
-live.away_team?.logo_url ||
-live.away_logo
+awayLogo
 ?
 `
 <img
 class="hero-team-logo"
-src="${escapeHTML(
-live.away_team?.logo_url ||
-live.away_logo
-)}"
+src="${escapeHTML(awayLogo)}"
 alt=""
 >
 `
@@ -4506,15 +4163,6 @@ live.away_team?.name ||
 
 }
 
-
-/* =========================================================
-   MAIN LOAD
-========================================================= */
-
-let loadingRequest =
-null;
-
-
 async function loadHomeMatches(){
 
 if(loadingRequest)
@@ -4525,7 +4173,7 @@ loadingRequest =
 
 try{
 
-const ids = [
+const ids=[
 "liveMatches",
 "normalMatches",
 "wweMatches",
@@ -4541,7 +4189,7 @@ document.getElementById(id);
 if(!element)
 return;
 
-element.innerHTML = `
+element.innerHTML=`
 
 <div class="loading-card">
 
@@ -4561,12 +4209,9 @@ Loading real sports data...
 
 });
 
-
-/* =====================================================
-   1. DATABASE
-===================================================== */
-
-let databaseMatches = [];
+let databaseMatches=[];
+let workerMatches=[];
+let sportScoreMatches=[];
 
 try{
 
@@ -4582,13 +4227,6 @@ error
 
 }
 
-
-/* =====================================================
-   2. WORKER
-===================================================== */
-
-let workerMatches = [];
-
 try{
 
 const workerResult =
@@ -4602,73 +4240,39 @@ workerResult &&
 const workerData =
 workerResult.data;
 
+let workerCombined=[];
 
-/*
-   Worker may return:
-   matches
-   featured
-   normal
-   live
-   future
-   upcoming
-   fixtures
-*/
+if(Array.isArray(workerData)){
 
-let workerCombined = [];
-
-if(
-Array.isArray(workerData)
-){
-
-workerCombined =
-workerData;
+workerCombined=workerData;
 
 }else if(
 Array.isArray(workerData?.matches)
 ){
 
-workerCombined =
-workerData.matches;
+workerCombined=workerData.matches;
 
 }else{
 
-workerCombined = [
+workerCombined=[
 
-...(Array.isArray(
-workerData?.featured
-)
-?workerData.featured
-:[]),
+...(Array.isArray(workerData?.featured)
+?workerData.featured:[]),
 
-...(Array.isArray(
-workerData?.normal
-)
-?workerData.normal
-:[]),
+...(Array.isArray(workerData?.normal)
+?workerData.normal:[]),
 
-...(Array.isArray(
-workerData?.live
-)
-?workerData.live
-:[]),
+...(Array.isArray(workerData?.live)
+?workerData.live:[]),
 
-...(Array.isArray(
-workerData?.future
-)
-?workerData.future
-:[]),
+...(Array.isArray(workerData?.future)
+?workerData.future:[]),
 
-...(Array.isArray(
-workerData?.upcoming
-)
-?workerData.upcoming
-:[]),
+...(Array.isArray(workerData?.upcoming)
+?workerData.upcoming:[]),
 
-...(Array.isArray(
-workerData?.fixtures
-)
-?workerData.fixtures
-:[])
+...(Array.isArray(workerData?.fixtures)
+?workerData.fixtures:[])
 
 ];
 
@@ -4690,13 +4294,6 @@ error
 
 }
 
-
-/* =====================================================
-   3. SPORT SCORE
-===================================================== */
-
-let sportScoreMatches = [];
-
 try{
 
 sportScoreMatches =
@@ -4711,15 +4308,6 @@ error
 
 }
 
-
-/* =====================================================
-   4. MERGE
-   IMPORTANT:
-   Keep existing matches if all sources temporarily
-   return empty data. This prevents matches from
-   disappearing after login/session refresh.
-========================================================= */
-
 const previousMatches =
 allMatches.slice();
 
@@ -4730,20 +4318,14 @@ workerMatches,
 sportScoreMatches
 );
 
-if(mergedMatches.length > 0){
+if(mergedMatches.length>0){
 
 allMatches =
 removeOldFinishedMatches(
 mergedMatches
 );
 
-}else if(previousMatches.length > 0){
-
-/*
-   Do NOT erase already loaded matches when the
-   sources temporarily return an empty response.
-   The next automatic refresh will try again.
-*/
+}else if(previousMatches.length>0){
 
 allMatches =
 removeOldFinishedMatches(
@@ -4752,27 +4334,14 @@ previousMatches
 
 }else{
 
-/*
-   No previous data exists, so keep the empty result.
-*/
-
-allMatches = [];
+allMatches=[];
 
 }
-
-
-/* =====================================================
-   5. REMOVE OLD
-========================================================= */
 
 allMatches =
 removeOldFinishedMatches(
 allMatches
 );
-
-/* =====================================================
-   6. BUILD
-===================================================== */
 
 const sections =
 buildHomeSections(
@@ -4790,11 +4359,6 @@ sections.wwe;
 
 allFutureMatches =
 sections.future;
-
-
-/* =====================================================
-   7. RENDER
-===================================================== */
 
 renderSection(
 "liveMatches",
@@ -4851,7 +4415,7 @@ console.error(
 error
 );
 
-const errorHTML = `
+const errorHTML=`
 
 <div class="empty-card">
 
@@ -4897,15 +4461,13 @@ const element =
 document.getElementById(id);
 
 if(element)
-element.innerHTML =
-errorHTML;
+element.innerHTML=errorHTML;
 
 });
 
 }finally{
 
-loadingRequest =
-null;
+loadingRequest=null;
 
 }
 
@@ -4914,11 +4476,6 @@ null;
 return loadingRequest;
 
 }
-
-
-/* =========================================================
-   REMOVE OLD FINISHED EVERY 30 SEC
-========================================================= */
 
 setInterval(
 ()=>{
@@ -4931,27 +4488,17 @@ removeOldFinishedMatches(
 allMatches
 );
 
-if(
-before !==
-allMatches.length
-){
+if(before!==allMatches.length){
 
 const sections =
 buildHomeSections(
 allMatches
 );
 
-allLiveMatches =
-sections.live;
-
-allNormalMatches =
-sections.normal;
-
-allWweMatches =
-sections.wwe;
-
-allFutureMatches =
-sections.future;
+allLiveMatches=sections.live;
+allNormalMatches=sections.normal;
+allWweMatches=sections.wwe;
+allFutureMatches=sections.future;
 
 renderSection(
 "liveMatches",
@@ -4993,29 +4540,16 @@ renderHeroLive();
 30000
 );
 
-
-/* =========================================================
-   PWA INSTALL
-========================================================= */
-
-let deferredInstallPrompt =
-null;
+let deferredInstallPrompt=null;
 
 const installModal =
-document.getElementById(
-"installModal"
-);
+document.getElementById("installModal");
 
 const installNow =
-document.getElementById(
-"installNow"
-);
+document.getElementById("installNow");
 
 const installLater =
-document.getElementById(
-"installLater"
-);
-
+document.getElementById("installLater");
 
 function isStandalone(){
 
@@ -5025,10 +4559,9 @@ window.matchMedia(
 "(display-mode: standalone)"
 ).matches
 ) ||
-window.navigator.standalone === true;
+window.navigator.standalone===true;
 
 }
-
 
 function recentlyDismissedInstall(){
 
@@ -5036,20 +4569,18 @@ const value =
 Number(
 localStorage.getItem(
 "sportx_install_dismissed_at"
-) || 0
+)||0
 );
 
 if(!value)
 return false;
 
 return (
-Date.now() - value
-<
-24 * 60 * 60 * 1000
+Date.now()-value<
+24*60*60*1000
 );
 
 }
-
 
 function showInstallModal(){
 
@@ -5062,10 +4593,7 @@ return;
 if(recentlyDismissedInstall())
 return;
 
-installModal.classList.add(
-"show"
-);
-
+installModal.classList.add("show");
 installModal.setAttribute(
 "aria-hidden",
 "false"
@@ -5073,18 +4601,12 @@ installModal.setAttribute(
 
 }
 
-
-function hideInstallModal(
-remember = false
-){
+function hideInstallModal(remember=false){
 
 if(!installModal)
 return;
 
-installModal.classList.remove(
-"show"
-);
-
+installModal.classList.remove("show");
 installModal.setAttribute(
 "aria-hidden",
 "true"
@@ -5101,15 +4623,13 @@ String(Date.now())
 
 }
 
-
 window.addEventListener(
 "beforeinstallprompt",
 event=>{
 
 event.preventDefault();
 
-deferredInstallPrompt =
-event;
+deferredInstallPrompt=event;
 
 setTimeout(
 showInstallModal,
@@ -5117,7 +4637,6 @@ showInstallModal,
 );
 
 });
-
 
 installNow?.addEventListener(
 "click",
@@ -5140,8 +4659,7 @@ try{
 const promptEvent =
 deferredInstallPrompt;
 
-deferredInstallPrompt =
-null;
+deferredInstallPrompt=null;
 
 await promptEvent.prompt();
 
@@ -5162,7 +4680,6 @@ hideInstallModal(false);
 
 });
 
-
 installLater?.addEventListener(
 "click",
 ()=>{
@@ -5171,89 +4688,51 @@ hideInstallModal(true);
 
 });
 
-
 installModal?.addEventListener(
 "click",
 event=>{
 
-if(
-event.target ===
-installModal
-){
-
+if(event.target===installModal)
 hideInstallModal(true);
 
-}
-
 });
-
 
 window.addEventListener(
 "appinstalled",
 ()=>{
 
-deferredInstallPrompt =
-null;
+deferredInstallPrompt=null;
 
 hideInstallModal(false);
 
-console.log(
-"SportX PWA installed."
-);
-
 });
 
+let toastTimer=null;
 
-/* =========================================================
-   TOAST
-========================================================= */
-
-let toastTimer =
-null;
-
-function showToast(
-message
-){
+function showToast(message){
 
 const toast =
-document.getElementById(
-"toast"
-);
+document.getElementById("toast");
 
 if(!toast)
 return;
 
-toast.textContent =
-message;
+toast.textContent=message;
+toast.classList.add("show");
 
-toast.classList.add(
-"show"
-);
-
-clearTimeout(
-toastTimer
-);
+clearTimeout(toastTimer);
 
 toastTimer =
 setTimeout(
 ()=>{
-toast.classList.remove(
-"show"
-);
+toast.classList.remove("show");
 },
 3000
 );
 
 }
 
-
-/* =========================================================
-   SERVICE WORKER
-========================================================= */
-
-if(
-"serviceWorker" in navigator
-){
+if("serviceWorker" in navigator){
 
 window.addEventListener(
 "load",
@@ -5273,18 +4752,9 @@ await registration.update();
 
 setInterval(
 ()=>{
-
-registration.update()
-.catch(
-()=>{}
-);
-
+registration.update().catch(()=>{});
 },
-60 * 1000
-);
-
-console.log(
-"SportX Service Worker active."
+60000
 );
 
 }catch(error){
@@ -5300,54 +4770,88 @@ error
 
 }
 
-
-/* =========================================================
-   VISIBILITY REFRESH
-========================================================= */
-
 document.addEventListener(
 "visibilitychange",
 ()=>{
 
-if(
-!document.hidden
-){
-
+if(!document.hidden)
 loadHomeMatches();
-
-}
 
 });
 
+async function waitForAuthReady(){
 
-/* =========================================================
-   START
-========================================================= */
+const start =
+Date.now();
+
+const timeout =
+5000;
+
+while(
+Date.now()-start<timeout
+){
+
+if(
+window.SportXCurrentUser ||
+window.SportXCurrentAuthType
+){
+
+break;
+
+}
+
+try{
+
+const result =
+await supabaseClient.auth.getSession();
+
+if(result.data?.session?.user){
+
+break;
+
+}
+
+}catch(error){}
+
+await new Promise(
+resolve=>setTimeout(resolve,100)
+);
+
+}
+
+}
+
+}
 
 async function startSportXHome(){
 
-await loadHomeMatches();
+await waitForAuthReady();
 
-setTimeout(
-loadProfileData,
-1000
+document.body.classList.remove(
+"auth-loading"
 );
 
+await loadProfileData();
 
-/* ---------- AUTH ---------- */
+await loadHomeMatches();
 
 try{
 
 supabaseClient.auth.onAuthStateChange(
 (event,session)=>{
 
-if(
-session?.user
-){
+if(session?.user){
 
 setTimeout(
 loadProfileData,
-150
+100
+);
+
+}else{
+
+setTimeout(
+loadProfileData,
+100
 );
 
 }
@@ -5363,14 +4867,10 @@ error
 
 }
 
-
-/* ---------- REFRESH ---------- */
-
 setInterval(
 async()=>{
 
 await loadHomeMatches();
-
 await loadProfileData();
 
 },
@@ -5379,13 +4879,9 @@ REFRESH_INTERVAL_MS
 
 }
 
-
 startSportXHome();
 
 </script>
-
-<!-- Keep existing authentication system -->
-<script src="auth.js"></script>
 
 </body>
 </html>
