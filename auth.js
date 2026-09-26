@@ -1,1763 +1,1173 @@
 (function () {
+"use strict";
+
+const SUPABASE_URL =
+"https://zchtcosljkkkiykhforj.supabase.co";
+
+const SUPABASE_KEY =
+"sb_publishable_aGLckKZjNaVbpdxZUFhCqA_VzHppjrW";
+
+const FIREBASE_CONFIG = {
+apiKey:"AIzaSyBep2khsSd8ynLg2gEG1sxxoLMug632emA",
+authDomain:"sportx-36865.firebaseapp.com",
+projectId:"sportx-36865",
+storageBucket:"sportx-36865.firebasestorage.app",
+messagingSenderId:"397751189949",
+appId:"1:397751189949:web:9c82fac60e20c3c1ca52d4",
+measurementId:"G-XXH0H2MMHD"
+};
+
+const SPORTX_LANGUAGE_KEY="sportx_language";
+
+const SPORTX_LANGUAGES={
+en:"English",
+fa:"Persian",
+ps:"Pashto",
+tr:"Turkish",
+ar:"Arabic"
+};
+
+function getSavedLanguage(){
+try{
+const language=localStorage.getItem(SPORTX_LANGUAGE_KEY);
+if(language&&SPORTX_LANGUAGES[language]) return language;
+}catch(error){}
+return "en";
+}
+
+function setGoogleTranslateCookie(language){
+try{
+const value="/en/"+(language||"en");
+
+document.cookie=
+"googtrans="+encodeURIComponent(value)+"; path=/";
+
+const hostname=window.location.hostname;
+
+if(hostname&&hostname!=="localhost"&&hostname!=="127.0.0.1"){
+document.cookie=
+"googtrans="+encodeURIComponent(value)+
+"; path=/; domain="+hostname;
+}
+}catch(error){}
+}
+
+const initialLanguage=getSavedLanguage();
+
+setGoogleTranslateCookie(initialLanguage);
+
+function installGoogleTranslateCSS(){
+
+if(document.getElementById("sportx-google-translate-style")) return;
+
+const style=document.createElement("style");
+
+style.id="sportx-google-translate-style";
+
+style.textContent=`
+.goog-te-banner-frame,
+.goog-te-balloon-frame,
+.goog-te-menu-frame,
+.goog-te-spinner-pos,
+iframe.goog-te-banner-frame,
+.goog-tooltip,
+#goog-gt-tt,
+.goog-te-gadget,
+.goog-te-gadget-simple,
+.goog-te-ftab,
+.goog-te-ftab-float,
+.goog-te-combo,
+body > .skiptranslate{
+display:none!important;
+visibility:hidden!important;
+opacity:0!important;
+height:0!important;
+width:0!important;
+pointer-events:none!important;
+}
+body{top:0!important}
+html{margin-top:0!important}
+`;
+
+(document.head||document.documentElement).appendChild(style);
+}
+
+function hideGoogleTranslateUI(){
+
+const selectors=[
+".goog-te-banner-frame",
+".goog-te-balloon-frame",
+".goog-tooltip",
+".goog-te-spinner-pos",
+".goog-te-menu-frame",
+"#goog-gt-tt",
+".goog-te-gadget",
+".goog-te-gadget-simple",
+".goog-te-ftab",
+".goog-te-ftab-float",
+".goog-te-combo",
+"iframe.goog-te-banner-frame"
+];
+
+selectors.forEach(selector=>{
+document.querySelectorAll(selector).forEach(element=>{
+element.style.display="none";
+element.style.visibility="hidden";
+element.style.opacity="0";
+element.style.pointerEvents="none";
+});
+});
+
+if(document.body) document.body.style.top="0px";
+
+document.documentElement.style.marginTop="0px";
+}
+
+function startGoogleTranslateObserver(){
+
+if(window.SportXGoogleTranslateObserver) return;
 
-    "use strict";
+if(!document.documentElement) return;
 
-    const SUPABASE_URL =
-        "https://zchtcosljkkkiykhforj.supabase.co";
+const observer=new MutationObserver(()=>{
+hideGoogleTranslateUI();
+});
 
-    const SUPABASE_KEY =
-        "sb_publishable_aGLckKZjNaVbpdxZUFhCqA_VzHppjrW";
+observer.observe(
+document.documentElement,
+{
+childList:true,
+subtree:true
+}
+);
 
-    const FIREBASE_CONFIG = {
-        apiKey: "AIzaSyBep2khsSd8ynLg2gEG1sxxoLMug632emA",
-        authDomain: "sportx-36865.firebaseapp.com",
-        projectId: "sportx-36865",
-        storageBucket: "sportx-36865.firebasestorage.app",
-        messagingSenderId: "397751189949",
-        appId: "1:397751189949:web:9c82fac60e20c3c1ca52d4",
-        measurementId: "G-XXH0H2MMHD"
-    };
+window.SportXGoogleTranslateObserver=observer;
 
-    const SPORTX_LANGUAGE_KEY =
-        "sportx_language";
+hideGoogleTranslateUI();
+}
 
-    const SPORTX_LANGUAGES = {
-        en: "English",
-        fa: "Persian",
-        ps: "Pashto",
-        tr: "Turkish",
-        ar: "Arabic"
-    };
+let googleTranslateStarted=false;
 
-    function getSavedLanguage() {
+function googleTranslateElementInit(){
 
-        try {
+if(googleTranslateStarted){
+hideGoogleTranslateUI();
+return;
+}
 
-            const language =
-                localStorage.getItem(
-                    SPORTX_LANGUAGE_KEY
-                );
+googleTranslateStarted=true;
 
-            if (
-                language &&
-                SPORTX_LANGUAGES[language]
-            ) {
+try{
 
-                return language;
+if(
+!window.google||
+!window.google.translate||
+typeof window.google.translate.TranslateElement!=="function"
+){
+return;
+}
 
-            }
+let container=
+document.getElementById("google_translate_element");
 
-        }
-        catch (error) {
+if(!container){
 
-            console.warn(
-                "SportX language read error:",
-                error
-            );
+container=document.createElement("div");
 
-        }
+container.id="google_translate_element";
+container.setAttribute("aria-hidden","true");
 
-        return "en";
+container.style.position="fixed";
+container.style.left="-99999px";
+container.style.top="-99999px";
+container.style.width="1px";
+container.style.height="1px";
+container.style.overflow="hidden";
 
-    }
+if(document.body){
+document.body.appendChild(container);
+}
+}
 
-    function setGoogleTranslateCookie(language) {
+new window.google.translate.TranslateElement(
+{
+pageLanguage:"en",
+includedLanguages:"en,fa,ps,tr,ar",
+autoDisplay:false,
+multilanguagePage:true
+},
+"google_translate_element"
+);
 
-        try {
+setTimeout(hideGoogleTranslateUI,100);
+setTimeout(hideGoogleTranslateUI,500);
+setTimeout(hideGoogleTranslateUI,1500);
 
-            const lang =
-                language || "en";
+}catch(error){}
+}
 
-            const value =
-                "/en/" + lang;
+window.googleTranslateElementInit=
+googleTranslateElementInit;
 
-            document.cookie =
-                "googtrans=" +
-                encodeURIComponent(value) +
-                "; path=/";
+function loadGoogleTranslate(){
 
-            const hostname =
-                window.location.hostname;
+installGoogleTranslateCSS();
+startGoogleTranslateObserver();
 
-            if (
-                hostname &&
-                hostname !== "localhost" &&
-                hostname !== "127.0.0.1"
-            ) {
+if(
+window.SportXGoogleTranslateLoading||
+window.SportXGoogleTranslateLoaded
+){
+return;
+}
 
-                document.cookie =
-                    "googtrans=" +
-                    encodeURIComponent(value) +
-                    "; path=/; domain=" +
-                    hostname;
+if(window.google&&window.google.translate){
 
-            }
+window.SportXGoogleTranslateLoaded=true;
 
-        }
-        catch (error) {
+googleTranslateElementInit();
 
-            console.warn(
-                "SportX Google Translate cookie error:",
-                error
-            );
-
-        }
-
-    }
-
-    const initialLanguage =
-        getSavedLanguage();
-
-    setGoogleTranslateCookie(
-        initialLanguage
-    );
-
-    function installGoogleTranslateCSS() {
-
-        if (
-            document.getElementById(
-                "sportx-google-translate-style"
-            )
-        ) {
-
-            return;
-
-        }
+return;
+}
 
-        const style =
-            document.createElement("style");
+const existingScript=
+document.querySelector(
+'script[src*="translate.google.com/translate_a/element.js"]'
+);
 
-        style.id =
-            "sportx-google-translate-style";
+if(existingScript){
 
-        style.textContent = `
+window.SportXGoogleTranslateLoading=true;
 
-            .goog-te-banner-frame,
-            .goog-te-balloon-frame,
-            .goog-te-menu-frame,
-            .goog-te-spinner-pos,
-            iframe.goog-te-banner-frame {
-                display:none !important;
-                visibility:hidden !important;
-                opacity:0 !important;
-                height:0 !important;
-                width:0 !important;
-            }
+existingScript.addEventListener(
+"load",
+()=>{
+window.SportXGoogleTranslateLoading=false;
+window.SportXGoogleTranslateLoaded=true;
+googleTranslateElementInit();
+},
+{once:true}
+);
 
-            .goog-tooltip,
-            #goog-gt-tt {
-                display:none !important;
-                visibility:hidden !important;
-                opacity:0 !important;
-            }
+return;
+}
 
-            .goog-te-gadget,
-            .goog-te-gadget-simple {
-                display:none !important;
-                visibility:hidden !important;
-            }
+window.SportXGoogleTranslateLoading=true;
 
-            body {
-                top:0 !important;
-            }
+const script=document.createElement("script");
 
-            html {
-                margin-top:0 !important;
-            }
+script.src=
+"https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit";
 
-            body > .skiptranslate {
-                display:none !important;
-            }
+script.async=true;
 
-            .goog-te-ftab,
-            .goog-te-ftab-float,
-            .goog-te-combo {
-                display:none !important;
-            }
+script.onload=()=>{
+window.SportXGoogleTranslateLoading=false;
+window.SportXGoogleTranslateLoaded=true;
+googleTranslateElementInit();
+};
 
-        `;
+script.onerror=()=>{
+window.SportXGoogleTranslateLoading=false;
+};
 
-        (
-            document.head ||
-            document.documentElement
-        ).appendChild(style);
+document.head.appendChild(script);
+}
 
-    }
+function initSportXLanguage(){
 
-    function hideGoogleTranslateUI() {
+installGoogleTranslateCSS();
+startGoogleTranslateObserver();
+loadGoogleTranslate();
+}
 
-        const selectors = [
-            ".goog-te-banner-frame",
-            ".goog-te-balloon-frame",
-            ".goog-tooltip",
-            ".goog-te-spinner-pos",
-            ".goog-te-menu-frame",
-            "#goog-gt-tt",
-            ".goog-te-gadget",
-            ".goog-te-gadget-simple",
-            ".goog-te-ftab",
-            ".goog-te-ftab-float",
-            ".goog-te-combo",
-            "iframe.goog-te-banner-frame"
-        ];
+window.SportXLanguage={
 
-        selectors.forEach(
-            selector => {
+key:SPORTX_LANGUAGE_KEY,
 
-                document
-                .querySelectorAll(selector)
-                .forEach(element => {
+languages:SPORTX_LANGUAGES,
 
-                    element.style.display =
-                        "none";
+get(){
+return getSavedLanguage();
+},
 
-                    element.style.visibility =
-                        "hidden";
+set(language){
 
-                    element.style.opacity =
-                        "0";
+if(!SPORTX_LANGUAGES[language]){
+language="en";
+}
 
-                    element.style.pointerEvents =
-                        "none";
+try{
+localStorage.setItem(
+SPORTX_LANGUAGE_KEY,
+language
+);
+}catch(error){}
 
-                });
+setGoogleTranslateCookie(language);
 
-            }
-        );
+return language;
+},
 
-        if (document.body) {
+apply(language){
 
-            document.body.style.top =
-                "0px";
+const selected=this.set(language);
 
-        }
+window.location.reload();
 
-        document.documentElement.style.marginTop =
-            "0px";
+return selected;
+}
 
-    }
+};
 
-    function startGoogleTranslateObserver() {
+function loadSupabase(){
 
-        if (
-            window.SportXGoogleTranslateObserver
-        ) {
+return new Promise((resolve,reject)=>{
 
-            return;
+if(
+window.supabase&&
+typeof window.supabase.createClient==="function"
+){
+resolve();
+return;
+}
 
-        }
+const existing=
+document.querySelector(
+'script[src*="supabase-js"]'
+);
 
-        if (!document.documentElement) {
+if(existing){
 
-            return;
+existing.addEventListener(
+"load",
+resolve,
+{once:true}
+);
 
-        }
+existing.addEventListener(
+"error",
+reject,
+{once:true}
+);
 
-        const observer =
-            new MutationObserver(
-                function () {
+return;
+}
 
-                    hideGoogleTranslateUI();
+const script=document.createElement("script");
 
-                }
-            );
+script.src=
+"https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2";
 
-        observer.observe(
-            document.documentElement,
-            {
-                childList: true,
-                subtree: true
-            }
-        );
+script.async=true;
 
-        window.SportXGoogleTranslateObserver =
-            observer;
+script.onload=resolve;
 
-        hideGoogleTranslateUI();
+script.onerror=()=>{
+reject(
+new Error("Unable to load Supabase.")
+);
+};
 
-    }
+document.head.appendChild(script);
 
-    let googleTranslateStarted =
-        false;
+});
+}
 
-    function googleTranslateElementInit() {
+function loadFirebase(){
 
-        if (
-            googleTranslateStarted
-        ) {
+return new Promise((resolve,reject)=>{
 
-            hideGoogleTranslateUI();
+if(
+window.firebase&&
+typeof window.firebase.initializeApp==="function"&&
+typeof window.firebase.auth==="function"
+){
+resolve();
+return;
+}
 
-            return;
+let appScript=
+document.querySelector(
+'script[src*="firebase-app-compat.js"]'
+);
 
-        }
+let authScript=
+document.querySelector(
+'script[src*="firebase-auth-compat.js"]'
+);
 
-        googleTranslateStarted =
-            true;
+let appReady=
+!!appScript;
 
-        try {
+let authReady=
+!!authScript;
 
-            if (
-                !window.google ||
-                !window.google.translate ||
-                typeof
-                window.google.translate.TranslateElement
-                !== "function"
-            ) {
+function check(){
 
-                return;
+if(
+window.firebase&&
+typeof window.firebase.initializeApp==="function"&&
+typeof window.firebase.auth==="function"
+){
+resolve();
+}
 
-            }
+}
 
-            let container =
-                document.getElementById(
-                    "google_translate_element"
-                );
+if(appScript){
 
-            if (!container) {
+appScript.addEventListener(
+"load",
+()=>{
+appReady=true;
+check();
+},
+{once:true}
+);
 
-                container =
-                    document.createElement("div");
+appScript.addEventListener(
+"error",
+reject,
+{once:true}
+);
 
-                container.id =
-                    "google_translate_element";
+}else{
 
-                container.setAttribute(
-                    "aria-hidden",
-                    "true"
-                );
+appScript=document.createElement("script");
 
-                container.style.position =
-                    "fixed";
+appScript.src=
+"https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js";
 
-                container.style.left =
-                    "-99999px";
+appScript.async=true;
 
-                container.style.top =
-                    "-99999px";
+appScript.onload=()=>{
+appReady=true;
+check();
+};
 
-                container.style.width =
-                    "1px";
+appScript.onerror=reject;
 
-                container.style.height =
-                    "1px";
+document.head.appendChild(appScript);
+}
 
-                container.style.overflow =
-                    "hidden";
+if(authScript){
 
-                document.body.appendChild(
-                    container
-                );
+authScript.addEventListener(
+"load",
+()=>{
+authReady=true;
+check();
+},
+{once:true}
+);
 
-            }
+authScript.addEventListener(
+"error",
+reject,
+{once:true}
+);
 
-            new window.google.translate.TranslateElement(
-                {
-                    pageLanguage: "en",
-                    includedLanguages:
-                        "en,fa,ps,tr,ar",
-                    autoDisplay: false,
-                    multilanguagePage: true
-                },
-                "google_translate_element"
-            );
+}else{
 
-            setTimeout(
-                hideGoogleTranslateUI,
-                100
-            );
+authScript=document.createElement("script");
 
-            setTimeout(
-                hideGoogleTranslateUI,
-                500
-            );
+authScript.src=
+"https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js";
 
-            setTimeout(
-                hideGoogleTranslateUI,
-                1500
-            );
+authScript.async=true;
 
-        }
-        catch (error) {
+authScript.onload=()=>{
+authReady=true;
+check();
+};
 
-            console.warn(
-                "SportX Google Translate initialization:",
-                error
-            );
+authScript.onerror=reject;
 
-        }
+document.head.appendChild(authScript);
+}
 
-    }
+if(appReady&&authReady) check();
 
-    window.googleTranslateElementInit =
-        googleTranslateElementInit;
+setTimeout(()=>{
+if(
+!window.firebase||
+typeof window.firebase.auth!=="function"
+){
+reject(
+new Error("Unable to load Firebase.")
+);
+}
+},10000);
 
-    function loadGoogleTranslate() {
+});
+}
 
-        installGoogleTranslateCSS();
+async function initFirebase(){
 
-        startGoogleTranslateObserver();
+await loadFirebase();
 
-        if (
-            window.SportXGoogleTranslateLoading ||
-            window.SportXGoogleTranslateLoaded
-        ) {
+if(
+!window.firebase.apps||
+!window.firebase.apps.length
+){
+window.firebase.initializeApp(
+FIREBASE_CONFIG
+);
+}
 
-            return;
+return window.firebase.auth();
+}
 
-        }
+function createAuthReady(){
 
-        if (
-            window.google &&
-            window.google.translate
-        ) {
+let resolveReady;
 
-            window.SportXGoogleTranslateLoaded =
-                true;
+const promise=
+new Promise(resolve=>{
+resolveReady=resolve;
+});
 
-            googleTranslateElementInit();
+window.SportXAuthReady=promise;
 
-            return;
+window.SportXResolveAuthReady=resolveReady;
 
-        }
+}
 
-        const existingScript =
-            document.querySelector(
-                'script[src*="translate.google.com/translate_a/element.js"]'
-            );
+createAuthReady();
 
-        if (existingScript) {
+async function initSportXAuth(){
 
-            window.SportXGoogleTranslateLoading =
-                true;
+try{
 
-            existingScript.addEventListener(
-                "load",
-                function () {
+await loadSupabase();
 
-                    window.SportXGoogleTranslateLoading =
-                        false;
+const supabaseClient=
+window.supabase.createClient(
+SUPABASE_URL,
+SUPABASE_KEY
+);
 
-                    window.SportXGoogleTranslateLoaded =
-                        true;
+window.SportXSupabase=supabaseClient;
 
-                    googleTranslateElementInit();
+const guestElements=
+document.querySelectorAll(
+"[data-auth-guest]"
+);
 
-                },
-                { once: true }
-            );
+const userElements=
+document.querySelectorAll(
+"[data-auth-user]"
+);
 
-            return;
+const logoutButtons=
+document.querySelectorAll(
+"[data-auth-logout]"
+);
 
-        }
+const nameElements=
+document.querySelectorAll(
+"[data-user-name]"
+);
 
-        window.SportXGoogleTranslateLoading =
-            true;
+const balanceElements=
+document.querySelectorAll(
+"[data-user-balance]"
+);
 
-        const script =
-            document.createElement("script");
+const initialsElements=
+document.querySelectorAll(
+"[data-user-initials]"
+);
 
-        script.src =
-            "https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit";
+function showGuest(){
 
-        script.async =
-            true;
+guestElements.forEach(
+element=>{
+element.style.display="";
+}
+);
 
-        script.onload =
-            function () {
+userElements.forEach(
+element=>{
+element.style.display="none";
+}
+);
 
-                window.SportXGoogleTranslateLoading =
-                    false;
+}
 
-                window.SportXGoogleTranslateLoaded =
-                    true;
+function showUser(){
 
-                googleTranslateElementInit();
+guestElements.forEach(
+element=>{
+element.style.display="none";
+}
+);
 
-            };
+userElements.forEach(
+element=>{
+element.style.display="";
+}
+);
 
-        script.onerror =
-            function () {
+}
 
-                window.SportXGoogleTranslateLoading =
-                    false;
+async function getUserProfile(userId){
 
-                console.warn(
-                    "SportX Google Translate could not be loaded."
-                );
+try{
 
-            };
+const result=
+await supabaseClient
+.from("users")
+.select(`
+id,
+first_name,
+last_name,
+email,
+balance,
+status
+`)
+.eq("id",userId)
+.maybeSingle();
 
-        document.head.appendChild(
-            script
-        );
+return result.error?
+null:
+result.data||null;
 
-    }
+}catch(error){
 
-    function initSportXLanguage() {
+return null;
 
-        installGoogleTranslateCSS();
+}
 
-        startGoogleTranslateObserver();
+}
 
-        loadGoogleTranslate();
+async function getWallet(userId){
 
-    }
+try{
 
-    window.SportXLanguage = {
+const result=
+await supabaseClient
+.from("wallets")
+.select(`
+balance,
+currency
+`)
+.eq("user_id",userId)
+.maybeSingle();
 
-        key:
-            SPORTX_LANGUAGE_KEY,
+return result.error?
+null:
+result.data||null;
 
-        languages:
-            SPORTX_LANGUAGES,
+}catch(error){
 
-        get:
-            function () {
+return null;
 
-                return getSavedLanguage();
+}
 
-            },
+}
 
-        set:
-            function (language) {
+function formatBalance(balance,currency){
 
-                if (
-                    !SPORTX_LANGUAGES[language]
-                ) {
+const amount=Number(balance||0);
 
-                    language =
-                        "en";
+const formatted=
+amount.toLocaleString(
+"en-US",
+{
+minimumFractionDigits:0,
+maximumFractionDigits:2
+}
+);
 
-                }
+return String(currency||"AFN")+" "+formatted;
+}
 
-                try {
+function getFirebaseName(user){
 
-                    localStorage.setItem(
-                        SPORTX_LANGUAGE_KEY,
-                        language
-                    );
+if(!user) return "";
 
-                }
-                catch (error) {
+if(user.displayName){
+return user.displayName;
+}
 
-                    console.warn(
-                        "SportX language save error:",
-                        error
-                    );
+if(user.email){
+return user.email.split("@")[0];
+}
 
-                }
+return "SportX User";
+}
 
-                setGoogleTranslateCookie(
-                    language
-                );
+function getFirebaseInitials(user){
 
-                return language;
+const name=getFirebaseName(user);
 
-            },
+const parts=
+name
+.trim()
+.split(/\s+/)
+.filter(Boolean);
 
-        apply:
-            function (language) {
+if(parts.length>=2){
+return(
+parts[0].charAt(0)+
+parts[1].charAt(0)
+).toUpperCase();
+}
 
-                const selected =
-                    this.set(
-                        language
-                    );
+if(parts.length===1){
+return parts[0]
+.substring(0,2)
+.toUpperCase();
+}
 
-                window.location.reload();
+return "SX";
+}
 
-                return selected;
+async function updateUserUI(user,authType){
 
-            }
+if(!user){
 
-    };
+showGuest();
 
-    function loadSupabase() {
+window.SportXCurrentUser=null;
+window.SportXCurrentAuthType=null;
 
-        return new Promise(
-            (resolve, reject) => {
+return;
+}
 
-                if (
-                    window.supabase &&
-                    typeof
-                    window.supabase.createClient
-                    === "function"
-                ) {
+showUser();
 
-                    resolve();
+let profile=null;
+let wallet=null;
 
-                    return;
+if(authType==="supabase"){
 
-                }
+profile=
+await getUserProfile(user.id);
 
-                const existing =
-                    document.querySelector(
-                        'script[src*="supabase-js"]'
-                    );
+wallet=
+await getWallet(user.id);
 
-                if (existing) {
+}
 
-                    if (
-                        window.supabase &&
-                        typeof
-                        window.supabase.createClient
-                        === "function"
-                    ) {
+let firstName=
+profile?.first_name?
+profile.first_name.trim():
+"";
 
-                        resolve();
+let lastName=
+profile?.last_name?
+profile.last_name.trim():
+"";
 
-                        return;
+let fullName=
+(firstName+" "+lastName).trim();
 
-                    }
+if(
+!fullName&&
+authType==="supabase"
+){
 
-                    existing.addEventListener(
-                        "load",
-                        function () {
+fullName=
+user.user_metadata?.first_name||
+user.user_metadata?.full_name||
+"";
+}
 
-                            resolve();
+if(
+!fullName&&
+authType==="firebase"
+){
 
-                        },
-                        {
-                            once: true
-                        }
-                    );
+fullName=getFirebaseName(user);
 
-                    existing.addEventListener(
-                        "error",
-                        function (error) {
+}
 
-                            reject(error);
+if(!fullName){
 
-                        },
-                        {
-                            once: true
-                        }
-                    );
+fullName=
+user.email||
+"SportX User";
 
-                    return;
+}
 
-                }
+let initials="";
 
-                const script =
-                    document.createElement("script");
+if(firstName){
 
-                script.src =
-                    "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2";
+initials+=
+firstName.charAt(0).toUpperCase();
 
-                script.async =
-                    true;
+}
 
-                script.onload =
-                    function () {
+if(lastName){
 
-                        resolve();
+initials+=
+lastName.charAt(0).toUpperCase();
 
-                    };
+}
 
-                script.onerror =
-                    function () {
+if(
+!initials&&
+authType==="firebase"
+){
 
-                        reject(
-                            new Error(
-                                "Unable to load Supabase."
-                            )
-                        );
+initials=
+getFirebaseInitials(user);
 
-                    };
+}
 
-                document.head.appendChild(
-                    script
-                );
+if(!initials){
 
-            }
-        );
+initials=
+fullName
+.split(/\s+/)
+.filter(Boolean)
+.slice(0,2)
+.map(
+word=>
+word.charAt(0).toUpperCase()
+)
+.join("");
 
-    }
+}
 
-    function loadFirebase() {
+if(!initials){
+initials="SX";
+}
 
-        return new Promise(
-            (resolve, reject) => {
+const balance=
+wallet?
+wallet.balance:
+profile?
+profile.balance:
+0;
 
-                if (
-                    window.firebase &&
-                    typeof
-                    window.firebase.initializeApp
-                    === "function" &&
-                    typeof
-                    window.firebase.auth
-                    === "function"
-                ) {
+const currency=
+wallet?.currency||
+"AFN";
 
-                    resolve();
+nameElements.forEach(
+element=>{
+element.textContent=fullName;
+}
+);
 
-                    return;
+initialsElements.forEach(
+element=>{
+element.textContent=initials;
+}
+);
 
-                }
+balanceElements.forEach(
+element=>{
+element.textContent=
+formatBalance(
+balance,
+currency
+);
+}
+);
 
-                const appScript =
-                    document.querySelector(
-                        'script[src*="firebase-app-compat.js"]'
-                    );
+window.SportXCurrentUser=user;
+window.SportXCurrentAuthType=authType;
 
-                const authScript =
-                    document.querySelector(
-                        'script[src*="firebase-auth-compat.js"]'
-                    );
+}
 
-                let appLoaded =
-                    !!appScript;
+let firebaseAuth=null;
 
-                let authLoaded =
-                    !!authScript;
+async function updateAuthenticationState(){
 
-                function check() {
+let supabaseSession=null;
 
-                    if (
-                        window.firebase &&
-                        typeof
-                        window.firebase.initializeApp
-                        === "function" &&
-                        typeof
-                        window.firebase.auth
-                        === "function"
-                    ) {
+try{
 
-                        resolve();
+const result=
+await supabaseClient
+.auth
+.getSession();
 
-                    }
+supabaseSession=
+result?.data?.session||
+null;
 
-                }
+}catch(error){}
 
-                if (appScript) {
+if(supabaseSession){
 
-                    appScript.addEventListener(
-                        "load",
-                        function () {
+await updateUserUI(
+supabaseSession.user,
+"supabase"
+);
 
-                            appLoaded =
-                                true;
+return true;
+}
 
-                            check();
+if(firebaseAuth?.currentUser){
 
-                        },
-                        {
-                            once: true
-                        }
-                    );
+await updateUserUI(
+firebaseAuth.currentUser,
+"firebase"
+);
 
-                    appScript.addEventListener(
-                        "error",
-                        reject,
-                        {
-                            once: true
-                        }
-                    );
+return true;
+}
 
-                }
+showGuest();
 
-                if (authScript) {
+window.SportXCurrentUser=null;
+window.SportXCurrentAuthType=null;
 
-                    authScript.addEventListener(
-                        "load",
-                        function () {
+return false;
+}
 
-                            authLoaded =
-                                true;
+logoutButtons.forEach(
+button=>{
 
-                            check();
+if(button.dataset.sportxLogoutBound){
+return;
+}
 
-                        },
-                        {
-                            once: true
-                        }
-                    );
+button.dataset.sportxLogoutBound="true";
 
-                    authScript.addEventListener(
-                        "error",
-                        reject,
-                        {
-                            once: true
-                        }
-                    );
+button.addEventListener(
+"click",
+async event=>{
 
-                }
+event.preventDefault();
 
-                if (!appScript) {
+button.disabled=true;
 
-                    const script =
-                        document.createElement("script");
+try{
 
-                    script.src =
-                        "https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js";
+try{
+await supabaseClient.auth.signOut();
+}catch(error){}
 
-                    script.onload =
-                        function () {
+if(firebaseAuth){
 
-                            appLoaded =
-                                true;
+try{
+await firebaseAuth.signOut();
+}catch(error){}
 
-                            check();
+}
 
-                        };
+localStorage.removeItem(
+"sportx_demo_user"
+);
 
-                    script.onerror =
-                        reject;
+localStorage.removeItem(
+"sportx_firebase_user"
+);
 
-                    document.head.appendChild(
-                        script
-                    );
+window.SportXCurrentUser=null;
+window.SportXCurrentAuthType=null;
 
-                }
+window.location.replace(
+"login.html"
+);
 
-                if (!authScript) {
+}catch(error){
 
-                    const script =
-                        document.createElement("script");
+button.disabled=false;
 
-                    script.src =
-                        "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js";
+}
 
-                    script.onload =
-                        function () {
+}
+);
 
-                            authLoaded =
-                                true;
+}
+);
 
-                            check();
+const sessionResult=
+await supabaseClient
+.auth
+.getSession();
 
-                        };
+if(sessionResult?.data?.session){
 
-                    script.onerror =
-                        reject;
+await updateUserUI(
+sessionResult.data.session.user,
+"supabase"
+);
 
-                    document.head.appendChild(
-                        script
-                    );
+}else{
 
-                }
+showGuest();
 
-                if (
-                    appLoaded &&
-                    authLoaded
-                ) {
+window.SportXCurrentUser=null;
+window.SportXCurrentAuthType=null;
 
-                    check();
+}
 
-                }
+if(
+typeof window.SportXResolveAuthReady==="function"
+){
 
-                setTimeout(
-                    function () {
+window.SportXResolveAuthReady({
+user:window.SportXCurrentUser||null,
+authType:window.SportXCurrentAuthType||null
+});
 
-                        if (
-                            !window.firebase ||
-                            typeof
-                            window.firebase.auth
-                            !== "function"
-                        ) {
+}
 
-                            reject(
-                                new Error(
-                                    "Unable to load Firebase."
-                                )
-                            );
+window.SportXAuthInitialized=true;
 
-                        }
+if(!window.SportXAuthListenerStarted){
 
-                    },
-                    10000
-                );
+window.SportXAuthListenerStarted=true;
 
-            }
-        );
+supabaseClient.auth.onAuthStateChange(
+async(event,session)=>{
 
-    }
+if(session){
 
-    async function initFirebase() {
+await updateUserUI(
+session.user,
+"supabase"
+);
 
-        await loadFirebase();
+}else if(firebaseAuth?.currentUser){
 
-        if (
-            !window.firebase.apps ||
-            !window.firebase.apps.length
-        ) {
+await updateUserUI(
+firebaseAuth.currentUser,
+"firebase"
+);
 
-            window.firebase.initializeApp(
-                FIREBASE_CONFIG
-            );
+}else{
 
-        }
+showGuest();
 
-        return window.firebase.auth();
+window.SportXCurrentUser=null;
+window.SportXCurrentAuthType=null;
 
-    }
+}
 
-    async function initSportXAuth() {
+}
+);
 
-        try {
+}
 
-            await loadSupabase();
+initFirebase()
+.then(auth=>{
 
-            const supabaseClient =
-                window.supabase.createClient(
-                    SUPABASE_URL,
-                    SUPABASE_KEY
-                );
+firebaseAuth=auth;
 
-            window.SportXSupabase =
-                supabaseClient;
+firebaseAuth.onAuthStateChanged(
+async user=>{
 
-            let firebaseAuth =
-                null;
+if(user){
 
-            try {
+const current=
+await supabaseClient
+.auth
+.getSession();
 
-                firebaseAuth =
-                    await initFirebase();
+if(!current.data.session){
 
-            }
-            catch (firebaseError) {
+localStorage.setItem(
+"sportx_firebase_user",
+JSON.stringify({
+uid:user.uid,
+email:user.email,
+displayName:user.displayName,
+photoURL:user.photoURL
+})
+);
 
-                console.warn(
-                    "SportX Firebase initialization:",
-                    firebaseError
-                );
+await updateUserUI(
+user,
+"firebase"
+);
 
-            }
+}
 
-            const guestElements =
-                document.querySelectorAll(
-                    "[data-auth-guest]"
-                );
+}else{
 
-            const userElements =
-                document.querySelectorAll(
-                    "[data-auth-user]"
-                );
+localStorage.removeItem(
+"sportx_firebase_user"
+);
 
-            const logoutButtons =
-                document.querySelectorAll(
-                    "[data-auth-logout]"
-                );
+const current=
+await supabaseClient
+.auth
+.getSession();
 
-            const nameElements =
-                document.querySelectorAll(
-                    "[data-user-name]"
-                );
+if(!current.data.session){
 
-            const balanceElements =
-                document.querySelectorAll(
-                    "[data-user-balance]"
-                );
+showGuest();
 
-            const initialsElements =
-                document.querySelectorAll(
-                    "[data-user-initials]"
-                );
+window.SportXCurrentUser=null;
+window.SportXCurrentAuthType=null;
 
-            function showGuest() {
+}
 
-                guestElements.forEach(
-                    element => {
+}
 
-                        element.style.display =
-                            "";
+}
+);
 
-                    }
-                );
+})
+.catch(error=>{
 
-                userElements.forEach(
-                    element => {
+console.warn(
+"SportX Firebase:",
+error
+);
 
-                        element.style.display =
-                            "none";
+});
 
-                    }
-                );
+}catch(error){
 
-            }
+console.error(
+"SportX Auth initialization failed:",
+error
+);
 
-            function showUser() {
+showGuest();
 
-                guestElements.forEach(
-                    element => {
+window.SportXCurrentUser=null;
+window.SportXCurrentAuthType=null;
 
-                        element.style.display =
-                            "none";
+if(
+typeof window.SportXResolveAuthReady==="function"
+){
 
-                    }
-                );
+window.SportXResolveAuthReady({
+user:null,
+authType:null,
+error:error
+});
 
-                userElements.forEach(
-                    element => {
+}
 
-                        element.style.display =
-                            "";
+window.SportXAuthInitialized=true;
 
-                    }
-                );
+}
 
-            }
+}
 
-            async function getUserProfile(userId) {
+if(document.readyState==="loading"){
 
-                try {
+document.addEventListener(
+"DOMContentLoaded",
+initSportXLanguage,
+{once:true}
+);
 
-                    const result =
-                        await supabaseClient
-                        .from("users")
-                        .select(`
-                            id,
-                            first_name,
-                            last_name,
-                            email,
-                            balance,
-                            status
-                        `)
-                        .eq("id", userId)
-                        .maybeSingle();
+document.addEventListener(
+"DOMContentLoaded",
+initSportXAuth,
+{once:true}
+);
 
-                    if (result.error) {
+}else{
 
-                        console.warn(
-                            "SportX profile query:",
-                            result.error
-                        );
+initSportXLanguage();
+initSportXAuth();
 
-                        return null;
-
-                    }
-
-                    return result.data || null;
-
-                }
-                catch (error) {
-
-                    console.warn(
-                        "SportX profile error:",
-                        error
-                    );
-
-                    return null;
-
-                }
-
-            }
-
-            async function getWallet(userId) {
-
-                try {
-
-                    const result =
-                        await supabaseClient
-                        .from("wallets")
-                        .select(`
-                            balance,
-                            currency
-                        `)
-                        .eq("user_id", userId)
-                        .maybeSingle();
-
-                    if (result.error) {
-
-                        console.warn(
-                            "SportX wallet query:",
-                            result.error
-                        );
-
-                        return null;
-
-                    }
-
-                    return result.data || null;
-
-                }
-                catch (error) {
-
-                    console.warn(
-                        "SportX wallet error:",
-                        error
-                    );
-
-                    return null;
-
-                }
-
-            }
-
-            function formatBalance(
-                balance,
-                currency
-            ) {
-
-                const amount =
-                    Number(balance || 0);
-
-                const formatted =
-                    amount.toLocaleString(
-                        "en-US",
-                        {
-                            minimumFractionDigits: 0,
-                            maximumFractionDigits: 2
-                        }
-                    );
-
-                return (
-                    String(
-                        currency || "AFN"
-                    ) +
-                    " " +
-                    formatted
-                );
-
-            }
-
-            function getFirebaseName(user) {
-
-                if (!user) {
-
-                    return "";
-
-                }
-
-                if (user.displayName) {
-
-                    return user.displayName;
-
-                }
-
-                if (user.email) {
-
-                    return user.email.split("@")[0];
-
-                }
-
-                return "SportX User";
-
-            }
-
-            function getFirebaseInitials(user) {
-
-                const name =
-                    getFirebaseName(user);
-
-                const parts =
-                    name
-                    .trim()
-                    .split(/\s+/)
-                    .filter(Boolean);
-
-                if (parts.length >= 2) {
-
-                    return (
-                        parts[0].charAt(0) +
-                        parts[1].charAt(0)
-                    ).toUpperCase();
-
-                }
-
-                if (parts.length === 1) {
-
-                    return parts[0]
-                        .substring(0, 2)
-                        .toUpperCase();
-
-                }
-
-                return "SX";
-
-            }
-
-            async function updateUserUI(user, authType) {
-
-                if (!user) {
-
-                    showGuest();
-
-                    return;
-
-                }
-
-                showUser();
-
-                let profile =
-                    null;
-
-                let wallet =
-                    null;
-
-                if (
-                    authType === "supabase"
-                ) {
-
-                    profile =
-                        await getUserProfile(
-                            user.id
-                        );
-
-                    wallet =
-                        await getWallet(
-                            user.id
-                        );
-
-                }
-
-                let firstName =
-                    profile &&
-                    profile.first_name
-                        ? profile.first_name.trim()
-                        : "";
-
-                let lastName =
-                    profile &&
-                    profile.last_name
-                        ? profile.last_name.trim()
-                        : "";
-
-                let fullName =
-                    (
-                        firstName +
-                        " " +
-                        lastName
-                    ).trim();
-
-                if (
-                    !fullName &&
-                    authType === "supabase"
-                ) {
-
-                    fullName =
-                        user.user_metadata &&
-                        (
-                            user.user_metadata.first_name ||
-                            user.user_metadata.full_name
-                        )
-                            ? (
-                                user.user_metadata.first_name ||
-                                user.user_metadata.full_name
-                            )
-                            : "";
-
-                }
-
-                if (
-                    !fullName &&
-                    authType === "firebase"
-                ) {
-
-                    fullName =
-                        getFirebaseName(user);
-
-                }
-
-                if (!fullName) {
-
-                    fullName =
-                        user.email ||
-                        "SportX User";
-
-                }
-
-                let initials =
-                    "";
-
-                if (firstName) {
-
-                    initials +=
-                        firstName
-                        .charAt(0)
-                        .toUpperCase();
-
-                }
-
-                if (lastName) {
-
-                    initials +=
-                        lastName
-                        .charAt(0)
-                        .toUpperCase();
-
-                }
-
-                if (
-                    !initials &&
-                    authType === "firebase"
-                ) {
-
-                    initials =
-                        getFirebaseInitials(
-                            user
-                        );
-
-                }
-
-                if (!initials) {
-
-                    initials =
-                        fullName
-                        .split(/\s+/)
-                        .filter(Boolean)
-                        .slice(0, 2)
-                        .map(
-                            word =>
-                                word
-                                .charAt(0)
-                                .toUpperCase()
-                        )
-                        .join("");
-
-                }
-
-                if (!initials) {
-
-                    initials =
-                        "SX";
-
-                }
-
-                let balance =
-                    wallet
-                        ? wallet.balance
-                        : (
-                            profile
-                                ? profile.balance
-                                : 0
-                        );
-
-                let currency =
-                    wallet &&
-                    wallet.currency
-                        ? wallet.currency
-                        : "AFN";
-
-                nameElements.forEach(
-                    element => {
-
-                        element.textContent =
-                            fullName;
-
-                    }
-                );
-
-                initialsElements.forEach(
-                    element => {
-
-                        element.textContent =
-                            initials;
-
-                    }
-                );
-
-                balanceElements.forEach(
-                    element => {
-
-                        element.textContent =
-                            formatBalance(
-                                balance,
-                                currency
-                            );
-
-                    }
-                );
-
-                window.SportXCurrentUser =
-                    user;
-
-                window.SportXCurrentAuthType =
-                    authType;
-
-            }
-
-            async function updateAuthenticationState() {
-
-                let supabaseSession =
-                    null;
-
-                try {
-
-                    const result =
-                        await supabaseClient
-                        .auth
-                        .getSession();
-
-                    if (
-                        result &&
-                        result.data &&
-                        result.data.session
-                    ) {
-
-                        supabaseSession =
-                            result.data.session;
-
-                    }
-
-                }
-                catch (error) {
-
-                    console.warn(
-                        "SportX Supabase session:",
-                        error
-                    );
-
-                }
-
-                if (supabaseSession) {
-
-                    await updateUserUI(
-                        supabaseSession.user,
-                        "supabase"
-                    );
-
-                    return;
-
-                }
-
-                if (firebaseAuth) {
-
-                    const firebaseUser =
-                        firebaseAuth.currentUser;
-
-                    if (firebaseUser) {
-
-                        await updateUserUI(
-                            firebaseUser,
-                            "firebase"
-                        );
-
-                        return;
-
-                    }
-
-                }
-
-                showGuest();
-
-                window.SportXCurrentUser =
-                    null;
-
-                window.SportXCurrentAuthType =
-                    null;
-
-            }
-
-            logoutButtons.forEach(
-                button => {
-
-                    if (
-                        button.dataset.sportxLogoutBound
-                    ) {
-
-                        return;
-
-                    }
-
-                    button.dataset.sportxLogoutBound =
-                        "true";
-
-                    button.addEventListener(
-                        "click",
-                        async event => {
-
-                            event.preventDefault();
-
-                            button.disabled =
-                                true;
-
-                            try {
-
-                                try {
-
-                                    await supabaseClient
-                                    .auth
-                                    .signOut();
-
-                                }
-                                catch (error) {
-
-                                    console.warn(
-                                        "SportX Supabase logout:",
-                                        error
-                                    );
-
-                                }
-
-                                if (firebaseAuth) {
-
-                                    try {
-
-                                        await firebaseAuth
-                                        .signOut();
-
-                                    }
-                                    catch (error) {
-
-                                        console.warn(
-                                            "SportX Firebase logout:",
-                                            error
-                                        );
-
-                                    }
-
-                                }
-
-                                localStorage.removeItem(
-                                    "sportx_demo_user"
-                                );
-
-                                localStorage.removeItem(
-                                    "sportx_firebase_user"
-                                );
-
-                                window.SportXCurrentUser =
-                                    null;
-
-                                window.SportXCurrentAuthType =
-                                    null;
-
-                                window.location.replace(
-                                    "login.html"
-                                );
-
-                            }
-                            catch (error) {
-
-                                console.error(
-                                    "SportX logout error:",
-                                    error
-                                );
-
-                                button.disabled =
-                                    false;
-
-                            }
-
-                        }
-                    );
-
-                }
-            );
-
-            const sessionResult =
-                await supabaseClient
-                .auth
-                .getSession();
-
-            if (
-                sessionResult.error
-            ) {
-
-                console.error(
-                    "SportX session error:",
-                    sessionResult.error
-                );
-
-            }
-
-            await updateAuthenticationState();
-
-            if (
-                !window.SportXAuthListenerStarted
-            ) {
-
-                window.SportXAuthListenerStarted =
-                    true;
-
-                supabaseClient
-                .auth
-                .onAuthStateChange(
-                    async (
-                        event,
-                        session
-                    ) => {
-
-                        console.log(
-                            "SportX Supabase Auth:",
-                            event
-                        );
-
-                        if (session) {
-
-                            await updateUserUI(
-                                session.user,
-                                "supabase"
-                            );
-
-                        }
-                        else if (
-                            firebaseAuth &&
-                            firebaseAuth.currentUser
-                        ) {
-
-                            await updateUserUI(
-                                firebaseAuth.currentUser,
-                                "firebase"
-                            );
-
-                        }
-                        else {
-
-                            showGuest();
-
-                        }
-
-                    }
-                );
-
-            }
-
-            if (firebaseAuth) {
-
-                firebaseAuth.onAuthStateChanged(
-                    async user => {
-
-                        console.log(
-                            "SportX Firebase Auth:",
-                            user
-                                ? "SIGNED_IN"
-                                : "SIGNED_OUT"
-                        );
-
-                        if (user) {
-
-                            const currentSupabase =
-                                await supabaseClient
-                                .auth
-                                .getSession();
-
-                            if (
-                                !currentSupabase.data.session
-                            ) {
-
-                                localStorage.setItem(
-                                    "sportx_firebase_user",
-                                    JSON.stringify({
-                                        uid: user.uid,
-                                        email: user.email,
-                                        displayName: user.displayName,
-                                        photoURL: user.photoURL
-                                    })
-                                );
-
-                                await updateUserUI(
-                                    user,
-                                    "firebase"
-                                );
-
-                            }
-
-                        }
-                        else {
-
-                            localStorage.removeItem(
-                                "sportx_firebase_user"
-                            );
-
-                            const currentSupabase =
-                                await supabaseClient
-                                .auth
-                                .getSession();
-
-                            if (
-                                !currentSupabase.data.session
-                            ) {
-
-                                showGuest();
-
-                                window.SportXCurrentUser =
-                                    null;
-
-                                window.SportXCurrentAuthType =
-                                    null;
-
-                            }
-
-                        }
-
-                    }
-                );
-
-            }
-
-        }
-        catch (error) {
-
-            console.error(
-                "SportX Auth initialization failed:",
-                error
-            );
-
-            document
-            .querySelectorAll(
-                "[data-auth-guest]"
-            )
-            .forEach(
-                element => {
-
-                    element.style.display =
-                        "";
-
-                }
-            );
-
-            document
-            .querySelectorAll(
-                "[data-auth-user]"
-            )
-            .forEach(
-                element => {
-
-                    element.style.display =
-                        "none";
-
-                }
-            );
-
-        }
-
-    }
-
-    if (
-        document.readyState ===
-        "loading"
-    ) {
-
-        document.addEventListener(
-            "DOMContentLoaded",
-            function () {
-
-                initSportXLanguage();
-
-            },
-            {
-                once: true
-            }
-        );
-
-    }
-    else {
-
-        initSportXLanguage();
-
-    }
-
-    if (
-        document.readyState ===
-        "loading"
-    ) {
-
-        document.addEventListener(
-            "DOMContentLoaded",
-            initSportXAuth,
-            {
-                once: true
-            }
-        );
-
-    }
-    else {
-
-        initSportXAuth();
-
-    }
+}
 
 })();
