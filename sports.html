@@ -2395,7 +2395,6 @@ function mergeMatches(
 /* ---------------------------------------------------------
    Strict lifecycle cleanup
 --------------------------------------------------------- */
-
 function cleanupMatches(
     matches
 ){
@@ -2422,15 +2421,13 @@ function cleanupMatches(
         }
 
         /*
-         * Only exact featured teams.
+         * IMPORTANT:
+         * Do NOT restrict football matches
+         * to the old FEATURED_TEAM_SLUGS list.
+         *
+         * swift-processor now returns real
+         * SportScore football matches globally.
          */
-        if(
-            !isFeaturedTeam(
-                match
-            )
-        ){
-            continue;
-        }
 
         /*
          * Cancelled/postponed never appear.
@@ -2445,10 +2442,9 @@ function cleanupMatches(
         }
 
         /*
-         * Finished:
-         * must have an actual finish observation.
-         * Old SportScore Finished records without this
-         * timestamp are rejected.
+         * Finished matches:
+         * keep only recently observed finished
+         * matches from an already known lifecycle.
          */
         if(
             match.status ===
@@ -2484,7 +2480,7 @@ function cleanupMatches(
         }
 
         /*
-         * Live stays visible.
+         * Live matches.
          */
         if(
             match.status ===
@@ -2499,7 +2495,7 @@ function cleanupMatches(
         }
 
         /*
-         * Scheduled:
+         * Scheduled matches:
          * only future matches inside 7 days.
          */
         const start =
@@ -2610,7 +2606,6 @@ function extractWorkerMatches(
 /* ---------------------------------------------------------
    Worker call
 --------------------------------------------------------- */
-
 async function loadWorkerMatches(){
 
     const result =
@@ -2619,9 +2614,7 @@ async function loadWorkerMatches(){
             {
                 method:"POST",
                 body:{
-                    sport:"football",
-                    teams:
-                        FEATURED_TEAM_SLUGS
+                    sport:"football"
                 }
             }
         );
@@ -2632,8 +2625,23 @@ async function loadWorkerMatches(){
         throw result.error;
     }
 
+    const data =
+        result?.data;
+
+    /*
+     * Worker response:
+     *
+     * {
+     *   ok: true,
+     *   source: "SportScore",
+     *   count: 200,
+     *   max: 200,
+     *   matches: [...]
+     * }
+     */
+
     return extractWorkerMatches(
-        result?.data
+        data
     );
 }
 
