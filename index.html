@@ -51,7 +51,73 @@ min-height:100vh
 }
 
 body.auth-loading{
-visibility:hidden
+overflow:hidden
+}
+
+#authLoadingScreen{
+position:fixed;
+inset:0;
+z-index:10000;
+display:flex;
+align-items:center;
+justify-content:center;
+background:
+radial-gradient(circle at 50% 35%,rgba(22,217,139,.12),transparent 35%),
+#fff;
+transition:opacity .35s ease,visibility .35s ease
+}
+
+#authLoadingScreen.hide{
+opacity:0;
+visibility:hidden;
+pointer-events:none
+}
+
+.auth-loading-box{
+text-align:center
+}
+
+.auth-loading-logo{
+width:68px;
+height:68px;
+margin:0 auto 20px;
+border-radius:20px;
+display:grid;
+place-items:center;
+background:linear-gradient(135deg,var(--green),var(--green-dark));
+color:#03120c;
+font-size:30px;
+font-weight:900;
+box-shadow:0 15px 45px rgba(22,217,139,.25);
+animation:authLogoPulse 1.4s ease-in-out infinite
+}
+
+.auth-loading-spinner{
+width:38px;
+height:38px;
+margin:0 auto 15px;
+border:3px solid rgba(22,217,139,.15);
+border-top-color:var(--green-dark);
+border-radius:50%;
+animation:spin .8s linear infinite
+}
+
+.auth-loading-box strong{
+display:block;
+font-size:15px;
+font-weight:900
+}
+
+.auth-loading-box span{
+display:block;
+margin-top:6px;
+color:var(--muted);
+font-size:11px
+}
+
+@keyframes authLogoPulse{
+0%,100%{transform:scale(1)}
+50%{transform:scale(1.06)}
 }
 
 button,a{-webkit-tap-highlight-color:transparent}
@@ -1143,6 +1209,28 @@ grid-template-columns:1fr
 </head>
 
 <body class="auth-loading">
+
+<div id="authLoadingScreen">
+
+<div class="auth-loading-box">
+
+<div class="auth-loading-logo">
+S
+</div>
+
+<div class="auth-loading-spinner"></div>
+
+<strong>
+Loading SportX
+</strong>
+
+<span>
+Checking your account...
+</span>
+
+</div>
+
+</div>
 
 <header class="header">
 
@@ -4821,15 +4909,33 @@ resolve=>setTimeout(resolve,100)
 
 }
 
-}
-
 async function startSportXHome(){
+
+const loadingScreen =
+document.getElementById(
+"authLoadingScreen"
+);
+
+try{
 
 await waitForAuthReady();
 
 document.body.classList.remove(
 "auth-loading"
 );
+
+if(loadingScreen){
+
+loadingScreen.classList.add("hide");
+
+setTimeout(
+()=>{
+loadingScreen.remove();
+},
+400
+);
+
+}
 
 await loadProfileData();
 
@@ -4877,7 +4983,65 @@ await loadProfileData();
 REFRESH_INTERVAL_MS
 );
 
+}catch(error){
+
+console.error(
+"SportX startup:",
+error
+);
+
+document.body.classList.remove(
+"auth-loading"
+);
+
+if(loadingScreen){
+
+loadingScreen.classList.add("hide");
+
+setTimeout(
+()=>{
+loadingScreen.remove();
+},
+400
+);
+
 }
+
+loadHomeMatches().catch(
+error=>{
+console.error(
+"SportX fallback:",
+error
+);
+}
+);
+
+}
+
+}
+
+window.addEventListener(
+"load",
+()=>{
+
+setTimeout(
+()=>{
+
+if(
+!isStandalone() &&
+!recentlyDismissedInstall() &&
+!installModal?.classList.contains("show")
+){
+
+showInstallModal();
+
+}
+
+},
+2500
+);
+
+});
 
 startSportXHome();
 
