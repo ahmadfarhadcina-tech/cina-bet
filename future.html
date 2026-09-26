@@ -1034,26 +1034,36 @@ function teamName(team){
 
 }
 
-
 function teamLogo(team){
 
   if(typeof team === "string"){
     return "";
   }
 
-  return (
+  const logo =
+    team?.logo?.url ||
+    team?.logo?.src ||
     team?.logo ||
     team?.logo_url ||
     team?.logoUrl ||
+    team?.image?.url ||
+    team?.image?.src ||
     team?.image ||
     team?.image_url ||
     team?.imageUrl ||
+    team?.crest?.url ||
     team?.crest ||
+    team?.crest_url ||
+    team?.badge?.url ||
     team?.badge ||
+    team?.badge_url ||
+    team?.icon?.url ||
     team?.icon ||
-    ""
-  );
+    "";
 
+  return typeof logo === "string"
+    ? logo
+    : "";
 }
 
 
@@ -1372,6 +1382,7 @@ function matchId(
    NORMALIZE MATCH
 ========================================================= */
 
+
 function normalizeMatch(
   raw,
   sourceTeam
@@ -1423,10 +1434,16 @@ function normalizeMatch(
     away,
 
     homeLogo:
-      teamLogo(h),
+      raw.home_logo ||
+      raw.homeLogo ||
+      teamLogo(h) ||
+      "",
 
     awayLogo:
-      teamLogo(a),
+      raw.away_logo ||
+      raw.awayLogo ||
+      teamLogo(a) ||
+      "",
 
     league:
       leagueName(raw),
@@ -1451,7 +1468,6 @@ function normalizeMatch(
   };
 
 }
-
 
 /* =========================================================
    API
