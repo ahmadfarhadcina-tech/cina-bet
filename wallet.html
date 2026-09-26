@@ -2,823 +2,504 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Wallet | SportX</title>
-
 <style>
 :root{
-    --bg:#07100e;
-    --panel:#0d1815;
-    --panel-2:#111f1b;
-    --green:#16d98b;
-    --green-dark:#0e9d65;
-    --text:#f3f7f5;
-    --muted:#8d9d97;
-    --border:rgba(255,255,255,.07);
-    --danger:#ff5f6d;
-    --gold:#f4c95d;
-    --blue:#5da9ff;
+--bg:#07100e;
+--panel:#0d1815;
+--panel2:#111f1b;
+--green:#16d98b;
+--green2:#0e9d65;
+--text:#f3f7f5;
+--muted:#8d9d97;
+--border:rgba(255,255,255,.07);
+--danger:#ff5f6d;
+--gold:#f4c95d;
 }
-
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
-
-html{
-    scroll-behavior:smooth;
-}
-
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
 body{
-    font-family:Inter,Arial,Helvetica,sans-serif;
-    background:
-        radial-gradient(circle at 15% 10%,rgba(22,217,139,.08),transparent 30%),
-        radial-gradient(circle at 85% 20%,rgba(22,217,139,.05),transparent 25%),
-        var(--bg);
-    color:var(--text);
-    min-height:100vh;
+font-family:Inter,Arial,Helvetica,sans-serif;
+background:
+radial-gradient(circle at 15% 10%,rgba(22,217,139,.08),transparent 30%),
+radial-gradient(circle at 85% 20%,rgba(22,217,139,.05),transparent 25%),
+var(--bg);
+color:var(--text);
+min-height:100vh;
 }
-
-a{
-    color:inherit;
-    text-decoration:none;
-}
-
-button,
-input,
-select{
-    font:inherit;
-}
-
-button{
-    border:0;
-    cursor:pointer;
-}
-
-.container{
-    width:min(1180px,calc(100% - 32px));
-    margin:auto;
-}
-
-/* =========================
-   HEADER
-========================= */
+button,input{font:inherit}
+button{border:0;cursor:pointer}
+a{color:inherit;text-decoration:none}
+.container{width:min(1180px,calc(100% - 32px));margin:auto}
 
 header{
-    position:sticky;
-    top:0;
-    z-index:100;
-    background:rgba(7,16,14,.88);
-    backdrop-filter:blur(18px);
-    border-bottom:1px solid var(--border);
+position:sticky;
+top:0;
+z-index:100;
+background:rgba(7,16,14,.9);
+backdrop-filter:blur(18px);
+border-bottom:1px solid var(--border)
 }
-
 .navbar{
-    min-height:72px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:20px;
+min-height:72px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:20px
 }
-
 .logo{
-    font-size:24px;
-    font-weight:900;
-    letter-spacing:-1px;
+font-size:24px;
+font-weight:900;
+letter-spacing:-1px
 }
-
-.logo span{
-    color:var(--green);
-}
-
+.logo span{color:var(--green)}
 .nav-links{
-    display:flex;
-    align-items:center;
-    gap:26px;
+display:flex;
+align-items:center;
+gap:26px
 }
-
 .nav-links a{
-    color:var(--muted);
-    font-size:14px;
-    font-weight:700;
-    transition:.25s ease;
+color:var(--muted);
+font-size:14px;
+font-weight:700
 }
-
-.nav-links a:hover,
-.nav-links a.active{
-    color:var(--green);
-}
-
-.header-right{
-    display:flex;
-    align-items:center;
-}
-
-/* Guest */
-
+.nav-links a.active,.nav-links a:hover{color:var(--green)}
+.header-right{display:flex;align-items:center}
 .login-btn{
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
-    padding:10px 18px;
-    border-radius:10px;
-    background:var(--green);
-    color:#04110c;
-    font-size:14px;
-    font-weight:900;
-    transition:.25s ease;
+padding:10px 18px;
+border-radius:10px;
+background:var(--green);
+color:#04110c;
+font-size:14px;
+font-weight:900
 }
-
-.login-btn:hover{
-    transform:translateY(-2px);
-    background:#29e99c;
-    box-shadow:0 10px 30px rgba(22,217,139,.18);
-}
-
-/* Auth User */
-
-.user-account{
-    display:flex;
-    align-items:center;
-    gap:10px;
-}
-
+.user-account{display:flex;align-items:center;gap:10px}
 .user-avatar{
-    width:38px;
-    height:38px;
-    border-radius:50%;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    background:linear-gradient(135deg,var(--green),var(--green-dark));
-    color:#04110c;
-    font-weight:900;
-    font-size:13px;
+width:38px;
+height:38px;
+border-radius:50%;
+display:flex;
+align-items:center;
+justify-content:center;
+background:linear-gradient(135deg,var(--green),var(--green2));
+color:#04110c;
+font-weight:900
 }
-
-.user-info{
-    display:flex;
-    flex-direction:column;
-    line-height:1.2;
-}
-
-.user-info strong{
-    font-size:13px;
-}
-
-.user-info span{
-    color:var(--green);
-    font-size:12px;
-    margin-top:3px;
-}
-
+.user-info{display:flex;flex-direction:column;line-height:1.2}
+.user-info strong{font-size:13px}
+.user-info span{font-size:12px;color:var(--green);margin-top:3px}
 .logout-btn{
-    margin-left:5px;
-    padding:8px 12px;
-    border-radius:8px;
-    background:rgba(255,95,109,.08);
-    color:var(--danger);
-    font-size:12px;
-    font-weight:800;
-    transition:.25s ease;
+padding:8px 12px;
+border-radius:8px;
+background:rgba(255,95,109,.08);
+color:var(--danger);
+font-size:12px;
+font-weight:800
 }
 
-.logout-btn:hover{
-    background:rgba(255,95,109,.16);
-}
-
-/* =========================
-   PAGE
-========================= */
-
-main{
-    padding:45px 0 70px;
-}
-
-.page-head{
-    margin-bottom:28px;
-    animation:rise .5s ease both;
-}
-
-.page-head h1{
-    font-size:34px;
-    margin-bottom:8px;
-}
-
-.page-head p{
-    color:var(--muted);
-    font-size:14px;
-}
-
-/* =========================
-   BALANCE
-========================= */
+main{padding:45px 0 70px}
+.page-head{margin-bottom:28px}
+.page-head h1{font-size:34px;margin-bottom:8px}
+.page-head p{color:var(--muted);font-size:14px}
 
 .balance-card{
-    position:relative;
-    overflow:hidden;
-    background:
-        linear-gradient(135deg,rgba(22,217,139,.16),rgba(13,24,21,.96));
-    border:1px solid rgba(22,217,139,.18);
-    border-radius:20px;
-    padding:30px;
-    margin-bottom:25px;
-    animation:rise .55s ease both;
+position:relative;
+overflow:hidden;
+background:linear-gradient(135deg,rgba(22,217,139,.16),rgba(13,24,21,.96));
+border:1px solid rgba(22,217,139,.18);
+border-radius:20px;
+padding:30px;
+margin-bottom:25px
 }
-
-.balance-card::before{
-    content:"";
-    position:absolute;
-    width:260px;
-    height:260px;
-    border-radius:50%;
-    background:rgba(22,217,139,.07);
-    right:-100px;
-    top:-130px;
+.balance-card:before{
+content:"";
+position:absolute;
+width:260px;
+height:260px;
+border-radius:50%;
+background:rgba(22,217,139,.07);
+right:-100px;
+top:-130px
 }
-
 .balance-label{
-    color:var(--muted);
-    font-size:13px;
-    font-weight:700;
-    margin-bottom:10px;
+color:var(--muted);
+font-size:13px;
+font-weight:700;
+margin-bottom:10px
 }
-
 .balance-amount{
-    font-size:42px;
-    font-weight:900;
-    letter-spacing:-1px;
-    margin-bottom:20px;
+font-size:42px;
+font-weight:900;
+letter-spacing:-1px;
+margin-bottom:20px
 }
-
-.balance-amount span{
-    color:var(--green);
+.balance-amount span{color:var(--green)}
+.balance-actions{display:flex;gap:12px;flex-wrap:wrap}
+.primary-btn,.secondary-btn{
+padding:12px 20px;
+border-radius:10px;
+font-weight:800;
+font-size:14px;
+transition:.25s
 }
-
-.balance-actions{
-    display:flex;
-    gap:12px;
-    flex-wrap:wrap;
+.primary-btn{background:var(--green);color:#04110c}
+.primary-btn:disabled{
+opacity:.45;
+cursor:not-allowed;
+transform:none!important;
+box-shadow:none!important
 }
-
-.primary-btn,
 .secondary-btn{
-    padding:12px 20px;
-    border-radius:10px;
-    font-weight:800;
-    font-size:14px;
-    transition:.25s ease;
+background:rgba(255,255,255,.05);
+color:var(--text);
+border:1px solid var(--border)
 }
-
-.primary-btn{
-    background:var(--green);
-    color:#04110c;
+.primary-btn:hover:not(:disabled){
+transform:translateY(-2px);
+box-shadow:0 12px 30px rgba(22,217,139,.18)
 }
-
-.primary-btn:hover{
-    transform:translateY(-2px);
-    box-shadow:0 12px 30px rgba(22,217,139,.18);
-}
-
-.secondary-btn{
-    background:rgba(255,255,255,.05);
-    color:var(--text);
-    border:1px solid var(--border);
-}
-
 .secondary-btn:hover{
-    background:rgba(255,255,255,.09);
-    transform:translateY(-2px);
+background:rgba(255,255,255,.09);
+transform:translateY(-2px)
 }
 
-/* =========================
-   STAT CARDS
-========================= */
+.credit-box{
+margin-top:20px;
+padding:15px;
+border-radius:13px;
+background:rgba(255,255,255,.035);
+border:1px solid var(--border);
+position:relative;
+z-index:2
+}
+.credit-top{
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:15px;
+margin-bottom:8px
+}
+.credit-title{
+font-size:13px;
+font-weight:800
+}
+.credit-timer{
+font-size:13px;
+font-weight:900;
+color:var(--green)
+}
+.credit-text{
+color:var(--muted);
+font-size:11px;
+line-height:1.6
+}
+.progress{
+height:5px;
+border-radius:20px;
+background:rgba(255,255,255,.07);
+overflow:hidden;
+margin-top:12px
+}
+.progress-bar{
+height:100%;
+width:0;
+background:var(--green);
+transition:width .5s linear
+}
 
 .stats{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:16px;
-    margin-bottom:30px;
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:16px;
+margin-bottom:30px
 }
-
 .stat-card{
-    background:var(--panel);
-    border:1px solid var(--border);
-    border-radius:16px;
-    padding:21px;
-    transition:.25s ease;
-    animation:rise .6s ease both;
+background:var(--panel);
+border:1px solid var(--border);
+border-radius:16px;
+padding:21px
 }
-
-.stat-card:hover{
-    transform:translateY(-3px);
-    border-color:rgba(22,217,139,.18);
-}
-
 .stat-icon{
-    width:42px;
-    height:42px;
-    border-radius:12px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    background:rgba(22,217,139,.1);
-    color:var(--green);
-    font-size:19px;
-    margin-bottom:14px;
+width:42px;
+height:42px;
+border-radius:12px;
+display:flex;
+align-items:center;
+justify-content:center;
+background:rgba(22,217,139,.1);
+color:var(--green);
+font-size:19px;
+margin-bottom:14px
 }
-
 .stat-title{
-    color:var(--muted);
-    font-size:12px;
-    margin-bottom:6px;
+color:var(--muted);
+font-size:12px;
+margin-bottom:6px
 }
-
-.stat-value{
-    font-size:21px;
-    font-weight:900;
-}
-
-/* =========================
-   CONTENT GRID
-========================= */
+.stat-value{font-size:21px;font-weight:900}
 
 .content-grid{
-    display:grid;
-    grid-template-columns:1.5fr .8fr;
-    gap:20px;
+display:grid;
+grid-template-columns:1.5fr .8fr;
+gap:20px
 }
-
 .panel{
-    background:var(--panel);
-    border:1px solid var(--border);
-    border-radius:18px;
-    overflow:hidden;
+background:var(--panel);
+border:1px solid var(--border);
+border-radius:18px;
+overflow:hidden
 }
-
 .panel-header{
-    padding:20px;
-    border-bottom:1px solid var(--border);
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:15px;
+padding:20px;
+border-bottom:1px solid var(--border);
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:15px
 }
+.panel-header h2{font-size:17px}
+.panel-header span{color:var(--muted);font-size:12px}
 
-.panel-header h2{
-    font-size:17px;
-}
-
-.panel-header span{
-    color:var(--muted);
-    font-size:12px;
-}
-
-/* =========================
-   TRANSACTIONS
-========================= */
-
-.transaction-list{
-    display:flex;
-    flex-direction:column;
-}
-
+.transaction-list{display:flex;flex-direction:column}
 .transaction{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:15px;
-    padding:17px 20px;
-    border-bottom:1px solid var(--border);
-    transition:.2s ease;
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:15px;
+padding:17px 20px;
+border-bottom:1px solid var(--border)
 }
-
-.transaction:last-child{
-    border-bottom:0;
-}
-
-.transaction:hover{
-    background:rgba(255,255,255,.018);
-}
-
+.transaction:last-child{border-bottom:0}
 .transaction-left{
-    display:flex;
-    align-items:center;
-    gap:12px;
-    min-width:0;
+display:flex;
+align-items:center;
+gap:12px;
+min-width:0
 }
-
 .transaction-icon{
-    width:42px;
-    height:42px;
-    border-radius:12px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    flex-shrink:0;
-    font-size:17px;
+width:42px;
+height:42px;
+border-radius:12px;
+display:flex;
+align-items:center;
+justify-content:center;
+flex-shrink:0;
+font-size:17px
 }
-
 .transaction-icon.deposit{
-    background:rgba(22,217,139,.1);
-    color:var(--green);
+background:rgba(22,217,139,.1);
+color:var(--green)
 }
-
 .transaction-icon.withdraw{
-    background:rgba(255,95,109,.1);
-    color:var(--danger);
+background:rgba(255,95,109,.1);
+color:var(--danger)
 }
-
-.transaction-icon.bonus{
-    background:rgba(244,201,93,.1);
-    color:var(--gold);
+.transaction-icon.bet{
+background:rgba(244,201,93,.1);
+color:var(--gold)
 }
-
-.transaction-info{
-    min-width:0;
+.transaction-icon.win{
+background:rgba(93,169,255,.1);
+color:#5da9ff
 }
-
+.transaction-info{min-width:0}
 .transaction-title{
-    font-size:13px;
-    font-weight:800;
-    margin-bottom:4px;
+font-size:13px;
+font-weight:800;
+margin-bottom:4px
 }
-
 .transaction-date{
-    color:var(--muted);
-    font-size:11px;
+color:var(--muted);
+font-size:11px
 }
-
-.transaction-right{
-    text-align:right;
-    flex-shrink:0;
-}
-
+.transaction-right{text-align:right;flex-shrink:0}
 .transaction-amount{
-    font-size:13px;
-    font-weight:900;
-    margin-bottom:4px;
+font-size:13px;
+font-weight:900;
+margin-bottom:4px
 }
-
-.transaction-amount.positive{
-    color:var(--green);
-}
-
-.transaction-amount.negative{
-    color:var(--danger);
-}
-
+.positive{color:var(--green)}
+.negative{color:var(--danger)}
 .transaction-status{
-    font-size:10px;
-    color:var(--muted);
+font-size:10px;
+color:var(--muted)
 }
 
-/* =========================
-   SIDEBAR
-========================= */
-
-.quick-actions{
-    padding:18px;
-}
-
+.quick-actions{padding:18px}
 .action{
-    width:100%;
-    display:flex;
-    align-items:center;
-    gap:13px;
-    padding:14px;
-    border-radius:12px;
-    background:rgba(255,255,255,.025);
-    border:1px solid var(--border);
-    color:var(--text);
-    text-align:left;
-    margin-bottom:10px;
-    transition:.25s ease;
+width:100%;
+display:flex;
+align-items:center;
+gap:13px;
+padding:14px;
+border-radius:12px;
+background:rgba(255,255,255,.025);
+border:1px solid var(--border);
+color:var(--text);
+text-align:left;
+margin-bottom:10px
 }
-
-.action:last-child{
-    margin-bottom:0;
-}
-
 .action:hover{
-    background:rgba(22,217,139,.06);
-    border-color:rgba(22,217,139,.18);
-    transform:translateX(3px);
+background:rgba(22,217,139,.06);
+border-color:rgba(22,217,139,.18)
 }
-
 .action-icon{
-    width:36px;
-    height:36px;
-    border-radius:10px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    background:rgba(22,217,139,.09);
-    color:var(--green);
+width:36px;
+height:36px;
+border-radius:10px;
+display:flex;
+align-items:center;
+justify-content:center;
+background:rgba(22,217,139,.09);
+color:var(--green)
 }
-
 .action-text strong{
-    display:block;
-    font-size:13px;
-    margin-bottom:3px;
+display:block;
+font-size:13px;
+margin-bottom:3px
 }
-
-.action-text span{
-    color:var(--muted);
-    font-size:10px;
-}
-
-/* =========================
-   INFO
-========================= */
+.action-text span{color:var(--muted);font-size:10px}
 
 .info-box{
-    margin:18px;
-    padding:15px;
-    border-radius:12px;
-    background:rgba(244,201,93,.05);
-    border:1px solid rgba(244,201,93,.12);
+margin:18px;
+padding:15px;
+border-radius:12px;
+background:rgba(244,201,93,.05);
+border:1px solid rgba(244,201,93,.12)
 }
-
 .info-box strong{
-    display:block;
-    color:var(--gold);
-    font-size:12px;
-    margin-bottom:6px;
+display:block;
+color:var(--gold);
+font-size:12px;
+margin-bottom:6px
 }
-
 .info-box p{
-    color:var(--muted);
-    font-size:11px;
-    line-height:1.7;
+color:var(--muted);
+font-size:11px;
+line-height:1.7
 }
 
-/* =========================
-   MODAL
-========================= */
+.empty{
+padding:35px 20px;
+text-align:center;
+color:var(--muted);
+font-size:12px
+}
 
 .modal-overlay{
-    position:fixed;
-    inset:0;
-    z-index:500;
-    display:none;
-    align-items:center;
-    justify-content:center;
-    padding:20px;
-    background:rgba(0,0,0,.7);
-    backdrop-filter:blur(8px);
+position:fixed;
+inset:0;
+z-index:500;
+display:none;
+align-items:center;
+justify-content:center;
+padding:20px;
+background:rgba(0,0,0,.7);
+backdrop-filter:blur(8px)
 }
-
-.modal-overlay.show{
-    display:flex;
-    animation:fadeIn .2s ease;
-}
-
+.modal-overlay.show{display:flex}
 .modal{
-    width:min(440px,100%);
-    background:#0b1714;
-    border:1px solid var(--border);
-    border-radius:20px;
-    box-shadow:0 30px 80px rgba(0,0,0,.45);
-    overflow:hidden;
-    animation:modalIn .25s ease;
+width:min(440px,100%);
+background:#0b1714;
+border:1px solid var(--border);
+border-radius:20px;
+box-shadow:0 30px 80px rgba(0,0,0,.45);
+overflow:hidden
 }
-
 .modal-header{
-    padding:20px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    border-bottom:1px solid var(--border);
+padding:20px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+border-bottom:1px solid var(--border)
 }
-
-.modal-header h3{
-    font-size:17px;
-}
-
+.modal-header h3{font-size:17px}
 .close-modal{
-    width:34px;
-    height:34px;
-    border-radius:9px;
-    background:rgba(255,255,255,.05);
-    color:var(--muted);
-    font-size:18px;
+width:34px;
+height:34px;
+border-radius:9px;
+background:rgba(255,255,255,.05);
+color:var(--muted);
+font-size:18px
 }
-
-.close-modal:hover{
-    color:var(--text);
-    background:rgba(255,255,255,.09);
-}
-
-.modal-body{
-    padding:20px;
-}
-
+.modal-body{padding:20px}
 .modal-description{
-    color:var(--muted);
-    font-size:12px;
-    line-height:1.7;
-    margin-bottom:18px;
+color:var(--muted);
+font-size:12px;
+line-height:1.7;
+margin-bottom:18px
 }
-
-.form-group{
-    margin-bottom:15px;
-}
-
+.form-group{margin-bottom:15px}
 .form-group label{
-    display:block;
-    font-size:12px;
-    font-weight:700;
-    margin-bottom:7px;
+display:block;
+font-size:12px;
+font-weight:700;
+margin-bottom:7px
 }
-
-.form-group input,
-.form-group select{
-    width:100%;
-    background:#08120f;
-    border:1px solid var(--border);
-    color:var(--text);
-    padding:12px 13px;
-    border-radius:10px;
-    outline:none;
-    transition:.2s ease;
+.form-group input{
+width:100%;
+background:#08120f;
+border:1px solid var(--border);
+color:var(--text);
+padding:12px 13px;
+border-radius:10px;
+outline:none
 }
-
-.form-group input:focus,
-.form-group select:focus{
-    border-color:rgba(22,217,139,.5);
-    box-shadow:0 0 0 3px rgba(22,217,139,.07);
-}
-
-.modal-actions{
-    display:flex;
-    gap:10px;
-    margin-top:20px;
-}
-
-.modal-actions button{
-    flex:1;
-}
-
-/* =========================
-   TOAST
-========================= */
+.modal-actions{display:flex;gap:10px;margin-top:20px}
+.modal-actions button{flex:1}
 
 .toast{
-    position:fixed;
-    left:50%;
-    bottom:25px;
-    transform:translate(-50%,20px);
-    z-index:700;
-    background:#10231d;
-    border:1px solid rgba(22,217,139,.2);
-    color:var(--text);
-    padding:13px 18px;
-    border-radius:11px;
-    font-size:12px;
-    font-weight:700;
-    opacity:0;
-    pointer-events:none;
-    transition:.3s ease;
-    box-shadow:0 15px 40px rgba(0,0,0,.3);
+position:fixed;
+left:50%;
+bottom:25px;
+transform:translate(-50%,20px);
+z-index:700;
+background:#10231d;
+border:1px solid rgba(22,217,139,.2);
+color:var(--text);
+padding:13px 18px;
+border-radius:11px;
+font-size:12px;
+font-weight:700;
+opacity:0;
+pointer-events:none;
+transition:.3s;
+box-shadow:0 15px 40px rgba(0,0,0,.3)
 }
-
 .toast.show{
-    opacity:1;
-    transform:translate(-50%,0);
+opacity:1;
+transform:translate(-50%,0)
 }
-
-/* =========================
-   FOOTER
-========================= */
 
 footer{
-    border-top:1px solid var(--border);
-    padding:25px 0;
-    color:var(--muted);
-    font-size:12px;
-    text-align:center;
+border-top:1px solid var(--border);
+padding:25px 0;
+color:var(--muted);
+font-size:12px;
+text-align:center
 }
-
-/* =========================
-   ANIMATIONS
-========================= */
-
-@keyframes rise{
-    from{
-        opacity:0;
-        transform:translateY(18px);
-    }
-    to{
-        opacity:1;
-        transform:translateY(0);
-    }
-}
-
-@keyframes fadeIn{
-    from{opacity:0;}
-    to{opacity:1;}
-}
-
-@keyframes modalIn{
-    from{
-        opacity:0;
-        transform:translateY(15px) scale(.97);
-    }
-    to{
-        opacity:1;
-        transform:translateY(0) scale(1);
-    }
-}
-
-/* =========================
-   RESPONSIVE
-========================= */
 
 @media(max-width:900px){
-
-    .content-grid{
-        grid-template-columns:1fr;
-    }
-
-    .nav-links{
-        gap:15px;
-    }
+.content-grid{grid-template-columns:1fr}
+.nav-links{gap:15px}
 }
-
 @media(max-width:700px){
-
-    .container{
-        width:min(100% - 22px,1180px);
-    }
-
-    .navbar{
-        min-height:64px;
-    }
-
-    .nav-links{
-        display:none;
-    }
-
-    .page-head h1{
-        font-size:28px;
-    }
-
-    .balance-card{
-        padding:22px;
-    }
-
-    .balance-amount{
-        font-size:34px;
-    }
-
-    .stats{
-        grid-template-columns:1fr;
-    }
-
-    .user-info{
-        display:none;
-    }
-
-    .logout-btn{
-        padding:8px 10px;
-    }
+.container{width:min(100% - 22px,1180px)}
+.navbar{min-height:64px}
+.nav-links{display:none}
+.page-head h1{font-size:28px}
+.balance-card{padding:22px}
+.balance-amount{font-size:34px}
+.stats{grid-template-columns:1fr}
+.user-info{display:none}
 }
-
 @media(max-width:480px){
-
-    main{
-        padding-top:30px;
-    }
-
-    .balance-actions{
-        flex-direction:column;
-    }
-
-    .primary-btn,
-    .secondary-btn{
-        width:100%;
-    }
-
-    .transaction{
-        padding:15px;
-    }
-
-    .transaction-icon{
-        width:38px;
-        height:38px;
-    }
-
-    .transaction-title{
-        font-size:12px;
-    }
-
-    .transaction-amount{
-        font-size:12px;
-    }
+main{padding-top:30px}
+.balance-actions{flex-direction:column}
+.primary-btn,.secondary-btn{width:100%}
+.transaction{padding:15px}
+.transaction-icon{width:38px;height:38px}
 }
 </style>
 </head>
@@ -826,846 +507,833 @@ footer{
 <body>
 
 <header>
+<div class="container navbar">
 
-    <div class="container navbar">
+<a href="index.html" class="logo">Sport<span>X</span></a>
 
-        <a href="index.html" class="logo">
-            Sport<span>X</span>
-        </a>
+<nav class="nav-links">
+<a href="index.html">Home</a>
+<a href="sports.html">Sports</a>
+<a href="live.html">Live</a>
+<a href="bets.html">My Bets</a>
+<a href="wallet.html" class="active">Wallet</a>
+</nav>
 
-        <nav class="nav-links">
+<div class="header-right">
 
-            <a href="index.html">
-                Home
-            </a>
+<div data-auth-guest>
+<a href="login.html" class="login-btn">Login</a>
+</div>
 
-            <a href="sports.html">
-                Sports
-            </a>
+<div data-auth-user class="user-account" style="display:none">
 
-            <a href="live.html">
-                Live
-            </a>
+<div class="user-avatar">
+<span data-user-initials>US</span>
+</div>
 
-            <a href="bets.html">
-                My Bets
-            </a>
+<div class="user-info">
+<strong data-user-name>User</strong>
+<span id="headerBalance">AFN 0</span>
+</div>
 
-            <a href="wallet.html" class="active">
-                Wallet
-            </a>
+<button type="button" class="logout-btn" data-auth-logout>
+Logout
+</button>
 
-        </nav>
+</div>
 
-        <div class="header-right">
-
-            <div data-auth-guest>
-
-                <a href="login.html" class="login-btn">
-                    Login
-                </a>
-
-            </div>
-
-            <div
-                data-auth-user
-                class="user-account"
-                style="display:none;"
-            >
-
-                <div class="user-avatar">
-
-                    <span data-user-initials>
-                        US
-                    </span>
-
-                </div>
-
-                <div class="user-info">
-
-                    <strong data-user-name>
-                        User
-                    </strong>
-
-                    <span data-user-balance>
-                        AFN 1,000
-                    </span>
-
-                </div>
-
-                <button
-                    type="button"
-                    class="logout-btn"
-                    data-auth-logout
-                >
-                    Logout
-                </button>
-
-            </div>
-
-        </div>
-
-    </div>
-
+</div>
+</div>
 </header>
-
 
 <main>
 
 <div class="container">
 
-    <!-- PAGE HEADER -->
+<section class="page-head">
+<h1>My Wallet</h1>
+<p>Manage your virtual SportX balance and simulator transactions.</p>
+</section>
 
-    <section class="page-head">
+<section class="balance-card">
 
-        <h1>
-            My Wallet
-        </h1>
+<div class="balance-label">AVAILABLE VIRTUAL BALANCE</div>
 
-        <p>
-            Manage your virtual SportX balance and transactions.
-        </p>
+<div class="balance-amount">
+<span>AFN</span> <strong id="balance">0</strong>
+</div>
 
-    </section>
+<div class="balance-actions">
 
+<button
+id="creditButton"
+class="primary-btn"
+type="button"
+onclick="addVirtualCredit()">
++ Add 80 AFN
+</button>
 
-    <!-- BALANCE -->
+<button
+class="secondary-btn"
+type="button"
+onclick="openWithdraw()">
+Withdraw Funds
+</button>
 
-    <section class="balance-card">
+</div>
 
-        <div class="balance-label">
-            AVAILABLE VIRTUAL BALANCE
-        </div>
+<div class="credit-box">
 
-        <div class="balance-amount">
-            <span>AFN</span> 1,000
-        </div>
+<div class="credit-top">
+<div class="credit-title">Hourly Virtual Credit</div>
+<div class="credit-timer" id="creditTimer">Available now</div>
+</div>
 
-        <div class="balance-actions">
+<div class="credit-text" id="creditText">
+You can manually add 80 AFN virtual credit once every hour.
+</div>
 
-            <button
-                class="primary-btn"
-                type="button"
-                onclick="openModal('deposit')"
-            >
-                + Add Virtual Funds
-            </button>
+<div class="progress">
+<div class="progress-bar" id="creditProgress"></div>
+</div>
 
-            <button
-                class="secondary-btn"
-                type="button"
-                onclick="openModal('withdraw')"
-            >
-                Withdraw Funds
-            </button>
+</div>
 
-        </div>
+</section>
 
-    </section>
+<section class="stats">
 
+<div class="stat-card">
+<div class="stat-icon">↑</div>
+<div class="stat-title">TOTAL VIRTUAL CREDITS</div>
+<div class="stat-value" id="totalCredits">AFN 0</div>
+</div>
 
-    <!-- STATS -->
+<div class="stat-card">
+<div class="stat-icon">↓</div>
+<div class="stat-title">TOTAL VIRTUAL WITHDRAWALS</div>
+<div class="stat-value" id="totalWithdrawals">AFN 0</div>
+</div>
 
-    <section class="stats">
+<div class="stat-card">
+<div class="stat-icon">✓</div>
+<div class="stat-title">VIRTUAL BETS</div>
+<div class="stat-value" id="totalBets">AFN 0</div>
+</div>
 
-        <div class="stat-card">
+</section>
 
-            <div class="stat-icon">
-                ↑
-            </div>
+<section class="content-grid">
 
-            <div class="stat-title">
-                TOTAL DEPOSITS
-            </div>
+<div class="panel">
 
-            <div class="stat-value">
-                AFN 5,000
-            </div>
+<div class="panel-header">
+<h2>Recent Transactions</h2>
+<span>Virtual Activity</span>
+</div>
 
-        </div>
+<div class="transaction-list" id="transactionList"></div>
 
+</div>
 
-        <div class="stat-card">
+<div class="panel">
 
-            <div class="stat-icon">
-                ↓
-            </div>
+<div class="panel-header">
+<h2>Quick Actions</h2>
+</div>
 
-            <div class="stat-title">
-                TOTAL WITHDRAWALS
-            </div>
+<div class="quick-actions">
 
-            <div class="stat-value">
-                AFN 3,500
-            </div>
+<button class="action" type="button" onclick="addVirtualCredit()">
 
-        </div>
+<div class="action-icon">+</div>
 
+<div class="action-text">
+<strong>Add 80 AFN</strong>
+<span>Hourly virtual credit</span>
+</div>
 
-        <div class="stat-card">
+</button>
 
-            <div class="stat-icon">
-                🎁
-            </div>
+<button class="action" type="button" onclick="openWithdraw()">
 
-            <div class="stat-title">
-                BONUS BALANCE
-            </div>
+<div class="action-icon">↓</div>
 
-            <div class="stat-value">
-                AFN 250
-            </div>
+<div class="action-text">
+<strong>Withdraw Funds</strong>
+<span>Simulate a virtual withdrawal</span>
+</div>
 
-        </div>
+</button>
 
-    </section>
+<button class="action" type="button" onclick="scrollToTransactions()">
 
+<div class="action-icon">↕</div>
 
-    <!-- CONTENT -->
+<div class="action-text">
+<strong>Transaction History</strong>
+<span>View wallet activity</span>
+</div>
 
-    <section class="content-grid">
+</button>
 
-        <!-- TRANSACTIONS -->
+</div>
 
-        <div class="panel">
+<div class="info-box">
 
-            <div class="panel-header">
+<strong>Virtual Money Only</strong>
 
-                <h2>
-                    Recent Transactions
-                </h2>
+<p>
+SportX currently uses virtual currency for simulation.
+No real money is deposited, withdrawn, or transferred.
+</p>
 
-                <span>
-                    Last 30 days
-                </span>
+</div>
 
-            </div>
+</div>
 
-            <div class="transaction-list">
-
-
-                <div class="transaction">
-
-                    <div class="transaction-left">
-
-                        <div class="transaction-icon deposit">
-                            ↑
-                        </div>
-
-                        <div class="transaction-info">
-
-                            <div class="transaction-title">
-                                Virtual Deposit
-                            </div>
-
-                            <div class="transaction-date">
-                                Sep 24, 2026 · 14:10
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                    <div class="transaction-right">
-
-                        <div class="transaction-amount positive">
-                            +AFN 1,000
-                        </div>
-
-                        <div class="transaction-status">
-                            Completed
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-                <div class="transaction">
-
-                    <div class="transaction-left">
-
-                        <div class="transaction-icon bonus">
-                            🎁
-                        </div>
-
-                        <div class="transaction-info">
-
-                            <div class="transaction-title">
-                                Welcome Bonus
-                            </div>
-
-                            <div class="transaction-date">
-                                Sep 23, 2026 · 11:42
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                    <div class="transaction-right">
-
-                        <div class="transaction-amount positive">
-                            +AFN 250
-                        </div>
-
-                        <div class="transaction-status">
-                            Completed
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-                <div class="transaction">
-
-                    <div class="transaction-left">
-
-                        <div class="transaction-icon withdraw">
-                            ↓
-                        </div>
-
-                        <div class="transaction-info">
-
-                            <div class="transaction-title">
-                                Virtual Withdrawal
-                            </div>
-
-                            <div class="transaction-date">
-                                Sep 22, 2026 · 18:25
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                    <div class="transaction-right">
-
-                        <div class="transaction-amount negative">
-                            -AFN 500
-                        </div>
-
-                        <div class="transaction-status">
-                            Completed
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-                <div class="transaction">
-
-                    <div class="transaction-left">
-
-                        <div class="transaction-icon deposit">
-                            ↑
-                        </div>
-
-                        <div class="transaction-info">
-
-                            <div class="transaction-title">
-                                Virtual Deposit
-                            </div>
-
-                            <div class="transaction-date">
-                                Sep 20, 2026 · 09:15
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                    <div class="transaction-right">
-
-                        <div class="transaction-amount positive">
-                            +AFN 2,000
-                        </div>
-
-                        <div class="transaction-status">
-                            Completed
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-                <div class="transaction">
-
-                    <div class="transaction-left">
-
-                        <div class="transaction-icon withdraw">
-                            ↓
-                        </div>
-
-                        <div class="transaction-info">
-
-                            <div class="transaction-title">
-                                Virtual Withdrawal
-                            </div>
-
-                            <div class="transaction-date">
-                                Sep 18, 2026 · 16:30
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                    <div class="transaction-right">
-
-                        <div class="transaction-amount negative">
-                            -AFN 1,500
-                        </div>
-
-                        <div class="transaction-status">
-                            Completed
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-            </div>
-
-        </div>
-
-
-        <!-- QUICK ACTIONS -->
-
-        <div class="panel">
-
-            <div class="panel-header">
-
-                <h2>
-                    Quick Actions
-                </h2>
-
-            </div>
-
-
-            <div class="quick-actions">
-
-                <button
-                    class="action"
-                    type="button"
-                    onclick="openModal('deposit')"
-                >
-
-                    <div class="action-icon">
-                        +
-                    </div>
-
-                    <div class="action-text">
-
-                        <strong>
-                            Add Virtual Funds
-                        </strong>
-
-                        <span>
-                            Increase your simulator balance
-                        </span>
-
-                    </div>
-
-                </button>
-
-
-                <button
-                    class="action"
-                    type="button"
-                    onclick="openModal('withdraw')"
-                >
-
-                    <div class="action-icon">
-                        ↓
-                    </div>
-
-                    <div class="action-text">
-
-                        <strong>
-                            Withdraw Funds
-                        </strong>
-
-                        <span>
-                            Simulate a virtual withdrawal
-                        </span>
-
-                    </div>
-
-                </button>
-
-
-                <button
-                    class="action"
-                    type="button"
-                    onclick="showToast('Transaction history is already displayed.')"
-                >
-
-                    <div class="action-icon">
-                        ↕
-                    </div>
-
-                    <div class="action-text">
-
-                        <strong>
-                            Transaction History
-                        </strong>
-
-                        <span>
-                            Review your recent wallet activity
-                        </span>
-
-                    </div>
-
-                </button>
-
-
-                <button
-                    class="action"
-                    type="button"
-                    onclick="showToast('Bonus center is coming soon.')"
-                >
-
-                    <div class="action-icon">
-                        🎁
-                    </div>
-
-                    <div class="action-text">
-
-                        <strong>
-                            Bonus Center
-                        </strong>
-
-                        <span>
-                            View available simulator bonuses
-                        </span>
-
-                    </div>
-
-                </button>
-
-            </div>
-
-
-            <div class="info-box">
-
-                <strong>
-                    Virtual Money Only
-                </strong>
-
-                <p>
-                    SportX currently uses virtual currency for simulation purposes.
-                    No real money is deposited, withdrawn, or transferred.
-                </p>
-
-            </div>
-
-        </div>
-
-    </section>
+</section>
 
 </div>
 
 </main>
 
-
 <footer>
-
-    <div class="container">
-
-        © 2026 SportX. Virtual sports prediction simulator.
-
-    </div>
-
+<div class="container">
+© 2026 SportX. Virtual sports prediction simulator.
+</div>
 </footer>
 
+<div class="modal-overlay" id="withdrawModal" onclick="closeWithdrawOverlay(event)">
 
-<!-- =========================
-     WALLET MODAL
-========================= -->
+<div class="modal">
 
-<div
-    class="modal-overlay"
-    id="walletModal"
-    onclick="overlayClose(event)"
->
+<div class="modal-header">
 
-    <div class="modal">
+<h3>Withdraw Virtual Funds</h3>
 
-        <div class="modal-header">
-
-            <h3 id="modalTitle">
-                Add Virtual Funds
-            </h3>
-
-            <button
-                type="button"
-                class="close-modal"
-                onclick="closeModal()"
-            >
-                ×
-            </button>
-
-        </div>
-
-
-        <div class="modal-body">
-
-            <p
-                class="modal-description"
-                id="modalDescription"
-            >
-                Add virtual funds to your SportX simulator wallet.
-            </p>
-
-
-            <div class="form-group">
-
-                <label for="amount">
-                    Amount
-                </label>
-
-                <input
-                    type="number"
-                    id="amount"
-                    min="1"
-                    step="1"
-                    placeholder="Enter amount"
-                >
-
-            </div>
-
-
-            <div
-                class="form-group"
-                id="methodGroup"
-            >
-
-                <label for="method">
-                    Virtual Method
-                </label>
-
-                <select id="method">
-
-                    <option value="demo">
-                        Demo Balance
-                    </option>
-
-                    <option value="bonus">
-                        Bonus Funds
-                    </option>
-
-                </select>
-
-            </div>
-
-
-            <div class="modal-actions">
-
-                <button
-                    type="button"
-                    class="secondary-btn"
-                    onclick="closeModal()"
-                >
-                    Cancel
-                </button>
-
-                <button
-                    type="button"
-                    class="primary-btn"
-                    id="confirmButton"
-                    onclick="confirmTransaction()"
-                >
-                    Add Funds
-                </button>
-
-            </div>
-
-        </div>
-
-    </div>
+<button
+type="button"
+class="close-modal"
+onclick="closeWithdraw()">
+×
+</button>
 
 </div>
 
+<div class="modal-body">
+
+<p class="modal-description">
+This creates a virtual withdrawal inside the simulator.
+</p>
+
+<div class="form-group">
+
+<label for="withdrawAmount">
+Amount
+</label>
+
+<input
+type="number"
+id="withdrawAmount"
+min="1"
+step="1"
+placeholder="Enter amount">
+
+</div>
+
+<div class="modal-actions">
+
+<button
+type="button"
+class="secondary-btn"
+onclick="closeWithdraw()">
+Cancel
+</button>
+
+<button
+type="button"
+class="primary-btn"
+onclick="confirmWithdraw()">
+Withdraw
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
 
 <div class="toast" id="toast"></div>
 
-
-<!-- SHARED AUTH -->
-
 <script src="auth.js"></script>
-
 
 <script>
 
-/* =========================
-   WALLET MODAL
-========================= */
+const WALLET_KEY="sportx_virtual_wallet_v1";
+const CREDIT_AMOUNT=80;
+const CREDIT_COOLDOWN=60*60*1000;
 
-let walletAction = "deposit";
+let wallet={
+balance:0,
+totalCredits:0,
+totalWithdrawals:0,
+totalBets:0,
+lastCreditAt:0,
+transactions:[]
+};
 
+let timerInterval=null;
 
-function openModal(action){
+function getCurrentUserKey(){
 
-    walletAction = action;
+const firebaseUser=window.SportXCurrentUser;
 
-    const modal = document.getElementById("walletModal");
+if(firebaseUser){
 
-    const title = document.getElementById("modalTitle");
+if(firebaseUser.uid){
+return "firebase_"+firebaseUser.uid;
+}
 
-    const description =
-        document.getElementById("modalDescription");
-
-    const button =
-        document.getElementById("confirmButton");
-
-    const methodGroup =
-        document.getElementById("methodGroup");
-
-
-    if(action === "deposit"){
-
-        title.textContent =
-            "Add Virtual Funds";
-
-        description.textContent =
-            "Add virtual funds to your SportX simulator wallet.";
-
-        button.textContent =
-            "Add Funds";
-
-        methodGroup.style.display =
-            "block";
-
-    }else{
-
-        title.textContent =
-            "Withdraw Virtual Funds";
-
-        description.textContent =
-            "Enter an amount to simulate a virtual withdrawal.";
-
-        button.textContent =
-            "Withdraw";
-
-        methodGroup.style.display =
-            "none";
-
-    }
-
-
-    document.getElementById("amount").value = "";
-
-    modal.classList.add("show");
-
-    setTimeout(() => {
-
-        document.getElementById("amount").focus();
-
-    },100);
+if(firebaseUser.email){
+return "firebase_"+firebaseUser.email.toLowerCase();
+}
 
 }
 
+if(window.SportXSupabase){
 
-function closeModal(){
+try{
 
-    document
-        .getElementById("walletModal")
-        .classList.remove("show");
+const session=window.SportXSupabase.auth;
+
+if(session){
+return "supabase_session";
+}
+
+}catch(error){}
 
 }
 
-
-function overlayClose(event){
-
-    if(event.target.id === "walletModal"){
-
-        closeModal();
-
-    }
+return null;
 
 }
 
+function storageKey(){
 
-function confirmTransaction(){
+const key=getCurrentUserKey();
 
-    const amount =
-        Number(document.getElementById("amount").value);
-
-
-    if(!amount || amount <= 0){
-
-        showToast("Please enter a valid amount.");
-
-        return;
-
-    }
-
-
-    if(walletAction === "deposit"){
-
-        showToast(
-            `AFN ${amount.toLocaleString()} added to your virtual wallet.`
-        );
-
-    }else{
-
-        showToast(
-            `AFN ${amount.toLocaleString()} withdrawal simulated successfully.`
-        );
-
-    }
-
-
-    closeModal();
+return key ? WALLET_KEY+"_"+key : null;
 
 }
 
+function loadWallet(){
 
-/* =========================
-   TOAST
-========================= */
+const key=storageKey();
+
+if(!key){
+wallet={
+balance:0,
+totalCredits:0,
+totalWithdrawals:0,
+totalBets:0,
+lastCreditAt:0,
+transactions:[]
+};
+renderWallet();
+return;
+}
+
+try{
+
+const saved=localStorage.getItem(key);
+
+if(saved){
+
+const parsed=JSON.parse(saved);
+
+wallet={
+balance:Number(parsed.balance)||0,
+totalCredits:Number(parsed.totalCredits)||0,
+totalWithdrawals:Number(parsed.totalWithdrawals)||0,
+totalBets:Number(parsed.totalBets)||0,
+lastCreditAt:Number(parsed.lastCreditAt)||0,
+transactions:Array.isArray(parsed.transactions)
+?parsed.transactions
+:[]
+};
+
+}
+
+}catch(error){
+
+console.warn(error);
+
+}
+
+renderWallet();
+
+}
+
+function saveWallet(){
+
+const key=storageKey();
+
+if(!key)return;
+
+try{
+
+localStorage.setItem(
+key,
+JSON.stringify(wallet)
+);
+
+}catch(error){
+
+console.warn(error);
+
+}
+
+}
+
+function formatAFN(value){
+
+return "AFN "+Number(value||0).toLocaleString();
+
+}
+
+function formatDate(value){
+
+return new Date(value).toLocaleString(
+"en-US",
+{
+month:"short",
+day:"numeric",
+year:"numeric",
+hour:"2-digit",
+minute:"2-digit"
+}
+);
+
+}
+
+function addTransaction(type,title,amount,status="Completed"){
+
+wallet.transactions.unshift({
+
+id:Date.now()+"_"+Math.random(),
+
+type,
+title,
+amount:Number(amount),
+status,
+date:Date.now()
+
+});
+
+wallet.transactions=
+wallet.transactions.slice(0,50);
+
+}
+
+function canCredit(){
+
+if(!wallet.lastCreditAt)return true;
+
+return Date.now()-wallet.lastCreditAt>=CREDIT_COOLDOWN;
+
+}
+
+function addVirtualCredit(){
+
+if(!getCurrentUserKey()){
+
+showToast("Please login first.");
+
+setTimeout(()=>{
+
+window.location.href="login.html";
+
+},700);
+
+return;
+
+}
+
+if(!canCredit()){
+
+showToast("The 80 AFN credit is still locked.");
+
+return;
+
+}
+
+wallet.balance+=CREDIT_AMOUNT;
+
+wallet.totalCredits+=CREDIT_AMOUNT;
+
+wallet.lastCreditAt=Date.now();
+
+addTransaction(
+"deposit",
+"Hourly Virtual Credit",
+CREDIT_AMOUNT
+);
+
+saveWallet();
+
+renderWallet();
+
+showToast("80 AFN virtual credit added.");
+
+}
+
+function updateCreditTimer(){
+
+const button=document.getElementById("creditButton");
+const timer=document.getElementById("creditTimer");
+const text=document.getElementById("creditText");
+const progress=document.getElementById("creditProgress");
+
+if(!wallet.lastCreditAt||canCredit()){
+
+button.disabled=false;
+timer.textContent="Available now";
+text.textContent="You can manually add 80 AFN virtual credit.";
+progress.style.width="0%";
+
+return;
+
+}
+
+button.disabled=true;
+
+const elapsed=Date.now()-wallet.lastCreditAt;
+const remaining=Math.max(0,CREDIT_COOLDOWN-elapsed);
+
+const minutes=Math.floor(remaining/60000);
+const seconds=Math.floor((remaining%60000)/1000);
+
+timer.textContent=
+String(minutes).padStart(2,"0")+
+":"+String(seconds).padStart(2,"0");
+
+text.textContent=
+"Your next 80 AFN virtual credit will unlock when the timer reaches zero.";
+
+const percentage=
+Math.min(
+100,
+Math.max(
+0,
+elapsed/CREDIT_COOLDOWN*100
+)
+);
+
+progress.style.width=percentage+"%";
+
+}
+
+function startTimer(){
+
+if(timerInterval){
+
+clearInterval(timerInterval);
+
+}
+
+updateCreditTimer();
+
+timerInterval=setInterval(()=>{
+
+updateCreditTimer();
+
+},1000);
+
+}
+
+function openWithdraw(){
+
+if(!getCurrentUserKey()){
+
+showToast("Please login first.");
+
+return;
+
+}
+
+document
+.getElementById("withdrawModal")
+.classList.add("show");
+
+document
+.getElementById("withdrawAmount")
+.value="";
+
+setTimeout(()=>{
+
+document
+.getElementById("withdrawAmount")
+.focus();
+
+},100);
+
+}
+
+function closeWithdraw(){
+
+document
+.getElementById("withdrawModal")
+.classList.remove("show");
+
+}
+
+function closeWithdrawOverlay(event){
+
+if(event.target.id==="withdrawModal"){
+
+closeWithdraw();
+
+}
+
+}
+
+function confirmWithdraw(){
+
+const input=
+document.getElementById("withdrawAmount");
+
+const amount=Number(input.value);
+
+if(!amount||amount<=0){
+
+showToast("Enter a valid amount.");
+
+return;
+
+}
+
+if(amount>wallet.balance){
+
+showToast("Insufficient virtual balance.");
+
+return;
+
+}
+
+wallet.balance-=amount;
+
+wallet.totalWithdrawals+=amount;
+
+addTransaction(
+"withdraw",
+"Virtual Withdrawal",
+-amount
+);
+
+saveWallet();
+
+renderWallet();
+
+closeWithdraw();
+
+showToast(
+formatAFN(amount)+" withdrawn virtually."
+);
+
+}
+
+function renderWallet(){
+
+document.getElementById("balance").textContent=
+Number(wallet.balance).toLocaleString();
+
+document.getElementById("headerBalance").textContent=
+formatAFN(wallet.balance);
+
+document.getElementById("totalCredits").textContent=
+formatAFN(wallet.totalCredits);
+
+document.getElementById("totalWithdrawals").textContent=
+formatAFN(wallet.totalWithdrawals);
+
+document.getElementById("totalBets").textContent=
+formatAFN(wallet.totalBets);
+
+renderTransactions();
+
+updateCreditTimer();
+
+}
+
+function renderTransactions(){
+
+const list=
+document.getElementById("transactionList");
+
+if(!wallet.transactions.length){
+
+list.innerHTML=
+'<div class="empty">No virtual transactions yet.</div>';
+
+return;
+
+}
+
+list.innerHTML=
+wallet.transactions.map(transaction=>{
+
+let icon="↑";
+let cls="deposit";
+
+if(transaction.type==="withdraw"){
+
+icon="↓";
+cls="withdraw";
+
+}
+
+if(transaction.type==="bet"){
+
+icon="●";
+cls="bet";
+
+}
+
+if(transaction.type==="win"){
+
+icon="✓";
+cls="win";
+
+}
+
+const amount=
+Number(transaction.amount);
+
+const amountText=
+(amount>=0?"+":"-")+
+"AFN "+
+Math.abs(amount).toLocaleString();
+
+return `
+
+<div class="transaction">
+
+<div class="transaction-left">
+
+<div class="transaction-icon ${cls}">
+${icon}
+</div>
+
+<div class="transaction-info">
+
+<div class="transaction-title">
+${escapeHtml(transaction.title)}
+</div>
+
+<div class="transaction-date">
+${formatDate(transaction.date)}
+</div>
+
+</div>
+
+</div>
+
+<div class="transaction-right">
+
+<div class="transaction-amount ${amount>=0?"positive":"negative"}">
+${amountText}
+</div>
+
+<div class="transaction-status">
+${escapeHtml(transaction.status)}
+</div>
+
+</div>
+
+</div>
+
+`;
+
+}).join("");
+
+}
+
+function escapeHtml(value){
+
+return String(value)
+.replaceAll("&","&amp;")
+.replaceAll("<","&lt;")
+.replaceAll(">","&gt;")
+.replaceAll('"',"&quot;")
+.replaceAll("'","&#039;");
+
+}
+
+function scrollToTransactions(){
+
+document
+.getElementById("transactionList")
+.scrollIntoView({
+behavior:"smooth",
+block:"start"
+});
+
+}
 
 let toastTimer;
 
-
 function showToast(message){
 
-    const toast =
-        document.getElementById("toast");
+const toast=
+document.getElementById("toast");
 
-    toast.textContent =
-        message;
+toast.textContent=message;
 
-    toast.classList.add("show");
+toast.classList.add("show");
 
+clearTimeout(toastTimer);
 
-    clearTimeout(toastTimer);
+toastTimer=setTimeout(()=>{
 
-    toastTimer = setTimeout(() => {
+toast.classList.remove("show");
 
-        toast.classList.remove("show");
-
-    },3000);
+},3000);
 
 }
 
+document.addEventListener("keydown",event=>{
 
-/* =========================
-   ESC CLOSE
-========================= */
+if(event.key==="Escape"){
 
-document.addEventListener("keydown", function(event){
+closeWithdraw();
 
-    if(event.key === "Escape"){
+}
 
-        closeModal();
+});
 
-    }
+document.addEventListener("DOMContentLoaded",()=>{
+
+setTimeout(()=>{
+
+loadWallet();
+startTimer();
+
+},500);
+
+});
+
+window.addEventListener("storage",event=>{
+
+const key=storageKey();
+
+if(key&&event.key===key){
+
+loadWallet();
+
+}
 
 });
 
