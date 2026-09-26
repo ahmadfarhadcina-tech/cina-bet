@@ -2608,41 +2608,42 @@ function extractWorkerMatches(
 --------------------------------------------------------- */
 async function loadWorkerMatches(){
 
-    const result =
-        await supabaseClient.functions.invoke(
-            MATCH_WORKER,
+    const response =
+        await fetch(
+            `${SUPABASE_URL}/functions/v1/${MATCH_WORKER}`,
             {
                 method:"POST",
-                body:{
+                headers:{
+                    "Content-Type":"application/json",
+                    "apikey":SUPABASE_PUBLISHABLE_KEY
+                },
+                body:JSON.stringify({
                     sport:"football"
-                }
+                })
             }
         );
 
-    if(
-        result?.error
-    ){
-        throw result.error;
+    const text =
+        await response.text();
+
+    let data;
+
+    try{
+        data = JSON.parse(text);
+    }catch{
+        throw new Error(
+            `Worker HTTP ${response.status}: ${text}`
+        );
     }
 
-    const data =
-        result?.data;
+    if(!response.ok){
+        throw new Error(
+            data?.error ||
+            `Worker HTTP ${response.status}`
+        );
+    }
 
-    /*
-     * Worker response:
-     *
-     * {
-     *   ok: true,
-     *   source: "SportScore",
-     *   count: 200,
-     *   max: 200,
-     *   matches: [...]
-     * }
-     */
-
-    return extractWorkerMatches(
-        data
-    );
+    return extractWorkerMatches(data);
 }
 
 /* ---------------------------------------------------------
