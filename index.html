@@ -4714,25 +4714,61 @@ error
 
 /* =====================================================
    4. MERGE
-===================================================== */
+   IMPORTANT:
+   Keep existing matches if all sources temporarily
+   return empty data. This prevents matches from
+   disappearing after login/session refresh.
+========================================================= */
 
-allMatches =
+const previousMatches =
+allMatches.slice();
+
+const mergedMatches =
 mergeMatches(
 databaseMatches,
 workerMatches,
 sportScoreMatches
 );
 
+if(mergedMatches.length > 0){
+
+allMatches =
+removeOldFinishedMatches(
+mergedMatches
+);
+
+}else if(previousMatches.length > 0){
+
+/*
+   Do NOT erase already loaded matches when the
+   sources temporarily return an empty response.
+   The next automatic refresh will try again.
+*/
+
+allMatches =
+removeOldFinishedMatches(
+previousMatches
+);
+
+}else{
+
+/*
+   No previous data exists, so keep the empty result.
+*/
+
+allMatches = [];
+
+}
+
 
 /* =====================================================
    5. REMOVE OLD
-===================================================== */
+========================================================= */
 
 allMatches =
 removeOldFinishedMatches(
 allMatches
 );
-
 
 /* =====================================================
    6. BUILD
