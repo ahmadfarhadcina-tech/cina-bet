@@ -1675,80 +1675,38 @@ function loadPreferences(){
 /* =========================================================
    SAVE PREFERENCE
 ========================================================= */
-
 async function savePreference(type,value){
-
  if(!currentUser || !supabaseClient)
   return false;
 
-
- const column=
-  getPreferenceColumn(type);
-
+ const column=getPreferenceColumn(type);
  const update={};
 
  update[column]=value;
-
- update.updated_at=
-  new Date().toISOString();
-
+ update.updated_at=new Date().toISOString();
 
  try{
-
-  let result;
-
-
-  if(profileKeyColumn==="user_id"){
-
-   result=
-    await withTimeout(
-     supabaseClient
-      .from("profiles")
-      .update(update)
-      .eq("user_id",currentUser.id),
-     5000,
-     "Saving setting timed out."
-    );
-
-  }else{
-
-   result=
-    await withTimeout(
-     supabaseClient
-      .from("profiles")
-      .update(update)
-      .eq("id",currentUser.id),
-     5000,
-     "Saving setting timed out."
-    );
-  }
-
+  const result=await supabaseClient
+   .from("profiles")
+   .update(update)
+   .eq("id",currentUser.id);
 
   if(result.error)
    throw result.error;
-
 
   currentProfile[column]=value;
 
   return true;
 
-
  }catch(error){
 
-  console.error(
-   "Preference error:",
-   error
-  );
+  console.error("Preference error:",error);
 
-  showToast(
-   "Could not save setting."
-  );
+  showToast("Could not save setting.");
 
   return false;
  }
 }
-
-
 /* =========================================================
    TOGGLES
 ========================================================= */
@@ -2256,7 +2214,6 @@ async function saveProfile(){
 
  try{
   const update={
-   id:currentUser.id,
    full_name:name,
    country:selectedCountry,
    updated_at:new Date().toISOString()
@@ -2266,16 +2223,10 @@ async function saveProfile(){
    update.avatar_url=selectedAvatarData;
   }
 
-  const result=await withTimeout(
-   supabaseClient
-    .from("profiles")
-    .upsert(
-     update,
-     {onConflict:"id"}
-    ),
-   10000,
-   "Profile save timed out."
-  );
+  const result=await supabaseClient
+   .from("profiles")
+   .update(update)
+   .eq("id",currentUser.id);
 
   if(result.error){
    throw result.error;
@@ -2287,31 +2238,6 @@ async function saveProfile(){
   };
 
   profileKeyColumn="id";
-
-  const metadata={
-   full_name:name,
-   country:selectedCountry
-  };
-
-  if(selectedAvatarData){
-   metadata.avatar_url=selectedAvatarData;
-  }
-
-  try{
-   const authResult=await withTimeout(
-    supabaseClient.auth.updateUser({
-     data:metadata
-    }),
-    8000,
-    "Account metadata update timed out."
-   );
-
-   if(!authResult.error && authResult.data?.user){
-    currentUser=authResult.data.user;
-   }
-  }catch(error){
-   console.warn("Auth metadata update:",error);
-  }
 
   renderProfile();
   renderPhotoPreview();
@@ -2337,7 +2263,7 @@ async function saveProfile(){
   button.textContent="Save Changes";
  }
 }
-
+  
   
 /* =========================================================
    PASSWORD
