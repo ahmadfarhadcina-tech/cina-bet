@@ -2276,7 +2276,7 @@ function compressImage(file){
 
 async function saveProfile(){
 
- if(!currentUser){
+ if(!currentUser || !supabaseClient){
 
   showToast(
    "Your session is not ready."
@@ -2336,152 +2336,161 @@ async function saveProfile(){
   };
 
 
-  if(selectedAvatarData)
+  if(selectedAvatarData){
+
    update.avatar_url=
     selectedAvatarData;
 
+  }
 
-  let result;
+
+  const result=
+   await withTimeout(
+    supabaseClient
+     .from("profiles")
+     .update(update)
+     .eq("id",currentUser.id)
+     .select("*")
+     .maybeSingle(),
+    8000,
+    "Profile save timed out."
+   );
 
 
-  /* UPDATE */
+  if(result.error){
 
-  if(profileKeyColumn==="user_id"){
+   throw result.error;
 
-   result=
-    await withTimeout(
-     supabaseClient
-      .from("profiles")
-      .update(update)
-      .eq("user_id",currentUser.id)
-      .select("*")
-      .maybeSingle(),
-     6000,
-     "Profile save timed out."
-    );
+  }
+
+
+  if(result.data){
+
+   currentProfile=
+    result.data;
 
   }else{
 
-   result=
-    await withTimeout(
-     supabaseClient
-      .from("profiles")
-      .update(update)
-      .eq("id",currentUser.id)
-      .select("*")
-      .maybeSingle(),
-     6000,
-     "Profile save timed out."
-    );
-  }
-
-
-  /* INSERT IF NEEDED */
-
-  if(
-   !result.error &&
-   !result.data
-  ){
-
-   if(profileKeyColumn==="user_id"){
-
-    result=
-     await withTimeout(
-      supabaseClient
-       .from("profiles")
-       .insert({
-        user_id:currentUser.id,
-        ...update
-       })
-       .select("*")
-       .single(),
-      6000,
-      "Profile creation timed out."
-     );
-
-   }else{
-
-    result=
-     await withTimeout(
-      supabaseClient
-       .from("profiles")
-       .insert({
-        id:currentUser.id,
-        ...update
-       })
-       .select("*")
-       .single(),
-      6000,
-      "Profile creation timed out."
-     );
-   }
-  }
-
-
-  /* RETRY user_id */
-
-  if(
-   result.error &&
-   profileKeyColumn==="id"
-  ){
-
-   const retry=
-    await withTimeout(
-     supabaseClient
-      .from("profiles")
-      .update(update)
-      .eq("user_id",currentUser.id)
-      .select("*")
-      .maybeSingle(),
-     6000,
-     "Profile retry timed out."
-    );
-
-
-   if(
-    !retry.error &&
-    retry.data
-   ){
-
-    profileKeyColumn=
-     "user_id";
-
-    result=retry;
-   }
-  }
-
-
-  /* RETRY INSERT user_id */
-
-  if(
-   result.error &&
-   profileKeyColumn==="id"
-  ){
-
-   const retryInsert=
+   const insertResult=
     await withTimeout(
      supabaseClient
       .from("profiles")
       .insert({
-       user_id:currentUser.id,
+       id:currentUser.id,
        ...update
       })
       .select("*")
       .single(),
-     6000,
+     8000,
      "Profile creation timed out."
     );
 
 
-   if(!retryInsert.error){
+   if(insertResult.error){
 
-    profileKeyColumn=
-     "user_id";
+    throw insertResult.error;
 
-    result=
-     retryInsert;
    }
+
+
+   currentProfile=
+    insertResult.data ||
+    {
+     ...currentProfile,
+     ...update
+    };
+
   }
+
+
+  profileKeyColumn="id";
+
+
+  const metadata={
+   full_name:name,
+   country:selectedCountry
+  };
+
+
+  if(selectedAvatarData){
+
+   metadata.avatar_url=
+    selectedAvatarData;
+
+  }
+
+
+  try{
+
+   const authResult=
+    await withTimeout(
+     supabaseClient.auth.updateUser({
+      data:metadata
+     }),
+     8000,
+     "Account metadata update timed out."
+    );
+
+
+   if(
+    !authResult.error &&
+    authResult.data?.user
+   ){
+
+    currentUser=
+     authResult.data.user;
+
+   }
+
+  }catch(error){
+
+   console.warn(
+    "Auth metadata update:",
+    error
+   );
+
+  }
+
+
+  renderProfile();
+  renderPhotoPreview();
+
+  closeModal(
+   "editProfileModal"
+  );
+
+  selectedAvatarData=null;
+
+  showToast(
+   "Profile saved successfully."
+  );
+
+
+ }catch(error){
+
+  console.error(
+   "SAVE PROFILE ERROR:",
+   error
+  );
+
+
+  showToast(
+   error?.message ||
+   "Could not save profile."
+  );
+
+
+ }finally{
+
+  button.classList.remove(
+   "loading"
+  );
+
+  button.textContent=
+   "Save Changes";
+
+ }
+}
 
 async function saveProfile(){
 
