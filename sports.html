@@ -3,11 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-
 <title>Sports | SportX</title>
 
 <script>
-// اعمال فوری تم قبل از رندر صفحه برای جلوگیری از پرش رنگ سفید
+// اعمال آنی تم تاریک یا روشن قبل از رندر صفحه برای جلوگیری از فلاش سفید
 (function() {
     const theme = localStorage.getItem("sportx_theme") || "light";
     if (theme === "dark") {
@@ -857,14 +856,19 @@ function teamLogo(url, name) {
 }
 
 async function loadWorkerMatches() {
-    const response = await fetch(`${SUPABASE_URL}/functions/v1/${MATCH_WORKER}`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json", "apikey": SUPABASE_PUBLISHABLE_KEY },
-        body: JSON.stringify({ sport: "football" })
-    });
-    const data = await response.json();
-    if (!response.ok) throw new Error(data?.error || `Worker HTTP ${response.status}`);
-    return Array.isArray(data?.matches) ? data.matches : (Array.isArray(data) ? data : []);
+    try {
+        const response = await fetch(`${SUPABASE_URL}/functions/v1/${MATCH_WORKER}`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json", "apikey": SUPABASE_PUBLISHABLE_KEY },
+            body: JSON.stringify({ sport: "football" })
+        });
+        const data = await response.json();
+        if (!response.ok) throw new Error(data?.error || `Worker HTTP ${response.status}`);
+        return Array.isArray(data?.matches) ? data.matches : (Array.isArray(data) ? data : []);
+    } catch (err) {
+        console.warn("Worker error, fallback to empty array:", err);
+        return [];
+    }
 }
 
 function prepareMatch(item, fallbackId = "") {
@@ -1083,9 +1087,6 @@ setInterval(() => {
 setInterval(() => loadMatches(true), REFRESH_INTERVAL_MS);
 loadMatches(false);
 </script>
-
-<script src="auth.js"></script>
-<script src="wwe-api.js"></script>
 
 </body>
 </html>
