@@ -821,16 +821,19 @@ function formatMatchDateTime(value) {
     if (!Number.isFinite(timestamp)) {
         return { time: "--:--", label: "Time unavailable", full: "Time unavailable", countdown: "" };
     }
+
     const date = new Date(timestamp);
     const time = date.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit", hour12: true });
     const dateText = date.toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" });
-    
+
     const diff = timestamp - Date.now();
     let countdownStr = "";
+
     if (diff > 0) {
         const hours = Math.floor(diff / (1000 * 60 * 60));
         const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
         const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
         if (hours > 24) {
             const days = Math.floor(hours / 24);
             countdownStr = `Starts in ${days}d ${hours % 24}h`;
@@ -841,17 +844,27 @@ function formatMatchDateTime(value) {
         countdownStr = "Starting soon";
     }
 
-    return { time, label: `${dateText} · ${time}`, full: `${dateText} · ${time}`, countdown: countdownStr };
+    return {
+        time,
+        label: `${dateText} · ${time}`,
+        full: `${dateText} · ${time}`,
+        countdown: countdownStr
+    };
 }
 
 function escapeHtml(value) {
-    return String(value ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+    return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
 }
 
 function teamLogo(url, name) {
     if (url) {
         return `<div class="team-logo"><img src="${escapeHtml(url)}" alt="${escapeHtml(name || "Team")} logo" loading="lazy" onerror="this.style.display='none';this.parentElement.innerHTML='<span class=&quot;logo-fallback&quot;>⚽</span>';"></div>`;
     }
+
     return `<div class="team-logo"><span class="logo-fallback">⚽</span></div>`;
 }
 
@@ -859,15 +872,27 @@ async function loadWorkerMatches() {
     try {
         const response = await fetch(`${SUPABASE_URL}/functions/v1/${MATCH_WORKER}`, {
             method: "POST",
-            headers: { "Content-Type": "application/json", "apikey": SUPABASE_PUBLISHABLE_KEY },
+            headers: {
+                "Content-Type": "application/json",
+                "apikey": SUPABASE_PUBLISHABLE_KEY,
+                "Authorization": `Bearer ${SUPABASE_PUBLISHABLE_KEY}`
+            },
             body: JSON.stringify({ sport: "football" })
         });
+
         const data = await response.json();
-        if (!response.ok) throw new Error(data?.error || `Worker HTTP ${response.status}`);
-        return Array.isArray(data?.matches) ? data.matches : (Array.isArray(data) ? data : []);
+
+        if (!response.ok) {
+            throw new Error(data?.error || `Worker HTTP ${response.status}`);
+        }
+
+        return Array.isArray(data?.matches)
+            ? data.matches
+            : (Array.isArray(data) ? data : []);
+
     } catch (err) {
         console.warn("Worker error, fallback to empty array:", err);
-        return [];
+        throw err;
     }
 }
 
@@ -875,9 +900,18 @@ function prepareMatch(item, fallbackId = "") {
     return {
         ...item,
         id: item?.id || item?.match_id || fallbackId,
-        home_team: { name: item?.home || item?.home_team?.name || "Home Team", logo_url: item?.home_logo || item?.home_team?.logo_url },
-        away_team: { name: item?.away || item?.away_team?.name || "Away Team", logo_url: item?.away_logo || item?.away_team?.logo_url },
-        league: { name: item?.competition || item?.league?.name || "Football", logo_url: item?.competition_logo || item?.league?.logo_url },
+        home_team: {
+            name: item?.home || item?.home_team?.name || "Home Team",
+            logo_url: item?.home_logo || item?.home_team?.logo_url
+        },
+        away_team: {
+            name: item?.away || item?.away_team?.name || "Away Team",
+            logo_url: item?.away_logo || item?.away_team?.logo_url
+        },
+        league: {
+            name: item?.competition || item?.league?.name || "Football",
+            logo_url: item?.competition_logo || item?.league?.logo_url
+        },
         start_time: item?.start_time || item?.time,
         status: item?.status || "scheduled",
         home_score: item?.home_score ?? null,
@@ -905,15 +939,31 @@ function createMatchCard(match, index, type) {
             <span class="league">${escapeHtml(league)}</span>
             <span class="status ${statusClass}">${statusLabel}</span>
         </div>
+
         <div class="match-main">
-            <div class="team">${teamLogo(home.logo_url, home.name)}<span class="team-name">${escapeHtml(home.name)}</span></div>
-            <div class="match-time">
-                ${showScore ? `<strong class="score">${escapeHtml(`${match.home_score ?? 0} - ${match.away_score ?? 0}`)}</strong>` : `<strong>${escapeHtml(dateInfo.time)}</strong>`}
-                <span>${escapeHtml(dateInfo.label)}</span>
-                ${!showScore ? `<span class="countdown" data-start="${escapeHtml(match.start_time \vert{}\vert{} '')}">${escapeHtml(dateInfo.countdown)}</span>` : ''}
+            <div class="team">
+                ${teamLogo(home.logo_url, home.name)}
+                <span class="team-name">${escapeHtml(home.name)}</span>
             </div>
-            <div class="team"><span class="team-name">${escapeHtml(away.name)}</span>${teamLogo(away.logo_url, away.name)}</div>
+
+            <div class="match-time">
+                ${showScore
+                    ? `<strong class="score">${escapeHtml(`${match.home_score ?? 0} - ${match.away_score ?? 0}`)}</strong>`
+                    : `<strong>${escapeHtml(dateInfo.time)}</strong>`}
+
+                <span>${escapeHtml(dateInfo.label)}</span>
+
+                ${!showScore
+                    ? `<span class="countdown" data-start="${escapeHtml(match.start_time || '')}">${escapeHtml(dateInfo.countdown)}</span>`
+                    : ''}
+            </div>
+
+            <div class="team">
+                <span class="team-name">${escapeHtml(away.name)}</span>
+                ${teamLogo(away.logo_url, away.name)}
+            </div>
         </div>
+
         <div class="match-bottom">
             <button class="details-btn" type="button">Match Details →</button>
             <span class="market-count">${statusLabel}</span>
@@ -921,7 +971,15 @@ function createMatchCard(match, index, type) {
     `;
 
     card.querySelector(".details-btn").addEventListener("click", () => {
-        openMatch(home.name, away.name, league, dateInfo.full, statusLabel, match.home_score ?? 0, match.away_score ?? 0);
+        openMatch(
+            home.name,
+            away.name,
+            league,
+            dateInfo.full,
+            statusLabel,
+            match.home_score ?? 0,
+            match.away_score ?? 0
+        );
     });
 
     return card;
@@ -929,16 +987,27 @@ function createMatchCard(match, index, type) {
 
 function renderSection(container, matches, type) {
     container.innerHTML = "";
-    matches.forEach((match, index) => container.appendChild(createMatchCard(match, index, type)));
+
+    matches.forEach((match, index) => {
+        container.appendChild(createMatchCard(match, index, type));
+    });
 }
 
 function renderFuturePreview() {
     const now = Date.now();
-    const candidates = allMatches.filter(m => m.status === "scheduled" && getTimestamp(m.start_time) > now);
+
+    const candidates = allMatches.filter(
+        m => m.status === "scheduled" && getTimestamp(m.start_time) > now
+    );
+
     const match = candidates[0];
 
     if (!match) {
-        futurePreviewCard.innerHTML = `<div style="text-align:center; color:var(--muted); font-size:12px; padding:10px;">No future match available.</div>`;
+        futurePreviewCard.innerHTML = `
+            <div style="text-align:center; color:var(--muted); font-size:12px; padding:10px;">
+                No future match available.
+            </div>
+        `;
         return;
     }
 
@@ -947,11 +1016,27 @@ function renderFuturePreview() {
     const dateInfo = formatMatchDateTime(match.start_time);
 
     futurePreviewCard.innerHTML = `
-        <div class="match-top"><span class="league">${escapeHtml(match.league?.name || "Football")}</span><span class="status upcoming">FUTURE</span></div>
+        <div class="match-top">
+            <span class="league">${escapeHtml(match.league?.name || "Football")}</span>
+            <span class="status upcoming">FUTURE</span>
+        </div>
+
         <div class="match-main">
-            <div class="team">${teamLogo(home.logo_url, home.name)}<span class="team-name">${escapeHtml(home.name)}</span></div>
-            <div class="match-time"><strong>${escapeHtml(dateInfo.time)}</strong><span>${escapeHtml(dateInfo.label)}</span><span class="countdown">${escapeHtml(dateInfo.countdown)}</span></div>
-            <div class="team"><span class="team-name">${escapeHtml(away.name)}</span>${teamLogo(away.logo_url, away.name)}</div>
+            <div class="team">
+                ${teamLogo(home.logo_url, home.name)}
+                <span class="team-name">${escapeHtml(home.name)}</span>
+            </div>
+
+            <div class="match-time">
+                <strong>${escapeHtml(dateInfo.time)}</strong>
+                <span>${escapeHtml(dateInfo.label)}</span>
+                <span class="countdown">${escapeHtml(dateInfo.countdown)}</span>
+            </div>
+
+            <div class="team">
+                <span class="team-name">${escapeHtml(away.name)}</span>
+                ${teamLogo(away.logo_url, away.name)}
+            </div>
         </div>
     `;
 }
@@ -968,18 +1053,32 @@ function renderMatches() {
         comingSection.style.display = "none";
         resultsSection.style.display = "block";
 
-        const filtered = sportMatches.filter(m => normalizeSearchText(m.home_team?.name).includes(query) || normalizeSearchText(m.away_team?.name).includes(query));
+        const filtered = sportMatches.filter(
+            m =>
+                normalizeSearchText(m.home_team?.name).includes(query) ||
+                normalizeSearchText(m.away_team?.name).includes(query)
+        );
+
         renderSection(matchesContainer, filtered, "coming");
+
         matchCount.textContent = `${filtered.length} results`;
         emptyState.style.display = filtered.length ? "none" : "block";
+
         return;
     }
 
     resultsSection.style.display = "none";
 
-    let live = sportMatches.filter(m => m.status === "live").slice(0, MAX_LIVE_MATCHES);
-    let finished = sportMatches.filter(m => m.status === "finished");
-    let coming = sportMatches.filter(m => m.status === "scheduled" && getTimestamp(m.start_time) > Date.now()).slice(0, MAX_COMING_MATCHES);
+    let live = sportMatches
+        .filter(m => m.status === "live")
+        .slice(0, MAX_LIVE_MATCHES);
+
+    let finished = sportMatches
+        .filter(m => m.status === "finished");
+
+    let coming = sportMatches
+        .filter(m => m.status === "scheduled" && getTimestamp(m.start_time) > Date.now())
+        .slice(0, MAX_COMING_MATCHES);
 
     if (live.length) {
         liveSection.style.display = "block";
@@ -1007,30 +1106,44 @@ function renderMatches() {
     comingCount.textContent = `${coming.length} matches`;
 
     const total = live.length + finished.length + coming.length;
+
     emptyState.style.display = total === 0 ? "block" : "none";
 }
 
 async function loadMatches(silent = false) {
     if (loadingRequest) return;
+
     loadingRequest = true;
 
     if (!silent) {
         loadingState.style.display = "flex";
     }
+
     syncStatus.classList.add("loading");
 
     try {
         const workerData = await loadWorkerMatches();
-        allMatches = workerData.map((item, index) => prepareMatch(item, `worker-${index}`));
+
+        allMatches = workerData.map(
+            (item, index) => prepareMatch(item, `worker-${index}`)
+        );
+
         renderMatches();
+
         loadingState.style.display = "none";
         syncStatus.classList.remove("loading", "error");
+
         syncText.textContent = `Sports data synced · ${allMatches.length} valid matches`;
+
     } catch (error) {
         loadingState.style.display = "none";
         syncStatus.classList.remove("loading");
         syncStatus.classList.add("error");
+
         syncText.textContent = "SportX match service unavailable";
+
+        console.error("SportX Worker loading failed:", error);
+
     } finally {
         loadingRequest = false;
     }
@@ -1039,8 +1152,11 @@ async function loadMatches(silent = false) {
 filterButtons.forEach(button => {
     button.addEventListener("click", () => {
         filterButtons.forEach(btn => btn.classList.remove("active"));
+
         button.classList.add("active");
+
         activeSport = button.dataset.sport;
+
         renderMatches();
     });
 });
@@ -1053,6 +1169,7 @@ function openMatch(home, away, league, time, status, homeScore, awayScore) {
     document.getElementById("modalTime").textContent = time;
     document.getElementById("modalStatus").textContent = status;
     document.getElementById("modalScore").textContent = `${homeScore} - ${awayScore}`;
+
     document.getElementById("matchModal").classList.add("show");
 }
 
@@ -1065,12 +1182,15 @@ setInterval(() => {
     document.querySelectorAll(".countdown[data-start]").forEach(el => {
         const startTime = el.getAttribute("data-start");
         const ts = getTimestamp(startTime);
+
         if (Number.isFinite(ts)) {
             const diff = ts - Date.now();
+
             if (diff > 0) {
                 const hours = Math.floor(diff / (1000 * 60 * 60));
                 const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
                 const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
                 if (hours > 24) {
                     const days = Math.floor(hours / 24);
                     el.textContent = `Starts in ${days}d ${hours % 24}h`;
@@ -1085,6 +1205,7 @@ setInterval(() => {
 }, 1000);
 
 setInterval(() => loadMatches(true), REFRESH_INTERVAL_MS);
+
 loadMatches(false);
 </script>
 
