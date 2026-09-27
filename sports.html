@@ -7,7 +7,7 @@
 <title>Sports | SportX</title>
 
 <script>
-// جلوگیری از فلش تم سفید در لحظه لود یا رفرش صفحه
+// اعمال فوری تم قبل از رندر صفحه برای جلوگیری از پرش رنگ سفید
 (function() {
     const theme = localStorage.getItem("sportx_theme") || "light";
     if (theme === "dark") {
@@ -667,7 +667,7 @@ a{
                 <span class="future-preview-more">View all →</span>
             </div>
             <div class="future-preview-card" id="futurePreviewCard">
-                <div class="future-preview-empty">Loading future match...</div>
+                <div style="text-align:center; color:var(--muted); font-size:12px; padding:10px;">Loading future match...</div>
             </div>
         </a>
     </section>
@@ -756,21 +756,19 @@ a{
 </footer>
 
 <script>
-// مدیریت حالت تاریک و روشن
+// مدیریت کلیک دکمه تم
 const themeToggle = document.getElementById("themeToggle");
-const currentTheme = localStorage.getItem("sportx_theme") || "light";
-
-if(currentTheme === "dark"){
+if (localStorage.getItem("sportx_theme") === "dark") {
     themeToggle.textContent = "☀️";
 }
 
 themeToggle.addEventListener("click", () => {
     const isDark = document.documentElement.getAttribute("data-theme") === "dark";
-    if(isDark){
+    if (isDark) {
         document.documentElement.removeAttribute("data-theme");
         localStorage.setItem("sportx_theme", "light");
         themeToggle.textContent = "🌙";
-    }else{
+    } else {
         document.documentElement.setAttribute("data-theme", "dark");
         localStorage.setItem("sportx_theme", "dark");
         themeToggle.textContent = "☀️";
