@@ -18,25 +18,49 @@
   --blue:#2563eb;
   --blue-soft:#eff6ff;
   --red:#dc2626;
-  --red-soft:#fef2f2;
+  --red-soft:#fef2f2
 }
 
-*{box-sizing:border-box}
-html{scroll-behavior:smooth}
+*{
+  box-sizing:border-box
+}
+
+html{
+  scroll-behavior:smooth
+}
 
 body{
   margin:0;
   background:var(--bg);
   color:var(--text);
-  font-family:Arial,Helvetica,sans-serif;
+  font-family:Arial,Helvetica,sans-serif
 }
 
 a{
   text-decoration:none;
-  color:inherit;
+  color:inherit
 }
 
-button,input{font:inherit}
+button,
+input{
+  font:inherit
+}
+
+button,
+a{
+  -webkit-tap-highlight-color:transparent;
+  transition:
+    transform .16s ease,
+    background-color .16s ease,
+    border-color .16s ease,
+    color .16s ease,
+    box-shadow .16s ease
+}
+
+button:active,
+a:active{
+  transform:scale(.96)
+}
 
 header{
   position:sticky;
@@ -44,7 +68,7 @@ header{
   z-index:100;
   background:rgba(255,255,255,.96);
   backdrop-filter:blur(12px);
-  border-bottom:1px solid var(--border);
+  border-bottom:1px solid var(--border)
 }
 
 .header-inner{
@@ -55,19 +79,19 @@ header{
   display:flex;
   align-items:center;
   justify-content:space-between;
-  gap:15px;
+  gap:15px
 }
 
 .logo{
   color:var(--primary);
   font-size:23px;
-  font-weight:900;
+  font-weight:900
 }
 
 .nav{
   display:flex;
   align-items:center;
-  gap:5px;
+  gap:5px
 }
 
 .nav a{
@@ -75,23 +99,27 @@ header{
   font-size:13px;
   font-weight:700;
   padding:9px 11px;
-  border-radius:10px;
+  border-radius:10px
 }
 
-.nav a:hover{background:#f3f4f6}
+.nav a:hover{
+  background:#f3f4f6
+}
 
 .nav a.active{
   background:var(--soft);
-  color:var(--primary-dark);
+  color:var(--primary-dark)
 }
 
 main{
   max-width:1100px;
   margin:auto;
-  padding:24px 16px 45px;
+  padding:24px 16px 45px
 }
 
-.page-head{margin-bottom:20px}
+.page-head{
+  margin-bottom:20px
+}
 
 .badge{
   display:inline-flex;
@@ -103,27 +131,27 @@ main{
   color:var(--primary-dark);
   font-size:11px;
   font-weight:900;
-  letter-spacing:.3px;
+  letter-spacing:.3px
 }
 
 .badge-dot{
   width:7px;
   height:7px;
   border-radius:50%;
-  background:var(--primary);
+  background:var(--primary)
 }
 
 h1{
   margin:12px 0 6px;
   font-size:29px;
-  line-height:1.15;
+  line-height:1.15
 }
 
 .subtitle{
   margin:0;
   color:var(--muted);
   font-size:14px;
-  line-height:1.6;
+  line-height:1.6
 }
 
 .info-card{
@@ -132,25 +160,25 @@ h1{
   border-radius:18px;
   padding:15px 16px;
   margin-bottom:18px;
-  box-shadow:0 5px 18px rgba(0,0,0,.035);
+  box-shadow:0 5px 18px rgba(0,0,0,.035)
 }
 
 .info-row{
   display:flex;
   align-items:center;
   justify-content:space-between;
-  gap:12px;
+  gap:12px
 }
 
 .info-title{
   font-weight:900;
-  font-size:14px;
+  font-size:14px
 }
 
 .info-text{
   color:var(--muted);
   font-size:12px;
-  margin-top:4px;
+  margin-top:4px
 }
 
 .info-number{
@@ -163,14 +191,14 @@ h1{
   background:var(--soft);
   color:var(--primary-dark);
   font-size:17px;
-  font-weight:900;
+  font-weight:900
 }
 
 .toolbar{
   display:flex;
   gap:10px;
   align-items:center;
-  margin-bottom:18px;
+  margin-bottom:18px
 }
 
 .search{
@@ -181,12 +209,12 @@ h1{
   border-radius:14px;
   background:#fff;
   outline:none;
-  color:var(--text);
+  color:var(--text)
 }
 
 .search:focus{
   border-color:var(--primary);
-  box-shadow:0 0 0 3px rgba(22,163,74,.1);
+  box-shadow:0 0 0 3px rgba(22,163,74,.1)
 }
 
 .status{
@@ -200,16 +228,18 @@ h1{
   border:1px solid var(--border);
   color:var(--muted);
   font-size:12px;
-  font-weight:700;
+  font-weight:700
 }
 
-.loading{
+.loading,
+.empty,
+.error{
   background:#fff;
   border:1px solid var(--border);
   border-radius:18px;
   padding:32px 18px;
   text-align:center;
-  color:var(--muted);
+  color:var(--muted)
 }
 
 .spinner{
@@ -219,7 +249,7 @@ h1{
   border:3px solid #e5e7eb;
   border-top-color:var(--primary);
   border-radius:50%;
-  animation:spin .8s linear infinite;
+  animation:spin .8s linear infinite
 }
 
 @keyframes spin{
@@ -229,7 +259,7 @@ h1{
 .matches-grid{
   display:grid;
   grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:15px;
+  gap:15px
 }
 
 .match-card{
@@ -238,12 +268,14 @@ h1{
   border-radius:20px;
   padding:16px;
   box-shadow:0 5px 20px rgba(0,0,0,.04);
-  transition:transform .18s,box-shadow .18s;
+  transition:
+    transform .18s ease,
+    box-shadow .18s ease
 }
 
 .match-card:hover{
   transform:translateY(-2px);
-  box-shadow:0 9px 28px rgba(0,0,0,.07);
+  box-shadow:0 9px 28px rgba(0,0,0,.07)
 }
 
 .match-top{
@@ -251,7 +283,7 @@ h1{
   align-items:center;
   justify-content:space-between;
   gap:10px;
-  margin-bottom:12px;
+  margin-bottom:12px
 }
 
 .league{
@@ -260,46 +292,51 @@ h1{
   font-weight:800;
   overflow:hidden;
   text-overflow:ellipsis;
-  white-space:nowrap;
+  white-space:nowrap
+}
+
+.countdown,
+.live-badge,
+.end-badge{
+  flex-shrink:0;
+  border-radius:999px;
+  padding:6px 9px;
+  font-size:11px;
+  font-weight:900
 }
 
 .countdown{
-  flex-shrink:0;
   background:var(--blue-soft);
-  color:var(--blue);
-  border-radius:999px;
-  padding:6px 9px;
-  font-size:11px;
-  font-weight:900;
+  color:var(--blue)
+}
+
+.live-badge{
+  background:#fee2e2;
+  color:#b91c1c
 }
 
 .end-badge{
-  flex-shrink:0;
   background:var(--red-soft);
-  color:var(--red);
-  border-radius:999px;
-  padding:6px 9px;
-  font-size:11px;
-  font-weight:900;
+  color:var(--red)
 }
 
 .date{
   text-align:center;
   color:var(--muted);
   font-size:12px;
-  margin-bottom:15px;
+  margin-bottom:15px
 }
 
 .teams{
   display:grid;
-  grid-template-columns:1fr 55px 1fr;
+  grid-template-columns:1fr 70px 1fr;
   align-items:center;
-  gap:8px;
+  gap:8px
 }
 
 .team{
   min-width:0;
-  text-align:center;
+  text-align:center
 }
 
 .team-logo{
@@ -309,7 +346,7 @@ h1{
   border-radius:50%;
   object-fit:contain;
   background:#f3f4f6;
-  display:block;
+  display:block
 }
 
 .logo-fallback{
@@ -318,21 +355,28 @@ h1{
   justify-content:center;
   font-size:18px;
   font-weight:900;
-  color:var(--muted);
+  color:var(--muted)
 }
 
 .team-name{
   font-size:14px;
   font-weight:900;
   line-height:1.35;
-  word-break:break-word;
+  word-break:break-word
 }
 
 .vs{
   text-align:center;
   color:var(--muted);
   font-size:12px;
+  font-weight:900
+}
+
+.live-score{
+  font-size:24px;
   font-weight:900;
+  text-align:center;
+  color:#b91c1c
 }
 
 .vote-label{
@@ -341,13 +385,13 @@ h1{
   text-align:center;
   color:var(--muted);
   font-size:11px;
-  font-weight:800;
+  font-weight:800
 }
 
 .vote-buttons{
   display:grid;
   grid-template-columns:repeat(3,1fr);
-  gap:8px;
+  gap:8px
 }
 
 .vote-btn{
@@ -357,29 +401,32 @@ h1{
   background:#fff;
   color:var(--text);
   font-weight:900;
-  cursor:pointer;
-  transition:.15s;
+  cursor:pointer
 }
 
 .vote-btn:hover{
   border-color:var(--primary);
-  color:var(--primary-dark);
+  color:var(--primary-dark)
+}
+
+.vote-btn:active{
+  transform:scale(.94)
 }
 
 .vote-btn.selected{
   background:#dcfce7;
   border-color:var(--primary);
-  color:var(--primary-dark);
+  color:var(--primary-dark)
 }
 
 .vote-btn.locked{
-  cursor:not-allowed;
+  cursor:not-allowed
 }
 
 .result-box{
   margin-top:15px;
   padding-top:13px;
-  border-top:1px solid var(--border);
+  border-top:1px solid var(--border)
 }
 
 .result-title{
@@ -387,20 +434,20 @@ h1{
   color:var(--muted);
   font-size:11px;
   font-weight:900;
-  margin-bottom:10px;
+  margin-bottom:10px
 }
 
 .result-score{
   text-align:center;
   font-size:24px;
   font-weight:900;
-  margin-bottom:10px;
+  margin-bottom:10px
 }
 
 .result-teams{
   display:grid;
   grid-template-columns:1fr 1fr;
-  gap:8px;
+  gap:8px
 }
 
 .result-team{
@@ -408,60 +455,38 @@ h1{
   border-radius:11px;
   text-align:center;
   font-size:11px;
-  font-weight:900;
+  font-weight:900
 }
 
 .result-team.win{
   background:#dcfce7;
-  color:var(--primary-dark);
+  color:var(--primary-dark)
 }
 
 .result-team.loss{
   background:var(--red-soft);
-  color:#991b1b;
+  color:#991b1b
 }
 
 .result-team.draw{
   background:#f3f4f6;
-  color:#4b5563;
+  color:#4b5563
 }
 
-.end-section{margin-top:28px}
+.end-section{
+  margin-top:28px
+}
 
 .end-heading{
   margin:0 0 12px;
   font-size:18px;
-  font-weight:900;
+  font-weight:900
 }
 
 .end-subtitle{
   margin:-5px 0 15px;
   color:var(--muted);
-  font-size:12px;
-}
-
-.empty{
-  background:#fff;
-  border:1px dashed #d1d5db;
-  border-radius:18px;
-  padding:35px 18px;
-  text-align:center;
-  color:var(--muted);
-}
-
-.empty strong{
-  display:block;
-  color:var(--text);
-  margin-bottom:6px;
-}
-
-.error{
-  background:#fff;
-  border:1px solid #fecaca;
-  color:#991b1b;
-  border-radius:18px;
-  padding:20px;
-  text-align:center;
+  font-size:12px
 }
 
 footer{
@@ -470,12 +495,12 @@ footer{
   padding:0 16px 30px;
   text-align:center;
   color:var(--muted);
-  font-size:12px;
+  font-size:12px
 }
 
 footer a{
   color:var(--primary-dark);
-  font-weight:800;
+  font-weight:800
 }
 
 .toast{
@@ -491,12 +516,12 @@ footer a{
   padding:11px 16px;
   border-radius:12px;
   font-size:12px;
-  transition:.2s;
+  transition:.2s
 }
 
 .toast.show{
   opacity:1;
-  transform:translate(-50%,0);
+  transform:translate(-50%,0)
 }
 
 .modal-backdrop{
@@ -508,11 +533,11 @@ footer a{
   display:none;
   align-items:center;
   justify-content:center;
-  padding:18px;
+  padding:18px
 }
 
 .modal-backdrop.show{
-  display:flex;
+  display:flex
 }
 
 .modal{
@@ -521,23 +546,35 @@ footer a{
   border-radius:22px;
   padding:22px;
   box-shadow:0 25px 70px rgba(0,0,0,.25);
+  animation:modalIn .18s ease
+}
+
+@keyframes modalIn{
+  from{
+    opacity:0;
+    transform:scale(.96) translateY(8px)
+  }
+  to{
+    opacity:1;
+    transform:none
+  }
 }
 
 .modal h2{
   margin:0 0 7px;
-  font-size:21px;
+  font-size:21px
 }
 
 .modal p{
   margin:0 0 18px;
   color:var(--muted);
   font-size:13px;
-  line-height:1.6;
+  line-height:1.6
 }
 
 .modal-actions{
   display:grid;
-  gap:9px;
+  gap:9px
 }
 
 .modal-btn{
@@ -546,17 +583,21 @@ footer a{
   border:0;
   border-radius:12px;
   cursor:pointer;
-  font-weight:900;
+  font-weight:900
+}
+
+.modal-btn:active{
+  transform:scale(.94)
 }
 
 .modal-btn.primary{
   background:var(--primary);
-  color:#fff;
+  color:#fff
 }
 
 .modal-btn.secondary{
   background:#f3f4f6;
-  color:#374151;
+  color:#374151
 }
 
 .amount-value{
@@ -564,13 +605,13 @@ footer a{
   font-size:32px;
   font-weight:900;
   color:var(--primary-dark);
-  margin:8px 0 16px;
+  margin:8px 0 16px
 }
 
 .amount-slider{
   width:100%;
   accent-color:var(--primary);
-  cursor:pointer;
+  cursor:pointer
 }
 
 .amount-range{
@@ -578,7 +619,7 @@ footer a{
   justify-content:space-between;
   color:var(--muted);
   font-size:11px;
-  margin-top:5px;
+  margin-top:5px
 }
 
 .modal-close{
@@ -589,38 +630,43 @@ footer a{
   background:transparent;
   font-size:22px;
   cursor:pointer;
-  color:#6b7280;
+  color:#6b7280
 }
 
 .modal-box{
-  position:relative;
+  position:relative
 }
 
 @media(max-width:720px){
-
-  .header-inner{min-height:58px}
+  .header-inner{
+    min-height:58px
+  }
 
   .nav a{
     font-size:11px;
-    padding:8px 7px;
+    padding:8px 7px
   }
 
-  main{padding:20px 12px 40px}
+  main{
+    padding:20px 12px 40px
+  }
 
-  h1{font-size:25px}
+  h1{
+    font-size:25px
+  }
 
   .toolbar{
     flex-direction:column;
-    align-items:stretch;
+    align-items:stretch
   }
 
   .status{
     width:100%;
-    justify-content:center;
+    justify-content:center
   }
 
   .matches-grid{
-    grid-template-columns:1fr;
+    grid-template-columns:1fr
   }
 }
 </style>
@@ -630,7 +676,6 @@ footer a{
 
 <header>
   <div class="header-inner">
-
     <a href="index.html" class="logo">SportX</a>
 
     <nav class="nav">
@@ -639,88 +684,120 @@ footer a{
       <a href="sports.html">Live</a>
       <a href="my-bets.html">My Bets</a>
     </nav>
-
   </div>
 </header>
 
 <main>
 
-  <section class="page-head">
+<section class="page-head">
 
-    <div class="badge">
-      <span class="badge-dot"></span>
-      FUTURE MATCHES
-    </div>
+  <div class="badge">
+    <span class="badge-dot"></span>
+    FUTURE MATCHES
+  </div>
 
-    <h1>Matches in the Next 7 Days</h1>
+  <h1>Matches in the Next 7 Days</h1>
 
-    <p class="subtitle">
-      Real upcoming matches from the 50 selected teams.
-    </p>
+  <p class="subtitle">
+    Real matches from the 50 selected teams.
+    Status and live scores come from SportX Worker.
+  </p>
 
-  </section>
+</section>
 
-  <section class="info-card">
+<section class="info-card">
 
-    <div class="info-row">
+  <div class="info-row">
 
-      <div>
-        <div class="info-title">7-Day Future</div>
-
-        <div class="info-text">
-          Only real fixtures from the selected 50 teams are shown.
-        </div>
+    <div>
+      <div class="info-title">
+        7-Day Future
       </div>
 
-      <div id="matchCount" class="info-number">0</div>
-
+      <div class="info-text">
+        Only real fixtures from the selected 50 teams are shown.
+      </div>
     </div>
 
-  </section>
-
-  <div class="toolbar">
-
-    <input
-      id="searchInput"
-      class="search"
-      type="search"
-      placeholder="Search team or league..."
-      autocomplete="off"
-    >
-
-    <div id="status" class="status">
-      Updating in background...
+    <div id="matchCount" class="info-number">
+      0
     </div>
 
   </div>
 
-  <div id="loading" class="loading" style="display:none;">
-    <div class="spinner"></div>
-    Loading real future matches...
+</section>
+
+<div class="toolbar">
+
+  <input
+    id="searchInput"
+    class="search"
+    type="search"
+    placeholder="Search team or league..."
+    autocomplete="off"
+  >
+
+  <div id="status" class="status">
+    Connecting to Worker...
   </div>
 
-  <section id="matchesGrid" class="matches-grid"></section>
+</div>
 
-  <section id="emptyState" class="empty" style="display:none;">
-    <strong>No future matches found</strong>
-    There are currently no matches from the selected 50 teams within the next 7 days.
-  </section>
+<div id="loading" class="loading">
 
-  <section id="errorState" class="error" style="display:none;">
-    Unable to load future matches right now.
-  </section>
+  <div class="spinner"></div>
 
-  <section id="endSection" class="end-section" style="display:none;">
+  Loading real matches...
 
-    <h2 class="end-heading">Finished Matches</h2>
+</div>
 
-    <p class="end-subtitle">
-      Finished Future matches remain here for 2 hours.
-    </p>
+<section
+  id="matchesGrid"
+  class="matches-grid">
+</section>
 
-    <div id="endGrid" class="matches-grid"></div>
+<section
+  id="emptyState"
+  class="empty"
+  style="display:none">
 
-  </section>
+  <strong>
+    No future matches found
+  </strong>
+
+  There are currently no matches from the selected
+  50 teams within the next 7 days.
+
+</section>
+
+<section
+  id="errorState"
+  class="error"
+  style="display:none">
+
+  Unable to load future matches right now.
+
+</section>
+
+<section
+  id="endSection"
+  class="end-section"
+  style="display:none">
+
+  <h2 class="end-heading">
+    Finished Matches
+  </h2>
+
+  <p class="end-subtitle">
+    Finished Future matches remain here for 2 hours.
+  </p>
+
+  <div
+    id="endGrid"
+    class="matches-grid">
+  </div>
+
+</section>
 
 </main>
 
@@ -729,137 +806,149 @@ footer a{
   <a
     href="https://sportscore.com/"
     target="_blank"
-    rel="noopener"
-  >
+    rel="noopener">
     SportScore
   </a>
 </footer>
 
 <div id="toast" class="toast"></div>
 
-<div id="loginModal" class="modal-backdrop">
-  <div class="modal">
-    <div class="modal-box">
+<!-- LOGIN MODAL -->
+
+<div
+  id="loginModal"
+  class="modal-backdrop">
+
+  <div class="modal modal-box">
+
+    <button
+      id="loginModalClose"
+      class="modal-close"
+      type="button">
+      ×
+    </button>
+
+    <h2>
+      Login Required
+    </h2>
+
+    <p>
+      You must be logged in to make a prediction.
+    </p>
+
+    <div class="modal-actions">
 
       <button
-        class="modal-close"
-        id="loginModalClose"
-        type="button"
-      >
-        ×
+        id="loginBtn"
+        class="modal-btn primary"
+        type="button">
+        Login
       </button>
 
-      <h2>Login Required</h2>
-
-      <p>
-        You must be logged in to submit a prediction.
-      </p>
-
-      <div class="modal-actions">
-
-        <button
-          id="loginBtn"
-          class="modal-btn primary"
-          type="button"
-        >
-          Login
-        </button>
-
-        <button
-          id="registerBtn"
-          class="modal-btn secondary"
-          type="button"
-        >
-          Create Account
-        </button>
-
-      </div>
+      <button
+        id="registerBtn"
+        class="modal-btn secondary"
+        type="button">
+        Create Account
+      </button>
 
     </div>
+
   </div>
+
 </div>
 
-<div id="amountModal" class="modal-backdrop">
-  <div class="modal">
-    <div class="modal-box">
+<!-- AMOUNT MODAL -->
+
+<div
+  id="amountModal"
+  class="modal-backdrop">
+
+  <div class="modal modal-box">
+
+    <button
+      id="amountModalClose"
+      class="modal-close"
+      type="button">
+      ×
+    </button>
+
+    <h2>
+      Prediction Amount
+    </h2>
+
+    <p>
+      Select your virtual prediction amount.
+    </p>
+
+    <div
+      id="amountValue"
+      class="amount-value">
+      100 AFN
+    </div>
+
+    <input
+      id="amountSlider"
+      class="amount-slider"
+      type="range"
+      min="100"
+      max="500"
+      step="10"
+      value="100"
+    >
+
+    <div class="amount-range">
+      <span>100 AFN</span>
+      <span>500 AFN</span>
+    </div>
+
+    <div
+      class="modal-actions"
+      style="margin-top:20px">
 
       <button
-        class="modal-close"
-        id="amountModalClose"
-        type="button"
-      >
-        ×
+        id="confirmBetBtn"
+        class="modal-btn primary"
+        type="button">
+        Confirm Prediction
       </button>
 
-      <h2>Prediction Amount</h2>
-
-      <p>
-        Choose your prediction amount in AFN.
-      </p>
-
-      <div id="amountValue" class="amount-value">
-        100 AFN
-      </div>
-
-      <input
-        id="amountSlider"
-        class="amount-slider"
-        type="range"
-        min="100"
-        max="500"
-        step="10"
-        value="100"
-      >
-
-      <div class="amount-range">
-        <span>100 AFN</span>
-        <span>500 AFN</span>
-      </div>
-
-      <div class="modal-actions" style="margin-top:20px;">
-
-        <button
-          id="confirmBetBtn"
-          class="modal-btn primary"
-          type="button"
-        >
-          Confirm Prediction
-        </button>
-
-        <button
-          id="cancelBetBtn"
-          class="modal-btn secondary"
-          type="button"
-        >
-          Cancel
-        </button>
-
-      </div>
+      <button
+        id="cancelBetBtn"
+        class="modal-btn secondary"
+        type="button">
+        Cancel
+      </button>
 
     </div>
+
   </div>
+
 </div>
 
 <script src="auth.js"></script>
 
 <script>
-const SPORT_SCORE_BASE =
-  "https://sportscore.com/api/widget/team/";
+const MAX_DAYS =
+  7;
 
-const SPORT = "football";
+const ALL_REFRESH_INTERVAL =
+  60 * 1000;
 
-const MAX_DAYS = 7;
-const MAX_MATCHES = 50;
+const LIVE_REFRESH_INTERVAL =
+  15 * 1000;
 
-const ALL_REFRESH_INTERVAL = 60 * 1000;
-const LIVE_REFRESH_INTERVAL = 15 * 1000;
-const COUNTDOWN_INTERVAL = 1000;
+const COUNTDOWN_INTERVAL =
+  1000;
 
 const END_KEEP_TIME =
   2 * 60 * 60 * 1000;
 
 const WORKER_URL =
   "https://zchtcosljkkkiykhforj.supabase.co/functions/v1/smooth-worker";
+
+const STORAGE_KEY =
+  "sportx_future_matches_worker_v2";
 
 const FEATURED_TEAMS = [
   "real-madrid",
@@ -914,9 +1003,6 @@ const FEATURED_TEAMS = [
   "celtic"
 ];
 
-const FEATURED_SET =
-  new Set(FEATURED_TEAMS);
-
 const loadingEl =
   document.getElementById("loading");
 
@@ -963,1291 +1049,108 @@ const confirmBetBtn =
   document.getElementById("confirmBetBtn");
 
 let matches = [];
+
 let loading = false;
+
 let userBets = {};
+
 let pendingBet = null;
 
-function normalize(value){
-  return String(value || "")
+let lastWorkerSuccess = 0;
+
+
+/* =========================
+   HELPERS
+========================= */
+
+function normalize(v) {
+  return String(v ?? "")
     .toLowerCase()
     .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g,"")
-    .trim();
-}
-
-function escapeHtml(value){
-  return String(value ?? "")
-    .replaceAll("&","&amp;")
-    .replaceAll("<","&lt;")
-    .replaceAll(">","&gt;")
-    .replaceAll('"',"&quot;")
-    .replaceAll("'","&#039;");
-}
-
-function parseDate(value){
-
-  if(
-    value === null ||
-    value === undefined ||
-    value === ""
-  ){
-    return null;
-  }
-
-  if(typeof value === "number"){
-
-    const ms =
-      value < 100000000000
-        ? value * 1000
-        : value;
-
-    const date =
-      new Date(ms);
-
-    return Number.isNaN(date.getTime())
-      ? null
-      : date;
-  }
-
-  const text =
-    String(value).trim();
-
-  if(/^\d+$/.test(text)){
-
-    const number =
-      Number(text);
-
-    const ms =
-      number < 100000000000
-        ? number * 1000
-        : number;
-
-    const date =
-      new Date(ms);
-
-    return Number.isNaN(date.getTime())
-      ? null
-      : date;
-  }
-
-  const date =
-    new Date(text);
-
-  return Number.isNaN(date.getTime())
-    ? null
-    : date;
-}
-
-function getTime(match){
-
-  return (
-    match.time ??
-    match.start_time ??
-    match.startTime ??
-    match.datetime ??
-    match.date ??
-    match.kickoff ??
-    match.start ??
-    match.scheduled_at ??
-    match.scheduledAt ??
-    null
-  );
-}
-
-function teamObject(value){
-
-  if(!value){
-    return {};
-  }
-
-  if(typeof value === "string"){
-    return {name:value};
-  }
-
-  return value;
-}
-
-function homeObject(match){
-
-  return teamObject(
-    match.home ||
-    match.home_team ||
-    match.homeTeam
-  );
-}
-
-function awayObject(match){
-
-  return teamObject(
-    match.away ||
-    match.away_team ||
-    match.awayTeam
-  );
-}
-
-function teamName(team){
-
-  if(typeof team === "string"){
-    return team;
-  }
-
-  return (
-    team?.name ||
-    team?.team_name ||
-    team?.title ||
-    team?.short_name ||
-    team?.shortName ||
-    "Unknown"
-  );
-}
-
-function teamLogo(team){
-
-  if(typeof team === "string"){
-    return "";
-  }
-
-  const logo =
-    team?.logo?.url ||
-    team?.logo?.src ||
-    team?.logo ||
-    team?.logo_url ||
-    team?.logoUrl ||
-    team?.image?.url ||
-    team?.image?.src ||
-    team?.image ||
-    team?.image_url ||
-    team?.imageUrl ||
-    team?.crest?.url ||
-    team?.crest ||
-    team?.crest_url ||
-    team?.badge?.url ||
-    team?.badge ||
-    team?.badge_url ||
-    team?.icon?.url ||
-    team?.icon ||
-    "";
-
-  return typeof logo === "string"
-    ? logo
-    : "";
-}
-
-function leagueName(match){
-
-  const c =
-    match.competition;
-
-  if(
-    c &&
-    typeof c === "object"
-  ){
-    return (
-      c.name ||
-      c.title ||
-      "Football"
-    );
-  }
-
-  const l =
-    match.league;
-
-  if(
-    l &&
-    typeof l === "object"
-  ){
-    return (
-      l.name ||
-      l.title ||
-      "Football"
-    );
-  }
-
-  return String(
-    c ||
-    l ||
-    match.tournament ||
-    match.competition_name ||
-    "Football"
-  );
-}
-
-function getStatus(match){
-
-  const raw =
-    normalize(
-      match.status ||
-      match.status_text ||
-      match.statusText ||
-      match.state ||
+    .replace(
+      /[\u0300-\u036f]/g,
       ""
-    );
-
-  if(
-    match.is_live === true ||
-    match.isLive === true ||
-    raw === "live" ||
-    raw.includes("live") ||
-    raw.includes("playing") ||
-    raw.includes("inplay") ||
-    raw.includes("in play") ||
-    raw.includes("half-time") ||
-    raw.includes("extra-time")
-  ){
-    return "live";
-  }
-
-  if(
-    match.is_finished === true ||
-    match.isFinished === true ||
-    raw.includes("finished") ||
-    raw.includes("ended") ||
-    raw.includes("final") ||
-    raw === "ft" ||
-    raw === "ft."
-  ){
-    return "finished";
-  }
-
-  if(
-    raw.includes("cancel") ||
-    raw.includes("postpon") ||
-    raw.includes("abandoned")
-  ){
-    return "excluded";
-  }
-
-  return "scheduled";
+    )
+    .trim()
+    .replace(
+      /[^a-z0-9]+/g,
+      "-"
+    )
+    .replace(
+      /^-+|-+$/g,
+      "");
 }
 
-function numberValue(value){
+function escapeHtml(v) {
+  return String(v ?? "")
+    .replaceAll(
+      "&",
+      "&amp;"
+    )
+    .replaceAll(
+      "<",
+      "&lt;"
+    )
+    .replaceAll(
+      ">",
+      "&gt;"
+    )
+    .replaceAll(
+      '"',
+      "&quot;"
+    )
+    .replaceAll(
+      "'",
+      "&#039;"
+    );
+}
 
-  if(
-    value === null ||
-    value === undefined ||
-    value === ""
-  ){
+function parseDate(v) {
+  if (
+    v === null ||
+    v === undefined ||
+    v === ""
+  ) {
     return null;
+  }
+
+  const d =
+    new Date(v);
+
+  return Number.isNaN(
+    d.getTime()
+  )
+    ? null
+    : d;
+}
+
+function numberValue(v) {
+  if (
+    v === null ||
+    v === undefined ||
+    v === ""
+  ) {
+    return 0;
   }
 
   const n =
-    Number(value);
+    Number(v);
 
   return Number.isFinite(n)
     ? n
-    : null;
+    : 0;
 }
 
-function scoreValue(match,side){
-
-  const direct =
-    side === "home"
-      ? [
-          "home_score",
-          "homeScore",
-          "home_goals",
-          "homeGoals"
-        ]
-      : [
-          "away_score",
-          "awayScore",
-          "away_goals",
-          "awayGoals"
-        ];
-
-  for(const key of direct){
-
-    const value =
-      numberValue(match[key]);
-
-    if(value !== null){
-      return value;
-    }
-  }
-
-  const objects = [
-    match.score,
-    match.scores,
-    match.result
-  ];
-
-  for(const object of objects){
-
-    if(
-      !object ||
-      typeof object !== "object"
-    ){
-      continue;
-    }
-
-    const keys =
-      side === "home"
-        ? [
-            "home",
-            "home_score",
-            "homeScore",
-            "home_goals",
-            "homeGoals",
-            "1"
-          ]
-        : [
-            "away",
-            "away_score",
-            "awayScore",
-            "away_goals",
-            "awayGoals",
-            "2"
-          ];
-
-    for(const key of keys){
-
-      const value =
-        object[key];
-
-      if(
-        value &&
-        typeof value === "object"
-      ){
-
-        const nested =
-          numberValue(
-            value.score ??
-            value.goals ??
-            value.value
-          );
-
-        if(nested !== null){
-          return nested;
-        }
-      }
-
-      const n =
-        numberValue(value);
-
-      if(n !== null){
-        return n;
-      }
-    }
-  }
-
-  return null;
-}
-
-function matchKey(match){
-
-  return [
-    normalize(match.home),
-    normalize(match.away),
-    Math.floor(
-      Number(match.timestamp) / 60000
-    )
-  ].join("|");
-}
-
-function matchId(
-  raw,
-  home,
-  away,
-  timestamp
-){
-
+function matchId(m) {
   return String(
-    raw.id ||
-    raw.match_id ||
-    raw.matchId ||
-    raw.fixture_id ||
-    raw.fixtureId ||
-    raw.event_id ||
-    raw.eventId ||
-    raw.slug ||
-    raw.url ||
-    [
-      normalize(home),
-      normalize(away),
-      timestamp
-    ].join("-")
+    m.id ||
+    m.externalId ||
+    `${normalize(m.home)}:${normalize(m.away)}:${m.timestamp}`
   );
 }
 
-function normalizeMatch(raw,sourceTeam){
-
-  const h =
-    homeObject(raw);
-
-  const a =
-    awayObject(raw);
-
-  const home =
-    teamName(h);
-
-  const away =
-    teamName(a);
-
-  const date =
-    parseDate(
-      getTime(raw)
-    );
-
-  if(
-    !home ||
-    !away ||
-    !date
-  ){
-    return null;
-  }
-
-  return {
-    id:
-      matchId(
-        raw,
-        home,
-        away,
-        date.getTime()
-      ),
-
-    home,
-    away,
-
-    homeLogo:
-      raw.home_logo ||
-      raw.homeLogo ||
-      teamLogo(h) ||
-      "",
-
-    awayLogo:
-      raw.away_logo ||
-      raw.awayLogo ||
-      teamLogo(a) ||
-      "",
-
-    league:
-      leagueName(raw),
-
-    timestamp:
-      date.getTime(),
-
-    status:
-      getStatus(raw),
-
-    homeScore:
-      scoreValue(raw,"home"),
-
-    awayScore:
-      scoreValue(raw,"away"),
-
-    sourceTeam,
-
-    finishedObservedAt:null
-  };
-}
-
-function extractMatches(json){
-
-  if(Array.isArray(json)){
-    return json;
-  }
-
-  if(Array.isArray(json?.matches)){
-    return json.matches;
-  }
-
-  if(Array.isArray(json?.data)){
-    return json.data;
-  }
-
-  if(Array.isArray(json?.fixtures)){
-    return json.fixtures;
-  }
-
-  if(Array.isArray(json?.events)){
-    return json.events;
-  }
-
-  return [];
-}
-
-async function loadTeam(slug){
-
-  const cacheBuster =
-    Date.now().toString();
-
-  const url =
-    SPORT_SCORE_BASE +
-    "?sport=" +
-    SPORT +
-    "&slug=" +
-    encodeURIComponent(slug) +
-    "&limit=50" +
-    "&_live=" +
-    cacheBuster;
-
-  try{
-
-    const response =
-      await fetch(
-        url,
-        {
-          method:"GET",
-          cache:"no-store",
-          headers:{
-            Accept:"application/json",
-            "Cache-Control":
-              "no-cache, no-store, max-age=0"
-          }
-        }
-      );
-
-    if(!response.ok){
-      return [];
-    }
-
-    const json =
-      await response.json();
-
-    return extractMatches(json)
-      .map(
-        raw =>
-          normalizeMatch(
-            raw,
-            slug
-          )
-      )
-      .filter(Boolean);
-
-  }catch(error){
-
-    console.warn(
-      "SportScore error:",
-      slug,
-      error
-    );
-
-    return [];
-  }
-}
-
-function findMatch(fresh){
-
-  const key =
-    matchKey(fresh);
-
-  return matches.find(
-    item =>
-      matchKey(item) === key
-  );
-}
-
-function cleanupStoredMatches(){
-
-  const now =
-    Date.now();
-
-  const maxFuture =
-    now +
-    MAX_DAYS *
-    86400000;
-
-  const map =
-    new Map();
-
-  for(const match of matches){
-
-    if(!match){
-      continue;
-    }
-
-    if(
-      !FEATURED_SET.has(
-        match.sourceTeam
-      )
-    ){
-      continue;
-    }
-
-    if(
-      match.status === "excluded"
-    ){
-      continue;
-    }
-
-    if(
-      match.status === "live"
-    ){
-      map.set(
-        matchKey(match),
-        match
-      );
-      continue;
-    }
-
-    if(
-      match.status === "finished"
-    ){
-
-      const finishedAt =
-        Number(
-          match.finishedObservedAt
-        );
-
-      if(
-        !Number.isFinite(finishedAt)
-      ){
-        continue;
-      }
-
-      if(
-        now - finishedAt >=
-        END_KEEP_TIME
-      ){
-        continue;
-      }
-
-      map.set(
-        matchKey(match),
-        match
-      );
-
-      continue;
-    }
-
-    if(
-      match.status === "scheduled"
-    ){
-
-      const timestamp =
-        Number(
-          match.timestamp
-        );
-
-      if(
-        !Number.isFinite(timestamp)
-      ){
-        continue;
-      }
-
-      if(timestamp <= now){
-
-        match.status = "live";
-
-        map.set(
-          matchKey(match),
-          match
-        );
-
-        continue;
-      }
-
-      if(timestamp > maxFuture){
-        continue;
-      }
-
-      map.set(
-        matchKey(match),
-        match
-      );
-    }
-  }
-
-  matches =
-    Array.from(
-      map.values()
-    );
-
-  saveStoredMatches();
-}
-
-function applyFreshMatches(freshList){
-
-  const now =
-    Date.now();
-
-  const maxFuture =
-    now +
-    MAX_DAYS *
-    86400000;
-
-  const freshMap =
-    new Map();
-
-  for(const fresh of freshList){
-
-    if(!fresh){
-      continue;
-    }
-
-    if(
-      !FEATURED_SET.has(
-        fresh.sourceTeam
-      )
-    ){
-      continue;
-    }
-
-    if(
-      fresh.status === "excluded"
-    ){
-      continue;
-    }
-
-    freshMap.set(
-      matchKey(fresh),
-      fresh
-    );
-  }
-
-  for(const fresh of freshMap.values()){
-
-    const old =
-      findMatch(fresh);
-
-    if(!old){
-
-      if(
-        fresh.status === "live"
-      ){
-
-        matches.push(
-          fresh
-        );
-
-        continue;
-      }
-
-      if(
-        fresh.status === "scheduled"
-      ){
-
-        if(
-          fresh.timestamp <= now
-        ){
-
-          fresh.status =
-            "live";
-
-          matches.push(
-            fresh
-          );
-
-          continue;
-        }
-
-        if(
-          fresh.timestamp > now &&
-          fresh.timestamp <= maxFuture
-        ){
-
-          matches.push(
-            fresh
-          );
-        }
-
-        continue;
-      }
-
-      continue;
-    }
-
-    if(
-      old.status === "finished"
-    ){
-
-      if(
-        fresh.status === "finished"
-      ){
-
-        updateMatchData(
-          old,
-          fresh
-        );
-      }
-
-      continue;
-    }
-
-    if(
-      old.status === "live"
-    ){
-
-      if(
-        fresh.status === "live"
-      ){
-
-        updateMatchData(
-          old,
-          fresh
-        );
-      }
-
-      if(
-        fresh.status === "finished"
-      ){
-
-        updateMatchData(
-          old,
-          fresh
-        );
-
-        old.status =
-          "finished";
-
-        old.finishedObservedAt =
-          old.finishedObservedAt ||
-          Date.now();
-      }
-
-      continue;
-    }
-
-    if(
-      old.status === "scheduled"
-    ){
-
-      if(
-        fresh.status === "live"
-      ){
-
-        updateMatchData(
-          old,
-          fresh
-        );
-
-        old.status =
-          "live";
-
-        continue;
-      }
-
-      if(
-        old.timestamp <= now
-      ){
-
-        if(
-          fresh.status === "finished"
-        ){
-
-          updateMatchData(
-            old,
-            fresh
-          );
-
-          old.status =
-            "finished";
-
-          old.finishedObservedAt =
-            old.finishedObservedAt ||
-            Date.now();
-
-        }else{
-
-          updateMatchData(
-            old,
-            fresh
-          );
-
-          old.status =
-            "live";
-        }
-
-        continue;
-      }
-
-      if(
-        fresh.status === "finished"
-      ){
-
-        continue;
-      }
-
-      if(
-        fresh.status === "scheduled"
-      ){
-
-        updateMatchData(
-          old,
-          fresh
-        );
-
-        old.status =
-          "scheduled";
-      }
-    }
-  }
-
-  cleanupStoredMatches();
-  saveStoredMatches();
-}
-
-function updateMatchData(old,fresh){
-
-  if(fresh.homeLogo){
-    old.homeLogo =
-      fresh.homeLogo;
-  }
-
-  if(fresh.awayLogo){
-    old.awayLogo =
-      fresh.awayLogo;
-  }
-
-  if(fresh.league){
-    old.league =
-      fresh.league;
-  }
-
-  if(
-    fresh.homeScore !== null &&
-    fresh.homeScore !== undefined
-  ){
-    old.homeScore =
-      fresh.homeScore;
-  }
-
-  if(
-    fresh.awayScore !== null &&
-    fresh.awayScore !== undefined
-  ){
-    old.awayScore =
-      fresh.awayScore;
-  }
-}
-
-async function loadAllTeams(){
-
-  if(loading){
-    return;
-  }
-
-  loading = true;
-
-  try{
-
-    const results =
-      await Promise.all(
-        FEATURED_TEAMS.map(
-          slug =>
-            loadTeam(slug)
-        )
-      );
-
-    const fresh =
-      results.flat();
-
-    applyFreshMatches(
-      fresh
-    );
-
-    render();
-    renderEnded();
-    updateStatus();
-
-  }catch(error){
-
-    console.error(
-      "SportX refresh error:",
-      error
-    );
-
-    cleanupStoredMatches();
-    render();
-    renderEnded();
-    updateStatus();
-
-  }finally{
-
-    loading = false;
-  }
-}
-
-async function refreshLiveMatches(){
-
-  const live =
-    matches.filter(
-      match =>
-        match.status === "live"
-    );
-
-  if(!live.length){
-
-    updateStatus();
-
-    return;
-  }
-
-  const slugs =
-    [
-      ...new Set(
-        live
-          .map(
-            match =>
-              match.sourceTeam
-          )
-          .filter(
-            slug =>
-              FEATURED_SET.has(slug)
-          )
-      )
-    ];
-
-  try{
-
-    const results =
-      await Promise.all(
-        slugs.map(
-          slug =>
-            loadTeam(slug)
-        )
-      );
-
-    const fresh =
-      results.flat();
-
-    let changed = false;
-
-    for(const old of matches){
-
-      if(
-        old.status !== "live"
-      ){
-        continue;
-      }
-
-      const freshMatch =
-        fresh.find(
-          item =>
-            matchKey(item) ===
-            matchKey(old)
-        );
-
-      if(!freshMatch){
-        continue;
-      }
-
-      updateMatchData(
-        old,
-        freshMatch
-      );
-
-      if(
-        freshMatch.status ===
-        "finished"
-      ){
-
-        old.status =
-          "finished";
-
-        old.finishedObservedAt =
-          old.finishedObservedAt ||
-          Date.now();
-
-        changed = true;
-      }
-    }
-
-    cleanupStoredMatches();
-
-    if(changed){
-      saveStoredMatches();
-    }
-
-    render();
-    renderEnded();
-    updateStatus();
-
-  }catch(error){
-
-    console.warn(
-      "Live refresh failed:",
-      error
-    );
-
-    render();
-    updateStatus();
-  }
-}
-
-function render(){
-
-  const now =
-    Date.now();
-
-  const maxFuture =
-    now +
-    MAX_DAYS *
-    86400000;
-
-  const query =
-    normalize(
-      searchInput?.value || ""
-    );
-
-  let visible =
-    matches.filter(
-      match => {
-
-        if(
-          match.status === "live"
-        ){
-          return true;
-        }
-
-        if(
-          match.status !== "scheduled"
-        ){
-          return false;
-        }
-
-        return (
-          match.timestamp > now &&
-          match.timestamp <= maxFuture
-        );
-      }
-    );
-
-  if(query){
-
-    visible =
-      visible.filter(
-        match => {
-
-          const text =
-            normalize(
-              [
-                match.home,
-                match.away,
-                match.league
-              ].join(" ")
-            );
-
-          return text.includes(query);
-        }
-      );
-  }
-
-  visible.sort(
-    (a,b) => {
-
-      if(
-        a.status === "live" &&
-        b.status !== "live"
-      ){
-        return -1;
-      }
-
-      if(
-        a.status !== "live" &&
-        b.status === "live"
-      ){
-        return 1;
-      }
-
-      return (
-        a.timestamp -
-        b.timestamp
-      );
-    }
-  );
-
-  visible =
-    visible.slice(
-      0,
-      MAX_MATCHES
-    );
-
-  matchCountEl.textContent =
-    visible.length;
-
-  if(!visible.length){
-
-    matchesGrid.innerHTML =
-      "";
-
-    matchesGrid.style.display =
-      "none";
-
-    emptyState.style.display =
-      "block";
-
-    return;
-  }
-
-  emptyState.style.display =
-    "none";
-
-  matchesGrid.style.display =
-    "grid";
-
-  matchesGrid.innerHTML =
-    visible
-      .map(
-        createFutureCard
-      )
-      .join("");
-}
-
-function imageHtml(url,name){
-
-  if(url){
-
-    return `
-      <img
-        class="team-logo"
-        src="${escapeHtml(url)}"
-        alt="${escapeHtml(name)}"
-        loading="lazy"
-        onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"
-      >
-      <div
-        class="team-logo logo-fallback"
-        style="display:none;"
-      >
-        ${escapeHtml(
-          name.charAt(0).toUpperCase()
-        )}
-      </div>
-    `;
-  }
-
-  return `
-    <div class="team-logo logo-fallback">
-      ${escapeHtml(
-        name.charAt(0).toUpperCase()
-      )}
-    </div>
-  `;
-}
-
-function countdownText(timestamp){
-
-  const diff =
-    timestamp -
-    Date.now();
-
-  if(diff <= 0){
-    return "Starting";
-  }
-
-  const hours =
-    diff / 3600000;
-
-  if(hours < 24){
-    return "Today";
-  }
-
-  const days =
-    Math.ceil(
-      diff / 86400000
-    );
-
-  return days === 1
-    ? "1 Day"
-    : `${days} Days`;
-}
-
-function formatDate(timestamp){
-
-  return new Date(
-    timestamp
-  ).toLocaleString(
+function formatDate(ts) {
+  return new Intl.DateTimeFormat(
     undefined,
     {
       weekday:"short",
@@ -2256,25 +1159,808 @@ function formatDate(timestamp){
       hour:"2-digit",
       minute:"2-digit"
     }
+  ).format(
+    new Date(ts)
   );
 }
 
-function createFutureCard(match){
+function countdown(ts) {
+
+  let seconds =
+    Math.max(
+      0,
+      Math.floor(
+        (ts - Date.now()) /
+        1000
+      )
+    );
+
+  const days =
+    Math.floor(
+      seconds / 86400
+    );
+
+  seconds %= 86400;
+
+  const hours =
+    Math.floor(
+      seconds / 3600
+    );
+
+  seconds %= 3600;
+
+  const minutes =
+    Math.floor(
+      seconds / 60
+    );
+
+  seconds %= 60;
+
+  if (days) {
+    return `${days}d ${String(hours).padStart(2,"0")}h`;
+  }
+
+  if (hours) {
+    return `${hours}h ${String(minutes).padStart(2,"0")}m`;
+  }
+
+  if (minutes) {
+    return `${minutes}m ${String(seconds).padStart(2,"0")}s`;
+  }
+
+  return `${seconds}s`;
+}
+
+function showToast(t) {
+
+  toastEl.textContent =
+    t;
+
+  toastEl.classList.add(
+    "show"
+  );
+
+  clearTimeout(
+    showToast.timer
+  );
+
+  showToast.timer =
+    setTimeout(
+      () =>
+        toastEl.classList.remove(
+          "show"
+        ),
+      2200
+    );
+}
+
+
+/* =========================
+   LOCAL STORAGE
+========================= */
+
+function saveStoredMatches() {
+
+  try {
+    localStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify(
+        matches
+      )
+    );
+  } catch {}
+}
+
+function loadStoredMatches() {
+
+  /*
+   * فقط برای نمایش موقت هنگام
+   * قطع شدن Worker.
+   *
+   * هیچ وضعیت LIVE از زمان
+   * ساخته نمی‌شود.
+   */
+
+  try {
+
+    const stored =
+      JSON.parse(
+        localStorage.getItem(
+          STORAGE_KEY
+        ) || "[]"
+      );
+
+    if (
+      Array.isArray(
+        stored
+      )
+    ) {
+
+      matches =
+        stored.filter(
+          m =>
+            m &&
+            [
+              "scheduled",
+              "live",
+              "finished"
+            ].includes(
+              m.status
+            )
+        );
+
+    }
+
+  } catch {
+    matches = [];
+  }
+}
+
+
+/* =========================
+   WORKER
+========================= */
+
+async function loadWorkerMatches() {
+
+  const response =
+    await fetch(
+      `${WORKER_URL}?action=matches&_=${Date.now()}`,
+      {
+        method:"GET",
+        cache:"no-store",
+        headers:{
+          Accept:
+            "application/json",
+
+          "Cache-Control":
+            "no-cache, no-store, max-age=0"
+        }
+      }
+    );
+
+  if (
+    !response.ok
+  ) {
+    throw new Error(
+      `Worker HTTP ${response.status}`
+    );
+  }
+
+  const json =
+    await response.json();
+
+  if (
+    !json.success
+  ) {
+    throw new Error(
+      json.error ||
+      "Worker failed"
+    );
+  }
+
+  return Array.isArray(
+    json.matches
+  )
+    ? json.matches
+    : [];
+}
+
+
+/* =========================
+   NORMALIZE WORKER MATCH
+========================= */
+
+function normalizeWorkerMatch(
+  raw
+) {
+
+  const date =
+    parseDate(
+      raw.start_time
+    );
+
+  if (!date) {
+    return null;
+  }
+
+  const rawStatus =
+    String(
+      raw.lifecycle_status ||
+      raw.status ||
+      "scheduled"
+    )
+      .toLowerCase()
+      .trim();
+
+  /*
+   * بسیار مهم:
+   *
+   * فقط Worker می‌تواند
+   * وضعیت LIVE را تعیین کند.
+   *
+   * زمان به تنهایی LIVE
+   * ایجاد نمی‌کند.
+   */
+
+  let status =
+    "scheduled";
+
+  if (
+    rawStatus === "live"
+  ) {
+    status =
+      "live";
+  }
+
+  else if (
+    rawStatus === "finished"
+  ) {
+    status =
+      "finished";
+  }
+
+  else {
+    status =
+      "scheduled";
+  }
+
+  return {
+
+    id:
+      String(
+        raw.id ||
+        raw.external_id ||
+        `${raw.home}-${raw.away}-${date.getTime()}`
+      ),
+
+    externalId:
+      raw.external_id ||
+      "",
+
+    home:
+      raw.home ||
+      "Unknown",
+
+    away:
+      raw.away ||
+      "Unknown",
+
+    homeLogo:
+      raw.home_logo ||
+      "",
+
+    awayLogo:
+      raw.away_logo ||
+      "",
+
+    league:
+      raw.league ||
+      "Football",
+
+    timestamp:
+      date.getTime(),
+
+    status,
+
+    homeScore:
+      numberValue(
+        raw.home_score
+      ),
+
+    awayScore:
+      numberValue(
+        raw.away_score
+      ),
+
+    finishedObservedAt:
+      raw.finished_at
+        ? parseDate(
+            raw.finished_at
+          )?.getTime() || null
+        : null
+  };
+}
+
+
+/* =========================
+   RECONCILE
+========================= */
+
+function reconcileFresh(
+  raw
+) {
+
+  const fresh =
+    raw
+      .map(
+        normalizeWorkerMatch
+      )
+      .filter(Boolean);
+
+  const now =
+    Date.now();
+
+  const futureLimit =
+    now +
+    MAX_DAYS *
+    24 *
+    60 *
+    60 *
+    1000;
+
+  const next = [];
+
+  for (
+    const match of fresh
+  ) {
+
+    /*
+     * Scheduled past matches
+     * are NOT converted to LIVE.
+     *
+     * Worker must have already
+     * changed them to LIVE.
+     */
+
+    if (
+      match.status ===
+        "scheduled" &&
+      match.timestamp <
+        now
+    ) {
+      continue;
+    }
+
+    if (
+      match.status ===
+        "scheduled" &&
+      match.timestamp >
+        futureLimit
+    ) {
+      continue;
+    }
+
+    next.push(
+      match
+    );
+  }
+
+  matches =
+    next;
+
+  saveStoredMatches();
+}
+
+
+/* =========================
+   LOAD
+========================= */
+
+async function loadAllTeams() {
+
+  if (
+    loading
+  ) {
+    return;
+  }
+
+  loading =
+    true;
+
+  loadingEl.style.display =
+    "block";
+
+  errorState.style.display =
+    "none";
+
+  try {
+
+    const raw =
+      await loadWorkerMatches();
+
+    reconcileFresh(
+      raw
+    );
+
+    lastWorkerSuccess =
+      Date.now();
+
+    render();
+
+    renderEnded();
+
+    updateStatus();
+
+  } catch (error) {
+
+    console.error(
+      "SportX Worker:",
+      error
+    );
+
+    statusEl.textContent =
+      "Worker temporarily unavailable";
+
+    /*
+     * اطلاعات قبلی را حذف نمی‌کنیم.
+     *
+     * اما وضعیت قدیمی را
+     * به LIVE جدید تبدیل نمی‌کنیم.
+     */
+
+    if (
+      !matches.length
+    ) {
+      errorState.style.display =
+        "block";
+    }
+
+    render();
+
+    renderEnded();
+
+    updateStatus();
+
+  } finally {
+
+    loading =
+      false;
+
+    loadingEl.style.display =
+      "none";
+  }
+}
+
+
+/* =========================
+   LIVE REFRESH
+========================= */
+
+async function refreshLiveMatches() {
+
+  try {
+
+    const raw =
+      await loadWorkerMatches();
+
+    /*
+     * Worker مرجع اصلی است.
+     *
+     * اگر Worker بگوید
+     * finished، Future هم
+     * finished نشان می‌دهد.
+     */
+
+    reconcileFresh(
+      raw
+    );
+
+    lastWorkerSuccess =
+      Date.now();
+
+    render();
+
+    renderEnded();
+
+    updateStatus();
+
+  } catch (error) {
+
+    console.warn(
+      "Live refresh:",
+      error
+    );
+
+    /*
+     * هنگام خطای موقت:
+     * وضعیت را خودمان تغییر نمی‌دهیم.
+     */
+
+    statusEl.textContent =
+      "Live data · Waiting for Worker";
+  }
+}
+
+
+/* =========================
+   FILTER
+========================= */
+
+function getFiltered() {
+
+  const q =
+    normalize(
+      searchInput.value
+    );
+
+  return matches.filter(
+    match =>
+      !q ||
+      normalize(
+        match.home
+      ).includes(q) ||
+      normalize(
+        match.away
+      ).includes(q) ||
+      normalize(
+        match.league
+      ).includes(q)
+  );
+}
+
+
+/* =========================
+   LOGO
+========================= */
+
+function logo(
+  url,
+  name
+) {
+
+  if (!url) {
+
+    return `
+      <div class="team-logo logo-fallback">
+        ${escapeHtml(
+          (name || "?")
+            .slice(0,1)
+            .toUpperCase()
+        )}
+      </div>
+    `;
+  }
+
+  return `
+    <img
+      class="team-logo"
+      src="${escapeHtml(url)}"
+      alt="${escapeHtml(name)}"
+      loading="lazy"
+      onerror="
+        this.style.display='none';
+        this.nextElementSibling.style.display='flex';
+      "
+    >
+
+    <div
+      class="team-logo logo-fallback"
+      style="display:none">
+      ${escapeHtml(
+        (name || "?")
+          .slice(0,1)
+          .toUpperCase()
+      )}
+    </div>
+  `;
+}
+
+
+/* =========================
+   VOTES
+========================= */
+
+function voteButtons(m) {
+
+  const id =
+    matchId(m);
 
   const selected =
-    userBets[match.id]?.prediction ||
+    userBets[id]?.prediction ||
     "";
 
-  const isLive =
-    match.status === "live";
+  const locked =
+    m.status !==
+    "scheduled";
 
-  const hs =
-    match.homeScore ??
-    "-";
+  return `
 
-  const as =
-    match.awayScore ??
-    "-";
+    <div class="vote-label">
+      ${
+        locked
+          ? "Prediction closed"
+          : "Who will win?"
+      }
+    </div>
+
+    <div class="vote-buttons">
+
+      <button
+        class="vote-btn ${
+          selected === "home"
+            ? "selected"
+            : ""
+        } ${
+          locked
+            ? "locked"
+            : ""
+        }"
+        ${
+          locked
+            ? "disabled"
+            : ""
+        }
+        data-vote="${escapeHtml(id)}"
+        data-side="home">
+
+        ${escapeHtml(m.home)}
+
+      </button>
+
+      <button
+        class="vote-btn ${
+          selected === "draw"
+            ? "selected"
+            : ""
+        } ${
+          locked
+            ? "locked"
+            : ""
+        }"
+        ${
+          locked
+            ? "disabled"
+            : ""
+        }
+        data-vote="${escapeHtml(id)}"
+        data-side="draw">
+
+        Draw
+
+      </button>
+
+      <button
+        class="vote-btn ${
+          selected === "away"
+            ? "selected"
+            : ""
+        } ${
+          locked
+            ? "locked"
+            : ""
+        }"
+        ${
+          locked
+            ? "disabled"
+            : ""
+        }
+        data-vote="${escapeHtml(id)}"
+        data-side="away">
+
+        ${escapeHtml(m.away)}
+
+      </button>
+
+    </div>
+  `;
+}
+
+
+/* =========================
+   CARD
+========================= */
+
+function createCard(m) {
+
+  const live =
+    m.status ===
+    "live";
+
+  const finished =
+    m.status ===
+    "finished";
+
+  let center;
+
+  if (live) {
+
+    center = `
+      <div class="live-score">
+        ${m.homeScore} - ${m.awayScore}
+      </div>
+    `;
+
+  } else if (finished) {
+
+    center = `
+      <div class="live-score">
+        ${m.homeScore} - ${m.awayScore}
+      </div>
+    `;
+
+  } else {
+
+    center = `
+      <div class="vs">
+        VS
+      </div>
+    `;
+  }
+
+  let badge;
+
+  if (live) {
+
+    badge = `
+      <span class="live-badge">
+        ● LIVE
+      </span>
+    `;
+
+  } else if (finished) {
+
+    badge = `
+      <span class="end-badge">
+        LIVE END
+      </span>
+    `;
+
+  } else {
+
+    badge = `
+      <span
+        class="countdown"
+        data-countdown="${m.timestamp}">
+        ${countdown(m.timestamp)}
+      </span>
+    `;
+  }
+
+  let result = "";
+
+  if (finished) {
+
+    const a =
+      m.homeScore;
+
+    const b =
+      m.awayScore;
+
+    const cls =
+      a > b
+        ? ["win","loss"]
+        : b > a
+          ? ["loss","win"]
+          : ["draw","draw"];
+
+    result = `
+
+      <div class="result-box">
+
+        <div class="result-title">
+          FINAL RESULT
+        </div>
+
+        <div class="result-score">
+          ${a} - ${b}
+        </div>
+
+        <div class="result-teams">
+
+          <div
+            class="result-team ${cls[0]}">
+
+            ${escapeHtml(
+              m.home
+            )}
+
+          </div>
+
+          <div
+            class="result-team ${cls[1]}">
+
+            ${escapeHtml(
+              m.away
+            )}
+
+          </div>
+
+        </div>
+
+      </div>
+    `;
+  }
 
   return `
 
@@ -2283,44 +1969,18 @@ function createFutureCard(match){
       <div class="match-top">
 
         <div class="league">
-          ${escapeHtml(match.league)}
+          ${escapeHtml(
+            m.league
+          )}
         </div>
 
-        ${
-          isLive
-            ? `
-              <div
-                class="countdown"
-                style="
-                  background:#fee2e2;
-                  color:#dc2626;
-                "
-              >
-                ● LIVE
-              </div>
-            `
-            : `
-              <div
-                class="countdown"
-                data-countdown="${escapeHtml(match.id)}"
-                data-time="${match.timestamp}"
-              >
-                ${escapeHtml(
-                  countdownText(
-                    match.timestamp
-                  )
-                )}
-              </div>
-            `
-        }
+        ${badge}
 
       </div>
 
       <div class="date">
-        ${escapeHtml(
-          formatDate(
-            match.timestamp
-          )
+        ${formatDate(
+          m.timestamp
         )}
       </div>
 
@@ -2328,48 +1988,32 @@ function createFutureCard(match){
 
         <div class="team">
 
-          ${imageHtml(
-            match.homeLogo,
-            match.home
+          ${logo(
+            m.homeLogo,
+            m.home
           )}
 
           <div class="team-name">
-            ${escapeHtml(match.home)}
+            ${escapeHtml(
+              m.home
+            )}
           </div>
 
         </div>
 
-        <div
-          class="vs"
-          ${
-            isLive
-              ? `
-                style="
-                  font-size:21px;
-                  color:#dc2626;
-                "
-              `
-              : ""
-          }
-        >
-
-          ${
-            isLive
-              ? `${escapeHtml(hs)} - ${escapeHtml(as)}`
-              : "VS"
-          }
-
-        </div>
+        ${center}
 
         <div class="team">
 
-          ${imageHtml(
-            match.awayLogo,
-            match.away
+          ${logo(
+            m.awayLogo,
+            m.away
           )}
 
           <div class="team-name">
-            ${escapeHtml(match.away)}
+            ${escapeHtml(
+              m.away
+            )}
           </div>
 
         </div>
@@ -2377,566 +2021,245 @@ function createFutureCard(match){
       </div>
 
       ${
-        isLive
-
+        live
           ? `
-            <div
-              style="
-                margin-top:15px;
-                padding:10px;
-                border-radius:12px;
-                background:#fef2f2;
-                color:#991b1b;
-                text-align:center;
-                font-size:12px;
-                font-weight:900;
-              "
-            >
+            <div class="date">
               LIVE SCORE · Updating every 15s
             </div>
           `
+          : ""
+      }
 
-          : `
-
-            <div class="vote-label">
-
-              ${
-                selected
-                  ? "Prediction locked"
-                  : "Predict the winner"
-              }
-
-            </div>
-
-            <div class="vote-buttons">
-
-              ${voteButton(
-                match.id,
-                "1",
-                selected
-              )}
-
-              ${voteButton(
-                match.id,
-                "X",
-                selected
-              )}
-
-              ${voteButton(
-                match.id,
-                "2",
-                selected
-              )}
-
-            </div>
-          `
+      ${
+        finished
+          ? result
+          : voteButtons(m)
       }
 
     </article>
   `;
 }
 
-function voteButton(
-  id,
-  value,
-  selected
-){
 
-  const isSelected =
-    selected === value;
+/* =========================
+   RENDER
+========================= */
 
-  const locked =
-    Boolean(selected);
+function render() {
 
-  return `
+  const list =
+    getFiltered()
+      .filter(
+        m =>
+          m.status !==
+          "finished"
+      );
 
-    <button
-      class="vote-btn ${
-        isSelected
-          ? "selected"
-          : ""
-      } ${
-        locked
-          ? "locked"
-          : ""
-      }"
-      data-match="${escapeHtml(id)}"
-      data-vote="${escapeHtml(value)}"
-      ${locked ? "disabled" : ""}
-    >
-      ${escapeHtml(value)}
-    </button>
-  `;
+  matchesGrid.innerHTML =
+    list
+      .map(
+        createCard
+      )
+      .join("");
+
+  emptyState.style.display =
+    list.length
+      ? "none"
+      : "block";
+
+  /*
+   * LIVE + FUTURE count
+   */
+  matchCountEl.textContent =
+    list.length;
 }
 
-function renderEnded(){
+function renderEnded() {
 
-  const now =
-    Date.now();
-
-  const ended =
-    matches
+  const list =
+    getFiltered()
       .filter(
-        match =>
-          match.status === "finished" &&
-          Number.isFinite(
-            Number(
-              match.finishedObservedAt
-            )
-          ) &&
-          now -
-            Number(
-              match.finishedObservedAt
-            ) <
-            END_KEEP_TIME
-      )
-      .sort(
-        (a,b) =>
-          Number(
-            b.finishedObservedAt
-          ) -
-          Number(
-            a.finishedObservedAt
+        m =>
+          m.status ===
+          "finished" &&
+          (
+            !m.finishedObservedAt ||
+            Date.now() -
+              m.finishedObservedAt <
+              END_KEEP_TIME
           )
       );
 
-  if(!ended.length){
-
-    endSection.style.display =
-      "none";
-
-    endGrid.innerHTML =
-      "";
-
-    return;
-  }
-
-  endSection.style.display =
-    "block";
-
   endGrid.innerHTML =
-    ended
+    list
       .map(
-        createEndedCard
+        createCard
       )
       .join("");
+
+  endSection.style.display =
+    list.length
+      ? "block"
+      : "none";
 }
 
-function createEndedCard(match){
-
-  const hs =
-    match.homeScore ??
-    "-";
-
-  const as =
-    match.awayScore ??
-    "-";
-
-  let homeResult =
-    "draw";
-
-  let awayResult =
-    "draw";
-
-  if(
-    Number.isFinite(Number(hs)) &&
-    Number.isFinite(Number(as))
-  ){
-
-    if(
-      Number(hs) >
-      Number(as)
-    ){
-
-      homeResult =
-        "win";
-
-      awayResult =
-        "loss";
-
-    }else if(
-      Number(as) >
-      Number(hs)
-    ){
-
-      homeResult =
-        "loss";
-
-      awayResult =
-        "win";
-    }
-  }
-
-  return `
-
-    <article class="match-card">
-
-      <div class="match-top">
-
-        <div class="league">
-          ${escapeHtml(match.league)}
-        </div>
-
-        <div class="end-badge">
-          LIVE END
-        </div>
-
-      </div>
-
-      <div class="date">
-        ${escapeHtml(
-          formatDate(
-            match.timestamp
-          )
-        )}
-      </div>
-
-      <div class="teams">
-
-        <div class="team">
-
-          ${imageHtml(
-            match.homeLogo,
-            match.home
-          )}
-
-          <div class="team-name">
-            ${escapeHtml(match.home)}
-          </div>
-
-        </div>
-
-        <div
-          class="vs"
-          style="font-size:20px;"
-        >
-          ${escapeHtml(String(hs))}
-          -
-          ${escapeHtml(String(as))}
-        </div>
-
-        <div class="team">
-
-          ${imageHtml(
-            match.awayLogo,
-            match.away
-          )}
-
-          <div class="team-name">
-            ${escapeHtml(match.away)}
-          </div>
-
-        </div>
-
-      </div>
-
-      <div class="result-box">
-
-        <div class="result-title">
-          Final Result
-        </div>
-
-        <div class="result-score">
-          ${escapeHtml(String(hs))}
-          -
-          ${escapeHtml(String(as))}
-        </div>
-
-        <div class="result-teams">
-
-          <div
-            class="result-team ${homeResult}"
-          >
-            ${escapeHtml(match.home)}
-            <br>
-            ${
-              homeResult === "win"
-                ? "WIN"
-                : homeResult === "loss"
-                  ? "LOSS"
-                  : "DRAW"
-            }
-          </div>
-
-          <div
-            class="result-team ${awayResult}"
-          >
-            ${escapeHtml(match.away)}
-            <br>
-            ${
-              awayResult === "win"
-                ? "WIN"
-                : awayResult === "loss"
-                  ? "LOSS"
-                  : "DRAW"
-            }
-          </div>
-
-        </div>
-
-      </div>
-
-    </article>
-  `;
-}
-
-function updateStatus(){
-
-  const now =
-    Date.now();
-
-  const max =
-    now +
-    MAX_DAYS *
-    86400000;
+function updateStatus() {
 
   const live =
     matches.filter(
       m =>
-        m.status === "live"
+        m.status ===
+        "live"
     ).length;
 
   const future =
     matches.filter(
       m =>
-        m.status === "scheduled" &&
-        m.timestamp > now &&
-        m.timestamp <= max
+        m.status ===
+        "scheduled"
     ).length;
 
-  const ended =
+  const end =
     matches.filter(
       m =>
-        m.status === "finished" &&
-        Number.isFinite(
-          Number(
-            m.finishedObservedAt
-          )
-        ) &&
-        now -
-          Number(
-            m.finishedObservedAt
-          ) <
-          END_KEEP_TIME
+        m.status ===
+        "finished"
     ).length;
 
-  if(live){
+  matchCountEl.textContent =
+    future + live;
+
+  if (
+    lastWorkerSuccess
+  ) {
 
     statusEl.textContent =
-      `${live} LIVE · ${future} future · ${ended} END`;
-
-  }else{
-
-    statusEl.textContent =
-      `${future} future · ${ended} END`;
+      `${live} LIVE · ${future} future · ${end} END`;
   }
 }
 
-async function getCurrentAuth(){
 
-  try{
+/* =========================
+   USER BETS
+========================= */
 
-    if(
-      window.SportXCurrentUser
-    ){
+async function loadUserBets() {
 
-      return {
-        user:
-          window.SportXCurrentUser,
-        type:
-          window.SportXCurrentAuthType ||
-          "unknown"
-      };
-    }
-
-    if(
-      window.SportXSupabase
-    ){
-
-      const result =
-        await window.SportXSupabase.auth.getUser();
-
-      if(result?.data?.user){
-
-        return {
-          user:
-            result.data.user,
-          type:"supabase"
-        };
-      }
-    }
-
-    if(
-      window.firebase &&
-      typeof window.firebase.auth === "function"
-    ){
-
-      const firebaseUser =
-        window.firebase.auth().currentUser;
-
-      if(firebaseUser){
-
-        return {
-          user:
-            firebaseUser,
-          type:"firebase"
-        };
-      }
-    }
-
-  }catch(error){
-
-    console.warn(
-      "Auth check error:",
-      error
-    );
-  }
-
-  return null;
-}
-
-async function getAuthToken(){
-
-  const auth =
-    await getCurrentAuth();
-
-  if(!auth){
-    return null;
-  }
-
-  if(
-    auth.type === "supabase" &&
-    window.SportXSupabase
-  ){
-
-    try{
-
-      const result =
-        await window.SportXSupabase.auth.getSession();
-
-      return (
-        result?.data?.session?.access_token ||
-        null
-      );
-
-    }catch{
-      return null;
-    }
-  }
-
-  if(
-    window.firebase &&
-    typeof window.firebase.auth === "function"
-  ){
-
-    try{
-
-      const firebaseUser =
-        window.firebase.auth().currentUser;
-
-      if(firebaseUser){
-
-        return await firebaseUser.getIdToken();
-      }
-
-    }catch{
-      return null;
-    }
-  }
-
-  return null;
-}
-
-async function loadUserBets(){
-
-  userBets = {};
-
-  const token =
-    await getAuthToken();
-
-  if(!token){
-    render();
-    return;
-  }
-
-  try{
+  try {
 
     const response =
       await fetch(
-        WORKER_URL +
-        "/bets",
+        `${WORKER_URL}/bets`,
         {
-          method:"GET",
+          cache:
+            "no-store",
+
           headers:{
-            Authorization:
-              "Bearer " + token,
             Accept:
               "application/json"
-          },
-          cache:"no-store"
+          }
         }
       );
 
-    if(!response.ok){
+    if (
+      !response.ok
+    ) {
       return;
     }
 
     const json =
       await response.json();
 
-    const bets =
-      Array.isArray(json)
-        ? json
-        : Array.isArray(json?.bets)
-          ? json.bets
-          : [];
+    if (
+      json &&
+      Array.isArray(
+        json.bets
+      )
+    ) {
 
-    for(const bet of bets){
-
-      if(
-        bet?.match_id
-      ){
+      for (
+        const bet of json.bets
+      ) {
 
         userBets[
-          String(bet.match_id)
+          String(
+            bet.match_id ||
+            bet.external_id
+          )
         ] = {
           prediction:
             bet.prediction,
-          amount_afn:
-            bet.amount_afn,
-          created_at:
-            bet.created_at
+
+          amount:
+            bet.amount
         };
       }
     }
 
-    render();
+  } catch {}
+}
 
-  }catch(error){
 
-    console.warn(
-      "Bet loading error:",
-      error
+/* =========================
+   AUTH
+========================= */
+
+function getCurrentUser() {
+
+  try {
+
+    if (
+      window.SportXCurrentUser
+    ) {
+      return window.SportXCurrentUser;
+    }
+
+    if (
+      window.currentUser
+    ) {
+      return window.currentUser;
+    }
+
+    return JSON.parse(
+      localStorage.getItem(
+        "SportXCurrentUser"
+      ) ||
+      "null"
     );
+
+  } catch {
+
+    return null;
   }
 }
 
-function openLoginModal(){
-  loginModal.classList.add("show");
+
+/* =========================
+   MODALS
+========================= */
+
+function openLogin() {
+
+  loginModal.classList.add(
+    "show"
+  );
 }
 
-function closeLoginModal(){
-  loginModal.classList.remove("show");
+function closeLogin() {
+
+  loginModal.classList.remove(
+    "show"
+  );
 }
 
-function openAmountModal(
-  matchId,
-  prediction
-){
+function openAmount(
+  match,
+  side
+) {
 
   pendingBet = {
-    matchId,
-    prediction
+    match,
+    side
   };
 
   amountSlider.value =
@@ -2950,432 +2273,375 @@ function openAmountModal(
   );
 }
 
-function closeAmountModal(){
+function closeAmount() {
 
   amountModal.classList.remove(
     "show"
   );
 
-  pendingBet = null;
+  pendingBet =
+    null;
 }
 
-async function handleVote(
-  matchId,
-  prediction
-){
 
-  const auth =
-    await getCurrentAuth();
+/* =========================
+   VOTE CLICK
+========================= */
 
-  if(!auth){
-
-    openLoginModal();
-
-    return;
-  }
-
-  if(
-    userBets[matchId]
-  ){
-
-    showToast(
-      "Prediction is already locked."
-    );
-
-    return;
-  }
-
-  openAmountModal(
-    matchId,
-    prediction
-  );
-}
-
-async function submitBet(){
-
-  if(!pendingBet){
-    return;
-  }
-
-  const token =
-    await getAuthToken();
-
-  if(!token){
-
-    closeAmountModal();
-    openLoginModal();
-
-    return;
-  }
-
-  const amount =
-    Number(
-      amountSlider.value
-    );
-
-  if(
-    !Number.isInteger(amount) ||
-    amount < 100 ||
-    amount > 500
-  ){
-
-    showToast(
-      "Amount must be between 100 and 500 AFN."
-    );
-
-    return;
-  }
-
-  const matchId =
-    pendingBet.matchId;
-
-  const prediction =
-    pendingBet.prediction;
-
-  if(
-    userBets[matchId]
-  ){
-
-    closeAmountModal();
-
-    showToast(
-      "Prediction is already locked."
-    );
-
-    return;
-  }
-
-  confirmBetBtn.disabled =
-    true;
-
-  confirmBetBtn.textContent =
-    "Saving...";
-
-  try{
-
-    const response =
-      await fetch(
-        WORKER_URL +
-        "/bets",
-        {
-          method:"POST",
-          headers:{
-            Authorization:
-              "Bearer " + token,
-            "Content-Type":
-              "application/json",
-            Accept:
-              "application/json"
-          },
-          body:JSON.stringify({
-            match_id:
-              matchId,
-            prediction:
-              prediction,
-            amount_afn:
-              amount
-          })
-        }
-      );
-
-    const json =
-      await response.json()
-        .catch(
-          () => ({})
-        );
-
-    if(response.status === 409){
-
-      userBets[matchId] = {
-        prediction:
-          json.prediction ||
-          prediction,
-        amount_afn:
-          json.amount_afn ||
-          amount,
-        created_at:
-          json.created_at ||
-          null
-      };
-
-      closeAmountModal();
-      render();
-
-      showToast(
-        "Prediction is already locked."
-      );
-
-      return;
-    }
-
-    if(!response.ok){
-
-      throw new Error(
-        json?.error ||
-        "Unable to save prediction."
-      );
-    }
-
-    userBets[matchId] = {
-      prediction:
-        json.prediction ||
-        prediction,
-      amount_afn:
-        json.amount_afn ||
-        amount,
-      created_at:
-        json.created_at ||
-        new Date().toISOString()
-    };
-
-    closeAmountModal();
-    render();
-
-    showToast(
-      `Prediction saved · ${amount} AFN`
-    );
-
-  }catch(error){
-
-    console.error(
-      "Prediction save error:",
-      error
-    );
-
-    showToast(
-      error.message ||
-      "Unable to save prediction."
-    );
-
-  }finally{
-
-    confirmBetBtn.disabled =
-      false;
-
-    confirmBetBtn.textContent =
-      "Confirm Prediction";
-  }
-}
-
-matchesGrid.addEventListener(
+document.addEventListener(
   "click",
-  event => {
+  async event => {
 
     const button =
       event.target.closest(
-        ".vote-btn"
+        "[data-vote]"
       );
 
-    if(!button){
+    if (!button) {
       return;
     }
 
-    handleVote(
-      button.dataset.match,
-      button.dataset.vote
+    /*
+     * Click animation
+     */
+    button.animate(
+      [
+        {
+          transform:
+            "scale(.94)"
+        },
+        {
+          transform:
+            "scale(1)"
+        }
+      ],
+      {
+        duration:180,
+        easing:"ease-out"
+      }
+    );
+
+    const match =
+      matches.find(
+        m =>
+          matchId(m) ===
+          button.dataset.vote
+      );
+
+    if (
+      !match ||
+      match.status !==
+      "scheduled"
+    ) {
+      return;
+    }
+
+    const user =
+      getCurrentUser();
+
+    if (!user) {
+
+      openLogin();
+
+      return;
+    }
+
+    openAmount(
+      match,
+      button.dataset.side
     );
   }
 );
+
+
+/* =========================
+   AMOUNT
+========================= */
 
 amountSlider.addEventListener(
   "input",
   () => {
 
     amountValue.textContent =
-      `${Number(amountSlider.value)} AFN`;
+      `${amountSlider.value} AFN`;
   }
 );
 
-document
-  .getElementById("loginModalClose")
-  .addEventListener(
-    "click",
-    closeLoginModal
-  );
 
-document
-  .getElementById("amountModalClose")
-  .addEventListener(
-    "click",
-    closeAmountModal
-  );
-
-document
-  .getElementById("cancelBetBtn")
-  .addEventListener(
-    "click",
-    closeAmountModal
-  );
+/* =========================
+   CONFIRM BET
+========================= */
 
 confirmBetBtn.addEventListener(
   "click",
-  submitBet
-);
+  async () => {
 
-document
-  .getElementById("loginBtn")
-  .addEventListener(
-    "click",
-    () => {
-
-      window.location.href =
-        "index.html?auth=login";
+    if (
+      !pendingBet
+    ) {
+      return;
     }
-  );
 
-document
-  .getElementById("registerBtn")
-  .addEventListener(
-    "click",
-    () => {
+    const user =
+      getCurrentUser();
 
-      window.location.href =
-        "index.html?auth=register";
+    if (!user) {
+
+      closeAmount();
+
+      openLogin();
+
+      return;
     }
-  );
 
-loginModal.addEventListener(
-  "click",
-  event => {
-
-    if(
-      event.target ===
-      loginModal
-    ){
-      closeLoginModal();
-    }
-  }
-);
-
-amountModal.addEventListener(
-  "click",
-  event => {
-
-    if(
-      event.target ===
-      amountModal
-    ){
-      closeAmountModal();
-    }
-  }
-);
-
-function showToast(message){
-
-  if(!toastEl){
-    return;
-  }
-
-  toastEl.textContent =
-    message;
-
-  toastEl.classList.add(
-    "show"
-  );
-
-  clearTimeout(
-    showToast.timer
-  );
-
-  showToast.timer =
-    setTimeout(
-      () => {
-
-        toastEl.classList.remove(
-          "show"
-        );
-
-      },
-      2500
-    );
-}
-
-if(searchInput){
-
-  searchInput.addEventListener(
-    "input",
-    render
-  );
-}
-
-function loadStoredMatches(){
-
-  try{
-
-    const raw =
-      localStorage.getItem(
-        "sportx_future_matches_v3"
+    const amount =
+      Number(
+        amountSlider.value
       );
 
-    const data =
-      raw
-        ? JSON.parse(raw)
-        : [];
+    const match =
+      pendingBet.match;
 
-    matches =
-      Array.isArray(data)
-        ? data.filter(Boolean)
-        : [];
+    const side =
+      pendingBet.side;
 
-  }catch{
+    confirmBetBtn.disabled =
+      true;
 
-    matches = [];
-  }
-}
+    try {
 
-function saveStoredMatches(){
+      const response =
+        await fetch(
+          `${WORKER_URL}/bets`,
+          {
+            method:"POST",
 
-  try{
+            headers:{
+              "Content-Type":
+                "application/json"
+            },
 
-    localStorage.setItem(
-      "sportx_future_matches_v3",
-      JSON.stringify(matches)
-    );
+            body:
+              JSON.stringify({
+                match_id:
+                  match.id,
 
-  }catch(error){
+                external_id:
+                  match.externalId,
 
-    console.warn(
-      "Storage write error:",
-      error
-    );
-  }
-}
+                prediction:
+                  side,
 
-function tick(){
+                amount,
 
-  cleanupStoredMatches();
+                home:
+                  match.home,
 
-  render();
+                away:
+                  match.away
+              })
+          }
+        );
 
-  renderEnded();
+      const json =
+        await response
+          .json()
+          .catch(
+            () => ({})
+          );
 
-  updateStatus();
-}
+      if (
+        !response.ok
+      ) {
 
-document.addEventListener(
-  "visibilitychange",
-  () => {
+        showToast(
+          json.error ===
+          "duplicate_bet"
+            ? "You already predicted this match."
+            : (
+                json.error ||
+                "Prediction failed."
+              )
+        );
 
-    if(
-      document.visibilityState ===
-      "visible"
-    ){
+        return;
+      }
 
-      cleanupStoredMatches();
+      userBets[
+        matchId(match)
+      ] = {
+        prediction:
+          side,
+
+        amount
+      };
+
+      closeAmount();
+
       render();
-      renderEnded();
-      updateStatus();
 
-      loadAllTeams();
-      refreshLiveMatches();
-      loadUserBets();
+      showToast(
+        "Prediction submitted."
+      );
+
+    } catch {
+
+      showToast(
+        "Network error. Try again."
+      );
+
+    } finally {
+
+      confirmBetBtn.disabled =
+        false;
     }
   }
 );
 
-loadStoredMatches();
 
-cleanupStoredMatches();
+/* =========================
+   MODAL BUTTONS
+========================= */
+
+document
+  .getElementById(
+    "loginModalClose"
+  )
+  .onclick =
+    closeLogin;
+
+document
+  .getElementById(
+    "amountModalClose"
+  )
+  .onclick =
+    closeAmount;
+
+document
+  .getElementById(
+    "cancelBetBtn"
+  )
+  .onclick =
+    closeAmount;
+
+document
+  .getElementById(
+    "loginBtn"
+  )
+  .onclick =
+    () =>
+      location.href =
+        "login.html";
+
+document
+  .getElementById(
+    "registerBtn"
+  )
+  .onclick =
+    () =>
+      location.href =
+        "register.html";
+
+
+/* =========================
+   MODAL BACKDROP
+========================= */
+
+[
+  loginModal,
+  amountModal
+].forEach(
+  modal => {
+
+    modal.addEventListener(
+      "click",
+      event => {
+
+        if (
+          event.target ===
+          modal
+        ) {
+
+          modal.classList.remove(
+            "show"
+          );
+        }
+      }
+    );
+  }
+);
+
+
+/* =========================
+   SEARCH
+========================= */
+
+searchInput.addEventListener(
+  "input",
+  () => {
+
+    render();
+
+    renderEnded();
+  }
+);
+
+
+/* =========================
+   COUNTDOWN
+========================= */
+
+function tick() {
+
+  document
+    .querySelectorAll(
+      "[data-countdown]"
+    )
+    .forEach(
+      element => {
+
+        const ts =
+          Number(
+            element.dataset.countdown
+          );
+
+        if (
+          ts <=
+          Date.now()
+        ) {
+
+          /*
+           * اینجا دیگر LIVE نمی‌سازیم.
+           *
+           * Worker باید وضعیت LIVE
+           * را تأیید کند.
+           */
+
+          element.textContent =
+            "Starting soon";
+
+        } else {
+
+          element.textContent =
+            countdown(ts);
+        }
+      }
+    );
+
+  renderEnded();
+}
+
+
+/* =========================
+   START
+========================= */
+
+/*
+ * داده قدیمی فقط در صورت
+ * قطع موقت Worker نمایش داده
+ * می‌شود.
+ */
+loadStoredMatches();
 
 render();
 
@@ -3383,23 +2649,55 @@ renderEnded();
 
 updateStatus();
 
-loadUserBets();
-
+/*
+ * داده واقعی Worker
+ */
 loadAllTeams();
 
+loadUserBets();
+
+/*
+ * Future refresh
+ */
 setInterval(
   loadAllTeams,
   ALL_REFRESH_INTERVAL
 );
 
+/*
+ * Live score refresh
+ */
 setInterval(
   refreshLiveMatches,
   LIVE_REFRESH_INTERVAL
 );
 
+/*
+ * Countdown
+ */
 setInterval(
   tick,
   COUNTDOWN_INTERVAL
+);
+
+
+/* =========================
+   TAB VISIBILITY
+========================= */
+
+document.addEventListener(
+  "visibilitychange",
+  () => {
+
+    if (
+      !document.hidden
+    ) {
+
+      loadAllTeams();
+
+      loadUserBets();
+    }
+  }
 );
 </script>
 
