@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Future Matches | SportX</title>
+<title>Sports | SportX</title>
 
 <!-- جلوگیری از فلش سفید موقع لود صفحه (Dark Mode Flash Prevention) -->
 <script>
@@ -61,12 +61,12 @@ button:active,a:active{transform:scale(.96)}
 header{position:sticky;top:0;z-index:100;background:var(--header-bg);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
 .header-inner{max-width:1100px;min-height:64px;margin:auto;padding:0 16px;display:flex;align-items:center;justify-content:space-between;gap:15px}
 .logo{color:var(--primary);font-size:23px;font-weight:900}
-.nav{display:flex;align-items:center;gap:5px}
-.nav a{color:var(--muted);font-size:13px;font-weight:700;padding:9px 11px;border-radius:10px}
+.nav{display:flex;align-items:center;gap:3px}
+.nav a{color:var(--muted);font-size:12px;font-weight:700;padding:8px 10px;border-radius:10px;white-space:nowrap}
 .nav a:hover{background:var(--border)}
 .nav a.active{background:var(--soft);color:var(--primary-dark)}
 
-.theme-toggle{background:none;border:1px solid var(--border);color:var(--text);width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:16px}
+.theme-toggle{background:none;border:1px solid var(--border);color:var(--text);width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:16px;flex-shrink:0}
 .theme-toggle:hover{background:var(--border)}
 
 main{max-width:1100px;margin:auto;padding:24px 16px 45px}
@@ -170,12 +170,12 @@ footer a{color:var(--primary-dark);font-weight:800}
 <header>
   <div class="header-inner">
     <a href="index.html" class="logo">SportX</a>
-    <div style="display:flex; align-items:center; gap:10px;">
+    <div style="display:flex; align-items:center; gap:8px;">
       <nav class="nav">
         <a href="index.html">Home</a>
-        <a href="sports.html">Sports</a>
-        <a href="sports.html">Live</a>
-        <a href="my-bets.html">My Bets</a>
+        <a href="sports.html" class="active">Sports</a>
+        <a href="live.html">Live</a>
+        <a href="bets.html">Bets</a>
       </nav>
       <button id="themeToggle" class="theme-toggle" type="button" title="Toggle Theme">🌙</button>
     </div>
@@ -184,16 +184,16 @@ footer a{color:var(--primary-dark);font-weight:800}
 
 <main>
 <section class="page-head">
-  <div class="badge"><span class="badge-dot"></span> FUTURE MATCHES</div>
-  <h1>Golden Match</h1>
-  <p class="subtitle">Real matches from the 50 Superstar teams. Status and live scores come from SportX Worker.</p>
+  <div class="badge"><span class="badge-dot"></span> LIVE SPORTS DATA</div>
+  <h1>Sports Matches</h1>
+  <p class="subtitle">Real matches, live scores, and fixtures synced directly from SportX Worker.</p>
 </section>
 
 <section class="info-card">
   <div class="info-row">
     <div>
-      <div class="info-title">Future Team's</div>
-      <div class="info-text">Only real fixtures from the selected 50 better teams are shown.</div>
+      <div class="info-title">Active Matches</div>
+      <div class="info-text">Live, finished, and upcoming matches available right now.</div>
     </div>
     <div id="matchCount" class="info-number">0</div>
   </div>
@@ -212,17 +212,17 @@ footer a{color:var(--primary-dark);font-weight:800}
 <section id="matchesGrid" class="matches-grid"></section>
 
 <section id="emptyState" class="empty" style="display:none">
-  <strong>No future matches found</strong>
-  There are currently no matches from the selected 50 teams within the next 7 days.
+  <strong>No matches found</strong>
+  There are currently no matches matching your filter.
 </section>
 
 <section id="errorState" class="error" style="display:none">
-  Unable to load future matches right now.
+  Unable to load matches right now. Please check your connection.
 </section>
 
 <section id="endSection" class="end-section" style="display:none">
   <h2 class="end-heading">Finished Matches</h2>
-  <p class="end-subtitle">Finished Future matches remain here for 2 hours.</p>
+  <p class="end-subtitle">Recently completed matches.</p>
   <div id="endGrid" class="matches-grid"></div>
 </section>
 </main>
@@ -263,7 +263,7 @@ footer a{color:var(--primary-dark);font-weight:800}
 
 <script>
 const WORKER_URL = "https://zchtcosljkkkiykhforj.supabase.co/functions/v1/smooth-worker";
-const STORAGE_KEY = "sportx_future_matches_worker_v3";
+const STORAGE_KEY = "sportx_sports_matches_v1";
 const THEME_KEY = "sportx_theme_mode";
 
 // Theme Handling & Immediate Sync
@@ -320,12 +320,10 @@ function matchId(m) {
   return String(m.id || m.external_id || `${normalize(m.home)}:${normalize(m.away)}:${m.start_time}`);
 }
 
-// تشخیص هوشمند منطقه زمانی کاربر سیستم (Local Timezone & User Location)
 function getUserTimeZoneName() {
   try {
     const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
     if (!tz) return "Local Time";
-    // کوتاه کردن نام منطقه برای نمایش زیباتر (مثلاً Asia/Kabul -> Kabul)
     const parts = tz.split("/");
     return parts[parts.length - 1].replace(/_/g, " ");
   } catch (e) {
@@ -335,7 +333,6 @@ function getUserTimeZoneName() {
 
 const userTz = getUserTimeZoneName();
 
-// فرمت تاریخ بر اساس منطقه زمانی دقیق مرورگر کاربر (تطابق کامل با کشور کاربر)
 function formatDate(ts) {
   return new Intl.DateTimeFormat("en-US", { 
     weekday: "short", 
@@ -539,6 +536,7 @@ confirmBetBtn.addEventListener("click", async () => {
 
 document.getElementById("loginModalClose").onclick = () => loginModal.classList.remove("show");
 document.getElementById("amountModalClose").onclick = () => amountModal.classList.remove("show");
+document.getElementById("cancelBtn")?.onclick = () => amountModal.classList.remove("show");
 document.getElementById("cancelBetBtn").onclick = () => amountModal.classList.remove("show");
 document.getElementById("loginBtn").onclick = () => location.href = "login.html";
 document.getElementById("registerBtn").onclick = () => location.href = "register.html";
