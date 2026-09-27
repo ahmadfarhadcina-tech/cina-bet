@@ -6,6 +6,16 @@
 
 <title>Sports | SportX</title>
 
+<script>
+// جلوگیری از فلش تم سفید در لحظه لود یا رفرش صفحه
+(function() {
+    const theme = localStorage.getItem("sportx_theme") || "light";
+    if (theme === "dark") {
+        document.documentElement.setAttribute("data-theme", "dark");
+    }
+})();
+</script>
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
@@ -67,7 +77,6 @@ body{
         radial-gradient(circle at 90% 15%,rgba(22,217,139,.035),transparent 25%),
         var(--bg);
     color:var(--text);
-    transition: background 0.3s ease, color 0.3s ease;
 }
 
 button,input{
@@ -95,63 +104,51 @@ a{
     backdrop-filter:blur(18px);
     border-bottom:1px solid var(--border);
     box-shadow:0 4px 18px rgba(20,32,28,.035);
-    transition: background 0.3s ease, border-color 0.3s ease;
 }
 
 .header-inner{
-    width:min(1180px,calc(100% - 32px));
+    width:min(1180px,calc(100% - 24px));
     height:100%;
     margin:0 auto;
-    display:grid;
-    grid-template-columns:1fr auto 1fr;
+    display:flex;
     align-items:center;
+    justify-content:space-between;
+    gap:10px;
     min-width:0;
 }
 
 .logo{
-    justify-self:start;
-    font-size:25px;
+    font-size:22px;
     font-weight:900;
     letter-spacing:-1px;
-    transition:.2s ease;
 }
 
 .logo span{
     color:var(--green-dark);
 }
 
-.logo:hover{
-    transform:translateY(-1px);
-}
-
 .nav{
     display:flex;
     align-items:center;
-    justify-content:center;
-    gap:8px;
+    gap:4px;
     min-width:0;
 }
 
 .nav a{
-    position:relative;
-    overflow:hidden;
-    padding:10px 14px;
+    padding:7px 10px;
     color:var(--muted);
-    border-radius:10px;
+    border-radius:8px;
     border:1px solid transparent;
     font-weight:700;
+    font-size:12px;
     transition:.2s ease;
+    white-space:nowrap;
 }
 
 .nav a:hover{
-    transform:translateY(-2px);
     color:var(--text);
     background:rgba(22,217,139,.08);
     border-color:rgba(22,217,139,.20);
-}
-
-.nav a:active{
-    transform:scale(.94);
 }
 
 .nav a.active{
@@ -161,27 +158,25 @@ a{
 }
 
 .header-right{
-    justify-self:end;
     display:flex;
     align-items:center;
-    gap:10px;
+    gap:8px;
 }
 
 .theme-toggle{
     background:var(--panel-2);
     border:1px solid var(--border-strong);
     color:var(--text);
-    width:40px;
-    height:40px;
-    border-radius:12px;
+    width:36px;
+    height:36px;
+    border-radius:10px;
     display:grid;
     place-items:center;
-    font-size:18px;
+    font-size:16px;
     transition:.2s ease;
 }
 
 .theme-toggle:hover{
-    transform:translateY(-2px);
     border-color:var(--green-dark);
 }
 
@@ -192,33 +187,31 @@ a{
 }
 
 .page-head{
-    padding:58px 0 28px;
-    animation:rise .6s ease both;
+    padding:40px 0 20px;
 }
 
 .page-head .badge{
     display:inline-flex;
-    padding:7px 12px;
+    padding:6px 10px;
     border-radius:30px;
     background:rgba(22,217,139,.08);
     color:var(--green-dark);
     border:1px solid rgba(22,217,139,.18);
-    font-size:12px;
+    font-size:11px;
     font-weight:800;
-    letter-spacing:.8px;
 }
 
 .page-head h1{
-    font-size:clamp(34px,5vw,54px);
-    margin-top:15px;
-    letter-spacing:-2px;
+    font-size:clamp(28px,4vw,44px);
+    margin-top:10px;
+    letter-spacing:-1px;
 }
 
 .page-head p{
     color:var(--muted);
-    margin-top:10px;
-    max-width:700px;
-    line-height:1.7;
+    margin-top:8px;
+    font-size:14px;
+    line-height:1.6;
 }
 
 .search-box{
@@ -230,30 +223,23 @@ a{
 .search-box input{
     display:block;
     width:100%;
-    height:54px;
-    padding:0 48px 0 18px;
-    border-radius:15px;
+    height:48px;
+    padding:0 44px 0 16px;
+    border-radius:12px;
     border:1px solid var(--border-strong);
     background:var(--panel);
     color:var(--text);
     outline:none;
-    transition:.25s ease;
-    box-shadow:0 3px 12px rgba(20,32,28,.025);
 }
 
 .search-box input::placeholder{
     color:var(--muted);
 }
 
-.search-box input:focus{
-    border-color:rgba(22,217,139,.55);
-    box-shadow:0 0 0 4px rgba(22,217,139,.07);
-}
-
 .search-icon{
     position:absolute;
-    right:17px;
-    top:16px;
+    right:15px;
+    top:14px;
     color:var(--muted);
     pointer-events:none;
 }
@@ -266,23 +252,20 @@ a{
 .future-preview-link{
     display:block;
     width:100%;
-    cursor:pointer;
 }
 
 .future-preview-head{
     display:flex;
     align-items:center;
     justify-content:space-between;
-    gap:10px;
-    margin-bottom:7px;
+    margin-bottom:6px;
 }
 
 .future-preview-title{
-    font-size:12px;
+    font-size:11px;
     font-weight:900;
     color:var(--gold);
     text-transform:uppercase;
-    letter-spacing:.5px;
 }
 
 .future-preview-more{
@@ -292,38 +275,21 @@ a{
 }
 
 .future-preview-card{
-    min-height:96px;
+    min-height:80px;
     background:var(--panel);
     border:1px solid rgba(185,133,0,.25);
-    border-radius:15px;
-    padding:12px 14px;
-    box-shadow:0 5px 16px rgba(185,133,0,.055);
-    transition:.22s ease;
-    overflow:hidden;
-}
-
-.future-preview-card:hover{
-    transform:translateY(-2px);
-    border-color:rgba(185,133,0,.45);
-    box-shadow:0 10px 25px rgba(185,133,0,.09);
-}
-
-.future-preview-empty{
-    min-height:72px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    color:var(--muted);
-    font-size:12px;
+    border-radius:14px;
+    padding:12px;
+    box-shadow:0 4px 12px rgba(185,133,0,.05);
 }
 
 .sports-filter{
     width:100%;
     display:flex;
     align-items:center;
-    gap:10px;
+    gap:8px;
     overflow-x:auto;
-    padding:3px 2px 18px;
+    padding-bottom:14px;
     scrollbar-width:none;
 }
 
@@ -332,36 +298,21 @@ a{
 }
 
 .sport-filter{
-    position:relative;
-    overflow:hidden;
     flex:0 0 auto;
-    min-height:44px;
     border:1px solid var(--border-strong);
     background:var(--panel);
     color:var(--muted);
-    padding:11px 17px;
-    border-radius:12px;
+    padding:9px 14px;
+    border-radius:10px;
     font-weight:750;
-    box-shadow:0 3px 10px rgba(20,32,28,.035);
+    font-size:13px;
     transition:.2s ease;
-}
-
-.sport-filter:hover{
-    transform:translateY(-2px);
-    color:var(--text);
-    border-color:rgba(22,217,139,.4);
-}
-
-.sport-filter:active{
-    transform:scale(.94);
 }
 
 .sport-filter.active{
     color:#fff;
     background:var(--green-dark);
     border-color:var(--green-dark);
-    font-weight:900;
-    box-shadow:0 7px 20px rgba(22,217,139,.20);
 }
 
 .sync-status{
@@ -369,7 +320,7 @@ a{
     display:flex;
     align-items:center;
     gap:7px;
-    margin:0 0 8px;
+    margin-bottom:8px;
     color:var(--muted);
     font-size:11px;
 }
@@ -377,39 +328,30 @@ a{
 .sync-dot{
     width:7px;
     height:7px;
-    flex:0 0 7px;
     border-radius:50%;
     background:var(--green-dark);
     animation:syncPulse 1.6s infinite;
 }
 
-.sync-status.error .sync-dot{
-    background:var(--danger);
-    animation:none;
-}
-
-.sync-status.loading .sync-dot{
-    background:var(--gold);
-}
+.sync-status.error .sync-dot{ background:var(--danger); animation:none; }
+.sync-status.loading .sync-dot{ background:var(--gold); }
 
 .loading{
     width:100%;
     display:flex;
     justify-content:center;
     align-items:center;
-    gap:12px;
-    padding:55px 20px;
+    gap:10px;
+    padding:40px 20px;
     color:var(--muted);
     background:var(--panel);
     border:1px solid var(--border-strong);
-    border-radius:18px;
-    box-shadow:var(--shadow);
+    border-radius:16px;
 }
 
 .spinner{
-    width:22px;
-    height:22px;
-    flex:0 0 22px;
+    width:20px;
+    height:20px;
     border:3px solid var(--border);
     border-top-color:var(--green-dark);
     border-radius:50%;
@@ -417,156 +359,101 @@ a{
 }
 
 .match-section{
-    margin-top:22px;
-    padding:18px;
+    margin-top:18px;
+    padding:16px;
     border:1px solid var(--border-strong);
-    border-radius:21px;
+    border-radius:18px;
     background:var(--panel-2);
-    box-shadow:0 7px 24px rgba(20,32,28,.045);
-}
-
-.match-section.live-section{
-    border-color:rgba(22,217,139,.32);
-}
-
-.match-section.end-section{
-    border-color:rgba(229,72,85,.25);
-}
-
-.match-section.coming-section{
-    border-color:rgba(185,133,0,.24);
 }
 
 .section-title{
-    width:100%;
     display:flex;
     justify-content:space-between;
     align-items:center;
-    gap:15px;
-    margin:0 0 7px;
+    margin-bottom:6px;
 }
 
 .section-title h2{
-    font-size:22px;
+    font-size:18px;
 }
 
 .section-title span{
     color:var(--muted);
-    font-size:13px;
-    white-space:nowrap;
+    font-size:12px;
 }
 
 .section-description{
     color:var(--muted);
-    font-size:12px;
-    margin-bottom:14px;
+    font-size:11px;
+    margin-bottom:12px;
 }
 
 .matches{
-    width:100%;
     display:grid;
     grid-template-columns:1fr;
-    gap:14px;
-    min-width:0;
+    gap:12px;
 }
 
 .match-card{
-    width:100%;
-    min-width:0;
     background:var(--panel);
     border:1px solid var(--border-strong);
-    border-radius:18px;
-    padding:19px;
-    transition:.25s ease;
-    animation:rise .4s ease both;
-    box-shadow:0 5px 18px rgba(20,32,28,.045);
-}
-
-.match-card:hover{
-    transform:translateY(-3px);
-    border-color:rgba(22,217,139,.38);
-    box-shadow:var(--shadow-hover);
+    border-radius:16px;
+    padding:16px;
+    box-shadow:0 4px 14px rgba(20,32,28,.03);
 }
 
 .match-top{
-    width:100%;
     display:flex;
     align-items:center;
     justify-content:space-between;
-    gap:12px;
-    margin-bottom:18px;
-    min-width:0;
-}
-
-.league-wrap{
-    display:flex;
-    align-items:center;
-    gap:8px;
-    min-width:0;
-    flex:1;
+    gap:10px;
+    margin-bottom:14px;
 }
 
 .league{
     color:var(--muted);
-    font-size:13px;
+    font-size:12px;
     overflow:hidden;
     text-overflow:ellipsis;
     white-space:nowrap;
 }
 
 .status{
-    flex:0 0 auto;
     display:inline-flex;
     align-items:center;
-    gap:6px;
-    font-size:11px;
-    padding:6px 9px;
+    gap:5px;
+    font-size:10px;
+    padding:4px 8px;
     border-radius:20px;
     font-weight:900;
 }
 
 .status::before{
     content:"";
-    width:7px;
-    height:7px;
+    width:6px;
+    height:6px;
     border-radius:50%;
     background:currentColor;
 }
 
-.status.upcoming{
-    background:rgba(185,133,0,.12);
-    color:var(--gold);
-}
-
-.status.live{
-    background:rgba(22,217,139,.12);
-    color:var(--green-dark);
-}
-
-.status.live::before{
-    animation:liveDot 1.2s infinite;
-}
-
-.status.finished{
-    background:rgba(229,72,85,.12);
-    color:var(--danger-dark);
-}
+.status.upcoming{ background:rgba(185,133,0,.12); color:var(--gold); }
+.status.live{ background:rgba(22,217,139,.12); color:var(--green-dark); }
+.status.finished{ background:rgba(229,72,85,.12); color:var(--danger-dark); }
 
 .match-main{
-    width:100%;
     display:grid;
-    grid-template-columns:minmax(0,1fr) 140px minmax(0,1fr);
+    grid-template-columns:1fr auto 1fr;
     align-items:center;
-    gap:20px;
-    min-width:0;
+    gap:10px;
 }
 
 .team{
-    min-width:0;
     display:flex;
     align-items:center;
-    gap:12px;
+    gap:10px;
     font-weight:800;
+    font-size:13px;
+    min-width:0;
 }
 
 .team:last-child{
@@ -575,21 +462,20 @@ a{
 }
 
 .team-name{
-    min-width:0;
     overflow:hidden;
     text-overflow:ellipsis;
     white-space:nowrap;
 }
 
 .team-logo{
-    width:48px;
-    height:48px;
-    flex:0 0 48px;
+    width:40px;
+    height:40px;
+    flex:0 0 40px;
     display:grid;
     place-items:center;
     background:var(--panel-2);
     border:1px solid var(--border-strong);
-    border-radius:13px;
+    border-radius:10px;
     overflow:hidden;
 }
 
@@ -597,97 +483,74 @@ a{
     width:100%;
     height:100%;
     object-fit:contain;
-    padding:5px;
+    padding:4px;
 }
 
-.logo-fallback{
-    font-size:20px;
-}
+.logo-fallback{ font-size:16px; }
 
 .match-time{
     text-align:center;
-    min-width:0;
+    padding:0 5px;
 }
 
 .match-time strong{
     display:block;
-    font-size:16px;
-    white-space:nowrap;
+    font-size:14px;
 }
 
 .match-time span{
     display:block;
     color:var(--muted);
-    font-size:11px;
-    margin-top:4px;
-    white-space:nowrap;
+    font-size:10px;
+    margin-top:2px;
 }
 
 .match-time .score{
     color:var(--green-dark)!important;
-    font-size:21px!important;
+    font-size:18px!important;
     font-weight:950;
 }
 
 .match-time .countdown{
     color:var(--gold);
     font-weight:800;
-    font-size:12px;
+    font-size:11px;
 }
 
 .match-bottom{
-    width:100%;
     display:flex;
     justify-content:space-between;
     align-items:center;
-    gap:15px;
-    margin-top:18px;
-    padding-top:14px;
+    margin-top:14px;
+    padding-top:10px;
     border-top:1px solid var(--border);
 }
 
 .details-btn{
     color:var(--green-dark);
-    font-size:13px;
+    font-size:12px;
     font-weight:800;
     background:none;
     border:0;
-    transition:.2s ease;
-}
-
-.details-btn:hover{
-    color:var(--green);
-    transform:translateX(-2px);
 }
 
 .market-count{
     color:var(--muted);
-    font-size:12px;
+    font-size:11px;
 }
 
 .empty{
     display:none;
-    width:100%;
     text-align:center;
-    padding:60px 20px;
-    margin-top:22px;
+    padding:40px 20px;
+    margin-top:18px;
     background:var(--panel);
     border:1px solid var(--border-strong);
-    border-radius:18px;
+    border-radius:16px;
     color:var(--muted);
-    box-shadow:var(--shadow);
 }
 
-.empty-icon{
-    font-size:38px;
-    margin-bottom:12px;
-}
-
-.empty strong{
-    color:var(--text);
-    display:block;
-    font-size:16px;
-}
+.empty-icon{ font-size:32px; margin-bottom:8px; }
 
 .modal{
     position:fixed;
@@ -696,121 +559,74 @@ a{
     display:none;
     align-items:center;
     justify-content:center;
-    padding:20px;
+    padding:16px;
     background:rgba(15,25,21,.6);
-    backdrop-filter:blur(10px);
+    backdrop-filter:blur(8px);
 }
 
-.modal.show{
-    display:flex;
-}
+.modal.show{ display:flex; }
 
 .modal-box{
-    width:min(520px,100%);
-    max-height:calc(100vh - 40px);
-    overflow:auto;
+    width:min(480px,100%);
     background:var(--panel);
     border:1px solid var(--border-strong);
-    border-radius:22px;
-    padding:25px;
-    box-shadow:0 30px 90px rgba(0,0,0,.3);
+    border-radius:20px;
+    padding:20px;
 }
 
 .modal-head{
     display:flex;
     align-items:center;
     justify-content:space-between;
-    margin-bottom:22px;
-}
-
-.modal-head h3{
-    font-size:21px;
+    margin-bottom:16px;
 }
 
 .close{
-    width:38px;
-    height:38px;
+    width:34px;
+    height:34px;
     border:1px solid var(--border);
     background:var(--panel-2);
     color:var(--text);
-    border-radius:11px;
-    font-size:20px;
+    border-radius:9px;
+    font-size:18px;
 }
 
-.modal-match{
-    text-align:center;
-    padding:20px 0;
-}
-
-.modal-teams{
-    font-size:21px;
-    font-weight:900;
-}
-
-.modal-vs{
-    color:var(--muted);
-    margin:9px 0;
-}
+.modal-match{ text-align:center; padding:10px 0; }
+.modal-teams{ font-size:18px; font-weight:900; }
+.modal-vs{ color:var(--muted); font-size:12px; margin:6px 0; }
 
 .modal-info{
     display:grid;
     grid-template-columns:1fr 1fr;
-    gap:10px;
-    margin-top:20px;
+    gap:8px;
+    margin-top:14px;
 }
 
 .info-box{
     background:var(--panel-2);
     border:1px solid var(--border);
-    border-radius:13px;
-    padding:13px;
+    border-radius:10px;
+    padding:10px;
 }
 
-.info-box span{
-    display:block;
-    color:var(--muted);
-    font-size:11px;
-    margin-bottom:5px;
-}
-
-.info-box strong{
-    font-size:14px;
-}
+.info-box span{ display:block; color:var(--muted); font-size:10px; margin-bottom:3px; }
+.info-box strong{ font-size:13px; }
 
 .footer{
-    width:100%;
-    margin-top:70px;
-    padding:30px 5%;
+    margin-top:50px;
+    padding:24px 5%;
     border-top:1px solid var(--border-strong);
     color:var(--muted);
     text-align:center;
-    font-size:13px;
+    font-size:12px;
     background:var(--panel);
 }
 
-.footer a{
-    color:var(--green-dark);
-    font-weight:800;
-}
+.footer a{ color:var(--green-dark); font-weight:800; }
 
-@keyframes rise{
-    from{opacity:0;transform:translateY(15px)}
-    to{opacity:1;transform:translateY(0)}
-}
-
-@keyframes spin{
-    to{transform:rotate(360deg)}
-}
-
-@keyframes liveDot{
-    0%,100%{opacity:1;transform:scale(1)}
-    50%{opacity:.35;transform:scale(.72)}
-}
-
-@keyframes syncPulse{
-    0%,100%{opacity:1}
-    50%{opacity:.35}
-}
+@keyframes spin{ to{transform:rotate(360deg)} }
+@keyframes liveDot{ 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.35;transform:scale(.7)} }
+@keyframes syncPulse{ 0%,100%{opacity:1} 50%{opacity:.35} }
 </style>
 </head>
 
@@ -823,7 +639,7 @@ a{
             <a href="index.html">Home</a>
             <a href="sports.html" class="active">Sports</a>
             <a href="live.html">Live</a>
-            <a href="bets.html">My Bets</a>
+            <a href="bets.html">Bets</a>
         </nav>
         <div class="header-right">
             <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle Theme">🌙</button>
@@ -845,13 +661,13 @@ a{
     </div>
 
     <section class="future-preview">
-        <a href="future.html" class="future-preview-link" aria-label="Open Future Matches">
+        <a href="future.html" class="future-preview-link">
             <div class="future-preview-head">
                 <span class="future-preview-title">Future Matches</span>
                 <span class="future-preview-more">View all →</span>
             </div>
             <div class="future-preview-card" id="futurePreviewCard">
-                <div class="future-preview-empty" id="futurePreviewEmpty">Loading future match...</div>
+                <div class="future-preview-empty">Loading future match...</div>
             </div>
         </a>
     </section>
@@ -908,8 +724,8 @@ a{
 
     <div class="empty" id="emptyState">
         <div class="empty-icon">🔎</div>
-        <strong id="emptyTitle">No matches available</strong>
-        <p id="emptyText" style="margin-top:8px">There are currently no matches matching these conditions.</p>
+        <strong>No matches available</strong>
+        <p style="margin-top:6px; font-size:12px;">There are currently no matches matching these conditions.</p>
     </div>
 
 </main>
@@ -918,7 +734,7 @@ a{
     <div class="modal-box">
         <div class="modal-head">
             <h3>Match Details</h3>
-            <button class="close" id="closeModalButton" type="button" aria-label="Close">×</button>
+            <button class="close" id="closeModalButton" type="button">×</button>
         </div>
         <div class="modal-match">
             <div class="modal-teams" id="modalTeams">-</div>
@@ -940,12 +756,11 @@ a{
 </footer>
 
 <script>
-// مدیریت حالت تاریک/روشن با ذخیره در حافظه
+// مدیریت حالت تاریک و روشن
 const themeToggle = document.getElementById("themeToggle");
 const currentTheme = localStorage.getItem("sportx_theme") || "light";
 
 if(currentTheme === "dark"){
-    document.documentElement.setAttribute("data-theme", "dark");
     themeToggle.textContent = "☀️";
 }
 
@@ -968,7 +783,6 @@ const MATCH_WORKER = "swift-processor";
 const REFRESH_INTERVAL_MS = 60000;
 const MAX_LIVE_MATCHES = 4;
 const MAX_COMING_MATCHES = 6;
-const END_KEEP_TIME = 2 * 60 * 60 * 1000;
 
 let allMatches = [];
 let wweMatches = [];
@@ -980,7 +794,6 @@ const filterButtons = document.querySelectorAll(".sport-filter");
 const syncStatus = document.getElementById("syncStatus");
 const syncText = document.getElementById("syncText");
 const loadingState = document.getElementById("loadingState");
-const loadingText = document.getElementById("loadingText");
 const liveSection = document.getElementById("liveSection");
 const finishedSection = document.getElementById("finishedSection");
 const comingSection = document.getElementById("comingSection");
@@ -994,8 +807,6 @@ const finishedCount = document.getElementById("finishedCount");
 const comingCount = document.getElementById("comingCount");
 const matchCount = document.getElementById("matchCount");
 const emptyState = document.getElementById("emptyState");
-const emptyTitle = document.getElementById("emptyTitle");
-const emptyText = document.getElementById("emptyText");
 const futurePreviewCard = document.getElementById("futurePreviewCard");
 
 function normalizeSearchText(value) {
@@ -1008,7 +819,6 @@ function getTimestamp(value) {
     return Number.isFinite(t) ? t : NaN;
 }
 
-// سیستم تبدیل ساعت به منطقه زمانی محلی کاربر همراه با تایمر معکوس
 function formatMatchDateTime(value) {
     const timestamp = getTimestamp(value);
     if (!Number.isFinite(timestamp)) {
@@ -1081,7 +891,7 @@ function createMatchCard(match, index, type) {
     const dateInfo = formatMatchDateTime(match.start_time);
 
     const card = document.createElement("article");
-    card.className = "match-card " + (type === "live" ? "live-match" : type === "finished" ? "end-match" : "coming-match");
+    card.className = "match-card";
 
     let statusLabel = type === "live" ? "LIVE" : type === "finished" ? "LIVE END" : "COMING";
     let statusClass = type === "live" ? "live" : type === "finished" ? "finished" : "upcoming";
@@ -1090,7 +900,7 @@ function createMatchCard(match, index, type) {
 
     card.innerHTML = `
         <div class="match-top">
-            <div class="league-wrap"><span class="league">${escapeHtml(league)}</span></div>
+            <span class="league">${escapeHtml(league)}</span>
             <span class="status ${statusClass}">${statusLabel}</span>
         </div>
         <div class="match-main">
@@ -1098,7 +908,7 @@ function createMatchCard(match, index, type) {
             <div class="match-time">
                 ${showScore ? `<strong class="score">${escapeHtml(`${match.home_score ?? 0} - ${match.away_score ?? 0}`)}</strong>` : `<strong>${escapeHtml(dateInfo.time)}</strong>`}
                 <span>${escapeHtml(dateInfo.label)}</span>
-                ${!showScore ? `<span class="countdown" data-start="${match.start_time \vert{}\vert{} ''}">${escapeHtml(dateInfo.countdown)}</span>` : ''}
+                ${!showScore ? `<span class="countdown" data-start="${escapeHtml(match.start_time \vert{}\vert{} '')}">${escapeHtml(dateInfo.countdown)}</span>` : ''}
             </div>
             <div class="team"><span class="team-name">${escapeHtml(away.name)}</span>${teamLogo(away.logo_url, away.name)}</div>
         </div>
@@ -1126,7 +936,7 @@ function renderFuturePreview() {
     const match = candidates[0];
 
     if (!match) {
-        futurePreviewCard.innerHTML = `<div class="future-preview-empty">No future match available.</div>`;
+        futurePreviewCard.innerHTML = `<div style="text-align:center; color:var(--muted); font-size:12px; padding:10px;">No future match available.</div>`;
         return;
     }
 
@@ -1204,7 +1014,6 @@ async function loadMatches(silent = false) {
 
     if (!silent) {
         loadingState.style.display = "flex";
-        loadingText.textContent = "Loading live sports data...";
     }
     syncStatus.classList.add("loading");
 
