@@ -973,7 +973,7 @@ const WORKER_URL =
   "https://zchtcosljkkkiykhforj.supabase.co/functions/v1/smooth-worker";
 
 /*
-  Wallet + Prediction Worker
+  Wallet + Prediction Worker (swift-task)
 */
 const SWIFT_TASK_URL =
   "https://zchtcosljkkkiykhforj.supabase.co/functions/v1/swift-task";
@@ -2245,44 +2245,25 @@ document.addEventListener(
     }
 
     /*
-      IMPORTANT:
-      We check the real Supabase
-      authentication session.
+      بررسی ورود کاربر به سیستم
     */
     const user =
       await getAuthenticatedUser();
 
     if (!user) {
-
-      loginModal.classList.add(
-        "show"
-      );
-
+      loginModal.classList.add("show");
       return;
-
     }
 
     pendingBet = {
-
-      match:m,
-
-      side:
-        btn.dataset.side,
-
-      userId:
-        user.id
-
+      match: m,
+      side: btn.dataset.side,
+      userId: user.id
     };
 
-    amountSlider.value =
-      "100";
-
-    amountValue.textContent =
-      "100 AFN";
-
-    amountModal.classList.add(
-      "show"
-    );
+    amountSlider.value = "100";
+    amountValue.textContent = "100 AFN";
+    amountModal.classList.add("show");
 
   }
 );
@@ -2337,9 +2318,6 @@ confirmBetBtn.addEventListener(
 
     try {
 
-      /*
-        1. Check authentication
-      */
       const user =
         await getAuthenticatedUser();
 
@@ -2357,10 +2335,6 @@ confirmBetBtn.addEventListener(
 
       }
 
-      /*
-        2. Get the real Supabase
-           access token.
-      */
       const accessToken =
         await getAccessToken();
 
@@ -2378,9 +2352,6 @@ confirmBetBtn.addEventListener(
 
       }
 
-      /*
-        3. Read wallet from swift-task
-      */
       let walletResult;
 
       try {
@@ -2406,9 +2377,6 @@ confirmBetBtn.addEventListener(
 
       }
 
-      /*
-        4. Authentication failed
-      */
       if (
         !walletResult.authenticated
       ) {
@@ -2425,9 +2393,6 @@ confirmBetBtn.addEventListener(
 
       }
 
-      /*
-        5. REAL balance check
-      */
       if (
         !walletResult.sufficient
       ) {
@@ -2440,10 +2405,6 @@ confirmBetBtn.addEventListener(
 
       }
 
-      /*
-        6. Convert SportX side
-           to swift-task prediction
-      */
       let prediction;
 
       if (
@@ -2477,11 +2438,6 @@ confirmBetBtn.addEventListener(
 
       }
 
-      /*
-        7. Make sure pool exists.
-           create-pool does not require
-           authentication in swift-task.
-      */
       const poolResult =
         await swiftTaskRequest(
           "create-pool",
@@ -2506,12 +2462,6 @@ confirmBetBtn.addEventListener(
 
       }
 
-      /*
-        8. Join the pool.
-           swift-task itself performs
-           the final wallet balance check
-           and deducts the amount.
-      */
       const joinResult =
         await swiftTaskRequest(
           "join-pool",
@@ -2530,9 +2480,6 @@ confirmBetBtn.addEventListener(
       const result =
         joinResult.data || {};
 
-      /*
-        9. Insufficient balance
-      */
       const errorText =
         String(
           result?.error ||
@@ -2569,9 +2516,6 @@ confirmBetBtn.addEventListener(
 
       }
 
-      /*
-        10. Other server error
-      */
       if (
         !joinResult.response.ok ||
         result?.success !== true
@@ -2586,10 +2530,6 @@ confirmBetBtn.addEventListener(
 
       }
 
-      /*
-        11. Prediction successfully
-            registered.
-      */
       userBets[
         matchId(
           pendingBet.match
@@ -2750,15 +2690,11 @@ updateStatus();
 
 fetchMatches();
 
-/* Worker refresh remains
-   exactly 60 seconds */
 setInterval(
   fetchMatches,
   60000
 );
 
-/* Countdown remains
-   exactly 1 second */
 setInterval(
   tick,
   1000
