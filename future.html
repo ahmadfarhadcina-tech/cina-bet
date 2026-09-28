@@ -437,7 +437,8 @@ h1{
 }
 
 .vote-btn.locked{
-  cursor:not-allowed
+  cursor:not-allowed;
+  opacity: 0.6;
 }
 
 .result-box{
@@ -972,14 +973,14 @@ footer a{
 const WORKER_URL =
   "https://zchtcosljkkkiykhforj.supabase.co/functions/v1/smooth-worker";
 
-/*
-  Wallet + Prediction Worker (swift-task)
-*/
 const SWIFT_TASK_URL =
   "https://zchtcosljkkkiykhforj.supabase.co/functions/v1/swift-task";
 
 const STORAGE_KEY =
   "sportx_future_matches_worker_v3";
+
+const USER_BETS_KEY =
+  "sportx_user_local_bets_v1";
 
 const THEME_KEY =
   "sportx_theme_mode";
@@ -1180,59 +1181,54 @@ function matchId(m) {
 }
 
 /* =========================
-   TIMEZONE
+   TIMEZONE (Venue / Match Specific)
 ========================= */
 
-function getUserTimeZoneName() {
-
-  try {
-
-    const tz =
-      Intl.DateTimeFormat()
-        .resolvedOptions()
-        .timeZone;
-
-    if (!tz) {
-      return "Local Time";
-    }
-
-    const parts =
-      tz.split("/");
-
-    return parts[
-      parts.length - 1
-    ].replace(
-      /_/g,
-      " "
-    );
-
-  } catch (e) {
-
-    return "Local Time";
-
+function getMatchTimeZoneName(m) {
+  if (m.venue_timezone) {
+    return m.venue_timezone.split("/").pop().replace(/_/g, " ");
   }
-
+  if (m.country) {
+    return m.country;
+  }
+  try {
+    const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    if (!tz) return "Local Time";
+    const parts = tz.split("/");
+    return parts[parts.length - 1].replace(/_/g, " ");
+  } catch (e) {
+    return "Local Time";
+  }
 }
 
-const userTz =
-  getUserTimeZoneName();
-
-function formatDate(ts) {
-
-  return new Intl.DateTimeFormat(
-    "en-US",
-    {
-      weekday:"short",
-      month:"short",
-      day:"numeric",
-      hour:"2-digit",
-      minute:"2-digit",
-      hour12:true
-    }
-  ).format(
-    new Date(ts)
-  );
-
+function formatDate(ts, m) {
+  const tz = m ? getMatchTimeZoneName(m) : undefined;
+  try {
+    return new Intl.DateTimeFormat(
+      "en-US",
+      {
+        weekday:"short",
+        month:"short",
+        day:"numeric",
+        hour:"2-digit",
+        minute:"2-digit",
+        hour12:true,
+        timeZone: m?.venue_timezone || undefined
+      }
+    ).format(new Date(ts));
+  } catch(e) {
+    return new Intl.DateTimeFormat(
+      "en-US",
+      {
+        weekday:"short",
+        month:"short",
+        day:"numeric",
+        hour:"2-digit",
+        minute:"2-digit",
+        hour12:true
+      }
+    ).format(new Date(ts));
+  }
 }
 
 function countdown(ts) {
@@ -1315,7 +1311,7 @@ function showToast(t) {
 }
 
 /* =========================
-   STORAGE
+   STORAGE & LOCAL BETS
 ========================= */
 
 function loadStoredMatches() {
@@ -1344,6 +1340,15 @@ function loadStoredMatches() {
 
   }
 
+  try {
+    const savedBets = JSON.parse(localStorage.getItem(USER_BETS_KEY) || "{}");
+    if (savedBets && typeof savedBets === "object") {
+      userBets = savedBets;
+    }
+  } catch(e) {
+    userBets = {};
+  }
+
 }
 
 function saveStoredMatches() {
@@ -1359,6 +1364,12 @@ function saveStoredMatches() {
 
   } catch {}
 
+}
+
+function saveUserBets() {
+  try {
+    localStorage.setItem(USER_BETS_KEY, JSON.stringify(userBets));
+  } catch(e) {}
 }
 
 /* =========================
@@ -1845,8 +1856,9 @@ function voteButtons(m) {
     userBets[id]?.prediction ||
     "";
 
+  // اگر مسابقه شروع شده یا تمام شده باشد، رای‌دهی کاملاً قفل می‌شود
   const locked =
-    m.status !== "scheduled";
+    m.status !== "scheduled" || Boolean(userBets[id]);
 
   const homeFont =
     voteFontSize(
@@ -1861,9 +1873,11 @@ function voteButtons(m) {
   return `
     <div class="vote-label">
       ${
-        locked
-          ? "Prediction closed"
-          : "Who will win?"
+        userBets[id]
+          ? "Prediction locked for this match"
+          : locked
+            ? "Prediction closed"
+            : "Who will win?"
       }
     </div>
 
@@ -2050,6 +2064,8 @@ function createCard(m) {
 
   }
 
+  const matchTz = getMatchTimeZoneName(m);
+
   return `
     <article class="match-card">
 
@@ -2065,9 +2081,9 @@ function createCard(m) {
 
       <div class="date">
 
-        ${formatDate(ts)}
+        ${formatDate(ts, m)}
 
-        (${escapeHtml(userTz)})
+        (${escapeHtml(matchTz)})
 
       </div>
 
@@ -2239,13 +2255,17 @@ document.addEventListener(
       m.status !==
         "scheduled"
     ) {
-
       return;
+    }
 
+    const mId = matchId(m);
+    if (userBets[mId]) {
+      showToast("شما قبلاً برای این مسابقه رای داده‌اید و تا پایان بازی قابل تغییر نیست.");
+      return;
     }
 
     /*
-      بررسی ورود کاربر به سیستم
+      بررسی ورود کاربر به سیستم پیش از باز شدن فرم مبلغ
     */
     const user =
       await getAuthenticatedUser();
@@ -2283,7 +2303,7 @@ amountSlider.addEventListener(
 );
 
 /* =========================
-   PREDICTION
+   PREDICTION CONFIRMATION
 ========================= */
 
 confirmBetBtn.addEventListener(
@@ -2530,18 +2550,12 @@ confirmBetBtn.addEventListener(
 
       }
 
-      userBets[
-        matchId(
-          pendingBet.match
-        )
-      ] = {
-
-        prediction:
-          pendingBet.side,
-
+      const currentMatchId = matchId(pendingBet.match);
+      userBets[currentMatchId] = {
+        prediction: pendingBet.side,
         amount
-
       };
+      saveUserBets();
 
       amountModal.classList.remove(
         "show"
@@ -2550,9 +2564,10 @@ confirmBetBtn.addEventListener(
       pendingBet = null;
 
       render();
+      renderEnded();
 
       showToast(
-        "Prediction submitted."
+        "Prediction submitted successfully."
       );
 
     } catch (error) {
@@ -2603,6 +2618,8 @@ document.getElementById(
 };
 
 document.getElementById(
+  "cancelBtn"
+)?.onclick || (document.getElementById(
   "cancelBetBtn"
 ).onclick = () => {
 
@@ -2612,7 +2629,7 @@ document.getElementById(
 
   pendingBet = null;
 
-};
+});
 
 document.getElementById(
   "loginBtn"
