@@ -1,0 +1,1476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Future Matches | SportX</title>
+
+<script>
+  (function() {
+    try {
+      const savedTheme = localStorage.getItem("sportx_theme_mode") || "light";
+      if (savedTheme === "dark") {
+        document.documentElement.setAttribute("data-theme", "dark");
+      }
+    } catch (e) {}
+  })();
+</script>
+
+<style>
+:root{
+  --primary:#16a34a;
+  --primary-dark:#15803d;
+  --bg:#f5f7f6;
+  --card:#fff;
+  --text:#111827;
+  --muted:#6b7280;
+  --border:#e5e7eb;
+  --soft:#f0fdf4;
+  --blue:#2563eb;
+  --blue-soft:#eff6ff;
+  --red:#dc2626;
+  --red-soft:#fef2f2;
+  --header-bg:rgba(255,255,255,.96);
+}
+
+[data-theme="dark"]{
+  --primary:#22c55e;
+  --primary-dark:#16a34a;
+  --bg:#0f172a;
+  --card:#1e293b;
+  --text:#f8fafc;
+  --muted:#94a3b8;
+  --border:#334155;
+  --soft:#052e16;
+  --blue:#3b82f6;
+  --blue-soft:#172554;
+  --red:#ef4444;
+  --red-soft:#450a0a;
+  --header-bg:rgba(30,41,59,.96);
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:Arial,Helvetica,sans-serif;
+  transition:background-color .2s ease,color .2s ease
+}
+a{text-decoration:none;color:inherit}
+button,input{font:inherit}
+button,a{
+  -webkit-tap-highlight-color:transparent;
+  transition:transform .16s ease,background-color .16s ease,border-color .16s ease,color .16s ease,box-shadow .16s ease
+}
+button:active,a:active{transform:scale(.96)}
+
+header{
+  position:sticky;
+  top:0;
+  z-index:100;
+  background:var(--header-bg);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--border)
+}
+
+.header-inner{
+  max-width:1100px;
+  min-height:64px;
+  margin:auto;
+  padding:0 16px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:15px
+}
+
+.logo{
+  color:var(--primary);
+  font-size:23px;
+  font-weight:900
+}
+
+.nav{
+  display:flex;
+  align-items:center;
+  gap:5px
+}
+
+.nav a{
+  color:var(--muted);
+  font-size:13px;
+  font-weight:700;
+  padding:9px 11px;
+  border-radius:10px
+}
+
+.nav a:hover{background:var(--border)}
+.nav a.active{
+  background:var(--soft);
+  color:var(--primary-dark)
+}
+
+.theme-toggle{
+  background:none;
+  border:1px solid var(--border);
+  color:var(--text);
+  width:38px;
+  height:38px;
+  border-radius:10px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  font-size:16px
+}
+
+.theme-toggle:hover{background:var(--border)}
+
+main{
+  max-width:1100px;
+  margin:auto;
+  padding:24px 16px 45px
+}
+
+.page-head{margin-bottom:20px}
+
+.badge{
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  padding:7px 11px;
+  border-radius:999px;
+  background:var(--soft);
+  color:var(--primary-dark);
+  font-size:11px;
+  font-weight:900;
+  letter-spacing:.3px
+}
+
+.badge-dot{
+  width:7px;
+  height:7px;
+  border-radius:50%;
+  background:var(--primary)
+}
+
+h1{
+  margin:12px 0 6px;
+  font-size:29px;
+  line-height:1.15
+}
+
+.subtitle{
+  margin:0;
+  color:var(--muted);
+  font-size:14px;
+  line-height:1.6
+}
+
+.info-card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:18px;
+  padding:15px 16px;
+  margin-bottom:18px;
+  box-shadow:0 5px 18px rgba(0,0,0,.035)
+}
+
+.info-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px
+}
+
+.info-title{
+  font-weight:900;
+  font-size:14px
+}
+
+.info-text{
+  color:var(--muted);
+  font-size:12px;
+  margin-top:4px
+}
+
+.info-number{
+  min-width:42px;
+  height:42px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:13px;
+  background:var(--soft);
+  color:var(--primary-dark);
+  font-size:17px;
+  font-weight:900
+}
+
+.toolbar{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  margin-bottom:18px
+}
+
+.search{
+  width:100%;
+  height:48px;
+  padding:0 15px;
+  border:1px solid var(--border);
+  border-radius:14px;
+  background:var(--card);
+  outline:none;
+  color:var(--text)
+}
+
+.search:focus{
+  border-color:var(--primary);
+  box-shadow:0 0 0 3px rgba(22,163,74,.1)
+}
+
+.status{
+  min-width:max-content;
+  height:48px;
+  display:flex;
+  align-items:center;
+  padding:0 13px;
+  border-radius:14px;
+  background:var(--card);
+  border:1px solid var(--border);
+  color:var(--muted);
+  font-size:12px;
+  font-weight:700
+}
+
+.loading,.empty,.error{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:18px;
+  padding:32px 18px;
+  text-align:center;
+  color:var(--muted)
+}
+
+.spinner{
+  width:25px;
+  height:25px;
+  margin:0 auto 12px;
+  border:3px solid var(--border);
+  border-top-color:var(--primary);
+  border-radius:50%;
+  animation:spin .8s linear infinite
+}
+
+@keyframes spin{
+  to{transform:rotate(360deg)}
+}
+
+.matches-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:15px
+}
+
+.match-card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:20px;
+  padding:16px;
+  box-shadow:0 5px 20px rgba(0,0,0,.04);
+  transition:transform .18s ease,box-shadow .18s ease
+}
+
+.match-card:hover{
+  transform:translateY(-2px);
+  box-shadow:0 9px 28px rgba(0,0,0,.07)
+}
+
+.match-top{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  margin-bottom:12px
+}
+
+.league{
+  color:var(--muted);
+  font-size:11px;
+  font-weight:800;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap
+}
+
+.countdown,.live-badge,.end-badge{
+  flex-shrink:0;
+  border-radius:999px;
+  padding:6px 9px;
+  font-size:11px;
+  font-weight:900
+}
+
+.countdown{
+  background:var(--blue-soft);
+  color:var(--blue)
+}
+
+.live-badge{
+  background:#fee2e2;
+  color:#b91c1c
+}
+
+.end-badge{
+  background:var(--red-soft);
+  color:var(--red)
+}
+
+.date{
+  text-align:center;
+  color:var(--muted);
+  font-size:12px;
+  margin-bottom:15px
+}
+
+.teams{
+  display:grid;
+  grid-template-columns:1fr 70px 1fr;
+  align-items:center;
+  gap:8px
+}
+
+.team{
+  min-width:0;
+  text-align:center
+}
+
+.team-logo{
+  width:52px;
+  height:52px;
+  margin:0 auto 8px;
+  border-radius:50%;
+  object-fit:contain;
+  background:var(--border);
+  display:block
+}
+
+.logo-fallback{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:18px;
+  font-weight:900;
+  color:var(--muted)
+}
+
+.team-name{
+  min-width:0;
+  max-width:100%;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  overflow-wrap:anywhere;
+  word-break:break-word;
+  font-size:clamp(10px,1.9vw,14px);
+  font-weight:900;
+  line-height:1.25
+}
+
+.vs{
+  text-align:center;
+  color:var(--muted);
+  font-size:12px;
+  font-weight:900
+}
+
+.live-score{
+  font-size:24px;
+  font-weight:900;
+  text-align:center;
+  color:#b91c1c
+}
+
+.vote-label{
+  margin-top:17px;
+  margin-bottom:8px;
+  text-align:center;
+  color:var(--muted);
+  font-size:11px;
+  font-weight:800
+}
+
+.vote-buttons{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:8px
+}
+
+.vote-btn{
+  height:40px;
+  min-width:0;
+  width:100%;
+  padding:0 5px;
+  border:1px solid var(--border);
+  border-radius:11px;
+  background:var(--card);
+  color:var(--text);
+  font-weight:900;
+  cursor:pointer;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  line-height:1.1
+}
+
+.vote-btn:hover{
+  border-color:var(--primary);
+  color:var(--primary-dark)
+}
+
+.vote-btn.selected{
+  background:var(--soft);
+  border-color:var(--primary);
+  color:var(--primary-dark)
+}
+
+.vote-btn.locked{
+  cursor:not-allowed;
+  opacity: 0.6;
+}
+
+.result-box{
+  margin-top:15px;
+  padding-top:13px;
+  border-top:1px solid var(--border)
+}
+
+.result-title{
+  text-align:center;
+  color:var(--muted);
+  font-size:11px;
+  font-weight:900;
+  margin-bottom:10px
+}
+
+.result-score{
+  text-align:center;
+  font-size:24px;
+  font-weight:900;
+  margin-bottom:10px
+}
+
+.result-teams{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px
+}
+
+.result-team{
+  padding:9px 7px;
+  border-radius:11px;
+  text-align:center;
+  font-size:11px;
+  font-weight:900;
+  overflow-wrap:anywhere;
+  word-break:break-word
+}
+
+.result-team.win{
+  background:var(--soft);
+  color:var(--primary-dark)
+}
+
+.result-team.loss{
+  background:var(--red-soft);
+  color:var(--red)
+}
+
+.result-team.draw{
+  background:var(--border);
+  color:var(--text)
+}
+
+.end-section{margin-top:28px}
+
+.end-heading{
+  margin:0 0 12px;
+  font-size:18px;
+  font-weight:900
+}
+
+.end-subtitle{
+  margin:-5px 0 15px;
+  color:var(--muted);
+  font-size:12px
+}
+
+footer{
+  max-width:1100px;
+  margin:auto;
+  padding:0 16px 30px;
+  text-align:center;
+  color:var(--muted);
+  font-size:12px
+}
+
+footer a{
+  color:var(--primary-dark);
+  font-weight:800
+}
+
+.toast{
+  position:fixed;
+  left:50%;
+  bottom:22px;
+  z-index:500;
+  transform:translate(-50%,20px);
+  opacity:0;
+  pointer-events:none;
+  background:#111827;
+  color:#fff;
+  padding:11px 16px;
+  border-radius:12px;
+  font-size:12px;
+  transition:.2s
+}
+
+.toast.show{
+  opacity:1;
+  transform:translate(-50%,0)
+}
+
+.modal-backdrop{
+  position:fixed;
+  inset:0;
+  z-index:400;
+  background:rgba(17,24,39,.58);
+  backdrop-filter:blur(5px);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:18px
+}
+
+.modal-backdrop.show{
+  display:flex
+}
+
+.modal{
+  width:min(420px,100%);
+  background:var(--card);
+  color:var(--text);
+  border-radius:22px;
+  padding:22px;
+  box-shadow:0 25px 70px rgba(0,0,0,.25);
+  animation:modalIn .18s ease
+}
+
+@keyframes modalIn{
+  from{
+    opacity:0;
+    transform:scale(.96) translateY(8px)
+  }
+  to{
+    opacity:1;
+    transform:none
+  }
+}
+
+.modal h2{
+  margin:0 0 7px;
+  font-size:21px
+}
+
+.modal p{
+  margin:0 0 18px;
+  color:var(--muted);
+  font-size:13px;
+  line-height:1.6
+}
+
+.modal-actions{
+  display:grid;
+  gap:9px
+}
+
+.modal-btn{
+  width:100%;
+  min-height:45px;
+  border:0;
+  border-radius:12px;
+  cursor:pointer;
+  font-weight:900
+}
+
+.modal-btn.primary{
+  background:var(--primary);
+  color:#fff
+}
+
+.modal-btn.secondary{
+  background:var(--border);
+  color:var(--text)
+}
+
+.amount-value{
+  text-align:center;
+  font-size:32px;
+  font-weight:900;
+  color:var(--primary-dark);
+  margin:8px 0 16px
+}
+
+.amount-slider{
+  width:100%;
+  accent-color:var(--primary);
+  cursor:pointer
+}
+
+.amount-range{
+  display:flex;
+  justify-content:space-between;
+  color:var(--muted);
+  font-size:11px;
+  margin-top:5px
+}
+
+.modal-close{
+  position:absolute;
+  right:18px;
+  top:14px;
+  border:0;
+  background:transparent;
+  font-size:22px;
+  cursor:pointer;
+  color:var(--muted)
+}
+
+.modal-box{
+  position:relative
+}
+
+@media(max-width:720px){
+  .header-inner{min-height:58px}
+
+  .nav a{
+    font-size:11px;
+    padding:8px 7px
+  }
+
+  main{
+    padding:20px 12px 40px
+  }
+
+  h1{
+    font-size:25px
+  }
+
+  .toolbar{
+    flex-direction:column;
+    align-items:stretch
+  }
+
+  .status{
+    width:100%;
+    justify-content:center
+  }
+
+  .matches-grid{
+    grid-template-columns:1fr
+  }
+
+  .team-name{
+    font-size:clamp(10px,3.2vw,14px)
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="header-inner">
+
+    <a href="index.html" class="logo">SportX</a>
+
+    <div style="display:flex; align-items:center; gap:10px;">
+
+      <nav class="nav">
+        <a href="index.html">Home</a>
+        <a href="sports.html">Sports</a>
+        <a href="sports.html">Live</a>
+        <a href="my-bets.html">My Bets</a>
+      </nav>
+
+      <button
+        id="themeToggle"
+        class="theme-toggle"
+        type="button"
+        title="Toggle Theme"
+      >
+        🌙
+      </button>
+
+    </div>
+
+  </div>
+</header>
+
+<main>
+
+<section class="page-head">
+
+  <div class="badge">
+    <span class="badge-dot"></span>
+    FUTURE MATCHES
+  </div>
+
+  <h1>Golden Match</h1>
+
+  <p class="subtitle">
+    Real matches from the 50 Superstar teams. Status and live scores come from SportX Worker.
+  </p>
+
+</section>
+
+<section class="info-card">
+
+  <div class="info-row">
+
+    <div>
+
+      <div class="info-title">
+        Future Team's
+      </div>
+
+      <div class="info-text">
+        Only real fixtures from the selected 50 better teams are shown.
+      </div>
+
+    </div>
+
+    <div id="matchCount" class="info-number">
+      0
+    </div>
+
+  </div>
+
+</section>
+
+<div class="toolbar">
+
+  <input
+    id="searchInput"
+    class="search"
+    type="search"
+    placeholder="Search team or league..."
+    autocomplete="off"
+  >
+
+  <div id="status" class="status">
+    Connecting to Worker...
+  </div>
+
+</div>
+
+<div id="loading" class="loading">
+
+  <div class="spinner"></div>
+
+  Loading matches...
+
+</div>
+
+<section id="liveSection" class="end-section" style="display:none;margin-top:0;margin-bottom:24px">
+  <h2 class="end-heading">Live Matches</h2>
+  <p class="end-subtitle">Live scores update automatically.</p>
+  <div id="liveGrid" class="matches-grid"></div>
+</section>
+
+<section id="comingSection" style="margin-top:0">
+  <h2 class="end-heading">Coming Matches</h2>
+  <p class="end-subtitle">Matches in the next 7 days. Kickoff time is shown in the stadium's local time.</p>
+  <div id="matchesGrid" class="matches-grid"></div>
+</section>
+
+<section
+  id="emptyState"
+  class="empty"
+  style="display:none"
+>
+
+  <strong>No future matches found</strong>
+
+  There are currently no matches from the selected 50 teams within the next 7 days.
+
+</section>
+
+<section
+  id="errorState"
+  class="error"
+  style="display:none"
+>
+
+  Unable to load future matches right now.
+
+</section>
+
+<section
+  id="endSection"
+  class="end-section"
+  style="display:none"
+>
+
+  <h2 class="end-heading">
+    Finished Matches
+  </h2>
+
+  <p class="end-subtitle">
+    Finished Future matches remain here for 2 hours.
+  </p>
+
+  <div
+    id="endGrid"
+    class="matches-grid"
+  ></div>
+
+</section>
+
+</main>
+
+<footer>
+
+  Powered by
+  <a
+    href="https://sportscore.com/"
+    target="_blank"
+    rel="noopener"
+  >
+    SportScore
+  </a>
+
+</footer>
+
+<div id="toast" class="toast"></div>
+
+<!-- LOGIN MODAL -->
+
+<div id="loginModal" class="modal-backdrop">
+
+  <div class="modal modal-box">
+
+    <button
+      id="loginModalClose"
+      class="modal-close"
+      type="button"
+    >
+      ×
+    </button>
+
+    <h2>
+      Login Required
+    </h2>
+
+    <p>
+      You must be logged in to make a prediction.
+    </p>
+
+    <div class="modal-actions">
+
+      <button
+        id="loginBtn"
+        class="modal-btn primary"
+        type="button"
+      >
+        Login
+      </button>
+
+      <button
+        id="registerBtn"
+        class="modal-btn secondary"
+        type="button"
+      >
+        Create Account
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+<!-- AMOUNT MODAL -->
+
+<div id="amountModal" class="modal-backdrop">
+
+  <div class="modal modal-box">
+
+    <button
+      id="amountModalClose"
+      class="modal-close"
+      type="button"
+    >
+      ×
+    </button>
+
+    <h2>
+      Prediction Amount
+    </h2>
+
+    <p>
+      Select your virtual prediction amount.
+    </p>
+
+    <div
+      id="amountValue"
+      class="amount-value"
+    >
+      100 AFN
+    </div>
+
+    <input
+      id="amountSlider"
+      class="amount-slider"
+      type="range"
+      min="100"
+      max="500"
+      step="10"
+      value="100"
+    >
+
+    <div class="amount-range">
+
+      <span>100 AFN</span>
+      <span>500 AFN</span>
+
+    </div>
+
+    <div
+      class="modal-actions"
+      style="margin-top:20px"
+    >
+
+      <button
+        id="confirmBetBtn"
+        class="modal-btn primary"
+        type="button"
+      >
+        Confirm Prediction
+      </button>
+
+      <button
+        id="cancelBetBtn"
+        class="modal-btn secondary"
+        type="button"
+      >
+        Cancel
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+const WORKER_URL="https://zchtcosljkkkiykhforj.supabase.co/functions/v1/smooth-worker";
+const SWIFT_TASK_URL="https://zchtcosljkkkiykhforj.supabase.co/functions/v1/swift-task";
+const STORAGE_KEY="sportx_future_matches_worker_v3";
+const USER_BETS_KEY="sportx_user_local_bets_v1";
+const THEME_KEY="sportx_theme_mode";
+const SUPABASE_URL="https://zchtcosljkkkiykhforj.supabase.co";
+const SUPABASE_PUBLISHABLE_KEY="sb_publishable_aGLckKZjNaVbpdxZUFhCqA_VzHppjrW";
+
+const FINISHED_VISIBLE_MS=2*60*60*1000; /* finished matches stay visible 2h */
+const FALLBACK_MATCH_MS=2*60*60*1000;   /* estimated duration if no finished_at */
+const MAX_LIVE_MS=4*60*60*1000;         /* safety: stale "live" becomes finished */
+const POLL_FAST_MS=15000,POLL_SLOW_MS=60000;
+
+/* ========================= STORAGE SAFE HELPERS ========================= */
+function lsGet(k){try{return localStorage.getItem(k)}catch(e){return null}}
+function lsSet(k,v){try{localStorage.setItem(k,v)}catch(e){}}
+
+/* ========================= THEME ========================= */
+const themeToggle=document.getElementById("themeToggle");
+function applyTheme(theme){
+  if(theme==="dark"){document.documentElement.setAttribute("data-theme","dark");themeToggle.textContent="☀️"}
+  else{document.documentElement.removeAttribute("data-theme");themeToggle.textContent="🌙"}
+}
+applyTheme(lsGet(THEME_KEY)||"light");
+themeToggle.addEventListener("click",()=>{
+  const next=document.documentElement.getAttribute("data-theme")==="dark"?"light":"dark";
+  applyTheme(next);lsSet(THEME_KEY,next);
+});
+
+/* ========================= ELEMENTS ========================= */
+const $=id=>document.getElementById(id);
+const loadingEl=$("loading"),matchesGrid=$("matchesGrid"),emptyState=$("emptyState"),errorState=$("errorState"),
+  searchInput=$("searchInput"),statusEl=$("status"),matchCountEl=$("matchCount"),endSection=$("endSection"),
+  endGrid=$("endGrid"),liveSection=$("liveSection"),liveGrid=$("liveGrid"),toastEl=$("toast"),loginModal=$("loginModal"),amountModal=$("amountModal"),
+  amountSlider=$("amountSlider"),amountValue=$("amountValue"),confirmBetBtn=$("confirmBetBtn");
+
+let matches=[],userBets={},pendingBet=null;
+let workerState="connecting",hasLoaded=false,isFetching=false,pollTimer=null,lastSig="",voteBusy=false;
+let supabaseClientPromise=null,currentUserId=null;
+
+/* ========================= HELPERS ========================= */
+function normalize(v){
+  return String(v??"").toLowerCase().trim().replace(/[’']/g,"").replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"");
+}
+function searchNorm(v){
+  return String(v??"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase()
+    .replace(/[^\p{L}\p{N}]+/gu," ").trim();
+}
+function escapeHtml(v){
+  return String(v??"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;").replaceAll("'","&#039;");
+}
+function matchId(m){return String(m.id||m.external_id||`${normalize(m.home)}:${normalize(m.away)}:${m.start_time}`)}
+function findMatch(id){return matches.find(m=>matchId(m)===id)}
+function safeScore(v){const n=Number(v);return Number.isFinite(n)?n:0}
+function parseTime(v){
+  if(v==null||v==="")return NaN;
+  if(typeof v==="number")return v<1e12?v*1000:v;
+  return Date.parse(v);
+}
+function startTs(m){return parseTime(m.start_time)}
+
+/* ========================= MATCH LIFECYCLE ========================= */
+const S_FIN=new Set(["finished","ended","end","ft","full_time","complete","completed","closed","aet","ap","after_extra_time","after_penalties"]);
+const S_LIVE=new Set(["live","inprogress","in_progress","playing","started","1h","2h","ht","halftime","half_time","et","extra_time","pen","penalties","break"]);
+const S_OFF=new Set(["postponed","cancelled","canceled","abandoned"]);
+
+function rawStatus(s){
+  const k=String(s||"").toLowerCase().trim().replace(/[\s-]+/g,"_");
+  if(S_FIN.has(k))return"finished";
+  if(S_LIVE.has(k))return"live";
+  if(S_OFF.has(k))return"off";
+  return"scheduled";
+}
+/* Effective status: worker status + local clock, so buttons lock exactly at kickoff */
+function getStatus(m,now=Date.now()){
+  const raw=rawStatus(m.status),ts=startTs(m);
+  if(raw==="off")return"off";
+  if(raw==="finished")return"finished";
+  if(now>=ts+MAX_LIVE_MS)return"finished";
+  if(raw==="live")return"live";
+  return now>=ts?"live":"scheduled";
+}
+function finishedAt(m){
+  for(const k of["finished_at","ended_at","end_time"]){const t=parseTime(m[k]);if(Number.isFinite(t))return t}
+  if(Number.isFinite(m._finished_seen_at))return m._finished_seen_at;
+  return startTs(m)+FALLBACK_MATCH_MS;
+}
+function isVisible(m,now=Date.now()){
+  const s=getStatus(m,now);
+  if(s==="scheduled"||s==="live")return true;
+  if(s==="finished")return now<finishedAt(m)+FINISHED_VISIBLE_MS;
+  return false;
+}
+function normalizeMatches(list){
+  return(Array.isArray(list)?list:[]).filter(m=>{
+    if(!m||typeof m!=="object")return false;
+    if(!Number.isFinite(startTs(m))){console.warn("Skipped match without valid start_time:",m);return false}
+    return true;
+  });
+}
+function bettable(m){const f=findMatch(matchId(m));return!!f&&getStatus(f)==="scheduled"}
+function lifecycleSig(){const now=Date.now();return matches.map(m=>matchId(m)+":"+getStatus(m,now)+(isVisible(m,now)?1:0)).join("|")}
+
+/* ========================= TIME ========================= */
+function validTz(tz){if(!tz)return null;try{new Intl.DateTimeFormat("en-US",{timeZone:tz});return tz}catch(e){return null}}
+function venueTz(m){return validTz(m?.venue_timezone)||"UTC"}
+function getMatchTimeZoneName(m){const tz=venueTz(m);return tz==="UTC"?"UTC":tz.split("/").pop().replace(/_/g," ")}
+function formatDate(ts,m){
+  return new Intl.DateTimeFormat("en-US",{weekday:"short",month:"short",day:"numeric",hour:"2-digit",minute:"2-digit",
+    hour12:true,timeZone:venueTz(m)}).format(new Date(ts));
+}
+function countdown(ts){
+  let s=Math.max(0,Math.floor((ts-Date.now())/1000));
+  const d=Math.floor(s/86400);s%=86400;
+  const h=Math.floor(s/3600);s%=3600;
+  const mi=Math.floor(s/60);s%=60;
+  if(d)return`${d}d ${String(h).padStart(2,"0")}h`;
+  if(h)return`${h}h ${String(mi).padStart(2,"0")}m`;
+  if(mi)return`${mi}m ${String(s).padStart(2,"0")}s`;
+  return`${s}s`;
+}
+function showToast(t){
+  toastEl.textContent=t;toastEl.classList.add("show");
+  clearTimeout(showToast.timer);
+  showToast.timer=setTimeout(()=>toastEl.classList.remove("show"),2600);
+}
+
+/* ========================= STORAGE & LOCAL BETS ========================= */
+function loadStored(){
+  try{
+    const stored=JSON.parse(lsGet(STORAGE_KEY)||"[]");
+    if(Array.isArray(stored))matches=normalizeMatches(stored).filter(m=>isVisible(m));
+  }catch(e){matches=[]}
+  try{
+    const b=JSON.parse(lsGet(USER_BETS_KEY)||"{}");
+    userBets=b&&typeof b==="object"&&!Array.isArray(b)?b:{};
+  }catch(e){userBets={}}
+}
+function saveStoredMatches(){lsSet(STORAGE_KEY,JSON.stringify(matches))}
+function saveUserBets(){lsSet(USER_BETS_KEY,JSON.stringify(userBets))}
+/* A bet belongs to the current user (legacy bets without userId are kept as-is) */
+function getUserBet(id){
+  const b=userBets[id];
+  return b&&typeof b==="object"&&(!b.userId||b.userId===currentUserId)?b:null;
+}
+
+/* ========================= SUPABASE AUTH ========================= */
+function getSupabaseClient(){
+  if(!supabaseClientPromise){
+    supabaseClientPromise=import("https://esm.sh/@supabase/supabase-js@2")
+      .then(({createClient})=>createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY))
+      .catch(e=>{supabaseClientPromise=null;throw e});
+  }
+  return supabaseClientPromise;
+}
+async function getAuthenticatedUser(){
+  try{
+    const client=await getSupabaseClient();
+    const{data,error}=await client.auth.getUser();
+    return error||!data?.user?null:data.user;
+  }catch(error){console.warn("Supabase auth check failed:",error);return null}
+}
+async function getAccessToken(){
+  try{
+    const client=await getSupabaseClient();
+    const{data}=await client.auth.getSession();
+    return data?.session?.access_token||null;
+  }catch(e){return null}
+}
+function setCurrentUser(id){if(id===currentUserId)return;currentUserId=id;renderAll()}
+async function initAuthWatcher(){
+  try{
+    const client=await getSupabaseClient();
+    const{data}=await client.auth.getSession();
+    setCurrentUser(data?.session?.user?.id||null);
+    client.auth.onAuthStateChange((_e,s)=>setCurrentUser(s?.user?.id||null));
+  }catch(e){}
+}
+
+/* ========================= SWIFT TASK ========================= */
+async function swiftTaskRequest(action,body=null,accessToken=null){
+  const headers={"Accept":"application/json","Content-Type":"application/json"};
+  if(accessToken)headers["Authorization"]=`Bearer ${accessToken}`;
+  const options={method:body===null?"GET":"POST",headers,cache:"no-store"};
+  if(body!==null)options.body=JSON.stringify(body);
+  const response=await fetch(`${SWIFT_TASK_URL}?action=${encodeURIComponent(action)}&_=${Date.now()}`,options);
+  let data={};
+  try{data=await response.json()}catch(e){data={}}
+  return{response,data};
+}
+async function checkWalletBalance(amount,accessToken){
+  const{response,data}=await swiftTaskRequest("wallet",null,accessToken);
+  if(response.status===401)return{authenticated:false,sufficient:false,balance:null,data};
+  if(!response.ok||data?.success!==true)throw new Error(data?.error||"Unable to load wallet");
+  const balance=Number(data?.wallet?.balance_afn);
+  if(!Number.isFinite(balance))throw new Error("Invalid wallet balance");
+  return{authenticated:true,sufficient:balance>=amount,balance,data};
+}
+
+/* ========================= WORKER MATCHES ========================= */
+async function loadWorkerMatches(){
+  const controller=new AbortController();
+  const timeoutId=setTimeout(()=>controller.abort(),10000);
+  try{
+    const res=await fetch(`${WORKER_URL}?action=matches&_=${Date.now()}`,
+      {method:"GET",cache:"no-store",signal:controller.signal,headers:{Accept:"application/json"}});
+    if(!res.ok)throw new Error(`HTTP ${res.status}`);
+    const json=await res.json();
+    if(!json.success)throw new Error(json.error||"Worker failed");
+    return Array.isArray(json.matches)?json.matches:[];
+  }finally{clearTimeout(timeoutId)}
+}
+async function fetchMatches(){
+  if(isFetching)return;
+  isFetching=true;
+  if(!matches.length)loadingEl.style.display="block";
+  errorState.style.display="none";
+  try{
+    const raw=normalizeMatches(await loadWorkerMatches());
+    const prev=new Map(matches.map(m=>[matchId(m),m]));
+    const now=Date.now();
+    matches=raw.map(m=>{
+      if(getStatus(m,now)==="finished"){
+        const p=prev.get(matchId(m));
+        if(p&&Number.isFinite(p._finished_seen_at))m._finished_seen_at=p._finished_seen_at;
+        else if(p&&getStatus(p,now)!=="finished")m._finished_seen_at=now;
+      }
+      return m;
+    }).filter(m=>isVisible(m,now));
+    saveStoredMatches();
+    workerState="ok";
+  }catch(err){
+    console.error(err);
+    workerState="error";
+    if(!matches.length)errorState.style.display="block";
+  }finally{
+    hasLoaded=true;
+    loadingEl.style.display="none";
+    isFetching=false;
+    renderAll();
+    scheduleNextFetch();
+  }
+}
+function scheduleNextFetch(){
+  clearTimeout(pollTimer);
+  const now=Date.now();
+  const hot=matches.some(m=>{const s=getStatus(m,now);return s==="live"||(s==="scheduled"&&startTs(m)-now<120000)});
+  pollTimer=setTimeout(fetchMatches,hot?POLL_FAST_MS:POLL_SLOW_MS);
+}
+function getFiltered(){
+  const q=searchNorm(searchInput.value);
+  return matches.filter(m=>!q||[m.home,m.away,m.league].some(v=>searchNorm(v).includes(q)));
+}
+
+/* ========================= TEAM LOGO ========================= */
+function logo(url,name){
+  const letter=escapeHtml((name||"?").slice(0,1).toUpperCase());
+  if(!url)return`<div class="team-logo logo-fallback">${letter}</div>`;
+  return`
+    <img class="team-logo" src="${escapeHtml(url)}" alt="${escapeHtml(name)}" loading="lazy"
+      onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+    <div class="team-logo logo-fallback" style="display:none">${letter}</div>`;
+}
+function voteFontSize(name){
+  const len=String(name||"").trim().length;
+  if(len>=32)return"8px";if(len>=27)return"9px";if(len>=22)return"10px";
+  if(len>=18)return"11px";if(len>=14)return"12px";return"14px";
+}
+
+/* ========================= VOTE BUTTONS ========================= */
+function voteButtons(m,status){
+  const id=matchId(m),bet=getUserBet(id),selected=bet?.prediction||"";
+  /* locked as soon as match is live/finished, or already predicted */
+  const locked=status!=="scheduled"||Boolean(bet);
+  const btn=(side,label,font,title)=>`
+    <button class="vote-btn ${selected===side?"selected":""} ${locked?"locked":""}"
+      ${locked?'disabled aria-disabled="true"':""}
+      data-vote="${escapeHtml(id)}" data-side="${side}"
+      ${title?`title="${escapeHtml(title)}"`:""} style="font-size:${font}">${escapeHtml(label)}</button>`;
+  return`
+    <div class="vote-label">${bet?"Prediction locked for this match":locked?"Prediction closed":"Who will win?"}</div>
+    <div class="vote-buttons">
+      ${btn("home",m.home,voteFontSize(m.home),m.home)}
+      ${btn("draw","Draw","14px","")}
+      ${btn("away",m.away,voteFontSize(m.away),m.away)}
+    </div>`;
+}
+
+/* ========================= MATCH CARD ========================= */
+function createCard(m){
+  const status=getStatus(m),live=status==="live",finished=status==="finished";
+  const ts=startTs(m),a=safeScore(m.home_score),b=safeScore(m.away_score);
+  const center=live||finished?`<div class="live-score">${a} - ${b}</div>`:`<div class="vs">VS</div>`;
+  const badge=live?`<span class="live-badge">● LIVE</span>`
+    :finished?`<span class="end-badge">LIVE END</span>`
+    :`<span class="countdown" data-countdown="${ts}">${countdown(ts)}</span>`;
+  let result="";
+  if(finished){
+    const cls=a>b?["win","loss"]:b>a?["loss","win"]:["draw","draw"];
+    result=`
+      <div class="result-box">
+        <div class="result-title">FINAL RESULT</div>
+        <div class="result-score">${a} - ${b}</div>
+        <div class="result-teams">
+          <div class="result-team ${cls[0]}">${escapeHtml(m.home)}</div>
+          <div class="result-team ${cls[1]}">${escapeHtml(m.away)}</div>
+        </div>
+      </div>`;
+  }
+  return`
+    <article class="match-card">
+      <div class="match-top">
+        <div class="league">${escapeHtml(m.league)}</div>
+        ${badge}
+      </div>
+      <div class="date">${formatDate(ts,m)} (${escapeHtml(getMatchTimeZoneName(m))})</div>
+      <div class="teams">
+        <div class="team">${logo(m.home_logo,m.home)}<div class="team-name">${escapeHtml(m.home)}</div></div>
+        ${center}
+        <div class="team">${logo(m.away_logo,m.away)}<div class="team-name">${escapeHtml(m.away)}</div></div>
+      </div>
+      ${live?`<div class="date">LIVE SCORE · Updating every 15s</div>`:""}
+      ${finished?result:voteButtons(m,status)}
+    </article>`;
+}
+
+/* ========================= RENDER ========================= */
+const WEEK_MS=7*24*60*60*1000;
+function render(){
+  const now=Date.now(),all=getFiltered(),byStart=(x,y)=>startTs(x)-startTs(y);
+  const live=all.filter(m=>getStatus(m,now)==="live").sort(byStart);
+  const coming=all.filter(m=>getStatus(m,now)==="scheduled"&&startTs(m)-now<=WEEK_MS).sort(byStart);
+  liveGrid.innerHTML=live.map(createCard).join("");
+  liveSection.style.display=live.length?"block":"none";
+  matchesGrid.innerHTML=coming.map(createCard).join("");
+  emptyState.style.display=coming.length||live.length||!hasLoaded||errorState.style.display==="block"?"none":"block";
+}
+function renderEnded(){
+  const now=Date.now();
+  const list=getFiltered().filter(m=>getStatus(m,now)==="finished"&&isVisible(m,now))
+    .sort((x,y)=>finishedAt(y)-finishedAt(x));
+  endGrid.innerHTML=list.map(createCard).join("");
+  endSection.style.display=list.length?"block":"none";
+}
+function updateStatus(){
+  const now=Date.now();
+  let live=0,future=0,end=0;
+  for(const m of matches){
+    if(!isVisible(m,now))continue;
+    const s=getStatus(m,now);
+    if(s==="live")live++;else if(s==="scheduled")future++;else if(s==="finished")end++;
+  }
+  matchCountEl.textContent=future+live;
+  if(workerState==="ok")statusEl.textContent=`${live} LIVE · ${future} future · ${end} END`;
+  else if(workerState==="error")statusEl.textContent="Worker temporarily unavailable";
+}
+function renderAll(){
+  matches=matches.filter(m=>isVisible(m));
+  render();renderEnded();updateStatus();
+  lastSig=lifecycleSig();
+  if(pendingBet&&!bettable(pendingBet.match)){
+    closeAmount();showToast("Prediction is closed for this match.");
+  }
+}
+
+/* ========================= MODAL HELPERS ========================= */
+function closeAmount(){amountModal.classList.remove("show");pendingBet=null}
+function needLogin(){closeAmount();loginModal.classList.add("show")}
+function matchClosed(){closeAmount();showToast("Prediction is closed for this match.");renderAll()}
+
+/* ========================= VOTE CLICK ========================= */
+document.addEventListener("click",async e=>{
+  const btn=e.target.closest("[data-vote]");
+  if(!btn||btn.disabled||voteBusy)return;
+  voteBusy=true;
+  try{
+    const id=btn.dataset.vote,side=btn.dataset.side;
+    if(!["home","draw","away"].includes(side))return;
+    const m=findMatch(id);
+    if(!m||getStatus(m)!=="scheduled"){matchClosed();return}
+
+    /* authentication check BEFORE the amount modal */
+    const user=await getAuthenticatedUser();
+    if(!user){loginModal.classList.add("show");return}
+    setCurrentUser(user.id);
+
+    /* re-check after the async auth call: match may have started meanwhile */
+    const fresh=findMatch(id);
+    if(!fresh||getStatus(fresh)!=="scheduled"){matchClosed();return}
+    if(getUserBet(id)){
+      showToast("شما قبلاً برای این مسابقه رای داده‌اید و تا پایان بازی قابل تغییر نیست.");
+      return;
+    }
+    pendingBet={match:fresh,side,userId:user.id};
+    amountSlider.value="100";
+    amountValue.textContent="100 AFN";
+    amountModal.classList.add("show");
+  }finally{voteBusy=false}
+});
+amountSlider.addEventListener("input",()=>{amountValue.textContent=`${amountSlider.value} AFN`});
+
+/* ========================= PREDICTION CONFIRMATION ========================= */
+confirmBetBtn.addEventListener("click",async()=>{
+  const bet=pendingBet;
+  if(!bet||confirmBetBtn.disabled)return;
+  const amount=Number(amountSlider.value);
+  if(!Number.isFinite(amount)||amount<100||amount>500){showToast("Invalid prediction amount.");return}
+  const prediction={home:"1",draw:"X",away:"2"}[bet.side];
+  if(!prediction){showToast("Invalid prediction.");return}
+  const id=matchId(bet.match),apiId=bet.match.id||bet.match.external_id;
+  if(!apiId){showToast("Prediction pool is unavailable.");return}
+
+  confirmBetBtn.disabled=true;
+  try{
+    if(!bettable(bet.match))return matchClosed();
+    const user=await getAuthenticatedUser();
+    if(!user)return needLogin();
+    const accessToken=await getAccessToken();
+    if(!accessToken)return needLogin();
+
+    let wallet;
+    try{wallet=await checkWalletBalance(amount,accessToken)}
+    catch(walletError){console.error("Wallet error:",walletError);showToast("Unable to check wallet.");return}
+    if(!wallet.authenticated)return needLogin();
+    if(!wallet.sufficient){showToast("پول موجودی کافی نمی‌باشد");return}
+
+    const pool=await swiftTaskRequest("create-pool",{match_id:apiId},accessToken);
+    if(pool.response.status===401)return needLogin();
+    if(!pool.response.ok||pool.data?.success!==true){
+      showToast(pool.data?.error||"Prediction pool is unavailable.");return;
+    }
+
+    /* final lock check right before the bet is sent */
+    if(!bettable(bet.match))return matchClosed();
+
+    const join=await swiftTaskRequest("join-pool",{match_id:apiId,prediction,amount_afn:amount},accessToken);
+    const result=join.data||{};
+    if(join.response.status===401)return needLogin();
+    if(!join.response.ok||result.success!==true){
+      const t=String(result.error||result.message||"").toLowerCase();
+      if(["insufficient","balance","wallet","not enough","موجودی","کافی"].some(k=>t.includes(k))){
+        showToast("پول موجودی کافی نمی‌باشد");return;
+      }
+      showToast(result.error||"Prediction failed.");return;
+    }
+
+    userBets[id]={prediction:bet.side,amount,userId:user.id,matchId:id,placedAt:Date.now()};
+    currentUserId=user.id;
+    saveUserBets();
+    closeAmount();
+    renderAll();
+    showToast("Prediction submitted successfully.");
+  }catch(error){
+    console.error("Prediction error:",error);
+    showToast("Network error.");
+  }finally{confirmBetBtn.disabled=false}
+});
+
+/* ========================= MODALS ========================= */
+$("loginModalClose").onclick=()=>loginModal.classList.remove("show");
+$("amountModalClose").onclick=closeAmount;
+$("cancelBetBtn").onclick=closeAmount;
+$("loginBtn").onclick=()=>{location.href="login.html"};
+$("registerBtn").onclick=()=>{location.href="register.html"};
+loginModal.addEventListener("click",e=>{if(e.target===loginModal)loginModal.classList.remove("show")});
+amountModal.addEventListener("click",e=>{if(e.target===amountModal)closeAmount()});
+document.addEventListener("keydown",e=>{
+  if(e.key!=="Escape")return;
+  loginModal.classList.remove("show");
+  if(amountModal.classList.contains("show"))closeAmount();
+});
+
+/* ========================= SEARCH ========================= */
+searchInput.addEventListener("input",()=>{render();renderEnded()});
+
+/* ========================= COUNTDOWN + LIFECYCLE TICK ========================= */
+function tick(){
+  document.querySelectorAll("[data-countdown]").forEach(el=>{
+    const ts=Number(el.dataset.countdown);
+    el.textContent=ts<=Date.now()?"Starting soon":countdown(ts);
+  });
+  /* a match started or a finished match expired: re-render immediately */
+  if(lifecycleSig()!==lastSig)renderAll();
+}
+
+/* ========================= INITIAL LOAD ========================= */
+loadStored();
+renderAll();
+fetchMatches();
+initAuthWatcher();
+setInterval(tick,1000);
+document.addEventListener("visibilitychange",()=>{if(!document.hidden)fetchMatches()});
+window.addEventListener("online",fetchMatches);
+</script>
+
+</body>
+</html>
