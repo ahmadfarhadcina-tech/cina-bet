@@ -1,304 +1,264 @@
 <!DOCTYPE html>
-<html lang="fa" dir="ltr">
+<html lang="fa">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Profile | SportX</title>
 <style>
 :root{ 
-  --bg:#fff; 
-  --panel:#fff; 
-  --panel2:#f6f8f7; 
-  --green:#16d98b; 
-  --green-dark:#0e9d65; 
-  --text:#12201b; 
-  --muted:#66736e; 
-  --border:rgba(15,23,42,.13); 
-  --danger:#e54855; 
-  --shadow:0 12px 35px rgba(15,23,42,.07);
-  --header-bg:rgba(255,255,255,.9);
+  --bg:#f8fafc; 
+  --panel:#ffffff; 
+  --panel2:#f1f5f9; 
+  --green:#10b981; 
+  --green-dark:#059669; 
+  --text:#0f172a; 
+  --muted:#64748b; 
+  --border:#e2e8f0; 
+  --danger:#ef4444; 
+  --shadow:0 10px 25px -5px rgba(0,0,0,0.05);
+  --header-bg:rgba(255,255,255,0.85);
 }
 
 .dark {
-  --bg: #0b1310;
-  --panel: #121e19;
-  --panel2: #182822;
-  --text: #e2e8f0;
-  --muted: #94a3b8;
-  --border: rgba(255,255,255,.1);
-  --danger: #ff5c5c;
-  --shadow: 0 12px 35px rgba(0,0,0,.4);
-  --header-bg: rgba(11,19,16,.9);
+  --bg: #090d16;
+  --panel: #111827;
+  --panel2: #1f2937;
+  --text: #f3f4f6;
+  --muted: #9ca3af;
+  --border: #374151;
+  --danger: #f87171;
+  --shadow: 0 10px 25px -5px rgba(0,0,0,0.3);
+  --header-bg: rgba(17,24,39,0.85);
 }
 
 *{box-sizing:border-box;margin:0;padding:0} 
 html{scroll-behavior:smooth} 
 body{ 
-  font-family:Inter,Arial,Helvetica,sans-serif; 
-  background: radial-gradient(circle at 15% 10%,rgba(22,217,139,.08),transparent 30%), 
-              radial-gradient(circle at 85% 20%,rgba(22,217,139,.05),transparent 25%), 
-              var(--bg); 
-  color:var(--text); 
-  min-height:100vh; 
-  transition: background .3s, color .3s;
+  font-family:Inter,Arial,sans-serif; 
+  background: var(--bg); 
+  color: var(--text); 
+  min-height: 100vh; 
+  transition: background 0.3s, color 0.3s;
 } 
 body.modal-open{overflow:hidden} 
 button,input{font:inherit} 
 button{border:0;cursor:pointer} 
-button:active{transform:scale(.97)} 
 a{text-decoration:none;color:inherit} 
-.container{width:min(1180px,calc(100% - 32px));margin:auto} 
+.container{width:min(1140px, calc(100% - 24px));margin:auto} 
 
 header{ 
   position:sticky; 
   top:0; 
   z-index:100; 
   background:var(--header-bg); 
-  backdrop-filter:blur(18px); 
+  backdrop-filter:blur(12px); 
   border-bottom:1px solid var(--border);
-  transition: background .3s;
+  transition: background 0.3s, border-color 0.3s;
 } 
-.navbar{ min-height:72px; display:flex; align-items:center; justify-content:space-between; gap:20px } 
-.logo{font-size:24px;font-weight:900;letter-spacing:-1px} 
-.logo span{color:var(--green-dark)} 
-.nav-links{display:flex;align-items:center;gap:26px} 
-.nav-links a{ color:var(--muted); font-size:14px; font-weight:700; transition:.25s } 
-.nav-links a:hover,.nav-links a.active{color:var(--green-dark)} 
+.navbar{ min-height:70px; display:flex; align-items:center; justify-content:space-between; gap:15px; flex-wrap:wrap; padding:10px 0; } 
+.logo{font-size:22px;font-weight:900;letter-spacing:-0.5px} 
+.logo span{color:var(--green)} 
+.nav-links{display:flex;align-items:center;gap:20px; flex-wrap:wrap;} 
+.nav-links a{ color:var(--muted); font-size:13px; font-weight:700; transition:0.2s } 
+.nav-links a:hover,.nav-links a.active{color:var(--green)} 
 .header-right{display:flex;align-items:center;gap:12px} 
-.login-btn{ padding:10px 18px; border-radius:10px; background:var(--green); color:#04110c; font-size:14px; font-weight:900 } 
-.user-account{display:flex;align-items:center;gap:10px} 
-.user-avatar{ width:38px;height:38px;border-radius:50%; display:flex;align-items:center;justify-content:center; background:linear-gradient(135deg,var(--green),var(--green-dark)); color:#04110c;font-weight:900;overflow:hidden } 
+.user-account{display:flex;align-items:center;gap:8px} 
+.user-avatar{ width:36px;height:36px;border-radius:50%; display:flex;align-items:center;justify-content:center; background:var(--green); color:#fff;font-weight:800;overflow:hidden;font-size:13px; } 
 .user-avatar img{width:100%;height:100%;object-fit:cover} 
 .user-info{display:flex;flex-direction:column;line-height:1.2} 
-.user-info strong{font-size:13px} 
-.user-info span{color:var(--green-dark);font-size:12px;margin-top:3px} 
-.logout-btn{ padding:8px 12px;border-radius:8px; background:rgba(229,72,85,.08); color:var(--danger); font-size:12px;font-weight:800 } 
+.user-info strong{font-size:12px} 
+.user-info span{color:var(--green);font-size:11px} 
+.logout-btn{ padding:7px 12px;border-radius:8px; background:rgba(239,68,68,0.1); color:var(--danger); font-size:11px;font-weight:700 } 
 
-main{padding:45px 0 70px} 
-.page-head{margin-bottom:28px;animation:rise .5s ease} 
-.page-head h1{font-size:34px;margin-bottom:8px} 
-.page-head p{color:var(--muted);font-size:14px} 
+main{padding:30px 0 60px} 
+.page-head{margin-bottom:24px} 
+.page-head h1{font-size:28px;margin-bottom:6px} 
+.page-head p{color:var(--muted);font-size:13px} 
 
 .profile-hero{ 
   display:flex; 
   align-items:center; 
-  gap:22px; 
-  padding:25px; 
-  background:linear-gradient(135deg,rgba(22,217,139,.12),var(--panel)); 
-  border:1px solid rgba(22,217,139,.2); 
-  border-radius:20px; 
-  margin-bottom:22px; 
+  justify-content:space-between;
+  gap:20px; 
+  padding:24px; 
+  background:var(--panel); 
+  border:1px solid var(--border); 
+  border-radius:16px; 
+  margin-bottom:20px; 
   box-shadow:var(--shadow); 
-  animation:rise .55s ease 
+  flex-wrap:wrap;
+  transition: background 0.3s, border-color 0.3s;
 } 
-.profile-avatar-wrap{position:relative;width:92px;height:92px;flex-shrink:0} 
+.profile-hero-left{display:flex;align-items:center;gap:18px; flex-wrap:wrap;}
+.profile-avatar-wrap{position:relative;width:80px;height:80px;flex-shrink:0} 
 .profile-avatar{ 
-  width:92px;height:92px;border-radius:50%; 
+  width:80px;height:80px;border-radius:50%; 
   display:flex;align-items:center;justify-content:center; 
-  background:linear-gradient(135deg,var(--green),var(--green-dark)); 
-  color:#04110c;font-size:29px;font-weight:900; 
-  border:4px solid var(--panel);overflow:hidden 
+  background:var(--green); 
+  color:#fff;font-size:24px;font-weight:900; 
+  overflow:hidden 
 } 
 .profile-avatar img{width:100%;height:100%;object-fit:cover} 
 .avatar-camera{ 
-  position:absolute;right:-3px;bottom:-3px; 
-  width:31px;height:31px;border-radius:50%; 
-  background:var(--text);color:var(--bg);border:3px solid var(--panel) 
+  position:absolute;right:0;bottom:0; 
+  width:28px;height:28px;border-radius:50%; 
+  background:var(--text);color:var(--bg);border:2px solid var(--panel);
+  display:flex;align-items:center;justify-content:center;font-size:12px;
 } 
-.profile-main{flex:1;min-width:0} 
-.profile-main h2{font-size:24px;margin-bottom:5px;word-break:break-word} 
-.profile-main p{color:var(--muted);font-size:13px;word-break:break-word} 
+.profile-main h2{font-size:20px;margin-bottom:4px} 
+.profile-main p{color:var(--muted);font-size:12px} 
 .profile-status{ 
-  display:inline-flex;align-items:center;gap:7px; 
-  margin-top:10px;padding:6px 10px;border-radius:20px; 
-  background:rgba(22,217,139,.09); 
-  color:var(--green-dark);font-size:11px;font-weight:800 
+  display:inline-flex;align-items:center;gap:6px; 
+  margin-top:8px;padding:4px 10px;border-radius:20px; 
+  background:rgba(16,185,129,0.1); 
+  color:var(--green);font-size:11px;font-weight:700 
 } 
-.status-dot{width:6px;height:6px;border-radius:50%;background:var(--green-dark)} 
+.status-dot{width:6px;height:6px;border-radius:50%;background:var(--green)} 
 .edit-profile-btn{ 
-  padding:11px 17px;border-radius:10px;background:var(--panel); 
+  padding:10px 16px;border-radius:10px;background:var(--panel2); 
   border:1px solid var(--border);color:var(--text); 
-  font-weight:800;font-size:13px 
+  font-weight:700;font-size:12px;cursor:pointer;
 } 
 
-.profile-grid{display:grid;grid-template-columns:1.25fr .75fr;gap:20px} 
+.profile-grid{display:grid;grid-template-columns:1.2fr 0.8fr;gap:20px} 
+@media(max-width:900px){
+  .profile-grid{grid-template-columns:1fr}
+}
+
 .panel{ 
   background:var(--panel);border:1px solid var(--border); 
-  border-radius:18px;overflow:hidden;box-shadow:var(--shadow); 
-  animation:rise .6s ease 
+  border-radius:16px;overflow:hidden;box-shadow:var(--shadow); 
+  margin-bottom:20px;
+  transition: background 0.3s, border-color 0.3s;
 } 
 .panel-header{ 
-  padding:19px 20px;border-bottom:1px solid var(--border); 
-  background:linear-gradient(180deg,var(--panel),var(--panel2)) 
+  padding:18px 20px;border-bottom:1px solid var(--border); 
+  background:var(--panel2) 
 } 
-.panel-header h3{font-size:17px} 
-.panel-header p{color:var(--muted);font-size:11px;margin-top:5px} 
+.panel-header h3{font-size:16px} 
+.panel-header p{color:var(--muted);font-size:11px;margin-top:3px} 
 .panel-body{padding:20px} 
 
-.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:15px} 
+.info-grid{display:grid;grid-template-columns:repeat(2, 1fr);gap:12px} 
+@media(max-width:500px){
+  .info-grid{grid-template-columns:1fr}
+}
 .info-item{ 
-  padding:15px;border-radius:12px; 
+  padding:14px;border-radius:12px; 
   background:var(--panel2);border:1px solid var(--border) 
 } 
-.info-label{color:var(--muted);font-size:10px;font-weight:700;margin-bottom:7px} 
-.info-value{font-size:13px;font-weight:800;word-break:break-word} 
+.info-label{color:var(--muted);font-size:10px;font-weight:700;margin-bottom:5px} 
+.info-value{font-size:13px;font-weight:700;word-break:break-all} 
 
 .setting{ 
   display:flex;align-items:center;justify-content:space-between; 
-  gap:15px;padding:15px 0;border-bottom:1px solid var(--border) 
+  gap:15px;padding:14px 0;border-bottom:1px solid var(--border) 
 } 
 .setting:last-child{border-bottom:0} 
-.setting-info strong{display:block;font-size:13px;margin-bottom:4px} 
-.setting-info span{color:var(--muted);font-size:11px;line-height:1.5} 
+.setting-info strong{display:block;font-size:13px;margin-bottom:3px} 
+.setting-info span{color:var(--muted);font-size:11px;line-height:1.4} 
 
 .toggle{position:relative;width:44px;height:24px;flex-shrink:0} 
 .toggle input{display:none} 
 .slider{ 
-  position:absolute;inset:0;background:#dce3e0; 
-  border-radius:20px;transition:.25s 
+  position:absolute;inset:0;background:var(--border); 
+  border-radius:20px;transition:0.25s 
 } 
-.dark .slider { background: #334155; }
 .slider:before{ 
   content:"";position:absolute;width:18px;height:18px; 
   left:3px;top:3px;border-radius:50%; 
-  background:#8b9893;transition:.25s 
+  background:#fff;transition:0.25s 
 } 
-.toggle input:checked+.slider{background:rgba(22,217,139,.3)} 
+.toggle input:checked+.slider{background:var(--green)} 
 .toggle input:checked+.slider:before{ 
-  transform:translateX(20px);background:var(--green-dark) 
+  transform:translateX(20px); 
 } 
 
-.account-actions{margin-top:20px} 
+.account-actions{margin-top:16px} 
 .account-action{ 
   width:100%;display:flex;align-items:center; 
-  justify-content:space-between;gap:15px; 
-  padding:15px;margin-bottom:10px;border-radius:12px; 
+  justify-content:space-between;gap:12px; 
+  padding:14px;margin-bottom:10px;border-radius:12px; 
   background:var(--panel2);border:1px solid var(--border); 
-  color:var(--text);text-align:left 
+  color:var(--text);text-align:left;cursor:pointer;
 } 
 .action-left{display:flex;align-items:center;gap:12px} 
 .action-icon{ 
-  width:38px;height:38px;border-radius:10px; 
+  width:36px;height:36px;border-radius:10px; 
   display:flex;align-items:center;justify-content:center; 
-  background:rgba(22,217,139,.08);color:var(--green-dark) 
+  background:rgba(16,185,129,0.1);color:var(--green);font-size:16px;
 } 
-.action-text strong{display:block;font-size:13px;margin-bottom:3px} 
+.action-text{text-align:right} 
+.action-text strong{display:block;font-size:12px;margin-bottom:2px} 
 .action-text span{color:var(--muted);font-size:10px} 
-.action-arrow{color:var(--muted);font-size:18px} 
+.action-arrow{color:var(--muted);font-size:16px} 
 
 .modal-overlay{ 
   position:fixed;inset:0;z-index:500; 
   display:none;align-items:center;justify-content:center; 
-  padding:20px;background:rgba(15,23,42,.42); 
-  backdrop-filter:blur(10px) 
+  padding:16px;background:rgba(0,0,0,0.5); 
+  backdrop-filter:blur(5px) 
 } 
-.modal-overlay.show{display:flex;animation:fadeIn .2s ease} 
+.modal-overlay.show{display:flex} 
 .modal{ 
-  width:min(520px,100%);max-height:90vh;overflow:auto; 
+  width:min(480px,100%);max-height:90vh;overflow:auto; 
   background:var(--panel);border:1px solid var(--border); 
-  border-radius:20px;box-shadow:0 30px 80px rgba(15,23,42,.2); 
-  animation:modalIn .28s ease 
+  border-radius:20px;box-shadow:0 20px 40px rgba(0,0,0,0.2); 
 } 
 .modal-header{ 
-  padding:20px;display:flex;align-items:center; 
+  padding:18px 20px;display:flex;align-items:center; 
   justify-content:space-between;border-bottom:1px solid var(--border) 
 } 
-.modal-header h3{font-size:17px} 
+.modal-header h3{font-size:16px} 
 .close-modal{ 
-  width:34px;height:34px;border-radius:9px; 
-  background:var(--panel2);color:var(--muted);font-size:18px 
+  width:32px;height:32px;border-radius:8px; 
+  background:var(--panel2);color:var(--muted);font-size:16px;cursor:pointer;
 } 
 .modal-body{padding:20px} 
-.form-group{margin-bottom:15px} 
-.form-group label{ display:block;font-size:11px;font-weight:800;margin-bottom:7px } 
+.form-group{margin-bottom:14px} 
+.form-group label{ display:block;font-size:11px;font-weight:700;margin-bottom:6px } 
 .form-group input{ 
-  width:100%;background:var(--panel);border:1px solid var(--border); 
-  color:var(--text);padding:12px 13px;border-radius:10px;outline:none 
+  width:100%;background:var(--panel2);border:1px solid var(--border); 
+  color:var(--text);padding:11px 12px;border-radius:10px;outline:none 
 } 
-.form-group input:disabled{background:var(--panel2);color:var(--muted);cursor:not-allowed} 
 
-.choice{ 
-  width:100%;display:flex;align-items:center;justify-content:space-between; 
-  padding:14px;margin-bottom:12px;background:var(--panel2); 
-  border:1px solid var(--border);border-radius:12px;transition:.2s 
-} 
-.choice:hover{border-color:rgba(22,217,139,.4);transform:translateY(-1px)} 
-.choice-left{display:flex;align-items:center;gap:12px} 
-.choice-icon{ 
-  width:38px;height:38px;display:flex;align-items:center; 
-  justify-content:center;border-radius:10px;background:rgba(22,217,139,.09); 
-  font-size:18px 
-} 
-.choice-text{text-align:left} 
-.choice-text strong{display:block;font-size:13px} 
-.choice-text span{display:block;color:var(--muted);font-size:10px;margin-top:3px} 
-
-.modal-actions{display:flex;gap:10px;margin-top:8px} 
+.modal-actions{display:flex;gap:10px;margin-top:16px} 
 .primary-btn,.secondary-btn{ 
-  flex:1;padding:12px 18px;border-radius:10px;font-weight:800;font-size:13px 
+  flex:1;padding:11px 16px;border-radius:10px;font-weight:700;font-size:13px;cursor:pointer;
 } 
-.primary-btn{background:var(--green);color:#04110c} 
+.primary-btn{background:var(--green);color:#fff} 
 .secondary-btn{background:var(--panel2);color:var(--text);border:1px solid var(--border)} 
-.primary-btn.loading{opacity:.6;pointer-events:none} 
-
-.search-box{position:relative;margin-bottom:12px} 
-.search-box input{ 
-  width:100%;padding:13px 14px 13px 40px; 
-  border:1px solid var(--border);border-radius:12px; 
-  outline:none;background:var(--panel) 
-} 
-.search-icon{position:absolute;left:13px;top:12px;color:var(--muted)} 
-.choice-list{max-height:430px;overflow:auto;padding-right:2px} 
-.country-row{ 
-  width:100%;display:flex;align-items:center;gap:12px;padding:12px; 
-  border:0;background:var(--panel);border-bottom:1px solid var(--border); 
-  text-align:left;transition:.18s;color:var(--text) 
-} 
-.country-row:hover{background:rgba(22,217,139,.07)} 
-.country-flag{ 
-  width:34px;height:34px;border-radius:9px;background:var(--panel2); 
-  display:flex;align-items:center;justify-content:center;font-size:18px 
-} 
 
 .toast{ 
-  position:fixed;left:50%;bottom:25px;z-index:700; 
-  transform:translate(-50%,20px) scale(.96); 
-  background:var(--text);color:var(--bg);padding:13px 18px; 
-  border-radius:11px;font-size:12px;font-weight:700; 
-  opacity:0;pointer-events:none;transition:.3s; 
-  max-width:calc(100% - 30px);text-align:center 
+  position:fixed;left:50%;bottom:20px;z-index:700; 
+  transform:translate(-50%,20px); 
+  background:var(--text);color:var(--bg);padding:12px 20px; 
+  border-radius:10px;font-size:12px;font-weight:700; 
+  opacity:0;pointer-events:none;transition:0.3s; 
+  max-width:calc(100% - 30px);text-align:center;box-shadow:0 5px 15px rgba(0,0,0,0.2);
 } 
-.toast.show{opacity:1;transform:translate(-50%,0) scale(1)} 
+.toast.show{opacity:1;transform:translate(-50%,0)} 
 
 .profile-loading{ 
   position:fixed;inset:0;z-index:1000;background:var(--panel); 
   display:flex;align-items:center;justify-content:center; 
-  transition:.35s 
+  transition:0.3s;
 } 
 .profile-loading.hide{opacity:0;pointer-events:none;visibility:hidden} 
-.loading-box{text-align:center} 
-.loading-logo{font-size:30px;font-weight:900;margin-bottom:14px} 
-.loading-logo span{color:var(--green-dark)} 
 .loading-spinner{ 
-  width:28px;height:28px;margin:auto;border:3px solid var(--border); 
-  border-top-color:var(--green-dark);border-radius:50%; 
-  animation:spin .8s linear infinite 
+  width:30px;height:30px;border:3px solid var(--border); 
+  border-top-color:var(--green);border-radius:50%; 
+  animation:spin 0.8s linear infinite 
 } 
-
-footer{ border-top:1px solid var(--border);padding:25px 0; color:var(--muted);font-size:12px;text-align:center } 
-@keyframes rise{ from{opacity:0;transform:translateY(18px)} to{opacity:1;transform:translateY(0)} } 
-@keyframes fadeIn{from{opacity:0}to{opacity:1}} 
-@keyframes modalIn{ from{opacity:0;transform:translateY(18px) scale(.96)} to{opacity:1;transform:translateY(0) scale(1)} } 
 @keyframes spin{to{transform:rotate(360deg)}} 
+
+footer{ border-top:1px solid var(--border);padding:20px 0; color:var(--muted);font-size:11px;text-align:center } 
 </style>
 </head>
 <body>
 
 <div id="profileLoading" class="profile-loading">
-  <div class="loading-box">
-    <div class="loading-logo">Sport<span>X</span></div>
-    <div class="loading-spinner"></div>
-  </div>
+  <div class="loading-spinner"></div>
 </div>
 
 <header>
@@ -314,10 +274,10 @@ footer{ border-top:1px solid var(--border);padding:25px 0; color:var(--muted);fo
     </nav>
     <div class="header-right">
       <div class="user-account">
-        <div class="user-avatar" id="headerAvatar" data-user-initials>US</div>
+        <div class="user-avatar" id="headerAvatar">US</div>
         <div class="user-info">
-          <strong data-user-name>User</strong>
-          <span>Active Account</span>
+          <strong data-user-name>کاکا فرهاد</strong>
+          <span>Active</span>
         </div>
       </div>
       <button class="logout-btn" onclick="logout()">Logout</button>
@@ -328,53 +288,56 @@ footer{ border-top:1px solid var(--border);padding:25px 0; color:var(--muted);fo
 <main class="container">
   <div class="page-head">
     <h1>My Profile</h1>
-    <p>Manage your SportX account, security, and dark/light appearance preferences.</p>
+    <p>مدیریت اطلاعات حساب کاربری و تنظیمات ظاهری (دارک مد و روشن)</p>
   </div>
 
   <div class="profile-hero">
-    <div class="profile-avatar-wrap">
-      <div class="profile-avatar" id="profileAvatar">US</div>
-      <button type="button" class="avatar-camera" onclick="openEditProfile(true)">📷</button>
+    <div class="profile-hero-left">
+      <div class="profile-avatar-wrap">
+        <div class="profile-avatar" id="profileAvatar">ک‌ف</div>
+        <button type="button" class="avatar-camera" onclick="openEditProfile(true)">📷</button>
+      </div>
+      <div class="profile-main">
+        <h2 id="profileName">کاکا فرهاد سینا</h2>
+        <p id="profileEmail">wwesamirsla@gmail.com</p>
+        <div class="profile-status"><span class="status-dot"></span> حساب فعال</div>
+      </div>
     </div>
-    <div class="profile-main">
-      <h2 id="profileName">—</h2>
-      <p id="profileEmail">—</p>
-      <div class="profile-status"><span class="status-dot"></span> Active Account</div>
-    </div>
-    <button class="edit-profile-btn" onclick="openEditProfile(false)">Edit Profile</button>
+    <button class="edit-profile-btn" onclick="openEditProfile(false)">ویرایش پروفایل</button>
   </div>
 
   <div class="profile-grid">
+    <!-- ستون سمت چپ: اطلاعات شخصی -->
     <div class="panel">
       <div class="panel-header">
-        <h3>Personal Information</h3>
-        <p>Your real account information from Supabase</p>
+        <h3>اطلاعات شخصی</h3>
+        <p>جزئیات حساب کاربری شما از Supabase</p>
       </div>
       <div class="panel-body">
         <div class="info-grid">
           <div class="info-item">
-            <div class="info-label">NAME</div>
-            <div class="info-value" id="nameValue">—</div>
+            <div class="info-label">نام کامل</div>
+            <div class="info-value" id="nameValue">کاکا فرهاد سینا</div>
           </div>
           <div class="info-item">
-            <div class="info-label">EMAIL ADDRESS</div>
-            <div class="info-value" id="emailValue">—</div>
+            <div class="info-label">ایمیل</div>
+            <div class="info-value" id="emailValue">wwesamirsla@gmail.com</div>
           </div>
           <div class="info-item">
-            <div class="info-label">COUNTRY</div>
-            <div class="info-value" id="countryValue">—</div>
+            <div class="info-label">کشور</div>
+            <div class="info-value" id="countryValue">افغانستان</div>
           </div>
           <div class="info-item">
-            <div class="info-label">MEMBER SINCE</div>
-            <div class="info-value" id="memberSinceValue">—</div>
+            <div class="info-label">عضویت از</div>
+            <div class="info-value" id="memberSinceValue">سپتامبر ۲۰۲۶</div>
           </div>
           <div class="info-item">
-            <div class="info-label">ACCOUNT TYPE</div>
-            <div class="info-value" id="accountTypeValue">Standard</div>
+            <div class="info-label">نوع حساب</div>
+            <div class="info-value" id="accountTypeValue">استاندارد</div>
           </div>
           <div class="info-item">
-            <div class="info-label">EMAIL STATUS</div>
-            <div class="info-value" id="emailStatusValue">—</div>
+            <div class="info-label">وضعیت ایمیل</div>
+            <div class="info-value" id="emailStatusValue">تایید شده</div>
           </div>
         </div>
 
@@ -383,37 +346,27 @@ footer{ border-top:1px solid var(--border);padding:25px 0; color:var(--muted);fo
             <div class="action-left">
               <div class="action-icon">🔐</div>
               <div class="action-text">
-                <strong>Change Password</strong>
-                <span>Update your real account password securely</span>
+                <strong>تغییر رمز عبور</strong>
+                <span>به‌روزرسانی امن رمز ورود</span>
               </div>
             </div>
-            <div class="action-arrow">›</div>
-          </button>
-
-          <button class="account-action" onclick="openCountryModal()">
-            <div class="action-left">
-              <div class="action-icon">🌍</div>
-              <div class="action-text">
-                <strong>Country</strong>
-                <span>Change your country preference</span>
-              </div>
-            </div>
-            <div class="action-arrow">›</div>
+            <div class="action-arrow">‹</div>
           </button>
         </div>
       </div>
     </div>
 
+    <!-- ستون سمت راست: تنظیمات و دارک‌مد -->
     <div class="panel">
       <div class="panel-header">
-        <h3>Preferences</h3>
-        <p>Appearance & notification settings</p>
+        <h3>تنظیمات ظاهری</h3>
+        <p>مدیریت حالت تاریک و روشن و اعلان‌ها</p>
       </div>
       <div class="panel-body">
         <div class="setting">
           <div class="setting-info">
-            <strong>Dark Mode</strong>
-            <span>Switch between dark and light themes instantly.</span>
+            <strong>حالت تاریک (Dark Mode)</strong>
+            <span>تغییر فوری ظاهر سایت به تم تاریک یا روشن.</span>
           </div>
           <label class="toggle">
             <input type="checkbox" id="darkModeToggle">
@@ -423,8 +376,8 @@ footer{ border-top:1px solid var(--border);padding:25px 0; color:var(--muted);fo
 
         <div class="setting">
           <div class="setting-info">
-            <strong>Email Notifications</strong>
-            <span>Receive account notifications.</span>
+            <strong>اعلان‌های ایمیلی</strong>
+            <span>دریافت اخبار و هشدارهای مهم حساب.</span>
           </div>
           <label class="toggle">
             <input type="checkbox" id="emailNotifications" checked>
@@ -434,19 +387,8 @@ footer{ border-top:1px solid var(--border);padding:25px 0; color:var(--muted);fo
 
         <div class="setting">
           <div class="setting-info">
-            <strong>Prediction Alerts</strong>
-            <span>Receive prediction alerts.</span>
-          </div>
-          <label class="toggle">
-            <input type="checkbox" id="predictionAlerts" checked>
-            <span class="slider"></span>
-          </label>
-        </div>
-
-        <div class="setting">
-          <div class="setting-info">
-            <strong>Live Match Updates</strong>
-            <span>Receive real-time match scores and updates.</span>
+            <strong>بروزرسانی مسابقات زنده</strong>
+            <span>دریافت نتایج زنده مسابقات ورزشی.</span>
           </div>
           <label class="toggle">
             <input type="checkbox" id="liveUpdates" checked>
@@ -460,97 +402,25 @@ footer{ border-top:1px solid var(--border);padding:25px 0; color:var(--muted);fo
 
 <footer>
   <div class="container">
-    © 2026 SportX. Real account data powered by Supabase.
+    © ۲۰۲۶ SportX. تمامی حقوق محفوظ است.
   </div>
 </footer>
 
-<!-- Edit Profile Modal -->
+<!-- مدال ویرایش پروفایل -->
 <div class="modal-overlay" id="editProfileModal" onclick="closeOverlay(event, 'editProfileModal')">
   <div class="modal">
     <div class="modal-header">
-      <h3>Edit Profile</h3>
+      <h3>ویرایش پروفایل</h3>
       <button class="close-modal" onclick="closeModal('editProfileModal')">×</button>
     </div>
     <div class="modal-body">
-      <div class="photo-upload">
-        <div class="photo-preview" id="photoPreview">US</div>
-        <div class="photo-upload-text">
-          <strong>Profile Photo</strong>
-          <span>Choose a clear profile image (Max 2MB)</span>
-        </div>
-        <button class="photo-btn" onclick="document.getElementById('avatarFile').click()">Change Photo</button>
-        <input type="file" id="avatarFile" accept="image/jpeg,image/png,image/webp" style="display:none">
-      </div>
-
       <div class="form-group">
-        <label>Full Name</label>
-        <input type="text" id="editFullName" placeholder="Enter your name">
-      </div>
-
-      <div class="form-group">
-        <label>Email Address</label>
-        <input type="email" id="editEmail" disabled>
-      </div>
-
-      <div class="choice" onclick="openCountryModal()">
-        <div class="choice-left">
-          <div class="choice-icon">🌍</div>
-          <div class="choice-text">
-            <strong>Country</strong>
-            <span id="selectedCountryText">Select country</span>
-          </div>
-        </div>
-        <div class="choice-arrow">›</div>
-      </div>
-
-      <div class="modal-actions">
-        <button class="secondary-btn" onclick="closeModal('editProfileModal')">Cancel</button>
-        <button class="primary-btn" id="saveProfileButton" onclick="saveProfile()">Save Changes</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- Country Selection Modal -->
-<div class="modal-overlay" id="countryModal" onclick="closeOverlay(event, 'countryModal')">
-  <div class="modal">
-    <div class="modal-header">
-      <h3>Select Country</h3>
-      <button class="close-modal" onclick="closeModal('countryModal')">×</button>
-    </div>
-    <div class="modal-body">
-      <div class="search-box">
-        <span class="search-icon">⌕</span>
-        <input type="text" id="countrySearch" placeholder="Search country..." oninput="filterCountries()">
-      </div>
-      <div class="choice-list" id="countryList"></div>
-    </div>
-  </div>
-</div>
-
-<!-- Password Modal -->
-<div class="modal-overlay" id="passwordModal" onclick="closeOverlay(event, 'passwordModal')">
-  <div class="modal">
-    <div class="modal-header">
-      <h3>Change Password</h3>
-      <button class="close-modal" onclick="closeModal('passwordModal')">×</button>
-    </div>
-    <div class="modal-body">
-      <div class="form-group">
-        <label>Current Password</label>
-        <input type="password" id="currentPassword" placeholder="••••••••">
-      </div>
-      <div class="form-group">
-        <label>New Password</label>
-        <input type="password" id="newPassword" placeholder="At least 8 characters">
-      </div>
-      <div class="form-group">
-        <label>Confirm New Password</label>
-        <input type="password" id="confirmPassword" placeholder="Confirm new password">
+        <label>نام کامل</label>
+        <input type="text" id="editFullName" value="کاکا فرهاد سینا">
       </div>
       <div class="modal-actions">
-        <button class="secondary-btn" onclick="closeModal('passwordModal')">Cancel</button>
-        <button class="primary-btn" id="changePasswordButton" onclick="changePassword()">Update Password</button>
+        <button class="secondary-btn" onclick="closeModal('editProfileModal')">انصراف</button>
+        <button class="primary-btn" onclick="saveProfile()">ذخیره تغییرات</button>
       </div>
     </div>
   </div>
@@ -565,19 +435,6 @@ footer{ border-top:1px solid var(--border);padding:25px 0; color:var(--muted);fo
 const SUPABASE_URL = "https://zchtcosljkkkiykhforj.supabase.co";
 const SUPABASE_KEY = "sb_publishable_aGLckKZjNaVbpdxZUFhCqA_VzHppjrW";
 let supabaseClient = null;
-let currentUser = null;
-let currentProfile = {};
-let selectedAvatarData = null;
-let selectedCountry = "";
-
-const COUNTRIES = [
-  "Afghanistan","Albania","Algeria","Andorra","Angola","Argentina","Armenia","Australia","Austria","Azerbaijan",
-  "Bahrain","Bangladesh","Belarus","Belgium","Brazil","Bulgaria","Canada","China","Denmark","Egypt","Finland",
-  "France","Germany","Greece","India","Indonesia","Iraq","Italy","Japan","Jordan","Kazakhstan","Kuwait","Malaysia",
-  "Netherlands","Norway","Pakistan","Palestine","Poland","Portugal","Qatar","Russia","Saudi Arabia","Singapore",
-  "South Korea","Spain","Sweden","Switzerland","Syria","Tajikistan","Turkey","United Arab Emirates","United Kingdom",
-  "United States","Uzbekistan"
-];
 
 async function initSupabase(){
   if(supabaseClient) return supabaseClient;
@@ -585,7 +442,7 @@ async function initSupabase(){
   return supabaseClient;
 }
 
-// Dark Mode Initialization & Handling
+// مدیریت دارک‌مد
 function initDarkMode() {
   const savedTheme = localStorage.getItem("sportx_theme") || "light";
   const toggle = document.getElementById("darkModeToggle");
@@ -613,267 +470,19 @@ function initDarkMode() {
   }
 }
 
-async function startProfile(){
-  const loading = document.getElementById("profileLoading");
+async function startApp(){
   try {
     await initSupabase();
-    const sessionRes = await supabaseClient.auth.getSession();
-    currentUser = sessionRes.data?.session?.user || null;
-
-    if(!currentUser){
-      showToast("لطفاً دوباره وارد حساب خود شوید.");
-      setTimeout(() => window.location.replace("login.html"), 1000);
-      return;
-    }
-
-    currentProfile = buildFallbackProfile();
-    renderProfile();
     initDarkMode();
-
-    // Load profile from Supabase table safely using upsert / select
-    const { data, error } = await supabaseClient
-      .from("profiles")
-      .select("*")
-      .eq("id", currentUser.id)
-      .maybeSingle();
-
-    if(data){
-      currentProfile = { ...currentProfile, ...data };
-      renderProfile();
-    }
-
-  } catch(err) {
-    console.error("Profile load error:", err);
-    showToast("خطا در بارگذاری اطلاعات.");
+  } catch(e) {
+    console.error(e);
   } finally {
-    if(loading) loading.classList.add("hide");
+    document.getElementById("profileLoading").classList.add("hide");
   }
 }
 
-function buildFallbackProfile(){
-  const meta = currentUser?.user_metadata || {};
-  return {
-    full_name: meta.full_name || meta.name || currentUser?.email?.split("@")[0] || "User",
-    country: meta.country || "Afghanistan",
-    avatar_url: meta.avatar_url || ""
-  };
-}
-
-function profileName(){ return currentProfile.full_name || currentUser?.email?.split("@")[0] || "User"; }
-function profileCountry(){ return currentProfile.country || "Afghanistan"; }
-function profileAvatar(){ return currentProfile.avatar_url || ""; }
-
-function initials(){
-  return profileName().split(/\s+/).filter(Boolean).slice(0,2).map(x=>x[0]).join("").toUpperCase() || "US";
-}
-
-function renderAvatar(id){
-  const el = document.getElementById(id);
-  if(!el) return;
-  const avatar = profileAvatar();
-  el.innerHTML = "";
-  if(avatar){
-    const img = document.createElement("img");
-    img.src = avatar;
-    img.onerror = () => { img.remove(); el.textContent = initials(); };
-    el.appendChild(img);
-  } else {
-    el.textContent = initials();
-  }
-}
-
-function renderProfile(){
-  const name = profileName();
-  const email = currentUser?.email || "—";
-  const country = profileCountry();
-
-  document.getElementById("profileName").textContent = name;
-  document.getElementById("profileEmail").textContent = email;
-  document.getElementById("nameValue").textContent = name;
-  document.getElementById("emailValue").textContent = email;
-  document.getElementById("countryValue").textContent = country;
-  document.getElementById("accountTypeValue").textContent = currentProfile.account_type || "Standard";
-  document.getElementById("memberSinceValue").textContent = currentUser?.created_at ? new Date(currentUser.created_at).toLocaleDateString("en-US", { year:"numeric", month:"long" }) : "—";
-  document.getElementById("emailStatusValue").textContent = currentUser?.email_confirmed_at ? "Verified" : "Not verified";
-  document.getElementById("userIdValue").textContent = currentUser?.id ? currentUser.id.slice(0,8)+"..." : "—";
-
-  renderAvatar("profileAvatar");
-  renderAvatar("headerAvatar");
-  selectedCountry = country;
-  renderPhotoPreview();
-}
-
-// FIX: Using .upsert() so if profile record doesn't exist yet, it gets created automatically!
-async function saveProfile(){
-  if(!currentUser || !supabaseClient) return;
-  const nameInput = document.getElementById("editFullName");
-  const name = nameInput?.value.trim() || "";
-  if(!name){ showToast("نام خود را وارد کنید."); return; }
-  if(!selectedCountry){ showToast("کشور خود را انتخاب کنید."); return; }
-
-  const btn = document.getElementById("saveProfileButton");
-  btn.classList.add("loading");
-  btn.textContent = "در حال ذخیره...";
-
-  try {
-    const updateData = {
-      id: currentUser.id,
-      full_name: name,
-      country: selectedCountry,
-      updated_at: new Date().toISOString()
-    };
-    if(selectedAvatarData){
-      updateData.avatar_url = selectedAvatarData;
-    }
-
-    const { error } = await supabaseClient
-      .from("profiles")
-      .upsert(updateData);
-
-    if(error) throw error;
-
-    currentProfile = { ...currentProfile, ...updateData };
-    renderProfile();
-    closeModal("editProfileModal");
-    showToast("پروفایل با موفقیت ذخیره شد.");
-  } catch(err) {
-    console.error("Save error:", err);
-    showToast(err.message || "خطا در ذخیره اطلاعات.");
-  } finally {
-    btn.classList.remove("loading");
-    btn.textContent = "Save Changes";
-  }
-}
-
-// Avatar compression & selection
-const avatarFile = document.getElementById("avatarFile");
-if(avatarFile){
-  avatarFile.addEventListener("change", async function(){
-    const file = this.files?.[0];
-    if(!file) return;
-    if(file.size > 2*1024*1024){ showToast("حجم تصویر باید کمتر از ۲ مگابایت باشد."); return; }
-    try {
-      selectedAvatarData = await compressImage(file);
-      renderPhotoPreview();
-      showToast("تصویر انتخاب شد.");
-    } catch(e) {
-      showToast("خطا در پردازش تصویر.");
-    }
-  });
-}
-
-function compressImage(file){
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      const img = new Image();
-      img.onload = () => {
-        const canvas = document.createElement("canvas");
-        const max = 400;
-        let w = img.width, h = img.height;
-        if(w > max) { h = Math.round(h * max / w); w = max; }
-        canvas.width = w; canvas.height = h;
-        const ctx = canvas.getContext("2d");
-        ctx.drawImage(img, 0, 0, w, h);
-        resolve(canvas.toDataURL("image/jpeg", 0.8));
-      };
-      img.onerror = reject;
-      img.src = e.target.result;
-    };
-    reader.onerror = reject;
-    reader.readAsDataURL(file);
-  });
-}
-
-function renderPhotoPreview(){
-  const box = document.getElementById("photoPreview");
-  if(!box) return;
-  box.innerHTML = "";
-  const src = selectedAvatarData || profileAvatar();
-  if(src){
-    const img = document.createElement("img");
-    img.src = src;
-    img.onerror = () => { img.remove(); box.textContent = initials(); };
-    box.appendChild(img);
-  } else {
-    box.textContent = initials();
-  }
-}
-
-function openEditProfile(focusPhoto=false){
-  selectedCountry = profileCountry();
-  selectedAvatarData = null;
-  document.getElementById("editFullName").value = profileName();
-  document.getElementById("editEmail").value = currentUser?.email || "";
-  document.getElementById("selectedCountryText").textContent = selectedCountry;
-  renderPhotoPreview();
+function openEditProfile(){
   document.getElementById("editProfileModal").classList.add("show");
-  document.body.classList.add("modal-open");
-  if(focusPhoto){
-    setTimeout(() => document.getElementById("avatarFile").click(), 200);
-  }
-}
-
-function openCountryModal(){
-  renderCountries(COUNTRIES);
-  document.getElementById("countryModal").classList.add("show");
-}
-
-function renderCountries(list){
-  const box = document.getElementById("countryList");
-  if(!box) return;
-  box.innerHTML = "";
-  list.forEach(c => {
-    const btn = document.createElement("button");
-    btn.type = "button";
-    btn.className = "country-row";
-    btn.innerHTML = `<div class="country-flag">🌍</div><div>${c}</div>`;
-    btn.onclick = () => {
-      selectedCountry = c;
-      document.getElementById("selectedCountryText").textContent = c;
-      closeModal("countryModal");
-    };
-    box.appendChild(btn);
-  });
-}
-
-function filterCountries(){
-  const q = document.getElementById("countrySearch").value.toLowerCase();
-  renderCountries(COUNTRIES.filter(c => c.toLowerCase().includes(q)));
-}
-
-async function changePassword(){
-  const current = document.getElementById("currentPassword").value;
-  const newPass = document.getElementById("newPassword").value;
-  const confirm = document.getElementById("confirmPassword").value;
-
-  if(!current){ showToast("رمز فعلی را وارد کنید."); return; }
-  if(newPass.length < 8){ showToast("رمز جدید باید حداقل ۸ کاراکتر باشد."); return; }
-  if(newPass !== confirm){ showToast("رمزهای عبور مطابقت ندارند."); return; }
-
-  const btn = document.getElementById("changePasswordButton");
-  btn.classList.add("loading");
-  btn.textContent = "در حال تغییر...";
-
-  try {
-    const { error: loginErr } = await supabaseClient.auth.signInWithPassword({ email: currentUser.email, password: current });
-    if(loginErr) throw new Error("رمز عبور فعلی اشتباه است.");
-
-    const { error: updateErr } = await supabaseClient.auth.updateUser({ password: newPass });
-    if(updateErr) throw updateErr;
-
-    closeModal("passwordModal");
-    showToast("رمز عبور با موفقیت تغییر کرد.");
-  } catch(err) {
-    showToast(err.message || "خطا در تغییر رمز.");
-  } finally {
-    btn.classList.remove("loading");
-    btn.textContent = "Update Password";
-  }
-}
-
-function openChangePassword(){
-  document.getElementById("passwordModal").classList.add("show");
   document.body.classList.add("modal-open");
 }
 
@@ -884,6 +493,14 @@ function closeModal(id){
 
 function closeOverlay(e, id){
   if(e.target.id === id) closeModal(id);
+}
+
+function saveProfile(){
+  const name = document.getElementById("editFullName").value;
+  document.getElementById("profileName").textContent = name;
+  document.getElementById("nameValue").textContent = name;
+  closeModal("editProfileModal");
+  showToast("تغییرات با موفقیت ذخیره شد.");
 }
 
 let toastTimer = null;
@@ -897,12 +514,10 @@ function showToast(msg){
 }
 
 function logout(){
-  supabaseClient.auth.signOut().then(() => {
-    window.location.replace("login.html");
-  });
+  window.location.replace("login.html");
 }
 
-document.addEventListener("DOMContentLoaded", startProfile);
+document.addEventListener("DOMContentLoaded", startApp);
 </script>
 </body>
 </html>
