@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fa">
+<html lang="fa" dir="rtl">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -47,11 +47,8 @@ a{text-decoration:none;color:inherit}
 .container{width:min(1140px, calc(100% - 24px));margin:auto} 
 
 header{ 
-  position:sticky; 
-  top:0; 
-  z-index:100; 
-  background:var(--header-bg); 
-  backdrop-filter:blur(12px); 
+  position:sticky; top:0; z-index:100; 
+  background:var(--header-bg); backdrop-filter:blur(12px); 
   border-bottom:1px solid var(--border);
   transition: background 0.3s, border-color 0.3s;
 } 
@@ -76,17 +73,10 @@ main{padding:30px 0 60px}
 .page-head p{color:var(--muted);font-size:13px} 
 
 .profile-hero{ 
-  display:flex; 
-  align-items:center; 
-  justify-content:space-between;
-  gap:20px; 
-  padding:24px; 
-  background:var(--panel); 
-  border:1px solid var(--border); 
-  border-radius:16px; 
-  margin-bottom:20px; 
-  box-shadow:var(--shadow); 
-  flex-wrap:wrap;
+  display:flex; align-items:center; justify-content:space-between;
+  gap:20px; padding:24px; background:var(--panel); 
+  border:1px solid var(--border); border-radius:16px; 
+  margin-bottom:20px; box-shadow:var(--shadow); flex-wrap:wrap;
   transition: background 0.3s, border-color 0.3s;
 } 
 .profile-hero-left{display:flex;align-items:center;gap:18px; flex-wrap:wrap;}
@@ -94,24 +84,21 @@ main{padding:30px 0 60px}
 .profile-avatar{ 
   width:80px;height:80px;border-radius:50%; 
   display:flex;align-items:center;justify-content:center; 
-  background:var(--green); 
-  color:#fff;font-size:24px;font-weight:900; 
+  background:var(--green); color:#fff;font-size:24px;font-weight:900; 
   overflow:hidden 
 } 
 .profile-avatar img{width:100%;height:100%;object-fit:cover} 
 .avatar-camera{ 
-  position:absolute;right:0;bottom:0; 
-  width:28px;height:28px;border-radius:50%; 
+  position:absolute;right:0;bottom:0; width:28px;height:28px;border-radius:50%; 
   background:var(--text);color:var(--bg);border:2px solid var(--panel);
-  display:flex;align-items:center;justify-content:center;font-size:12px;
+  display:flex;align-items:center;justify-content:center;font-size:12px;cursor:pointer;
 } 
 .profile-main h2{font-size:20px;margin-bottom:4px} 
 .profile-main p{color:var(--muted);font-size:12px} 
 .profile-status{ 
   display:inline-flex;align-items:center;gap:6px; 
   margin-top:8px;padding:4px 10px;border-radius:20px; 
-  background:rgba(16,185,129,0.1); 
-  color:var(--green);font-size:11px;font-weight:700 
+  background:rgba(16,185,129,0.1); color:var(--green);font-size:11px;font-weight:700 
 } 
 .status-dot{width:6px;height:6px;border-radius:50%;background:var(--green)} 
 .edit-profile-btn{ 
@@ -121,32 +108,23 @@ main{padding:30px 0 60px}
 } 
 
 .profile-grid{display:grid;grid-template-columns:1.2fr 0.8fr;gap:20px} 
-@media(max-width:900px){
-  .profile-grid{grid-template-columns:1fr}
-}
+@media(max-width:900px){.profile-grid{grid-template-columns:1fr}}
 
 .panel{ 
   background:var(--panel);border:1px solid var(--border); 
   border-radius:16px;overflow:hidden;box-shadow:var(--shadow); 
-  margin-bottom:20px;
-  transition: background 0.3s, border-color 0.3s;
+  margin-bottom:20px; transition: background 0.3s, border-color 0.3s;
 } 
 .panel-header{ 
-  padding:18px 20px;border-bottom:1px solid var(--border); 
-  background:var(--panel2) 
+  padding:18px 20px;border-bottom:1px solid var(--border); background:var(--panel2) 
 } 
 .panel-header h3{font-size:16px} 
 .panel-header p{color:var(--muted);font-size:11px;margin-top:3px} 
 .panel-body{padding:20px} 
 
 .info-grid{display:grid;grid-template-columns:repeat(2, 1fr);gap:12px} 
-@media(max-width:500px){
-  .info-grid{grid-template-columns:1fr}
-}
-.info-item{ 
-  padding:14px;border-radius:12px; 
-  background:var(--panel2);border:1px solid var(--border) 
-} 
+@media(max-width:500px){.info-grid{grid-template-columns:1fr}}
+.info-item{ padding:14px;border-radius:12px; background:var(--panel2);border:1px solid var(--border) } 
 .info-label{color:var(--muted);font-size:10px;font-weight:700;margin-bottom:5px} 
 .info-value{font-size:13px;font-weight:700;word-break:break-all} 
 
@@ -166,38 +144,30 @@ main{padding:30px 0 60px}
 } 
 .slider:before{ 
   content:"";position:absolute;width:18px;height:18px; 
-  left:3px;top:3px;border-radius:50%; 
-  background:#fff;transition:0.25s 
+  left:3px;top:3px;border-radius:50%; background:#fff;transition:0.25s 
 } 
 .toggle input:checked+.slider{background:var(--green)} 
-.toggle input:checked+.slider:before{ 
-  transform:translateX(20px); 
-} 
+.toggle input:checked+.slider:before{transform:translateX(20px);} 
 
 .account-actions{margin-top:16px} 
 .account-action{ 
-  width:100%;display:flex;align-items:center; 
-  justify-content:space-between;gap:12px; 
-  padding:14px;margin-bottom:10px;border-radius:12px; 
+  width:100%;display:flex;align-items:center; justify-content:space-between; 
+  gap:12px; padding:14px;margin-bottom:10px;border-radius:12px; 
   background:var(--panel2);border:1px solid var(--border); 
-  color:var(--text);text-align:left;cursor:pointer;
+  color:var(--text);text-align:right;cursor:pointer;
 } 
 .action-left{display:flex;align-items:center;gap:12px} 
 .action-icon{ 
-  width:36px;height:36px;border-radius:10px; 
-  display:flex;align-items:center;justify-content:center; 
-  background:rgba(16,185,129,0.1);color:var(--green);font-size:16px;
+  width:36px;height:36px;border-radius:10px; display:flex;align-items:center; 
+  justify-content:center; background:rgba(16,185,129,0.1);color:var(--green);font-size:16px;
 } 
-.action-text{text-align:right} 
 .action-text strong{display:block;font-size:12px;margin-bottom:2px} 
 .action-text span{color:var(--muted);font-size:10px} 
 .action-arrow{color:var(--muted);font-size:16px} 
 
 .modal-overlay{ 
-  position:fixed;inset:0;z-index:500; 
-  display:none;align-items:center;justify-content:center; 
-  padding:16px;background:rgba(0,0,0,0.5); 
-  backdrop-filter:blur(5px) 
+  position:fixed;inset:0;z-index:500; display:none;align-items:center; 
+  justify-content:center; padding:16px;background:rgba(0,0,0,0.5); backdrop-filter:blur(5px) 
 } 
 .modal-overlay.show{display:flex} 
 .modal{ 
@@ -222,6 +192,10 @@ main{padding:30px 0 60px}
   color:var(--text);padding:11px 12px;border-radius:10px;outline:none 
 } 
 
+.photo-upload-box{display:flex;align-items:center;gap:15px;margin-bottom:16px;background:var(--panel2);padding:12px;border-radius:12px;border:1px solid var(--border)}
+.photo-preview-modal{width:50px;height:50px;border-radius:50%;background:var(--green);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:bold;overflow:hidden}
+.photo-preview-modal img{width:100%;height:100%;object-fit:cover}
+
 .modal-actions{display:flex;gap:10px;margin-top:16px} 
 .primary-btn,.secondary-btn{ 
   flex:1;padding:11px 16px;border-radius:10px;font-weight:700;font-size:13px;cursor:pointer;
@@ -230,28 +204,23 @@ main{padding:30px 0 60px}
 .secondary-btn{background:var(--panel2);color:var(--text);border:1px solid var(--border)} 
 
 .toast{ 
-  position:fixed;left:50%;bottom:20px;z-index:700; 
-  transform:translate(-50%,20px); 
-  background:var(--text);color:var(--bg);padding:12px 20px; 
-  border-radius:10px;font-size:12px;font-weight:700; 
-  opacity:0;pointer-events:none;transition:0.3s; 
+  position:fixed;left:50%;bottom:20px;z-index:700; transform:translate(-50%,20px); 
+  background:var(--text);color:var(--bg);padding:12px 20px; border-radius:10px; 
+  font-size:12px;font-weight:700; opacity:0;pointer-events:none;transition:0.3s; 
   max-width:calc(100% - 30px);text-align:center;box-shadow:0 5px 15px rgba(0,0,0,0.2);
 } 
 .toast.show{opacity:1;transform:translate(-50%,0)} 
 
 .profile-loading{ 
   position:fixed;inset:0;z-index:1000;background:var(--panel); 
-  display:flex;align-items:center;justify-content:center; 
-  transition:0.3s;
+  display:flex;align-items:center;justify-content:center; transition:0.3s;
 } 
 .profile-loading.hide{opacity:0;pointer-events:none;visibility:hidden} 
 .loading-spinner{ 
   width:30px;height:30px;border:3px solid var(--border); 
-  border-top-color:var(--green);border-radius:50%; 
-  animation:spin 0.8s linear infinite 
+  border-top-color:var(--green);border-radius:50%; animation:spin 0.8s linear infinite 
 } 
 @keyframes spin{to{transform:rotate(360deg)}} 
-
 footer{ border-top:1px solid var(--border);padding:20px 0; color:var(--muted);font-size:11px;text-align:center } 
 </style>
 </head>
@@ -274,54 +243,53 @@ footer{ border-top:1px solid var(--border);padding:20px 0; color:var(--muted);fo
     </nav>
     <div class="header-right">
       <div class="user-account">
-        <div class="user-avatar" id="headerAvatar">US</div>
+        <div class="user-avatar" id="headerAvatar">ک‌‌ف</div>
         <div class="user-info">
-          <strong data-user-name>کاکا فرهاد</strong>
-          <span>Active</span>
+          <strong id="headerName">کاکا فرهاد</strong>
+          <span>فعال</span>
         </div>
       </div>
-      <button class="logout-btn" onclick="logout()">Logout</button>
+      <button class="logout-btn" onclick="logout()">خروج</button>
     </div>
   </div>
 </header>
 
 <main class="container">
   <div class="page-head">
-    <h1>My Profile</h1>
-    <p>مدیریت اطلاعات حساب کاربری و تنظیمات ظاهری (دارک مد و روشن)</p>
+    <h1>پروفایل من</h1>
+    <p>مدیریت واقعی اطلاعات حساب کاربری متصل به Supabase</p>
   </div>
 
   <div class="profile-hero">
     <div class="profile-hero-left">
       <div class="profile-avatar-wrap">
         <div class="profile-avatar" id="profileAvatar">ک‌ف</div>
-        <button type="button" class="avatar-camera" onclick="openEditProfile(true)">📷</button>
+        <button type="button" class="avatar-camera" onclick="openEditProfile()">📷</button>
       </div>
       <div class="profile-main">
-        <h2 id="profileName">کاکا فرهاد سینا</h2>
-        <p id="profileEmail">wwesamirsla@gmail.com</p>
+        <h2 id="profileName">در حال بارگذاری...</h2>
+        <p id="profileEmail">...</p>
         <div class="profile-status"><span class="status-dot"></span> حساب فعال</div>
       </div>
     </div>
-    <button class="edit-profile-btn" onclick="openEditProfile(false)">ویرایش پروفایل</button>
+    <button class="edit-profile-btn" onclick="openEditProfile()">ویرایش پروفایل</button>
   </div>
 
   <div class="profile-grid">
-    <!-- ستون سمت چپ: اطلاعات شخصی -->
     <div class="panel">
       <div class="panel-header">
         <h3>اطلاعات شخصی</h3>
-        <p>جزئیات حساب کاربری شما از Supabase</p>
+        <p>اطلاعات مستقیماً از جدول profiles در Supabase خوانده می‌شود</p>
       </div>
       <div class="panel-body">
         <div class="info-grid">
           <div class="info-item">
             <div class="info-label">نام کامل</div>
-            <div class="info-value" id="nameValue">کاکا فرهاد سینا</div>
+            <div class="info-value" id="nameValue">-</div>
           </div>
           <div class="info-item">
             <div class="info-label">ایمیل</div>
-            <div class="info-value" id="emailValue">wwesamirsla@gmail.com</div>
+            <div class="info-value" id="emailValue">-</div>
           </div>
           <div class="info-item">
             <div class="info-label">کشور</div>
@@ -329,7 +297,7 @@ footer{ border-top:1px solid var(--border);padding:20px 0; color:var(--muted);fo
           </div>
           <div class="info-item">
             <div class="info-label">عضویت از</div>
-            <div class="info-value" id="memberSinceValue">سپتامبر ۲۰۲۶</div>
+            <div class="info-value" id="memberSinceValue">-</div>
           </div>
           <div class="info-item">
             <div class="info-label">نوع حساب</div>
@@ -340,27 +308,13 @@ footer{ border-top:1px solid var(--border);padding:20px 0; color:var(--muted);fo
             <div class="info-value" id="emailStatusValue">تایید شده</div>
           </div>
         </div>
-
-        <div class="account-actions">
-          <button class="account-action" onclick="openChangePassword()">
-            <div class="action-left">
-              <div class="action-icon">🔐</div>
-              <div class="action-text">
-                <strong>تغییر رمز عبور</strong>
-                <span>به‌روزرسانی امن رمز ورود</span>
-              </div>
-            </div>
-            <div class="action-arrow">‹</div>
-          </button>
-        </div>
       </div>
     </div>
 
-    <!-- ستون سمت راست: تنظیمات و دارک‌مد -->
     <div class="panel">
       <div class="panel-header">
         <h3>تنظیمات ظاهری</h3>
-        <p>مدیریت حالت تاریک و روشن و اعلان‌ها</p>
+        <p>مدیریت حالت تاریک و روشن</p>
       </div>
       <div class="panel-body">
         <div class="setting">
@@ -373,28 +327,6 @@ footer{ border-top:1px solid var(--border);padding:20px 0; color:var(--muted);fo
             <span class="slider"></span>
           </label>
         </div>
-
-        <div class="setting">
-          <div class="setting-info">
-            <strong>اعلان‌های ایمیلی</strong>
-            <span>دریافت اخبار و هشدارهای مهم حساب.</span>
-          </div>
-          <label class="toggle">
-            <input type="checkbox" id="emailNotifications" checked>
-            <span class="slider"></span>
-          </label>
-        </div>
-
-        <div class="setting">
-          <div class="setting-info">
-            <strong>بروزرسانی مسابقات زنده</strong>
-            <span>دریافت نتایج زنده مسابقات ورزشی.</span>
-          </div>
-          <label class="toggle">
-            <input type="checkbox" id="liveUpdates" checked>
-            <span class="slider"></span>
-          </label>
-        </div>
       </div>
     </div>
   </div>
@@ -402,7 +334,7 @@ footer{ border-top:1px solid var(--border);padding:20px 0; color:var(--muted);fo
 
 <footer>
   <div class="container">
-    © ۲۰۲۶ SportX. تمامی حقوق محفوظ است.
+    © ۲۰۲۶ SportX. متصل به پایگاه داده واقعی Supabase.
   </div>
 </footer>
 
@@ -410,17 +342,32 @@ footer{ border-top:1px solid var(--border);padding:20px 0; color:var(--muted);fo
 <div class="modal-overlay" id="editProfileModal" onclick="closeOverlay(event, 'editProfileModal')">
   <div class="modal">
     <div class="modal-header">
-      <h3>ویرایش پروفایل</h3>
+      <h3>ویرایش پروفایل واقعی</h3>
       <button class="close-modal" onclick="closeModal('editProfileModal')">×</button>
     </div>
     <div class="modal-body">
+      <div class="photo-upload-box">
+        <div class="photo-preview-modal" id="modalPhotoPreview">ک‌ف</div>
+        <div>
+          <strong style="font-size: 12px; display:block; margin-bottom:4px">عکس پروفایل</strong>
+          <button type="button" class="secondary-btn" style="padding:6px 12px; font-size:11px;" onclick="document.getElementById('avatarFileInput').click()">انتخاب عکس جدید</button>
+          <input type="file" id="avatarFileInput" accept="image/*" style="display:none" onchange="handleImageSelect(event)">
+        </div>
+      </div>
+
       <div class="form-group">
         <label>نام کامل</label>
-        <input type="text" id="editFullName" value="کاکا فرهاد سینا">
+        <input type="text" id="editFullName" placeholder="نام خود را وارد کنید">
       </div>
+      
+      <div class="form-group">
+        <label>کشور</label>
+        <input type="text" id="editCountry" placeholder="کشور">
+      </div>
+
       <div class="modal-actions">
         <button class="secondary-btn" onclick="closeModal('editProfileModal')">انصراف</button>
-        <button class="primary-btn" onclick="saveProfile()">ذخیره تغییرات</button>
+        <button class="primary-btn" id="saveBtn" onclick="saveProfileToSupabase()">ذخیره در Supabase</button>
       </div>
     </div>
   </div>
@@ -435,6 +382,9 @@ footer{ border-top:1px solid var(--border);padding:20px 0; color:var(--muted);fo
 const SUPABASE_URL = "https://zchtcosljkkkiykhforj.supabase.co";
 const SUPABASE_KEY = "sb_publishable_aGLckKZjNaVbpdxZUFhCqA_VzHppjrW";
 let supabaseClient = null;
+let currentUser = null;
+let currentProfile = {};
+let newAvatarBase64 = null;
 
 async function initSupabase(){
   if(supabaseClient) return supabaseClient;
@@ -442,22 +392,185 @@ async function initSupabase(){
   return supabaseClient;
 }
 
-// مدیریت دارک‌مد
-function initDarkMode() {
-  const savedTheme = localStorage.getItem("sportx_theme") || "light";
-  const toggle = document.getElementById("darkModeToggle");
+// بارگذاری اولیه داده‌های واقعی کاربر از Supabase
+async function loadUserData(){
+  try {
+    await initSupabase();
+    
+    // گرفتن نشست کاربر لاگین شده
+    const { data: sessionData, error: sessionErr } = await supabaseClient.auth.getSession();
+    currentUser = sessionData?.session?.user || null;
+
+    if(!currentUser){
+      showToast("لطفاً ابتدا وارد حساب خود شوید.");
+      setTimeout(() => window.location.replace("login.html"), 1500);
+      return;
+    }
+
+    // خواندن اطلاعات پروفایل از جدول profiles
+    const { data: profileData, error: profileErr } = await supabaseClient
+      .from("profiles")
+      .select("*")
+      .eq("id", currentUser.id)
+      .maybeSingle();
+
+    if(profileData){
+      currentProfile = profileData;
+    } else {
+      // اگر رکورد نبود، یک شیء اولیه بساز
+      currentProfile = {
+        full_name: currentUser.user_metadata?.full_name || "کاکا فرهاد",
+        country: "افغانستان",
+        avatar_url: ""
+      };
+    }
+
+    renderUI();
+    initDarkMode();
+
+  } catch(err) {
+    console.error("خطا در ارتباط با Supabase:", err);
+    showToast("خطا در بارگذاری اطلاعات از دیتابیس.");
+  } finally {
+    document.getElementById("profileLoading").classList.add("hide");
+  }
+}
+
+// نمایش اطلاعات روی صفحه
+renderUI = function(){
+  const name = currentProfile.full_name || currentUser?.email?.split("@")[0] || "کاکا فرهاد";
+  const email = currentUser?.email || "-";
+  const country = currentProfile.country || "افغانستان";
+  const avatar = currentProfile.avatar_url || "";
+
+  document.getElementById("profileName").textContent = name;
+  document.getElementById("profileEmail").textContent = email;
+  document.getElementById("nameValue").textContent = name;
+  document.getElementById("emailValue").textContent = email;
+  document.getElementById("countryValue").textContent = country;
+  document.getElementById("headerName").textContent = name;
   
-  if (savedTheme === "dark") {
-    document.documentElement.classList.add("dark");
-    if (toggle) toggle.checked = true;
-  } else {
-    document.documentElement.classList.remove("dark");
-    if (toggle) toggle.checked = false;
+  if(currentUser?.created_at){
+    document.getElementById("memberSinceValue").textContent = new Date(currentUser.created_at).toLocaleDateString("fa-IR");
   }
 
-  if (toggle) {
-    toggle.addEventListener("change", (e) => {
-      if (e.target.checked) {
+  // رندر آواتارها
+  renderAvatarImages(avatar, name);
+}
+
+function renderAvatarImages(url, name){
+  const initials = name.split(" ").map(w => w[0]).join("").slice(0,2);
+  
+  // آواتار هدر و پروفایل
+  ["profileAvatar", "headerAvatar", "modalPhotoPreview"].forEach(id => {
+    const el = document.getElementById(id);
+    if(!el) return;
+    el.innerHTML = "";
+    if(url){
+      const img = document.createElement("img");
+      img.src = url;
+      img.onerror = () => { el.textContent = initials; };
+      el.appendChild(img);
+    } else {
+      el.textContent = initials;
+    }
+  });
+}
+
+// انتخاب عکس و تبدیل به Base64 برای ذخیره در دیتابیس
+function handleImageSelect(event){
+  const file = event.target.files?.[0];
+  if(!file) return;
+  if(file.size > 1024 * 1024){
+    showToast("حجم تصویر باید کمتر از ۱ مگابایت باشد.");
+    return;
+  }
+  const reader = new FileReader();
+  reader.onload = function(e){
+    newAvatarBase64 = e.target.result;
+    renderAvatarImages(newAvatarBase64, document.getElementById("editFullName").value || "ک‌ف");
+    showToast("عکس جدید انتخاب شد.");
+  };
+  reader.readAsDataURL(file);
+}
+
+// باز کردن مدال ویرایش
+function openEditProfile(){
+  document.getElementById("editFullName").value = currentProfile.full_name || "";
+  document.getElementById("editCountry").value = currentProfile.country || "افغانستان";
+  newAvatarBase64 = currentProfile.avatar_url || null;
+  renderAvatarImages(newAvatarBase64, currentProfile.full_name || "ک‌ف");
+  
+  document.getElementById("editProfileModal").classList.add("show");
+  document.body.classList.add("modal-open");
+}
+
+// ذخیره واقعی در Supabase (با استفاده از upsert)
+async function saveProfileToSupabase(){
+  if(!currentUser || !supabaseClient) return;
+  
+  const nameInput = document.getElementById("editFullName").value.trim();
+  const countryInput = document.getElementById("editCountry").value.trim();
+
+  if(!nameInput){
+    showToast("نام کامل نمی‌تواند خالی باشد.");
+    return;
+  }
+
+  const saveBtn = document.getElementById("saveBtn");
+  saveBtn.textContent = "در حال ذخیره در دیتابیس...";
+  saveBtn.disabled = true;
+
+  try {
+    const updatedData = {
+      id: currentUser.id,
+      full_name: nameInput,
+      country: countryInput,
+      updated_at: new Date().toISOString()
+    };
+
+    if(newAvatarBase64){
+      updatedData.avatar_url = newAvatarBase64;
+    }
+
+    // دستور واقعی upsert به Supabase
+    const { error } = await supabaseClient
+      .from("profiles")
+      .upsert(updatedData);
+
+    if(error) throw error;
+
+    // به‌‌روزرسانی محلی
+    currentProfile = { ...currentProfile, ...updatedData };
+    renderUI();
+    closeModal("editProfileModal");
+    showToast("اطلاعات با موفقیت در Supabase ذخیره شد!");
+
+  } catch(err) {
+    console.error("خطای ذخیره:", err);
+    showToast("خطا در ذخیره اطلاعات: " + (err.message || "مشکل شبکه"));
+  } finally {
+    saveBtn.textContent = "ذخیره در Supabase";
+    saveBtn.disabled = false;
+  }
+}
+
+// مدیریت حالت تاریک و روشن واقعی با localStorage
+function initDarkMode(){
+  const savedTheme = localStorage.getItem("sportx_theme") || "light";
+  const toggle = document.getElementById("darkModeToggle");
+
+  if(savedTheme === "dark"){
+    document.documentElement.classList.add("dark");
+    if(toggle) toggle.checked = true;
+  } else {
+    document.documentElement.classList.remove("dark");
+    if(toggle) toggle.checked = false;
+  }
+
+  if(toggle){
+    toggle.onchange = function(e){
+      if(e.target.checked){
         document.documentElement.classList.add("dark");
         localStorage.setItem("sportx_theme", "dark");
         showToast("حالت تاریک فعال شد.");
@@ -466,24 +579,8 @@ function initDarkMode() {
         localStorage.setItem("sportx_theme", "light");
         showToast("حالت روشن فعال شد.");
       }
-    });
+    };
   }
-}
-
-async function startApp(){
-  try {
-    await initSupabase();
-    initDarkMode();
-  } catch(e) {
-    console.error(e);
-  } finally {
-    document.getElementById("profileLoading").classList.add("hide");
-  }
-}
-
-function openEditProfile(){
-  document.getElementById("editProfileModal").classList.add("show");
-  document.body.classList.add("modal-open");
 }
 
 function closeModal(id){
@@ -495,14 +592,6 @@ function closeOverlay(e, id){
   if(e.target.id === id) closeModal(id);
 }
 
-function saveProfile(){
-  const name = document.getElementById("editFullName").value;
-  document.getElementById("profileName").textContent = name;
-  document.getElementById("nameValue").textContent = name;
-  closeModal("editProfileModal");
-  showToast("تغییرات با موفقیت ذخیره شد.");
-}
-
 let toastTimer = null;
 function showToast(msg){
   const toast = document.getElementById("toast");
@@ -510,14 +599,16 @@ function showToast(msg){
   toast.textContent = msg;
   toast.classList.add("show");
   clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => toast.classList.remove("show"), 3000);
+  toastTimer = setTimeout(() => toast.classList.remove("show"), 3500);
 }
 
 function logout(){
-  window.location.replace("login.html");
+  supabaseClient.auth.signOut().then(() => {
+    window.location.replace("login.html");
+  });
 }
 
-document.addEventListener("DOMContentLoaded", startApp);
+document.addEventListener("DOMContentLoaded", loadUserData);
 </script>
 </body>
 </html>
