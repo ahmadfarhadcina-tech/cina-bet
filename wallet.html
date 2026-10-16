@@ -413,6 +413,9 @@ footer{
 
 <div class="toast" id="toast"></div>
 
+<!-- اسکریپت اصلی auth.js برای مدیریت لاگین -->
+<script src="auth.js"></script>
+
 <script>
 const SUPABASE_URL = "https://zchtcosljkkkiykhforj.supabase.co";
 const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_aGLckKZjNaVbpdxZUFhCqA_VzHppjrW";
@@ -436,8 +439,39 @@ themeToggle.addEventListener("click", () => {
     }
 });
 
+// تابع هوشمند برای یافتن توکن واقعی احراز هویت
+async function getAuthToken() {
+    // ۱. بررسی جلسات Supabase
+    if (window.SportXSupabase) {
+        try {
+            const session = await window.SportXSupabase.auth.getSession();
+            if (session?.data?.session?.access_token) {
+                return session.data.session.access_token;
+            }
+        } catch(e) {}
+    }
+
+    // ۲. بررسی کاربر Firebase
+    if (window.SportXCurrentUser && window.SportXCurrentUser.getIdToken) {
+        try {
+            return await window.SportXCurrentUser.getIdToken();
+        } catch(e) {}
+    }
+
+    // ۳. بررسی متغیرهای مختلف حافظه مرورگر
+    return localStorage.getItem("sportx_token") || 
+           localStorage.getItem("supabase.auth.token") || 
+           sessionStorage.getItem("sportx_token") || null;
+}
+
 async function callSwiftTask(action, payload = {}) {
-    const token = localStorage.getItem("sportx_token") || "";
+    const token = await getAuthToken();
+    if (!token) {
+        showToast("لطفاً ابتدا وارد حساب کاربری خود شوید.");
+        setTimeout(() => window.location.href = "login.html", 1000);
+        throw new Error("کاربر لاگین نکرده است.");
+    }
+
     const res = await fetch(`${SUPABASE_URL}/functions/v1/${MATCH_WORKER}?action=${action}`, {
         method: "POST",
         headers: {
@@ -584,7 +618,9 @@ function showToast(msg) {
     toastTimer = setTimeout(() => toast.classList.remove("show"), 3000);
 }
 
-document.addEventListener("DOMContentLoaded", loadWalletData);
+document.addEventListener("DOMContentLoaded", () => {
+    setTimeout(loadWalletData, 500);
+});
 </script>
 </body>
 </html>
