@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fa" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Wallet | SportX</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>کیف پول | SportX</title>
 <script>
 (function() {
     const theme = localStorage.getItem("sportx_theme") || "dark";
@@ -22,17 +22,17 @@
     --green-dark:#0e9d65;
     --text:#f3f7f5;
     --muted:#8d9d97;
-    --border:rgba(255,255,255,.07);
-    --border-strong:rgba(255,255,255,.15);
+    --border:rgba(255,255,255,.08);
+    --border-strong:rgba(255,255,255,.18);
     --danger:#ff5f6d;
     --gold:#f4c95d;
-    --shadow:0 8px 28px rgba(0,0,0,.3);
+    --shadow:0 8px 28px rgba(0,0,0,.35);
 }
 
 [data-theme="light"]{
-    --bg:#ffffff;
+    --bg:#f4f7f6;
     --panel:#ffffff;
-    --panel2:#f6f8f7;
+    --panel2:#eaf0ed;
     --green:#16d98b;
     --green-dark:#0e9d65;
     --text:#12201b;
@@ -41,24 +41,27 @@
     --border-strong:#cbd5d1;
     --danger:#e54855;
     --gold:#b98500;
-    --shadow:0 8px 28px rgba(20,32,28,.07);
+    --shadow:0 8px 28px rgba(20,32,28,.08);
 }
 
 *{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth}
+html,body{width:100%;overflow-x:hidden}
 body{
-    font-family:Inter,Arial,Helvetica,sans-serif;
-    background:
-        radial-gradient(circle at 15% 10%,rgba(22,217,139,.08),transparent 30%),
-        radial-gradient(circle at 85% 20%,rgba(22,217,139,.05),transparent 25%),
-        var(--bg);
+    font-family:Tahoma, Arial, sans-serif;
+    background:var(--bg);
     color:var(--text);
     min-height:100vh;
 }
 button,input,select{font:inherit}
 button{border:0;cursor:pointer}
 a{color:inherit;text-decoration:none}
-.container{width:min(1180px,calc(100% - 32px));margin:auto}
+
+.container{
+    width:100%;
+    max-width:1100px;
+    padding:0 16px;
+    margin:0 auto;
+}
 
 header{
     position:sticky;
@@ -69,30 +72,30 @@ header{
     border-bottom:1px solid var(--border)
 }
 .navbar{
-    min-height:72px;
+    min-height:65px;
     display:flex;
     align-items:center;
     justify-content:space-between;
-    gap:20px
+    gap:12px;
 }
 .logo{
-    font-size:24px;
+    font-size:22px;
     font-weight:900;
-    letter-spacing:-1px
 }
 .logo span{color:var(--green)}
 .nav-links{
     display:flex;
     align-items:center;
-    gap:26px
+    gap:18px;
 }
 .nav-links a{
     color:var(--muted);
-    font-size:14px;
-    font-weight:700
+    font-size:13px;
+    font-weight:700;
 }
 .nav-links a.active,.nav-links a:hover{color:var(--green-dark)}
 .header-right{display:flex;align-items:center;gap:10px}
+
 .theme-toggle{
     background:var(--panel2);
     border:1px solid var(--border-strong);
@@ -105,216 +108,93 @@ header{
     font-size:16px;
 }
 .login-btn{
-    padding:10px 18px;
-    border-radius:10px;
+    padding:8px 14px;
+    border-radius:8px;
     background:var(--green);
     color:#04110c;
-    font-size:14px;
-    font-weight:900
-}
-.user-account{display:flex;align-items:center;gap:10px}
-.user-avatar{
-    width:38px;
-    height:38px;
-    border-radius:50%;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    background:linear-gradient(135deg,var(--green),var(--green-dark));
-    color:#04110c;
-    font-weight:900
-}
-.user-info{display:flex;flex-direction:column;line-height:1.2}
-.user-info strong{font-size:13px}
-.user-info span{font-size:12px;color:var(--green-dark);margin-top:3px}
-.logout-btn{
-    padding:8px 12px;
-    border-radius:8px;
-    background:rgba(255,95,109,.08);
-    color:var(--danger);
-    font-size:12px;
-    font-weight:800
+    font-size:13px;
+    font-weight:900;
 }
 
-main{padding:45px 0 70px}
-.page-head{margin-bottom:28px}
-.page-head h1{font-size:34px;margin-bottom:8px}
-.page-head p{color:var(--muted);font-size:14px}
+main{padding:25px 0 50px}
+.page-head{margin-bottom:20px}
+.page-head h1{font-size:26px;margin-bottom:6px}
+.page-head p{color:var(--muted);font-size:13px}
 
 .balance-card{
-    position:relative;
-    overflow:hidden;
-    background:linear-gradient(135deg,rgba(22,217,139,.16),var(--panel));
-    border:1px solid rgba(22,217,139,.18);
-    border-radius:20px;
-    padding:30px;
-    margin-bottom:25px;
+    background:linear-gradient(135deg,rgba(22,217,139,.12),var(--panel));
+    border:1px solid rgba(22,217,139,.2);
+    border-radius:16px;
+    padding:20px;
+    margin-bottom:20px;
     box-shadow:var(--shadow);
 }
-.balance-label{
-    color:var(--muted);
-    font-size:13px;
-    font-weight:700;
-    margin-bottom:10px
-}
-.balance-amount{
-    font-size:42px;
-    font-weight:900;
-    letter-spacing:-1px;
-    margin-bottom:20px
-}
+.balance-label{color:var(--muted);font-size:12px;font-weight:700;margin-bottom:8px}
+.balance-amount{font-size:32px;font-weight:900;margin-bottom:16px}
 .balance-amount span{color:var(--green-dark)}
-.balance-actions{display:flex;gap:12px;flex-wrap:wrap}
+.balance-actions{display:flex;gap:10px;flex-wrap:wrap}
+
 .primary-btn,.secondary-btn{
-    padding:12px 20px;
+    flex:1;
+    min-width:130px;
+    padding:12px 16px;
     border-radius:10px;
     font-weight:800;
-    font-size:14px;
-    transition:.25s
+    font-size:13px;
+    text-align:center;
+    transition:.2s;
 }
 .primary-btn{background:var(--green);color:#04110c}
-.secondary-btn{
-    background:var(--panel2);
-    color:var(--text);
-    border:1px solid var(--border-strong)
-}
-.primary-btn:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(22,217,139,.18)}
-.secondary-btn:hover{background:var(--border);transform:translateY(-2px)}
+.secondary-btn{background:var(--panel2);color:var(--text);border:1px solid var(--border-strong)}
 
 .stats{
     display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:16px;
-    margin-bottom:30px
+    grid-template-columns:repeat(auto-fit, minmax(140px, 1fr));
+    gap:12px;
+    margin-bottom:20px;
 }
 .stat-card{
     background:var(--panel);
     border:1px solid var(--border);
-    border-radius:16px;
-    padding:21px;
+    border-radius:14px;
+    padding:14px;
     box-shadow:var(--shadow);
 }
-.stat-icon{
-    width:42px;
-    height:42px;
-    border-radius:12px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    background:rgba(22,217,139,.1);
-    color:var(--green-dark);
-    font-size:19px;
-    margin-bottom:14px
-}
-.stat-title{
-    color:var(--muted);
-    font-size:12px;
-    margin-bottom:6px
-}
-.stat-value{font-size:21px;font-weight:900}
+.stat-title{color:var(--muted);font-size:11px;margin-bottom:4px}
+.stat-value{font-size:16px;font-weight:900}
 
-.content-grid{
-    display:grid;
-    grid-template-columns:1.5fr .8fr;
-    gap:20px
-}
 .panel{
     background:var(--panel);
     border:1px solid var(--border);
-    border-radius:18px;
+    border-radius:16px;
     overflow:hidden;
     box-shadow:var(--shadow);
+    margin-bottom:20px;
 }
 .panel-header{
-    padding:20px;
+    padding:16px;
     border-bottom:1px solid var(--border);
     display:flex;
     align-items:center;
     justify-content:space-between;
-    gap:15px
 }
-.panel-header h2{font-size:17px}
-.panel-header span{color:var(--muted);font-size:12px}
+.panel-header h2{font-size:15px}
 
 .transaction-list{display:flex;flex-direction:column}
 .transaction{
     display:flex;
     align-items:center;
     justify-content:space-between;
-    gap:15px;
-    padding:17px 20px;
-    border-bottom:1px solid var(--border)
+    padding:12px 16px;
+    border-bottom:1px solid var(--border);
 }
 .transaction:last-child{border-bottom:0}
-.transaction-left{
-    display:flex;
-    align-items:center;
-    gap:12px;
-    min-width:0
-}
-.transaction-icon{
-    width:42px;
-    height:42px;
-    border-radius:12px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    flex-shrink:0;
-    font-size:17px
-}
-.transaction-icon.deposit{background:rgba(22,217,139,.1);color:var(--green-dark)}
-.transaction-icon.withdraw{background:rgba(255,95,109,.1);color:var(--danger)}
-.transaction-info{min-width:0}
-.transaction-title{font-size:13px;font-weight:800;margin-bottom:4px}
-.transaction-date{color:var(--muted);font-size:11px}
-.transaction-right{text-align:right;flex-shrink:0}
-.transaction-amount{font-size:13px;font-weight:900;margin-bottom:4px}
-.positive{color:var(--green-dark)}
-.negative{color:var(--danger)}
-.transaction-status{font-size:10px;color:var(--muted)}
+.transaction-title{font-size:13px;font-weight:800;margin-bottom:2px}
+.transaction-date{color:var(--muted);font-size:10px}
+.positive{color:var(--green-dark);font-weight:900;font-size:13px}
+.negative{color:var(--danger);font-weight:900;font-size:13px}
 
-.quick-actions{padding:18px}
-.action{
-    width:100%;
-    display:flex;
-    align-items:center;
-    gap:13px;
-    padding:14px;
-    border-radius:12px;
-    background:var(--panel2);
-    border:1px solid var(--border);
-    color:var(--text);
-    text-align:left;
-    margin-bottom:10px;
-    cursor:pointer;
-    transition:.2s;
-}
-.action:hover{border-color:var(--green-dark);background:rgba(22,217,139,.05)}
-.action-icon{
-    width:36px;
-    height:36px;
-    border-radius:10px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    background:rgba(22,217,139,.09);
-    color:var(--green-dark)
-}
-.action-text strong{display:block;font-size:13px;margin-bottom:3px}
-.action-text span{color:var(--muted);font-size:10px}
-
-.info-box{
-    margin:18px;
-    padding:15px;
-    border-radius:12px;
-    background:rgba(244,201,93,.05);
-    border:1px solid rgba(244,201,93,.2)
-}
-.info-box strong{display:block;color:var(--gold);font-size:12px;margin-bottom:6px}
-.info-box p{color:var(--muted);font-size:11px;line-height:1.7}
-
-.empty{padding:35px 20px;text-align:center;color:var(--muted);font-size:12px}
-
+/* Modal Responsive Fix */
 .modal-overlay{
     position:fixed;
     inset:0;
@@ -322,83 +202,87 @@ main{padding:45px 0 70px}
     display:none;
     align-items:center;
     justify-content:center;
-    padding:20px;
-    background:rgba(0,0,0,.7);
-    backdrop-filter:blur(8px)
+    padding:12px;
+    background:rgba(0,0,0,.75);
+    backdrop-filter:blur(6px);
 }
 .modal-overlay.show{display:flex}
 .modal{
-    width:min(440px,100%);
+    width:100%;
+    max-width:400px;
     background:var(--panel);
     border:1px solid var(--border-strong);
-    border-radius:20px;
-    box-shadow:0 30px 80px rgba(0,0,0,.45);
-    overflow:hidden
+    border-radius:16px;
+    overflow:hidden;
+    box-shadow:0 20px 50px rgba(0,0,0,.5);
 }
 .modal-header{
-    padding:20px;
+    padding:14px 16px;
     display:flex;
     align-items:center;
     justify-content:space-between;
-    border-bottom:1px solid var(--border)
+    border-bottom:1px solid var(--border);
 }
-.modal-header h3{font-size:17px}
 .close-modal{
-    width:34px;
-    height:34px;
-    border-radius:9px;
     background:var(--panel2);
     color:var(--muted);
+    width:30px;
+    height:30px;
+    border-radius:8px;
     font-size:18px;
-    cursor:pointer;
 }
-.modal-body{padding:20px}
-.modal-description{color:var(--muted);font-size:12px;line-height:1.7;margin-bottom:18px}
-.form-group{margin-bottom:15px}
-.form-group label{display:block;font-size:12px;font-weight:700;margin-bottom:7px}
-.form-group input, .form-group select{
+.modal-body{padding:16px}
+.form-group{margin-bottom:12px}
+.form-group label{display:block;font-size:11px;font-weight:700;margin-bottom:6px}
+.form-group input{
     width:100%;
     background:var(--panel2);
     border:1px solid var(--border-strong);
     color:var(--text);
-    padding:12px 13px;
-    border-radius:10px;
-    outline:none
+    padding:10px 12px;
+    border-radius:8px;
+    outline:none;
+    font-size:13px;
 }
-.modal-actions{display:flex;gap:10px;margin-top:20px}
-.modal-actions button{flex:1}
+.modal-actions{display:flex;gap:8px;margin-top:16px}
 
 .toast{
     position:fixed;
     left:50%;
-    bottom:25px;
+    bottom:20px;
     transform:translate(-50%,20px);
     z-index:700;
     background:var(--panel);
     border:1px solid var(--green);
     color:var(--text);
-    padding:13px 18px;
-    border-radius:11px;
+    padding:10px 16px;
+    border-radius:10px;
     font-size:12px;
     font-weight:700;
     opacity:0;
     pointer-events:none;
     transition:.3s;
-    box-shadow:0 15px 40px rgba(0,0,0,.3)
+    box-shadow:0 10px 30px rgba(0,0,0,.4);
+    width:max-content;
+    max-width:90%;
+    text-align:center;
 }
 .toast.show{opacity:1;transform:translate(-50%,0)}
 
 footer{
     border-top:1px solid var(--border);
-    padding:25px 0;
+    padding:20px 0;
     color:var(--muted);
-    font-size:12px;
+    font-size:11px;
     text-align:center;
     background:var(--panel);
-    margin-top:60px;
 }
 
-@media(max-width:900px){.content-grid{grid-template-columns:1fr}}
+@media(max-width:600px){
+    .nav-links{display:none}
+    .balance-amount{font-size:26px}
+    .page-head h1{font-size:22px}
+}
 </style>
 </head>
 
@@ -408,24 +292,16 @@ footer{
 <div class="container navbar">
 <a href="index.html" class="logo">Sport<span>X</span></a>
 <nav class="nav-links">
-<a href="index.html">Home</a>
-<a href="sports.html">Sports</a>
-<a href="live.html">Live</a>
-<a href="bets.html">My Bets</a>
-<a href="wallet.html" class="active">Wallet</a>
+<a href="index.html">صفحه اصلی</a>
+<a href="sports.html">ورزش‌ها</a>
+<a href="live.html">زنده</a>
+<a href="bets.html">پیش‌بینی‌ها</a>
+<a href="wallet.html" class="active">کیف پول</a>
 </nav>
 <div class="header-right">
 <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle Theme">🌙</button>
 <div data-auth-guest>
-<a href="login.html" class="login-btn">Login</a>
-</div>
-<div data-auth-user class="user-account" style="display:none">
-<div class="user-avatar"><span data-user-initials>US</span></div>
-<div class="user-info">
-<strong data-user-name>User</strong>
-<span id="headerBalance">AFN 0</span>
-</div>
-<button type="button" class="logout-btn" data-auth-logout>Logout</button>
+<a href="login.html" class="login-btn">ورود</a>
 </div>
 </div>
 </div>
@@ -434,154 +310,115 @@ footer{
 <main>
 <div class="container">
 <section class="page-head">
-<h1>My Wallet</h1>
-<p>Manage your SportX balance, secure deposits, and real withdrawals.</p>
+<h1>کیف پول من</h1>
+<p>واریز و برداشت مستقیم از طریق سیم‌کارت‌های افغانستان (ام‌تی‌ان، روشن، اتصالات، افغان بی‌سیم)</p>
 </section>
 
 <section class="balance-card">
-<div class="balance-label">AVAILABLE WALLET BALANCE</div>
+<div class="balance-label">موجودی موجود</div>
 <div class="balance-amount">
-<span>AFN</span> <strong id="balance">0</strong>
+<span>افغانی</span> <strong id="balance">0</strong>
 </div>
 <div class="balance-actions">
-<button class="primary-btn" type="button" onclick="openDeposit()">+ Deposit Funds</button>
-<button class="secondary-btn" type="button" onclick="openWithdraw()">Withdraw Funds</button>
+<button class="primary-btn" type="button" onclick="openDeposit()">+ واریز شارژ سیم‌کارت</button>
+<button class="secondary-btn" type="button" onclick="openWithdraw()">برداشت به سیم‌کارت</button>
 </div>
 </section>
 
 <section class="stats">
 <div class="stat-card">
-<div class="stat-icon">↑</div>
-<div class="stat-title">TOTAL DEPOSITED</div>
-<div class="stat-value" id="totalDeposits">AFN 0</div>
+<div class="stat-title">کل واریزی‌ها</div>
+<div class="stat-value" id="totalDeposits">0 افغانی</div>
 </div>
 <div class="stat-card">
-<div class="stat-icon">↓</div>
-<div class="stat-title">TOTAL WITHDRAWN</div>
-<div class="stat-value" id="totalWithdrawals">AFN 0</div>
-</div>
-<div class="stat-card">
-<div class="stat-icon">✓</div>
-<div class="stat-title">ACTIVE BETS</div>
-<div class="stat-value" id="activeBets">AFN 0</div>
+<div class="stat-title">کل برداشت‌ها</div>
+<div class="stat-value" id="totalWithdrawals">0 افغانی</div>
 </div>
 </section>
 
-<section class="content-grid">
-<div class="panel">
+<section class="panel">
 <div class="panel-header">
-<h2>Transaction History</h2>
-<span>Real Activity</span>
+<h2>تاریخچه تراکنش‌ها</h2>
 </div>
 <div class="transaction-list" id="transactionList"></div>
-</div>
-
-<div class="panel">
-<div class="panel-header"><h2>Quick Actions</h2></div>
-<div class="quick-actions">
-<button class="action" type="button" onclick="openDeposit()">
-<div class="action-icon">+</div>
-<div class="action-text">
-<strong>Deposit Funds</strong>
-<span>Trust Wallet, Crypto or ATOM/AWCC SIM</span>
-</div>
-</button>
-<button class="action" type="button" onclick="openWithdraw()">
-<div class="action-icon">↓</div>
-<div class="action-text">
-<strong>Withdraw Funds</strong>
-<span>Request payout (5% tax applies)</span>
-</div>
-</button>
-<button class="action" type="button" onclick="scrollToTransactions()">
-<div class="action-icon">↕</div>
-<div class="action-text">
-<strong>History Log</strong>
-<span>View financial logs</span>
-</div>
-</button>
-</div>
-<div class="info-box">
-<strong>Secure Financial System</strong>
-<p>Deposits and withdrawals are processed securely. Withdrawals incur a 5% fee which goes to the platform reserve pool.</p>
-</div>
-</div>
 </section>
 </div>
 </main>
 
 <footer>
-<div class="container">© 2026 SportX. Secure sports prediction platform.</div>
+<div class="container">© 2026 SportX. سیستم پیش‌بینی و پرداختی امن.</div>
 </footer>
 
-<!-- Deposit Modal -->
+<!-- Modal واریز دو مرحله‌ای سیم‌کارت -->
 <div class="modal-overlay" id="depositModal" onclick="closeDepositOverlay(event)">
 <div class="modal">
 <div class="modal-header">
-<h3>Deposit Funds</h3>
+<h3>واریز از طریق سیم‌کارت</h3>
 <button type="button" class="close-modal" onclick="closeDeposit()">×</button>
 </div>
 <div class="modal-body">
-<p class="modal-description">Select your preferred payment method to add funds to your wallet.</p>
+<!-- مرحله ۱: شماره و مبلغ -->
+<div id="depStep1">
 <div class="form-group">
-<label for="depositMethod">Payment Method</label>
-<select id="depositMethod">
-<option value="trust_wallet">Trust Wallet (USDT / Crypto)</option>
-<option value="sim_atoma">Afghanistan SIM (AWCC / Etisalat / Roshan)</option>
-</select>
+<label>شماره تلفن سیم‌کارت افغانستان:</label>
+<input type="text" id="simPhone" placeholder="مثال: 0781234567">
 </div>
 <div class="form-group">
-<label for="depositAmount">Amount (AFN)</label>
-<input type="number" id="depositAmount" min="100" step="1" placeholder="Enter amount in AFN">
+<label>مبلغ واریز (افغانی):</label>
+<input type="number" id="depositAmount" min="50" step="1" placeholder="مثال: 500">
+</div>
+<button type="button" class="primary-btn" style="width:100%" onclick="sendSimOTP()">ارسال کد تایید ۶ رقمی →</button>
+</div>
+
+<!-- مرحله ۲: کد ۶ رقمی -->
+<div id="depStep2" style="display:none;">
+<p style="font-size:11px; color:var(--muted); margin-bottom:12px;">کد تایید ۶ رقمی پیامک‌شده به سیم‌کارت خود را وارد کنید:</p>
+<div class="form-group">
+<label>کد تایید ۶ رقمی (OTP):</label>
+<input type="text" id="simOtpCode" placeholder="کد 6 رقمی">
 </div>
 <div class="modal-actions">
-<button type="button" class="secondary-btn" onclick="closeDeposit()">Cancel</button>
-<button type="button" class="primary-btn" onclick="confirmDeposit()">Proceed Deposit</button>
+<button type="button" class="secondary-btn" onclick="backToDepStep1()">بازگشت</button>
+<button type="button" class="primary-btn" onclick="verifyAndDeposit()">تایید و واریز به والت</button>
+</div>
 </div>
 </div>
 </div>
 </div>
 
-<!-- Withdraw Modal -->
+<!-- Modal برداشت به سیم‌کارت -->
 <div class="modal-overlay" id="withdrawModal" onclick="closeWithdrawOverlay(event)">
 <div class="modal">
 <div class="modal-header">
-<h3>Withdraw Funds</h3>
+<h3>برداشت وجه به سیم‌کارت</h3>
 <button type="button" class="close-modal" onclick="closeWithdraw()">×</button>
 </div>
 <div class="modal-body">
-<p class="modal-description">Withdrawals are sent to your Trust Wallet or Afghanistan SIM. Note: A 5% platform tax is deducted.</p>
+<p style="font-size:11px; color:var(--muted); margin-bottom:12px;">مبلغ دریافتی پس از کسر ۵٪ مالیات سایت به سیم‌کارت شما شارژ می‌شود.</p>
 <div class="form-group">
-<label for="withdrawDestination">Destination Type</label>
-<select id="withdrawDestination">
-<option value="trust_wallet">Trust Wallet Address</option>
-<option value="sim_number">Afghanistan SIM Number</option>
-</select>
+<label>شماره سیم‌کارت دریافت‌کننده شارژ:</label>
+<input type="text" id="withdrawPhone" placeholder="مثال: 0791234567">
 </div>
 <div class="form-group">
-<label for="withdrawRef">Wallet Address / Phone Number</label>
-<input type="text" id="withdrawRef" placeholder="Enter address or phone number">
-</div>
-<div class="form-group">
-<label for="withdrawAmount">Amount (AFN)</label>
-<input type="number" id="withdrawAmount" min="100" step="1" placeholder="Enter amount">
+<label>مبلغ برداشت (افغانی):</label>
+<input type="number" id="withdrawAmount" min="100" step="1" placeholder="مثال: 1000">
 </div>
 <div class="modal-actions">
-<button type="button" class="secondary-btn" onclick="closeWithdraw()">Cancel</button>
-<button type="button" class="primary-btn" onclick="confirmWithdraw()">Withdraw (95% Payout)</button>
+<button type="button" class="secondary-btn" onclick="closeWithdraw()">انصراف</button>
+<button type="button" class="primary-btn" onclick="confirmWithdraw()">تایید برداشت (۹۵٪ واریزی)</button>
 </div>
 </div>
 </div>
 </div>
 
 <div class="toast" id="toast"></div>
-<script src="auth.js"></script>
+
 <script>
 const SUPABASE_URL = "https://zchtcosljkkkiykhforj.supabase.co";
 const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_aGLckKZjNaVbpdxZUFhCqA_VzHppjrW";
 const MATCH_WORKER = "swift-task";
 
-// مدیریت تم تاریک و روشن
+// تم تاریک / روشن
 const themeToggle = document.getElementById("themeToggle");
 if (localStorage.getItem("sportx_theme") === "light") {
     themeToggle.textContent = "☀️";
@@ -599,209 +436,143 @@ themeToggle.addEventListener("click", () => {
     }
 });
 
-async function getAuthToken() {
-    if (window.SportXSupabase) {
-        try {
-            const session = await window.SportXSupabase.auth.getSession();
-            if (session?.data?.session?.access_token) {
-                return session.data.session.access_token;
-            }
-        } catch(e) {}
-    }
-    if (window.SportXCurrentUser && window.SportXCurrentUser.getIdToken) {
-        try {
-            return await window.SportXCurrentUser.getIdToken();
-        } catch(e) {}
-    }
-    return localStorage.getItem("sportx_token") || null;
-}
-
-async function callSwiftTask(action, payload = {}, method = "POST") {
-    const token = await getAuthToken();
-    if (!token) {
-        showToast("Please login first.");
-        setTimeout(() => window.location.href = "login.html", 800);
-        throw new Error("Unauthorized");
-    }
-
+async function callSwiftTask(action, payload = {}) {
+    const token = localStorage.getItem("sportx_token") || "";
     const res = await fetch(`${SUPABASE_URL}/functions/v1/${MATCH_WORKER}?action=${action}`, {
-        method,
+        method: "POST",
         headers: {
             "Content-Type": "application/json",
             "apikey": SUPABASE_PUBLISHABLE_KEY,
             "Authorization": `Bearer ${token}`
         },
-        body: method === "POST" ? JSON.stringify(payload) : undefined
+        body: JSON.stringify(payload)
     });
-
     const data = await res.json();
-    if (!res.ok || !data.success) {
-        throw new Error(data.error || "Request failed");
-    }
+    if (!res.ok || !data.success) throw new Error(data.error || "خطایی رخ داد");
     return data;
 }
 
 async function loadWalletData() {
-    const token = await getAuthToken();
-    if (!token) {
-        document.getElementById("balance").textContent = "0";
-        document.getElementById("headerBalance").textContent = "AFN 0";
-        return;
-    }
-
     try {
-        const [walletRes, txRes] = await Promise.all([
-            callSwiftTask("wallet", {}, "POST"),
-            callSwiftTask("transactions", {}, "POST")
-        ]);
+        const walletRes = await callSwiftTask("wallet");
+        const txRes = await callSwiftTask("transactions");
 
         const balance = walletRes.wallet?.balance_afn || 0;
         document.getElementById("balance").textContent = Number(balance).toLocaleString();
-        document.getElementById("headerBalance").textContent = "AFN " + Number(balance).toLocaleString();
 
-        const txs = txRes.transactions || [];
-        let totalDep = 0;
-        let totalWd = 0;
-
-        txs.forEach(t => {
-            if (t.type === "deposit" || t.amount > 0) totalDep += Math.abs(t.amount);
-            if (t.type === "withdraw" || t.amount < 0) totalWd += Math.abs(t.amount);
+        let totalDep = 0, totalWd = 0;
+        (txRes.transactions || []).forEach(t => {
+            if (t.type === "deposit") totalDep += Math.abs(t.amount);
+            if (t.type === "withdraw") totalWd += Math.abs(t.amount);
         });
 
-        document.getElementById("totalDeposits").textContent = "AFN " + totalDep.toLocaleString();
-        document.getElementById("totalWithdrawals").textContent = "AFN " + totalWd.toLocaleString();
+        document.getElementById("totalDeposits").textContent = totalDep.toLocaleString() + " افغانی";
+        document.getElementById("totalWithdrawals").textContent = totalWd.toLocaleString() + " افغانی";
 
-        renderTransactions(txs);
+        renderTransactions(txRes.transactions || []);
     } catch(err) {
-        console.warn("Failed to load wallet data:", err);
+        console.warn(err);
     }
 }
 
 function renderTransactions(txs) {
     const list = document.getElementById("transactionList");
     if (!txs.length) {
-        list.innerHTML = '<div class="empty">No transactions found.</div>';
+        list.innerHTML = '<div style="padding:20px; text-align:center; color:var(--muted); font-size:12px">تراکنشی یافت نشد.</div>';
         return;
     }
-
-    list.innerHTML = txs.map(t => {
-        const isDep = t.amount >= 0;
-        const icon = isDep ? "↑" : "↓";
-        const cls = isDep ? "deposit" : "withdraw";
-        const amountText = (isDep ? "+" : "-") + "AFN " + Math.abs(t.amount).toLocaleString();
-
-        return `
-            <div class="transaction">
-                <div class="transaction-left">
-                    <div class="transaction-icon ${cls}">${icon}</div>
-                    <div class="transaction-info">
-                        <div class="transaction-title">${escapeHtml(t.title || t.type || "Transaction")}</div>
-                        <div class="transaction-date">${new Date(t.created_at || Date.now()).toLocaleString()}</div>
-                    </div>
-                </div>
-                <div class="transaction-right">
-                    <div class="transaction-amount ${isDep ? "positive" : "negative"}">${amountText}</div>
-                    <div class="transaction-status">${escapeHtml(t.status || "Completed")}</div>
-                </div>
+    list.innerHTML = txs.map(t => `
+        <div class="transaction">
+            <div>
+                <div class="transaction-title">${t.title}</div>
+                <div class="transaction-date">${new Date(t.created_at).toLocaleString('fa-IR')}</div>
             </div>
-        `;
-    }).join("");
+            <div class="${t.amount >= 0 ? 'positive' : 'negative'}">
+                ${t.amount >= 0 ? '+' : ''}${Number(t.amount).toLocaleString()} افغانی
+            </div>
+        </div>
+    `).join("");
 }
 
 function openDeposit() {
-    if (!window.SportXCurrentUser && !window.SportXSupabase) {
-        showToast("Please login first.");
-        setTimeout(() => window.location.href = "login.html", 800);
-        return;
-    }
     document.getElementById("depositModal").classList.add("show");
-    document.getElementById("depositAmount").value = "";
 }
-
 function closeDeposit() {
     document.getElementById("depositModal").classList.remove("show");
+    backToDepStep1();
 }
+function closeDepositOverlay(e) { if (e.target.id === "depositModal") closeDeposit(); }
 
-function closeDepositOverlay(e) {
-    if (e.target.id === "depositModal") closeDeposit();
-}
-
-async function confirmDeposit() {
+async function sendSimOTP() {
+    const phone = document.getElementById("simPhone").value.trim();
     const amount = Number(document.getElementById("depositAmount").value);
-    if (!amount || amount <= 0) {
-        showToast("Enter a valid deposit amount.");
+    if (!phone || amount <= 0) {
+        showToast("لطفاً شماره تلفن و مبلغ معتبر وارد کنید.");
         return;
     }
-
     try {
-        await callSwiftTask("deposit", { amount_afn: amount });
-        showToast("Deposit request submitted successfully.");
+        await callSwiftTask("send-sim-otp", { phone_number: phone, amount_afn: amount });
+        showToast("کد تایید ۶ رقمی ارسال شد.");
+        document.getElementById("depStep1").style.display = "none";
+        document.getElementById("depStep2").style.display = "block";
+    } catch(err) {
+        showToast(err.message);
+    }
+}
+
+function backToDepStep1() {
+    document.getElementById("depStep2").style.display = "none";
+    document.getElementById("depStep1").style.display = "block";
+}
+
+async function verifyAndDeposit() {
+    const phone = document.getElementById("simPhone").value.trim();
+    const code = document.getElementById("simOtpCode").value.trim();
+    if (!code || code.length !== 6) {
+        showToast("لطفاً کد ۶ رقمی را درست وارد کنید.");
+        return;
+    }
+    try {
+        await callSwiftTask("verify-sim-otp", { phone_number: phone, verification_code: code });
+        showToast("شارژ با موفقیت کسر و به کیف پول اضافه شد.");
         closeDeposit();
         loadWalletData();
     } catch(err) {
-        showToast(err.message || "Deposit failed.");
+        showToast(err.message);
     }
 }
 
 function openWithdraw() {
-    if (!window.SportXCurrentUser && !window.SportXSupabase) {
-        showToast("Please login first.");
-        setTimeout(() => window.location.href = "login.html", 800);
-        return;
-    }
     document.getElementById("withdrawModal").classList.add("show");
-    document.getElementById("withdrawAmount").value = "";
-    document.getElementById("withdrawRef").value = "";
 }
-
 function closeWithdraw() {
     document.getElementById("withdrawModal").classList.remove("show");
 }
-
-function closeWithdrawOverlay(e) {
-    if (e.target.id === "withdrawModal") closeWithdraw();
-}
+function closeWithdrawOverlay(e) { if (e.target.id === "withdrawModal") closeWithdraw(); }
 
 async function confirmWithdraw() {
+    const phone = document.getElementById("withdrawPhone").value.trim();
     const amount = Number(document.getElementById("withdrawAmount").value);
-    const destinationType = document.getElementById("withdrawDestination").value;
-    const destinationRef = document.getElementById("withdrawRef").value.trim();
-
-    if (!amount || amount <= 0) {
-        showToast("Enter a valid amount.");
+    
+    if (!phone || amount <= 0) {
+        showToast("اطلاعات وارد شده نامعتبر است.");
         return;
     }
-    if (!destinationRef) {
-        showToast("Enter wallet address or phone number.");
-        return;
-    }
-
-    const currentBal = Number(document.getElementById("balance").textContent.replaceAll(",", "")) || 0;
-    if (amount > currentBal) {
-        showToast("موجودی ناکافی است (Insufficient balance)");
+    
+    const curBal = Number(document.getElementById("balance").textContent.replaceAll(",", "")) || 0;
+    if (amount > curBal) {
+        showToast("موجودی ناکافی است");
         return;
     }
 
     try {
-        await callSwiftTask("withdraw", {
-            amount_afn: amount,
-            destination_type: destinationType,
-            destination_reference: destinationRef
-        });
-        showToast("Withdrawal requested (5% platform tax applied).");
+        await callSwiftTask("withdraw", { destination_reference: phone, amount_afn: amount });
+        showToast("برداشت ثبت شد (۵٪ مالیات کسر گردید).");
         closeWithdraw();
         loadWalletData();
     } catch(err) {
-        showToast(err.message || "Withdrawal failed.");
+        showToast(err.message);
     }
-}
-
-function escapeHtml(val) {
-    return String(val || "").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;");
-}
-
-function scrollToTransactions() {
-    document.getElementById("transactionList").scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
 let toastTimer;
@@ -810,14 +581,10 @@ function showToast(msg) {
     toast.textContent = msg;
     toast.classList.add("show");
     clearTimeout(toastTimer);
-    toastTimer = setTimeout(() => toast.classList.remove("show"), 3500);
+    toastTimer = setTimeout(() => toast.classList.remove("show"), 3000);
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-    setTimeout(() => {
-        loadWalletData();
-    }, 400);
-});
+document.addEventListener("DOMContentLoaded", loadWalletData);
 </script>
 </body>
 </html>
